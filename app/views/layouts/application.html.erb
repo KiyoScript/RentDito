@@ -1,16 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang='en'>
   <head>
-    <title>Rentdito</title>
+    <title>RentDito</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application.css", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "simplebar.css", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "fonts", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <%= yield %>
+    <%= render partial: "layouts/toast" unless flash.blank? && notice.nil? %>
+    <%= render "layouts/private/sidebar" %>
+    <div class="wrapper d-flex flex-column min-vh-100 over">
+      <%= render "layouts/private/navbar" %>
+      <div class="body flex-grow-1 overflow-hidden">
+        <%= yield %>
+      </div>
+    </div>
   </body>
 </html>

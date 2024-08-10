@@ -1,0 +1,10 @@
+<% unless user_signed_in? || request.path == new_user_session_path %>
+  <header id="navbar" class="header header-sticky position-static p-0 border-0" data-controller="clock">
+    <div class="container-fluid px-4 d-flex justify-content-center align-items-center py-2 bg-dark text-white">
+      <div class="d-flex flex-column align-items-center">
+        <span data-clock-target="time" class="h4"></span>
+        <span class="mb-2"><%= DateTime.now.strftime("%B %d, %Y") %></span>
+      </div>
+    </div>
+  </header>
+<% end %>

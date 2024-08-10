@@ -1,0 +1,60 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="row justify-content-center align-items-center w-100">
+    <div class="col-12 col-lg-8 d-none d-lg-block">
+      <%= image_tag "rent.svg", class: "img-fluid me-5", alt: "RentDito PNG" %>
+    </div>
+    <div class="col-12 col-lg-4 p-0">
+      <div class="row container d-flex align-items-center justify-content-center ps-0 ps-lg-4">
+        <div class="col-12 ms-4 ms-lg-0">
+          <h1 class="text-center text-primary fw-bold">Sign In</h1>
+        </div>
+        <div class="col-12 ms-4 ms-lg-3 pe-0 pe-lg-2">
+          <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'd-flex flex-column gap-4 mt-4'  }) do |f| %>
+            <div class="mb-3">
+              <%= f.label :email, for: 'validationDefaultEmail', class: "form-label fw-bold" %>
+              <div class="input-group">
+                <%= f.email_field :email,
+                  autofocus: true,
+                  autocomplete: "email",
+                  class: "form-control border-0 shadow-none rounded-0 border-bottom border-primary text-secondary-emphasis",
+                  id: "validationDefaultEmail",
+                  aria_describedby: "inputGroupPrepend2",
+                  required: true
+                %>
+              </div>
+            </div>
+            <div class="mb-3">
+              <%= f.label :password, for: "validationDefaultPassword", class: "form-label fw-bold" %>
+              <div class="input-group" data-controller="password-field">
+                <%= f.password_field :password,
+                  autocomplete: "current-password",
+                  class: "form-control border-0 shadow-none rounded-0 border-bottom border-primary text-secondary-emphasis",
+                  id: "validationDefaultPassword",
+                  aria_describedby: "inputGroupPrepend2",
+                  required: true,
+                  data: { password_field_target: "password" }
+                %>
+                <span class="input-group-text position-relative bg-white border-0 rounded-0 border-bottom border-primary" data-action="click->password-field#toggle">
+                  <i class="fa-duotone fa-eye-slash position-absolute top-50 start-50 translate-middle" id="password-eye-slash" data-password-field-target="passwordEyeSlash"></i>
+                  <i class="fa-duotone fa-eye d-none position-absolute top-50 start-50 translate-middle" id="password-eye" data-password-field-target="passwordEye"></i>
+                </span>
+              </div>
+            </div>
+            <% if devise_mapping.rememberable? %>
+              <div class="col-12 d-flex flex-row justify-content-between mb-3 p-0 p-lg-2">
+                <div class="form-check">
+                  <%= f.check_box :remember_me, class: "form-check-input" %>
+                  <%= f.label :remember_me, class: "form-check-label text-secondary-emphasis text-nowrap" %>
+                </div>
+                <%= link_to "Forgot Password", new_password_path(resource_name), class: "text-nowrap ms-2" %>
+              </div>
+            <% end %>
+            <div class="actions mb-3">
+              <%= f.submit "Sign In", class: "btn btn-primary text-white w-100 mt-2" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

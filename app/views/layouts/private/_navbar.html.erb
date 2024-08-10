@@ -1,0 +1,27 @@
+<% if user_signed_in? %>
+  <header id="navbar" class="header header-sticky p-0">
+    <div class="container-fluid border-bottom px-4">
+      <button class="header-toggler" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()" style="margin-inline-start: -14px;">
+        <i class="fa-duotone fa-bars"></i>
+      </button>
+      <ul class="header-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link py-0 pe-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <div class="avatar avatar-md"><img class="avatar-img" src="<%= asset_path('blank.png') %>" alt="user@email.com"></div>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end pt-0">
+            <div class="dropdown-header bg-body-tertiary text-body-secondary fw-semibold rounded-top mb-2">Account</div>
+            <%= link_to edit_user_registration_path(current_user), class: "dropdown-item"  do %>
+              <i class="fa-duotone fa-cog me-2"></i>
+              Settings
+            <% end %>
+            <%= link_to destroy_user_session_path, class: 'dropdown-item', method: :delete, data: { turbo_method: :delete } do %>
+              <i class="fa-duotone fa-sign-out-alt me-2"></i>
+              Logout
+            <% end %>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </header>
+<% end %>
