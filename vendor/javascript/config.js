@@ -87,27 +87,22 @@ TemplateCustomizer.LANGUAGES.fr = { ... };
  * defaultShowDropdownOnHover : true, false (for horizontal layout only)
  */
 
-if (typeof TemplateCustomizer !== 'undefined') {
 
+if (typeof TemplateCustomizer !== 'undefined') {
   window.templateCustomizer = new TemplateCustomizer({
     cssPath: assetsPath + 'vendor/css' + (rtlSupport ? '/rtl' : '') + '/',
     themesPath: assetsPath + 'vendor/css' + (rtlSupport ? '/rtl' : '') + '/',
-    displayCustomizer: false,
-    lang: 'en', // Set default language here
+    displayCustomizer: true,
+    lang: localStorage.getItem('templateCustomizer-' + templateName + '--Lang') || 'en', // Set default language here
     // defaultTheme: 2,
     // defaultStyle: 'system',
     // defaultTextDir: 'rtl',
-    defaultContentLayout: 'wide',
+    // defaultContentLayout: 'wide',
     // defaultHeaderType: 'static',
-    defaultMenuCollapsed: true,
+    // defaultMenuCollapsed: true,
     // defaultNavbarType: 'sticky',
     // defaultFooterFixed: false,
     // defaultShowDropdownOnHover: false,
     controls: ['rtl', 'style', 'headerType', 'contentLayout', 'layoutCollapsed', 'layoutNavbarOptions', 'themes']
   });
-
-
 }
-
-
-

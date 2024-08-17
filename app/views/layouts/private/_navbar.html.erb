@@ -1,5 +1,6 @@
-<nav class="layout-navbar navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme container-fluid"
-      id="layout-navbar">
+ <nav
+  class="layout-navbar container-fluid navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+  id="layout-navbar">
   <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
     <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
       <i class="bx bx-menu bx-md"></i>
@@ -7,33 +8,7 @@
   </div>
 
   <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-    <!-- /Search -->
     <ul class="navbar-nav flex-row align-items-center ms-auto">
-      <!-- Style Switcher -->
-      <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
-        <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-          <i class='bx bxs-sun'></i>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end dropdown-styles">
-          <li>
-            <a class="dropdown-item" href="javascript:void(0);" data-theme="light">
-              <span><i class="bx bx-sun bx-md me-3"></i>Light</span>
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
-              <span><i class="bx bx-moon bx-md me-3"></i>Dark</span>
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
-              <span><i class="bx bx-desktop bx-md me-3"></i>System</span>
-            </a>
-          </li>
-        </ul>
-      </li>
-      <!-- / Style Switcher-->
-      <!-- Notification -->
       <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2">
         <a
           class="nav-link dropdown-toggle hide-arrow"
@@ -51,7 +26,7 @@
             <div class="dropdown-header d-flex align-items-center py-3">
               <h6 class="mb-0 me-auto">Notification</h6>
               <div class="d-flex align-items-center h6 mb-0">
-                <span class="badge bg-label-primary me-2">8 New</span>
+                <span class="badge bg-label-primary me-2">1 New</span>
                 <a
                   href="javascript:void(0)"
                   class="dropdown-notifications-all p-2"
@@ -101,26 +76,27 @@
         </ul>
       </li>
       <!--/ Notification -->
+      <!-- User -->
       <li class="nav-item navbar-dropdown dropdown-user dropdown">
         <a
           class="nav-link dropdown-toggle hide-arrow p-0"
           href="javascript:void(0);"
           data-bs-toggle="dropdown">
           <div class="avatar avatar-online">
-            <img src="https://avatars.githubusercontent.com/u/89757149?s=400&u=c639aa4a53418cb20378939db664c351d5f6ea6e&v=4" alt class="w-px-40 h-auto rounded-circle" />
+            <img src="https://avatars.githubusercontent.com/u/89757149?s=48&v=4" alt class="w-px-40 h-auto rounded-circle" />
           </div>
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
           <li>
-            <a class="dropdown-item" href="javascript:void(0)">
+            <a class="dropdown-item" href="javascript:void(0);">
               <div class="d-flex">
                 <div class="flex-shrink-0 me-3">
                   <div class="avatar avatar-online">
-                    <img src="https://avatars.githubusercontent.com/u/89757149?s=400&u=c639aa4a53418cb20378939db664c351d5f6ea6e&v=4" alt class="w-px-40 h-auto rounded-circle" />
+                    <img src="https://avatars.githubusercontent.com/u/89757149?s=48&v=4" alt class="w-px-40 h-auto rounded-circle" />
                   </div>
                 </div>
                 <div class="flex-grow-1">
-                  <h6 class="mb-0">John Doe</h6>
+                  <h6 class="mb-0">KiyoScript</h6>
                   <small class="text-muted">Admin</small>
                 </div>
               </div>
@@ -130,57 +106,25 @@
             <div class="dropdown-divider my-1"></div>
           </li>
           <li>
-            <a class="dropdown-item" href="javascript:void(0)">
+            <a class="dropdown-item" href="javascript:void(0);">
               <i class="bx bx-user bx-md me-3"></i><span>My Profile</span>
             </a>
           </li>
           <li>
-            <a class="dropdown-item" href="javascript:void(0)">
+            <a class="dropdown-item" href="javascript:void(0);">
               <i class="bx bx-cog bx-md me-3"></i><span>Settings</span>
             </a>
           </li>
           <li>
-            <a class="dropdown-item" href="javascript:void(0)">
-              <span class="d-flex align-items-center align-middle">
-                <i class="flex-shrink-0 bx bx-credit-card bx-md me-3"></i
-                ><span class="flex-grow-1 align-middle">Billing Plan</span>
-                <span class="flex-shrink-0 badge rounded-pill bg-danger">4</span>
-              </span>
-            </a>
-          </li>
-          <li>
             <div class="dropdown-divider my-1"></div>
           </li>
           <li>
-            <a class="dropdown-item" href="javascript:void(0)">
-              <i class="bx bx-dollar bx-md me-3"></i><span>Pricing</span>
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="javascript:void(0)">
-              <i class="bx bx-help-circle bx-md me-3"></i><span>FAQ</span>
-            </a>
-          </li>
-          <li>
-            <div class="dropdown-divider my-1"></div>
-          </li>
-          <li>
-            <a class="dropdown-item" href="javascript:void(0)">
+            <a class="dropdown-item" href="javascript:void(0);">
               <i class="bx bx-power-off bx-md me-3"></i><span>Log Out</span>
             </a>
           </li>
         </ul>
       </li>
     </ul>
-  </div>
-
-  <!-- Search Small Screens -->
-  <div class="navbar-search-wrapper search-input-wrapper d-none">
-    <input
-      type="text"
-      class="form-control search-input container-xxl border-0"
-      placeholder="Search..."
-      aria-label="Search..." />
-    <i class="bx bx-x bx-md search-toggler cursor-pointer"></i>
   </div>
 </nav>
