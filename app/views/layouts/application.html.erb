@@ -30,11 +30,14 @@
 
     <!-- Vendor CSS -->
     <%= stylesheet_link_tag "perfect-scrollbar", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "toastr", "data-turbo-track": "reload" %>
+
     <%= javascript_importmap_tags %>
   </head>
   <body>
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
+        <%= render partial: "layouts/flash_messages/toastr"%>
         <% if user_signed_in? %>
           <%= render partial: "layouts/private/sidebar"%>
           <div class="layout-page">
