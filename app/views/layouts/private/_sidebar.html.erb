@@ -54,24 +54,35 @@
 
   <div class="menu-inner-shadow"></div>
   <ul class="menu-inner py-1">
-    <li class="menu-item active open">
-      <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-home-smile"></i>
+    <li class="menu-item <%= 'active' if current_page?(root_path) %>">
+      <%= link_to root_path, class: 'menu-link' do %>
+        <i class='menu-icon tf-icons bx bx-tachometer'></i>
         <div class="text-truncate" data-i18n="Dashboards">Dashboards</div>
-        <span class="badge rounded-pill bg-danger ms-auto">2</span>
+      <% end %>
+    </li>
+
+    <li class="menu-item open">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class='menu-icon tf-icons bx bx-group'></i>
+        <div class="text-truncate" data-i18n="Accounts">Accounts</div>
+        <span class="badge rounded-pill bg-danger ms-auto">3</span>
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
           <a href="javascript:void(0);" class="menu-link">
-            <div class="text-truncate" data-i18n="Analytics">Analytics</div>
+            <div class="text-truncate" data-i18n="Admins">Admins</div>
           </a>
         </li>
-        <li class="menu-item active">
+        <li class="menu-item">
           <a href="javascript:void(0);" class="menu-link">
-            <div class="text-truncate" data-i18n="CRM">CRM</div>
+            <div class="text-truncate" data-i18n="Caretakers">Caretakers</div>
           </a>
         </li>
-
+        <li class="menu-item">
+          <a href="javascript:void(0);" class="menu-link">
+            <div class="text-truncate" data-i18n="Tenants">Tenants</div>
+          </a>
+        </li>
       </ul>
     </li>
 </aside>

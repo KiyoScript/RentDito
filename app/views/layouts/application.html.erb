@@ -7,7 +7,7 @@
   data-assets-path="../../assets"
   data-template="vertical-menu-template-no-customizer"
   data-style="light">
-<head>
+  <head>
     <title>RentDito</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
@@ -16,8 +16,6 @@
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -32,22 +30,29 @@
 
     <!-- Vendor CSS -->
     <%= stylesheet_link_tag "perfect-scrollbar", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "toastr", "data-turbo-track": "reload" %>
+
     <%= javascript_importmap_tags %>
   </head>
   <body>
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
-        <%= render partial: "layouts/private/sidebar"%>
-        <div class="layout-page">
-          <%= render partial: "layouts/private/navbar"%>
-          <div class="content-wrapper">
+        <%= render partial: "layouts/flash_messages/toastr"%>
+        <% if user_signed_in? %>
+          <%= render partial: "layouts/private/sidebar"%>
+          <div class="layout-page">
+            <%= render partial: "layouts/private/navbar"%>
             <div class="container-fluid flex-grow-1 container-p-y">
-
               <%= yield %>
             </div>
             <div class="content-backdrop fade"></div>
           </div>
-        </div>
+        <% else %>
+          <div class="container-fluid flex-grow-1 container-p-y">
+            <%= yield %>
+          </div>
+          <div class="content-backdrop fade"></div>
+        <% end %>
       </div>
       <div class="layout-overlay layout-menu-toggle"></div>
       <div class="drag-target"></div>
