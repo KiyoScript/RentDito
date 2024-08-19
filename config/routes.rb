@@ -8,7 +8,12 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     sessions: 'users/sessions'
   }, path: '', path_names: { sign_in: 'sign_in'}
-  
+
   # Defines the root path route ("/")
-  root "homepage#index"
+  root "dashboard/homepage#index"
+
+  namespace :dashboard do
+    resources :homepage, only: %i[index]
+    resources :admins
+  end
 end
