@@ -1,10 +1,10 @@
-<%= form_with model: User.new, url: dashboard_admins_path, method: :post, html: { class: "card", data: { controller: "password" } } do |form| %>
-  <h4 class="card-header text-primary">New Admin</h4>
+<%= form_with model: @caretaker, url: dashboard_caretakers_path, method: :post, html: { class: "card", data: { controller: "password" } } do |form| %>
+  <h4 class="card-header text-primary">New Caretaker</h4>
   <div class="card-body">
     <div class="mb-6">
       <div class="alert alert-info" role="alert">
         <strong>Note:</strong>
-        Fill up necessary information to create a new administrator account.
+        Fill up necessary information to create a new Caretaker Account.
       </div>
     </div>
 
@@ -40,8 +40,20 @@
       </div>
     </div>
 
+    <%= form.fields_for :caretaker do |c| %>
+      <div class="mb-6">
+        <%= c.label :address, "Property Address", class: "form-label" %>
+        <%= c.select :address, [["Ormoc City, Brgy. Punta", "Ormoc City, Brgy. Punta"], ["Ormoc City, Brgy. Don Felipe", "Ormoc City, Brgy. Don Felipe"], ["Ormoc City, Brgy. Cogon", "Ormoc City, Brgy. Cogon"]], { prompt: "Select Property Address" }, class: "form-select", id: "user_caretaker_property_address", required: true %>
+      </div>
+
+      <div class="mb-6">
+        <%= c.label :bh_numbers, "BH Numbers", class: "form-label" %>
+        <%= c.select :bh_numbers, [["BH 2, 3, 8", "BH 2, 3, 8"], ["BH 4, 5, 6", "BH 4, 5, 6"], ["BH 7", "BH 7"]], { prompt: "Select BH Number" }, class: "form-select", id: "user_caretaker_bh_numbers", required: true %>
+      </div>
+    <% end %>
+
     <%= form.hidden_field :status, value: "unverified" %>
-    <%= form.hidden_field :role, value: "admin" %>
+    <%= form.hidden_field :role, value: "caretaker" %>
 
     <div class="mb-6 form-password-toggle">
       <%= form.label :password, class: "form-label" %>
@@ -75,9 +87,9 @@
   </div>
 
   <div class="card-footer d-flex align-items-center justify-content-between">
-    <%= link_to dashboard_admins_path, class: "btn btn-secondary" do %>
+    <%= link_to dashboard_caretakers_path, class: "btn btn-secondary" do %>
       Back
     <% end %>
-    <%= form.submit "Create Admin", class: "btn btn-primary" %>
+    <%= form.submit "Create Caretaker", class: "btn btn-primary" %>
   </div>
 <% end %>

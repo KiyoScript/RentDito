@@ -2,7 +2,7 @@ class Dashboard::AdminsController < ApplicationController
   before_action :set_admin, only: %i[destroy]
 
   def index
-    @q = User.ransack(search_params)
+    @q = User.admin.ransack(search_params)
     @pagy, @admins = pagy(@q.result.order(created_at: :desc))
   end
 

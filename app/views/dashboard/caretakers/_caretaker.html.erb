@@ -1,0 +1,34 @@
+<tr>
+  <td>
+    <div class="d-flex justify-content-start align-items-center user-name" >
+      <div class="avatar-wrapper">
+        <div class="avatar me-2">
+          <img src="https://avatars.githubusercontent.com/u/89757149?s=48&v=4" alt="Avatar" class="rounded-circle">
+          <%# <span class="avatar-initial rounded-circle bg-label-dark">KS</span> %>
+        </div>
+      </div>
+      <div class="d-flex flex-column" >
+        <span class="emp_name text-truncate"><%= fullname(caretaker) %></span>
+        <small class="emp_post text-truncate text-muted"><%= caretaker.role %></small>
+      </div>
+    </div>
+  </td>
+  <td><%= caretaker.email %></td>
+  <td>
+    <%= gender_badge(caretaker.gender) %>
+  </td>
+  <td>
+    <%= caretaker.caretaker&.address %>
+  </td>
+  <td>
+    <%= status_badge(caretaker.status) %>
+  </td>
+  <td>
+    <div class="d-inline-block">
+      <a href="javascript:;" class="btn btn-icon view-record border"><i class="bx bx-show bx-md"></i></a>
+      <%= link_to dashboard_caretaker_path(caretaker), class: "btn btn-icon text-danger border", data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to remove '#{caretaker.firstname}'?" } do %>
+        <i class="bx bx-trash bx-md"></i>
+      <% end %>
+    </div>
+  </td>
+</tr>

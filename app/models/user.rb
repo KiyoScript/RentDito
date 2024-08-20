@@ -6,6 +6,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_one :caretaker, dependent: :destroy
+  accepts_nested_attributes_for :caretaker
+
+  scope :admin, -> {where(role: 'admin')}
+  scope :caretaker, -> {where(role: 'caretaker')}
 
   enum status: { verified: 0, unverified: 1, rejected: 2, deactivated: 3, incomplete: 4 }
   enum gender: { male: 0, female: 1 }
