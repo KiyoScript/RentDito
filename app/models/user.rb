@@ -7,7 +7,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
 
-  enum status: { verified: 0, unverified: 1, rejected: 2, deactivated: 3 }
+  enum status: { verified: 0, unverified: 1, rejected: 2, deactivated: 3, incomplete: 4 }
   enum gender: { male: 0, female: 1 }
   enum role: { landlord: 0, admin: 1, caretaker: 2, tenant: 3 }
 

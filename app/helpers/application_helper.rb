@@ -5,7 +5,8 @@ module ApplicationHelper
     "verified" => "badge bg-label-success",
     "unverified" => "badge bg-label-warning",
     "rejected" => "badge bg-label-danger",
-    "deactivated" => "badge bg-label-danger"
+    "deactivated" => "badge bg-label-danger",
+    "incomplete" => "badge bg-label-warning"
   }.freeze
 
 

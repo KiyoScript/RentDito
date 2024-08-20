@@ -14,6 +14,6 @@ Rails.application.routes.draw do
 
   namespace :dashboard do
     resources :homepage, only: %i[index]
-    resources :admins
+    resources :admins, except: %i[edit update]
   end
 end

@@ -10,5 +10,11 @@
 User.create(
   email: "johnlloyddesape@gmail.com",
   password: "123123123",
-  password_confirmation: "123123123"
+  password_confirmation: "123123123",
+  firstname: 'John Lloyd',
+  lastname: 'de Sape',
+  gender: 'male',
+  role: 'admin',
+  phone_number: '0963 051 5870',
+  status: 'verified'
 )
