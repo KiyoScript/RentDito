@@ -3,7 +3,7 @@ class Dashboard::AdminsController < ApplicationController
 
   def index
     @q = User.admin.ransack(search_params)
-    @pagy, @admins = pagy(@q.result.order(created_at: :desc))
+    @pagy, @admins = pagy(@q.result.order(created_at: :desc), distinct: :true)
   end
 
   def create
@@ -12,7 +12,7 @@ class Dashboard::AdminsController < ApplicationController
     if @admin.save
       redirect_to dashboard_admins_path, notice: "Successfully created"
     else
-      redirect_to dashboard_admins_path, alert: @admin.errors.full_messages.first
+      redirect_to new_dashboard_admin_path, alert: @admin.errors.full_messages.first
     end
   end
 
@@ -21,7 +21,7 @@ class Dashboard::AdminsController < ApplicationController
     if @admin.destroy
       redirect_to dashboard_admins_path, notice: "Admin Successfully removed"
     else
-      render :new, alert: @admin.errors.full_messages.first
+      redirect_to dashboard_admins_path, alert: @admin.errors.full_messages.first
     end
   end
 
@@ -47,8 +47,9 @@ class Dashboard::AdminsController < ApplicationController
 
   def search_params
     q_params = params.fetch(:q, {})
-              .permit(:status_eq, :gender_eq)
+              .permit(:firstname_or_lastname_or_email_cont, :status_eq, :gender_eq)
               {
+                firstname_or_lastname_or_email_cont: q_params[:firstname_or_lastname_or_email_cont],
                 status_eq: map_enum_value(User.statuses, q_params[:status_eq]),
                 gender_eq: map_enum_value(User.genders, q_params[:gender_eq])
               }.compact

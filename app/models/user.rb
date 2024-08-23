@@ -4,10 +4,10 @@ class User < ApplicationRecord
   attr_accessor :generated_password
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+  :recoverable, :rememberable, :validatable
 
   has_one :caretaker, dependent: :destroy
-  accepts_nested_attributes_for :caretaker
+  has_many :properties, dependent: :destroy
 
   scope :admin, -> {where(role: 'admin')}
   scope :caretaker, -> {where(role: 'caretaker')}
@@ -18,6 +18,7 @@ class User < ApplicationRecord
 
   after_create :user_account_details
 
+  accepts_nested_attributes_for :caretaker, allow_destroy: true
 
   def self.ransackable_attributes(auth_object = nil)
     ['email','firstname', 'gender', 'lastname', 'phone_number', 'role', 'status']
@@ -27,7 +28,12 @@ class User < ApplicationRecord
     []
   end
 
+  def fullname
+    "#{firstname} #{lastname}"
+  end
+
   private
+
   def user_account_details
     UserAccountDetailsMailer.send_email(self, generated_password).deliver_now if generated_password.present?
   end

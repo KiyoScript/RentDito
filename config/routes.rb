@@ -13,8 +13,14 @@ Rails.application.routes.draw do
   root "dashboard/homepage#index"
 
   namespace :dashboard do
-    resources :homepage, only: %i[index]
+    resources :homepage, only: :index
     resources :admins, except: %i[edit update]
     resources :caretakers, except: %i[edit update]
+    resources :properties, except: %i[edit update] do
+      member do
+        get :property_units
+      end
+    end
+    resources :rooms, except: %i[edit update]
   end
 end

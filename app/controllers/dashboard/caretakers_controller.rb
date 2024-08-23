@@ -3,7 +3,7 @@ class Dashboard::CaretakersController < ApplicationController
 
   def index
     @q = User.caretaker.ransack(search_params)
-    @pagy, @caretakers = pagy(@q.result.order(created_at: :desc))
+    @pagy, @caretakers = pagy(@q.result.order(created_at: :desc), distinct: :true)
   end
 
 
@@ -11,6 +11,7 @@ class Dashboard::CaretakersController < ApplicationController
     @caretaker = User.new
     @caretaker.build_caretaker
   end
+
   def create
     @caretaker = User.new(caretaker_params)
     @caretaker.generated_password = caretaker_params[:password]
@@ -47,18 +48,19 @@ class Dashboard::CaretakersController < ApplicationController
       :role,
       :password,
       :password_confirmation,
-      caretaker_attributes: [:address, :bh_numbers]
+      caretaker_attributes: [:property_id]
     )
   end
 
   def search_params
-    q_params = params.fetch(:q, {})
-              .permit(:status_eq, :gender_eq)
-              {
-                status_eq: map_enum_value(User.statuses, q_params[:status_eq]),
-                gender_eq: map_enum_value(User.genders, q_params[:gender_eq])
-              }.compact
+    q_params = params.fetch(:q, {}).permit(:firstname_or_lastname_or_email_cont, :status_eq, :gender_eq)
+    {
+      firstname_or_lastname_or_email_cont: q_params[:firstname_or_lastname_or_email_cont],
+      status_eq: map_enum_value(User.statuses, q_params[:status_eq]),
+      gender_eq: map_enum_value(User.genders, q_params[:gender_eq]),
+    }.compact
   end
+
 
   def map_enum_value(enum_hash, value)
     # Return the mapped value from the enum hash, or nil if not present

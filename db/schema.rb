@@ -10,17 +10,46 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_20_134556) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_23_100957) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "caretakers", force: :cascade do |t|
-    t.string "address"
-    t.string "bh_numbers"
+    t.bigint "user_id", null: false
+    t.bigint "property_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["property_id"], name: "index_caretakers_on_property_id"
+    t.index ["user_id"], name: "index_caretakers_on_user_id"
+  end
+
+  create_table "properties", force: :cascade do |t|
+    t.integer "city"
+    t.integer "barangay"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_caretakers_on_user_id"
+    t.index ["user_id"], name: "index_properties_on_user_id"
+  end
+
+  create_table "property_units", force: :cascade do |t|
+    t.string "name"
+    t.bigint "property_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["property_id"], name: "index_property_units_on_property_id"
+  end
+
+  create_table "rooms", force: :cascade do |t|
+    t.integer "number"
+    t.integer "upper_deck"
+    t.integer "lower_deck"
+    t.bigint "property_unit_id", null: false
+    t.bigint "property_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["property_id"], name: "index_rooms_on_property_id"
+    t.index ["property_unit_id"], name: "index_rooms_on_property_unit_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -44,5 +73,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_20_134556) do
     t.index ["status"], name: "index_users_on_status"
   end
 
+  add_foreign_key "caretakers", "properties"
   add_foreign_key "caretakers", "users"
+  add_foreign_key "properties", "users"
+  add_foreign_key "property_units", "properties"
+  add_foreign_key "rooms", "properties"
+  add_foreign_key "rooms", "property_units"
 end

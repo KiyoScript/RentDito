@@ -16,6 +16,11 @@ module ApplicationHelper
   }.freeze
 
 
+  DECK_BADGE_CLASS = {
+    1 || 2 => "badge bg-label-success",
+    0 => "badge bg-label-danger"
+  }.freeze
+
   def status_badge(status)
     badge_class = STATUS_BADGE_CLASS[status] || STATUS_BADGE_CLASS["verified"]
     content_tag(:span, status.capitalize, class: badge_class)
@@ -26,7 +31,8 @@ module ApplicationHelper
     content_tag(:span, gender.capitalize, class: badge_class)
   end
 
-  def fullname(user)
-    user.firstname + " " + user.lastname
+  def deck_badge(deck)
+    deck_class = DECK_BADGE_CLASS[deck] || DECK_BADGE_CLASS[1]
+    content_tag(:span, deck, class: deck_class)
   end
 end

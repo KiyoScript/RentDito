@@ -1,9 +1,15 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  user: one
+  number: 1
+  upper_deck: 1
+  lower_deck: 1
+  property_unit: one
   property: one
 
 two:
-  user: two
+  number: 1
+  upper_deck: 1
+  lower_deck: 1
+  property_unit: two
   property: two
