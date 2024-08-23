@@ -66,7 +66,9 @@ group :test do
   gem "selenium-webdriver"
 end
 
+
+gem "dockerfile-rails", ">= 1.6", :group => :development
+
 gem "devise", "~> 4.9"
 gem "ransack"
 gem "pagy"
-
