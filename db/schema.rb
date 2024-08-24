@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_23_100957) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_24_101428) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -52,6 +52,24 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_23_100957) do
     t.index ["property_unit_id"], name: "index_rooms_on_property_unit_id"
   end
 
+  create_table "tenants", force: :cascade do |t|
+    t.date "check_in"
+    t.date "check_out"
+    t.integer "deck"
+    t.integer "age"
+    t.date "date_of_birth"
+    t.bigint "user_id", null: false
+    t.bigint "property_id", null: false
+    t.bigint "property_unit_id", null: false
+    t.bigint "room_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["property_id"], name: "index_tenants_on_property_id"
+    t.index ["property_unit_id"], name: "index_tenants_on_property_unit_id"
+    t.index ["room_id"], name: "index_tenants_on_room_id"
+    t.index ["user_id"], name: "index_tenants_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -79,4 +97,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_23_100957) do
   add_foreign_key "property_units", "properties"
   add_foreign_key "rooms", "properties"
   add_foreign_key "rooms", "property_units"
+  add_foreign_key "tenants", "properties"
+  add_foreign_key "tenants", "property_units"
+  add_foreign_key "tenants", "rooms"
+  add_foreign_key "tenants", "users"
 end

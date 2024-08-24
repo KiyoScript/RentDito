@@ -14,7 +14,7 @@ User.create(
   firstname: 'John Lloyd',
   lastname: 'de Sape',
   gender: 'male',
-  role: 'admin',
+  role: 'landlord',
   phone_number: '0963 051 5870',
   status: 'verified'
 )

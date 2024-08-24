@@ -1,4 +1,5 @@
 class Dashboard::CaretakersController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_caretaker, only: %i[destroy]
 
   def index
@@ -16,7 +17,7 @@ class Dashboard::CaretakersController < ApplicationController
     @caretaker = User.new(caretaker_params)
     @caretaker.generated_password = caretaker_params[:password]
     if @caretaker.save
-      redirect_to dashboard_caretakers_path, notice: "Successfully created"
+      redirect_to dashboard_caretakers_path, notice: "New Caretaker successfully created"
     else
       redirect_to dashboard_caretakers_path, alert: @caretaker.errors.full_messages.first
     end
@@ -27,7 +28,7 @@ class Dashboard::CaretakersController < ApplicationController
     if @caretaker.destroy
       redirect_to dashboard_caretakers_path, notice: "Caretaker Successfully removed"
     else
-      render :new, alert: @caretaker.errors.full_messages.first
+      redirect_to dashboard_caretakers_path, alert: @caretaker.errors.full_messages.first
     end
   end
 

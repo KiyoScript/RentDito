@@ -2,6 +2,8 @@ class Room < ApplicationRecord
   belongs_to :property_unit
   belongs_to :property
 
+  has_many :tenants
+
   validates :number, presence: true
 
 
@@ -17,6 +19,7 @@ class Room < ApplicationRecord
       all
     end
   end
+
 
   def self.ransackable_attributes(auth_object = nil)
     ["lower_deck", "number", "property_id", "property_unit_id", "upper_deck"]

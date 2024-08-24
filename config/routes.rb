@@ -16,11 +16,25 @@ Rails.application.routes.draw do
     resources :homepage, only: :index
     resources :admins, except: %i[edit update]
     resources :caretakers, except: %i[edit update]
+    resources :rooms, except: %i[edit update]
+    resources :tenants, except: %i[edit update show]
+
     resources :properties, except: %i[edit update] do
       member do
         get :property_units
       end
     end
-    resources :rooms, except: %i[edit update]
+
+    resources :property_units, only: :index do
+      member do
+        get :rooms
+      end
+    end
+
+    resources :rooms, except: %i[edit update] do
+      member do
+        get :decks
+      end
+    end
   end
 end

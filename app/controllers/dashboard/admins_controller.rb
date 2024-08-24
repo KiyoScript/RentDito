@@ -1,4 +1,5 @@
 class Dashboard::AdminsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_admin, only: %i[destroy]
 
   def index
@@ -10,7 +11,7 @@ class Dashboard::AdminsController < ApplicationController
     @admin = User.new(admin_params)
     @admin.generated_password = admin_params[:password]
     if @admin.save
-      redirect_to dashboard_admins_path, notice: "Successfully created"
+      redirect_to dashboard_admins_path, notice: "New Admin successfully created"
     else
       redirect_to new_dashboard_admin_path, alert: @admin.errors.full_messages.first
     end

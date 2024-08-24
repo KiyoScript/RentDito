@@ -7,10 +7,13 @@ class User < ApplicationRecord
   :recoverable, :rememberable, :validatable
 
   has_one :caretaker, dependent: :destroy
+  has_one :tenant, dependent: :destroy
+
   has_many :properties, dependent: :destroy
 
   scope :admin, -> {where(role: 'admin')}
   scope :caretaker, -> {where(role: 'caretaker')}
+  scope :tenant, -> {where(role: 'tenant')}
 
   enum status: { verified: 0, unverified: 1, rejected: 2, deactivated: 3, incomplete: 4 }
   enum gender: { male: 0, female: 1 }
@@ -19,6 +22,7 @@ class User < ApplicationRecord
   after_create :user_account_details
 
   accepts_nested_attributes_for :caretaker, allow_destroy: true
+  accepts_nested_attributes_for :tenant, allow_destroy: true
 
   def self.ransackable_attributes(auth_object = nil)
     ['email','firstname', 'gender', 'lastname', 'phone_number', 'role', 'status']

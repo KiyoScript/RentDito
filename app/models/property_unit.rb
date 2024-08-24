@@ -1,6 +1,8 @@
 class PropertyUnit < ApplicationRecord
   belongs_to :property
+
   has_many :rooms, dependent: :destroy
+  has_many :tenants, through: :rooms
 
   validates :name, presence: true
 

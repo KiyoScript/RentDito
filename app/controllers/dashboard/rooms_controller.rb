@@ -1,6 +1,6 @@
 class Dashboard::RoomsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_room, only: %i[show destroy]
+  before_action :set_room, only: %i[show destroy decks]
 
   def index
     @q = Room.ransack(params[:q])
@@ -29,6 +29,13 @@ class Dashboard::RoomsController < ApplicationController
     else
       redirect_to dashboard_room_path(@room), alert: @room.errors.full_messages.first
     end
+  end
+
+  def decks
+    available_decks = []
+    available_decks << "upper" if @room.upper_deck > 0
+    available_decks << "lower" if @room.lower_deck > 0
+    render json: { decks: available_decks }
   end
 
   private
