@@ -22,23 +22,37 @@
           <% end %>
         </div>
 
-        <!-- Filter OffCanvas -->
         <%= search_form_for @q, url: dashboard_rooms_path, method: :get, class: "offcanvas offcanvas-end", id: "offcanvasFilter" do |form| %>
           <div class="offcanvas-header">
-            <h4 id="offcanvasFilterLabel" class="d-flex align-items-center justify-content-center text-primary gap-2">
-              <i class='bx bx-filter-alt fs-4'></i> SEARCH FILTER
-            </h4>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+           <h4 id="offcanvasFilterLabel" class="d-flex align-items-center justify-content-center text-primary gap-2">
+            <i class='bx bx-filter-alt fs-4'></i> SEARCH FILTER
+           </h4>
+           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
           <div class="offcanvas-body mx-0 flex-grow-0 p-6 h-100 d-flex flex-column justify-content-between">
             <div class="mb-3">
               <h5 class="text-primary">By Property</h5>
               <%= form.select :property_id_eq, Property.all.map { |p| [p.display_name, p.id] }, { selected: params.dig(:q, :property_id_eq) }, class: 'form-select' %>
 
+              <h5 class="text-primary mt-4">By Property Unit</h5>
+              <%= form.select :property_unit_id_eq, @rooms.map { |unit| [unit.property_unit.name, unit.property_unit.id] }, { selected: params.dig(:q, :property_unit_id_eq) }, class: 'form-select' %>
 
-              <h5 class="text-primary mt-4">Bedspace Availability</h5>
-              <%= form.select :bedspace_availability_eq, [['Lower Deck Only', 'lower_deck'], ['Upper Deck Only', 'upper_deck'], ['Both Decks', 'both']], { selected: params.dig(:q, :bedspace_availability_eq) }, class: 'form-select' %>
+              <div class="my-6">
+                <div class="alert alert-info" role="alert">
+                  <strong>Note:</strong>
+                  Use the filtering below to check for available upper or lower deck bedspaces.
+                </div>
+              </div>
+              <h5 class="text-primary mt-4">By Deck</h5>
+              <div class="form-check">
+                <%= form.radio_button :bedspace_availability_eq, 'lower_deck', id: "bedspace_lower", checked: params.dig(:q, :bedspace_availability_eq) == 'lower_deck', class: 'form-check-input' %>
+                <%= form.label :bedspace_availability_eq, "Lower Deck", value: 'lower_deck', for: "bedspace_lower", class: "form-check-label fs-6" %>
+              </div>
 
+              <div class="form-check">
+                <%= form.radio_button :bedspace_availability_eq, 'upper_deck', id: "bedspace_upper", checked: params.dig(:q, :bedspace_availability_eq) == 'upper_deck', class: 'form-check-input' %>
+                <%= form.label :bedspace_availability_eq, "Upper Deck", value: 'upper_deck', for: "bedspace_upper", class: "form-check-label fs-6" %>
+              </div>
             </div>
 
             <div class="d-flex flex-column justify-content-between align-items-center gap-2">
@@ -47,7 +61,6 @@
             </div>
           </div>
         <% end %>
-
       </div>
     </div>
   </div>

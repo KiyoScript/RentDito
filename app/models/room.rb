@@ -13,8 +13,6 @@ class Room < ApplicationRecord
       where.not(lower_deck: 0)
     when 'upper_deck'
       where.not(upper_deck: 0)
-    when 'both'
-      where.not(lower_deck: 0).where.not(upper_deck: 0)
     else
       all
     end

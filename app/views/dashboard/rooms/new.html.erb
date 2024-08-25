@@ -1,6 +1,14 @@
-<%= form_with model: @room, url: dashboard_rooms_path, method: :post, local: true, data: { controller: "card room-form" } do |form| %>
+<%= form_with model: @room, url: dashboard_rooms_path, method: :post, local: true, html: { class: "card" },  data: { controller: "room-form" } do |form| %>
   <h4 class="card-header text-primary">New Room</h4>
   <div class="card-body">
+
+    <div class="mb-6">
+      <div class="alert alert-info" role="alert">
+        <strong>Note:</strong>
+        Fill up necessary information to create a new room.
+      </div>
+    </div>
+
     <div class="mb-3">
       <%= form.label :property_id, "Property", class: "form-label fs-6" %>
       <%= form.select :property_id, options_for_select(Property.all.map { |p| [p.display_name, p.id] }), { prompt: "Property" }, class: "form-select", data: { action: "change->room-form#loadPropertyUnits" }, required: true %>
@@ -40,5 +48,4 @@
 
     <%= form.submit "Create Room", class: "btn btn-primary" %>
   </div>
-
 <% end %>

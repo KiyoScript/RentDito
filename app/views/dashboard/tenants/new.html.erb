@@ -58,7 +58,12 @@
 
       <div class="mb-6">
         <%= t.label :deck, "Deck", class: "form-label fs-6" %>
-        <%= t.select :deck, [], { prompt: "Choose Deck" }, class: "form-select", id: "user_deck",  data: { target: "new-tenant-form.deck" }, required: true %>
+        <%= t.select :deck, [], { prompt: "Choose Deck" }, class: "form-select", id: "user_deck", data: { target: "new-tenant-form.deck" }, required: true %>
+      </div>
+
+      <div class="mb-6">
+        <%= t.label :check_in, "Check In", class: "form-label fs-6" %>
+        <%= t.datetime_field :check_in, value: DateTime.now.strftime('%Y-%m-%dT%H:%M'), class: "form-select", required: true %>
       </div>
     <% end %>
 
@@ -97,8 +102,14 @@
   </div>
 
   <div class="card-footer d-flex align-items-center justify-content-between">
-    <%= link_to dashboard_tenants_path, class: "btn btn-secondary" do %>
-      Back
+    <%= link_to dashboard_tenants_path, class: 'btn btn-secondary d-none d-md-inline-block ' do %>
+      <i class='bx bxs-left-arrow bx-sm' ></i>
+      <span class="fs-6">Back</span>
+    <% end %>
+
+    <%= link_to dashboard_tenants_path, class: 'btn btn-secondary d-inline-block d-md-none' do %>
+      <i class='bx bxs-left-arrow bx-sm' ></i>
+      <span class="fs-6">Back</span>
     <% end %>
     <%= form.submit "Create Tenant", class: "btn btn-primary" %>
   </div>

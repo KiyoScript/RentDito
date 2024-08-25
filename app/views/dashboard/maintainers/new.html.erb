@@ -1,35 +1,35 @@
-<%= form_with model: @caretaker, url: dashboard_caretakers_path, method: :post, html: { class: "card", data: { controller: "password" } } do |form| %>
-  <h4 class="card-header text-primary">New Caretaker</h4>
+<%= form_with model: @maintainer, url: dashboard_maintainers_path, method: :post, html: { class: "card", data: { controller: "password" } } do |form| %>
+  <h4 class="card-header text-primary">New Maintainer</h4>
   <div class="card-body">
     <div class="mb-6">
       <div class="alert alert-info" role="alert">
         <strong>Note:</strong>
-        Fill up necessary information to create a new Caretaker Account.
+        Fill up necessary information to create a new Maintainer Account.
       </div>
     </div>
 
     <div class="mb-6">
-      <%= form.label :firstname, class: "form-label" %>
+      <%= form.label :firstname, class: "form-label fs-6" %>
       <%= form.text_field :firstname, class: "form-control", id: "user_firstname", placeholder: "Kiyo", required: true %>
     </div>
 
     <div class="mb-6">
-      <%= form.label :lastname, class: "form-label" %>
+      <%= form.label :lastname, class: "form-label fs-6" %>
       <%= form.text_field :lastname, class: "form-control", id: "user_lastname", placeholder: "Script", required: true %>
     </div>
 
     <div class="mb-6">
-      <%= form.label :email, class: "form-label" %>
+      <%= form.label :email, class: "form-label fs-6" %>
       <%= form.email_field :email, class: "form-control", id: "user_email", placeholder: "kiyo@example.com", required: true %>
     </div>
 
     <div class="mb-6">
-      <%= form.label :phone_number, class: "form-label" %>
+      <%= form.label :phone_number, class: "form-label fs-6" %>
       <%= form.telephone_field :phone_number, class: "form-control", id: "user_phone_number", placeholder: "0963 631 5870", required: true %>
     </div>
 
     <div class="mb-6">
-      <%= form.label :gender, class: "form-label" %>
+      <%= form.label :gender, class: "form-label fs-6" %>
       <div class="form-check">
         <%= form.radio_button :gender, :male, class: "form-check-input", id: "gender_male" %>
         <%= form.label :gender_male, "Male", class: "form-check-label", required: true %>
@@ -40,18 +40,19 @@
       </div>
     </div>
 
-    <%= form.fields_for :caretaker do |c| %>
+    <%= form.fields_for :maintainer do |m| %>
       <div class="mb-6">
-        <%= c.label :property_id, "Property", class: "form-label" %>
-        <%= c.select :property_id, options_from_collection_for_select(Property.all, :id, :display_name), { prompt: "Select Property" }, class: "form-select", id: "user_property", required: true %>
+        <%= m.label :city, "City", class: "form-label fs-6" %>
+        <%= m.select :city, options_for_select(Maintainer.cities.keys.map { |key| [key.titleize, key] }), {},
+                      class: "form-select", prompt: "Select City" %>
       </div>
     <% end %>
 
     <%= form.hidden_field :status, value: "incomplete" %>
-    <%= form.hidden_field :role, value: "caretaker" %>
+    <%= form.hidden_field :role, value: "maintainer" %>
 
     <div class="mb-6 form-password-toggle">
-      <%= form.label :password, class: "form-label" %>
+      <%= form.label :password, class: "form-label fs-6" %>
       <div class="input-group input-group-merge has-validation">
         <%= form.password_field :password, autocomplete: "current-password",
                               class: "form-control",
@@ -64,7 +65,7 @@
     </div>
 
     <div class="mb-6 form-password-toggle">
-      <%= form.label :password_confirmation, class: "form-label" %>
+      <%= form.label :password_confirmation, class: "form-label fs-6" %>
       <div class="input-group input-group-merge has-validation">
         <%= form.password_field :password_confirmation, autocomplete: "current-password",
                               class: "form-control",
@@ -82,15 +83,15 @@
   </div>
 
   <div class="card-footer d-flex align-items-center justify-content-between">
-    <%= link_to dashboard_caretakers_path, class: 'btn btn-secondary d-none d-md-inline-block ' do %>
+    <%= link_to dashboard_maintainers_path, class: 'btn btn-secondary d-none d-md-inline-block ' do %>
       <i class='bx bxs-left-arrow bx-sm' ></i>
       <span class="fs-6">Back</span>
     <% end %>
 
-    <%= link_to dashboard_caretakers_path, class: 'btn btn-secondary d-inline-block d-md-none' do %>
+    <%= link_to dashboard_maintainers_path, class: 'btn btn-secondary d-inline-block d-md-none' do %>
       <i class='bx bxs-left-arrow bx-sm' ></i>
       <span class="fs-6">Back</span>
     <% end %>
-    <%= form.submit "Create Caretaker", class: "btn btn-primary" %>
+    <%= form.submit "Create Maintainer", class: "btn btn-primary" %>
   </div>
 <% end %>

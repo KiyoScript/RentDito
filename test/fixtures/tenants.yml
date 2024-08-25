@@ -2,7 +2,6 @@
 
 one:
   check_in: 2024-08-24
-  check_out: 2024-08-24
   deck: 1
   age: 21
   date_of_birth: 2024-08-24
@@ -13,7 +12,6 @@ one:
 
 two:
   check_in: 2024-08-24
-  check_out: 2024-08-24
   deck: 2
   age: 18
   date_of_birth: 2024-08-24
