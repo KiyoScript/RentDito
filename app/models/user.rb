@@ -6,21 +6,24 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :validatable
 
+  has_one :maintainer, dependent: :destroy
   has_one :caretaker, dependent: :destroy
   has_one :tenant, dependent: :destroy
 
   has_many :properties, dependent: :destroy
 
   scope :admin, -> {where(role: 'admin')}
+  scope :maintainer, -> {where(role: 'maintainer')}
   scope :caretaker, -> {where(role: 'caretaker')}
   scope :tenant, -> {where(role: 'tenant')}
 
   enum status: { verified: 0, unverified: 1, rejected: 2, deactivated: 3, incomplete: 4 }
   enum gender: { male: 0, female: 1 }
-  enum role: { landlord: 0, admin: 1, caretaker: 2, tenant: 3 }
+  enum role: { landlord: 0, admin: 1, maintainer: 2, caretaker: 3, tenant: 4 }
 
   after_create :user_account_details
 
+  accepts_nested_attributes_for :maintainer, allow_destroy: true
   accepts_nested_attributes_for :caretaker, allow_destroy: true
   accepts_nested_attributes_for :tenant, allow_destroy: true
 

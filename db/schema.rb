@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_24_101428) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_25_060146) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_24_101428) do
     t.datetime "updated_at", null: false
     t.index ["property_id"], name: "index_caretakers_on_property_id"
     t.index ["user_id"], name: "index_caretakers_on_user_id"
+  end
+
+  create_table "maintainers", force: :cascade do |t|
+    t.integer "city"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_maintainers_on_user_id"
   end
 
   create_table "properties", force: :cascade do |t|
@@ -53,8 +61,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_24_101428) do
   end
 
   create_table "tenants", force: :cascade do |t|
-    t.date "check_in"
-    t.date "check_out"
+    t.datetime "check_in"
     t.integer "deck"
     t.integer "age"
     t.date "date_of_birth"
@@ -93,6 +100,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_24_101428) do
 
   add_foreign_key "caretakers", "properties"
   add_foreign_key "caretakers", "users"
+  add_foreign_key "maintainers", "users"
   add_foreign_key "properties", "users"
   add_foreign_key "property_units", "properties"
   add_foreign_key "rooms", "properties"

@@ -1,8 +1,7 @@
 class CreateTenants < ActiveRecord::Migration[7.1]
   def change
     create_table :tenants do |t|
-      t.date :check_in
-      t.date :check_out
+      t.datetime :check_in
       t.integer :deck
       t.integer :age
       t.date :date_of_birth
