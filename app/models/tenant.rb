@@ -7,15 +7,24 @@ class Tenant < ApplicationRecord
 
   enum deck: { lower: 0, upper: 1 }
 
-  after_create :update_room_deck_availability
+  after_create :decrement_room_deck_availability
+  after_destroy :increment_room_deck_availability
 
   private
 
-  def update_room_deck_availability
+  def decrement_room_deck_availability
     if lower?
       room.decrement!(:lower_deck)
     elsif upper?
       room.decrement!(:upper_deck)
+    end
+  end
+
+  def increment_room_deck_availability
+    if lower?
+      room.increment!(:lower_deck)
+    elsif upper?
+      room.increment!(:upper_deck)
     end
   end
 end
