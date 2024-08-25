@@ -1,0 +1,68 @@
+<%= form_with model: @property, url: dashboard_properties_path, method: :post, html: { class: "card" } do |form| %>
+  <h4 class="card-header text-primary">New Property</h4>
+  <div class="card-body">
+    <div class="mb-6">
+      <div class="alert alert-info" role="alert">
+        <strong>Note:</strong>
+        Fill up necessary information to create a new property.
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-6 field mb-6">
+        <%= form.label :city, class: "form-label" %>
+        <%= form.select :city, Property.cities.keys.map { |c| [c.titleize, c] }, { selected: Property.cities.keys.first }, { class: "form-select" } %>
+      </div>
+
+      <div class="col-12 col-md-6 field mb-6">
+        <%= form.label :barangay, class: "form-label" %>
+        <%= form.select :barangay, Property.barangays.keys.map { |b| [b.titleize, b] }, { selected: Property.barangays.keys.first }, { class: "form-select" } %>
+      </div>
+
+      <div class="form-repeater" data-controller="add-property-unit">
+        <%= form.fields_for :property_units do |p| %>
+          <div class="row">
+            <div class="col-12 col-md-6 field mb-6" data-repeater-list="property[property_units_attributes]">
+              <div data-repeater-item>
+                <div class="row">
+                  <div class="mb-3 col-6 mb-0">
+                    <%= p.label :name, "Property Unit Name", class: "form-label" %>
+                    <%= p.text_field :name, class: "form-control", placeholder: "BH8" %>
+                  </div>
+                  <div class="mb-3 col-6 d-flex align-items-center mb-0">
+                    <button type="button" class="btn btn-label-danger mt-6" data-repeater-delete>
+                      <i class="bx bx-x me-1"></i>
+                      <span class="align-middle">Delete</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 mt-0 mt-6">
+              <button type="button" class="btn btn-outline-primary" data-repeater-create>
+                <i class="bx bx-plus me-1"></i>
+                <span class="align-middle">Add Unit</span>
+              </button>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer d-flex align-items-center justify-content-between">
+
+    <%= link_to dashboard_properties_path, class: 'btn btn-secondary d-none d-md-inline-block ' do %>
+      <i class='bx bxs-left-arrow bx-sm' ></i>
+      <span class="fs-6">Back</span>
+    <% end %>
+
+    <%= link_to dashboard_properties_path, class: 'btn btn-secondary d-inline-block d-md-none' do %>
+      <i class='bx bxs-left-arrow bx-sm' ></i>
+      <span class="fs-6">Back</span>
+    <% end %>
+
+    <%= form.submit "Create Property", class: "btn btn-primary" %>
+  </div>
+<% end %>

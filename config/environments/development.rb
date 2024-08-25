@@ -37,7 +37,19 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  #config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.perform_deliveries = true
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:                      'smtp.gmail.com',
+    port:                         587,
+    domain:                       Rails.application.credentials.dig(:gmail, :domain),
+    user_name:                    Rails.application.credentials.dig(:gmail, :user_name),
+    password:                     Rails.application.credentials.dig(:gmail, :password),
+    authentication:               'plain',
+    enable_starttls_auto:         true
+  }
 
   config.action_mailer.perform_caching = false
 
@@ -75,4 +87,11 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  config.before_configuration do
+    env_file = File.join(Rails.root, 'config', 'local_env.yml')
+    YAML.load(File.open(env_file)).each do |key, value|
+      ENV[key.to_s] = value
+    end if File.readable?(env_file)
+  end
 end

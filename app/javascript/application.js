@@ -10,6 +10,7 @@ import "perfect-scrollbar"
 import "menu"
 import "main"
 import "toastr"
+import "jquery-repeater"
 
 document.addEventListener('turbo:load', () => {
   toastr.options = {

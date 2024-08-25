@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  <title>User Accouunt Details </title>
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          line-height: 1.6;
+          background-color: #f9f9f9;
+          color: #333;
+      }
+      .container {
+          width: 80%;
+          margin: auto;
+          padding: 20px;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          background-color: #fff;
+      }
+      .header {
+          text-align: center;
+          padding-bottom: 10px;
+          color: #696cff;
+      }
+      .details {
+          margin-top: 20px;
+      }
+      .footer {
+          margin-top: 20px;
+          font-size: 0.9em;
+          color: #777;
+      }
+      .button {
+          display: inline-block;
+          margin-top: 20px;
+          padding: 10px 15px;
+          color: #fff !important;
+          background-color: #696cff;
+          text-decoration: none;
+          border-radius: 5px;
+      }
+  </style>
+</head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Welcome to RentDito</h1>
+      </div>
+      <p>Dear <%= @user.firstname %> <%= @user.lastname %>,</p>
+      <p>Your account has been successfully created. To complete your registration and fill out the remaining information, please click the button below:</p>
+      <div class="details">
+        <p><strong>Email:</strong> <%= @user.email %></p>
+        <p><strong>Password:</strong> <%= @user.password %></p>
+      </div>
+      <div class="footer">
+        <p>Thank you.</p>
+        <p>Best regards,</p>
+        <p>RentDito Company<br>
+          <a href="https://rendito.fly.dev/sign_in" class="button">Complete Your Registration</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

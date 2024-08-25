@@ -1,0 +1,105 @@
+<%= form_with model: @tenant, url: dashboard_tenants_path, method: :post, html: { class: "card", data: { controller: "password new-tenant-form" } } do |form| %>
+  <h4 class="card-header text-primary">New Tenant</h4>
+  <div class="card-body">
+    <div class="mb-6">
+      <div class="alert alert-info" role="alert">
+        <strong>Note:</strong>
+        Fill up necessary information to create a new Tenant Account.
+      </div>
+    </div>
+
+    <div class="mb-6">
+      <%= form.label :firstname, class: "form-label fs-6" %>
+      <%= form.text_field :firstname, class: "form-control", id: "user_firstname", placeholder: "Kiyo", required: true %>
+    </div>
+
+    <div class="mb-6">
+      <%= form.label :lastname, class: "form-label fs-6" %>
+      <%= form.text_field :lastname, class: "form-control", id: "user_lastname", placeholder: "Script", required: true %>
+    </div>
+
+    <div class="mb-6">
+      <%= form.label :email, class: "form-label fs-6" %>
+      <%= form.email_field :email, class: "form-control", id: "user_email", placeholder: "kiyo@example.com", required: true %>
+    </div>
+
+    <div class="mb-6">
+      <%= form.label :phone_number, class: "form-label fs-6" %>
+      <%= form.telephone_field :phone_number, class: "form-control", id: "user_phone_number", placeholder: "0963 631 5870", required: true %>
+    </div>
+
+    <div class="mb-6">
+      <%= form.label :gender, class: "form-label fs-6" %>
+      <div class="form-check">
+        <%= form.radio_button :gender, :male, class: "form-check-input", id: "gender_male" %>
+        <%= form.label  "Male", class: "form-check-label fs-6", required: true %>
+      </div>
+      <div class="form-check">
+        <%= form.radio_button :gender, :female, class: "form-check-input", id: "gender_female" %>
+        <%= form.label  "Female", class: "form-check-label fs-6", required: true %>
+      </div>
+    </div>
+
+    <%= form.fields_for :tenant do |t| %>
+      <div class="mb-6">
+        <%= t.label :property_id, "Property", class: "form-label fs-6" %>
+        <%= t.select :property_id, options_for_select(Property.all.map { |p| [p.display_name, p.id] }), { prompt: "Property" }, class: "form-select", data: { action: "change->new-tenant-form#loadPropertyUnits" }, required: true %>
+      </div>
+
+      <div class="mb-6">
+        <%= t.label :property_unit_id, "Property Unit", class: "form-label fs-6" %>
+        <%= t.select :property_unit_id, [], { prompt: "Choose Property Unit" }, class: "form-select", id: "user_property_unit", required: true %>
+      </div>
+
+      <div class="mb-6">
+        <%= t.label :room_id, "Room #", class: "form-label fs-6" %>
+        <%= t.select :room_id, [], { prompt: "Choose Room" }, class: "form-select", id: "user_room", data: { action: "change->new-tenant-form#loadDecks" }, required: true %>
+      </div>
+
+      <div class="mb-6">
+        <%= t.label :deck, "Deck", class: "form-label fs-6" %>
+        <%= t.select :deck, [], { prompt: "Choose Deck" }, class: "form-select", id: "user_deck",  data: { target: "new-tenant-form.deck" }, required: true %>
+      </div>
+    <% end %>
+
+    <%= form.hidden_field :status, value: "unverified" %>
+    <%= form.hidden_field :role, value: "tenant" %>
+
+    <div class="mb-6 form-password-toggle">
+      <%= form.label :password, class: "form-label fs-6" %>
+      <div class="input-group input-group-merge has-validation">
+        <%= form.password_field :password, autocomplete: "current-password",
+                              class: "form-control",
+                              id: "user_password",
+                              placeholder: "············",
+                              required: true,
+                              data: { password_target: "password" } %>
+        <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+      </div>
+    </div>
+
+    <div class="mb-6 form-password-toggle">
+      <%= form.label :password_confirmation, class: "form-label fs-6" %>
+      <div class="input-group input-group-merge has-validation">
+        <%= form.password_field :password_confirmation, autocomplete: "current-password",
+                              class: "form-control",
+                              id: "user_password_confirmation",
+                              placeholder: "············",
+                              required: true,
+                              data: { password_target: "passwordConfirmation" } %>
+        <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-outline-secondary" data-action="click->password#generatePassword">
+      Generate Password
+    </button>
+  </div>
+
+  <div class="card-footer d-flex align-items-center justify-content-between">
+    <%= link_to dashboard_tenants_path, class: "btn btn-secondary" do %>
+      Back
+    <% end %>
+    <%= form.submit "Create Tenant", class: "btn btn-primary" %>
+  </div>
+<% end %>
