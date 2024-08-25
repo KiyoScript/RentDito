@@ -1,0 +1,86 @@
+<div class="card">
+  <h5 class="card-header">Tenants</h5>
+  <div class="row p-4 pt-0">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-12 col-md-9 text-primary p-3 order-md-2 text-end">
+          <button class="btn btn-outline-primary d-none d-md-inline-block d-flex justify-content-center" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
+            <i class='bx bx-filter-alt'></i>
+            <span class="text-normal text-nowrap">Filter</span>
+          </button>
+          <button class="btn btn-outline-primary w-100 d-flex d-md-none  justify-content-center" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
+            <i class='bx bx-filter-alt'></i>
+            <span class="text-normal text-nowrap">Filter</span>
+          </button>
+          <%= link_to new_dashboard_tenant_path, class: "btn btn-primary d-none d-md-inline-block ms-2 pb-2" do %>
+            <i class='bx bx-user-plus'></i>
+            <span class="mt-1">New Tenant</span>
+          <% end %>
+          <%= link_to new_dashboard_tenant_path, class: "btn btn-primary w-100 d-inline-block d-md-none mt-2 pb-2" do %>
+            <i class='bx bx-user-plus'></i>
+            <span class="mt-1">New Tenant</span>
+          <% end %>
+        </div>
+
+                <!-- Filter OffCanvas -->
+        <!-- Filter OffCanvas -->
+        <%= search_form_for @q, url: dashboard_tenants_path, method: :get, class: "offcanvas offcanvas-end", id: "offcanvasFilter" do |form| %>
+          <div class="offcanvas-header">
+            <h4 id="offcanvasFilterLabel" class="d-flex align-items-center justify-content-center text-primary gap-2">
+              <i class='bx bx-filter-alt fs-4 '></i> SEARCH FILTER
+            </h4>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body mx-0 flex-grow-0 p-6 h-100 d-flex flex-column justify-content-between">
+            <div class="mb-3">
+              <h5 class="text-primary">By Gender</h5>
+              <div class="form-check">
+                <%= form.radio_button :gender_eq, 'male', id: 'genderMale', class: 'form-check-input' %>
+                <%= form.label :gender_eq, 'Male', for: 'genderMale', class: 'form-check-label' %>
+              </div>
+              <div class="form-check">
+                <%= form.radio_button :gender_eq, 'female', id: 'genderFemale', class: 'form-check-input' %>
+                <%= form.label :gender_eq, 'Female', for: 'genderFemale', class: 'form-check-label' %>
+              </div>
+              <h5 class="text-primary">By Status</h5>
+              <%= form.select :status_eq, [['Verified', 'verified'], ['Unverified', 'unverified'], ['Rejected', 'rejected'], ['Incomplete', 'incomplete']], { prompt: 'Select status' }, class: 'form-select' %>
+            </div>
+            <div class="d-flex flex-column justify-content-between align-items-center gap-2">
+              <%= form.submit 'Apply', class: 'btn btn-primary w-100' %>
+              <%= link_to 'Reset', dashboard_tenants_path(q: {}), class: 'btn btn-label-danger w-100' %>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="col-12 col-md-3 py-0 py-lg-3 px-lg-3  order-md-1">
+          <%= search_form_for @q, url: dashboard_tenants_path, class: "d-flex align-items-center gap-2" do |form| %>
+            <%= form.label :search, class: "d-none" %>
+            <%= form.search_field :firstname_or_lastname_or_email_cont, class: "form-control", placeholder: "Type to search" %>
+            <%= form.submit class: 'btn btn-outline-primary' %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive text-nowrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Gender</th>
+          <th>Property Address</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody class="table-border-bottom-0">
+        <%= render partial: "dashboard/tenants/tenant", collection: @tenants, as: :tenant %>
+      </tbody>
+    </table>
+  </div>
+  <div class="d-flex justify-content-center pt-2">
+    <%== pagy_bootstrap_nav(@pagy) %>
+  </div>
+</div>

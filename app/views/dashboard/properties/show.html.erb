@@ -1,0 +1,48 @@
+
+<div class="row p-0 m-0 mb-6 gap-5">
+  <div class="col-12 card card-border-shadow-primary">
+    <div class="card-header d-flex justify-content-between" >
+      <h5 class="card-title m-0 text-primary">Property #<%= @property.id %></h5>
+      <h6 class="m-0">
+        <a href=" javascript:void(0)" class="menu-link text-center">
+          <i class='bx bx-edit bx-sm'></i>
+          <span>Edit</span>
+        </a>
+      </h6>
+    </div>
+    <div class="card-body">
+      <p class="mb-0"><%= @property.city.titleize %> <br><%= @property.barangay.titleize %></p>
+      <h5 class="mt-6 text-primary">Total Unit(s)</h5>
+      <div class="d-flex align-items-center mb-2">
+        <div class="avatar me-4">
+          <span class="avatar-initial rounded bg-label-primary"><i class="bx bxs-home-smile bx-lg"></i></span>
+        </div>
+        <h4 class="mb-0"><%= @property.property_units.count %></h4>
+      </div>
+      <p class="mb-0">
+        <%= render partial: "dashboard/properties/property_units", collection: @property.property_units, as: :property_unit %>
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<div class="card mb-6 card-border-shadow-primary">
+  <div class="card-header">
+    <h5 class="card-title m-0 text-primary">Assigned Caretakers</h5>
+  </div>
+  <div class="card-body">
+    <%= render partial: "dashboard/properties/assigned_caretaker", collection: @property.caretaker, as: :caretaker %>
+  </div>
+</div>
+
+<%= link_to dashboard_properties_path, class: 'btn btn-secondary d-none d-md-inline-block ' do %>
+  <i class='bx bxs-left-arrow bx-md' ></i>
+  <span class="fs-6">Back</span>
+<% end %>
+
+<%= link_to dashboard_properties_path, class: 'btn btn-secondary d-inline-block d-md-none w-100' do %>
+  <i class='bx bxs-left-arrow bx-md' ></i>
+  <span class="fs-6">Back</span>
+<% end %>
+
