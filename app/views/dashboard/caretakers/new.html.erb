@@ -43,7 +43,7 @@
     <%= form.fields_for :caretaker do |c| %>
       <div class="mb-6">
         <%= c.label :property_id, "Property", class: "form-label" %>
-        <%= c.select :property_id, options_from_collection_for_select(Property.all, :id, :display_name), { prompt: "Select Property" }, class: "form-select", id: "user_property", required: true %>
+        <%= c.select :property_id, options_from_collection_for_select(Property.all, :id, :address), { prompt: "Select Property" }, class: "form-select", id: "user_property", required: true %>
       </div>
     <% end %>
 

@@ -9,14 +9,15 @@
     </div>
 
     <div class="row">
+
       <div class="col-12 col-md-6 field mb-6">
-        <%= form.label :city, class: "form-label" %>
-        <%= form.select :city, Property.cities.keys.map { |c| [c.titleize, c] }, { selected: Property.cities.keys.first }, { class: "form-select" } %>
+        <%= form.label :barangay, "Brgy/Street", class: "form-label fs-6" %>
+        <%= form.text_field :barangay, class: "form-control", id: "property_region", placeholder: "Don Felipe Larrazabal" %>
       </div>
 
       <div class="col-12 col-md-6 field mb-6">
-        <%= form.label :barangay, class: "form-label" %>
-        <%= form.select :barangay, Property.barangays.keys.map { |b| [b.titleize, b] }, { selected: Property.barangays.keys.first }, { class: "form-select" } %>
+        <%= form.label :city, "District/City", class: "form-label fs-6" %>
+        <%= form.text_field :city, class: "form-control", id: "property_district", placeholder: "Ormoc City" %>
       </div>
 
       <div class="form-repeater" data-controller="add-property-unit">
@@ -26,7 +27,7 @@
               <div data-repeater-item>
                 <div class="row">
                   <div class="mb-3 col-6 mb-0">
-                    <%= p.label :name, "Property Unit Name", class: "form-label" %>
+                    <%= p.label :name, "Property Unit Name", class: "form-label fs-6" %>
                     <%= p.text_field :name, class: "form-control", placeholder: "BH8" %>
                   </div>
                   <div class="mb-3 col-6 d-flex align-items-center mb-0">

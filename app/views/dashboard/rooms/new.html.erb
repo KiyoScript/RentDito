@@ -11,7 +11,7 @@
 
     <div class="mb-3">
       <%= form.label :property_id, "Property", class: "form-label fs-6" %>
-      <%= form.select :property_id, options_for_select(Property.all.map { |p| [p.display_name, p.id] }), { prompt: "Property" }, class: "form-select", data: { action: "change->room-form#loadPropertyUnits" }, required: true %>
+      <%= form.select :property_id, options_for_select(Property.all.map { |p| [p.address, p.id] }), { prompt: "Property" }, class: "form-select", data: { action: "change->room-form#loadPropertyUnits" }, required: true %>
     </div>
 
     <div class="mb-3">

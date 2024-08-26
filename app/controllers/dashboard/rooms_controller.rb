@@ -4,7 +4,7 @@ class Dashboard::RoomsController < ApplicationController
 
   def index
     @q = Room.ransack(params[:q])
-    @pagy, @rooms = pagy(@q.result.includes(:property, :property_unit).order(created_at: :desc), distinct: :true)
+    @pagy, @rooms = pagy(@q.result.includes(:property, :property_unit).order(created_at: :asc), distinct: :true)
     @rooms = @rooms.with_bedspace_availability(params.dig(:q, :bedspace_availability_eq)) if params.dig(:q, :bedspace_availability_eq).present?
     @rooms = @rooms.where(property_unit_id: params.dig(:q, :property_unit_id_eq)) if params.dig(:q, :property_unit_id_eq).present?
   end

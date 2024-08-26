@@ -32,7 +32,7 @@
           <div class="offcanvas-body mx-0 flex-grow-0 p-6 h-100 d-flex flex-column justify-content-between">
             <div class="mb-3">
               <h5 class="text-primary">By Property</h5>
-              <%= form.select :property_id_eq, Property.all.map { |p| [p.display_name, p.id] }, { selected: params.dig(:q, :property_id_eq) }, class: 'form-select' %>
+              <%= form.select :property_id_eq, Property.all.map { |p| [p.address, p.id] }, { selected: params.dig(:q, :property_id_eq) }, class: 'form-select' %>
 
               <h5 class="text-primary mt-4">By Property Unit</h5>
               <%= form.select :property_unit_id_eq, @rooms.map { |unit| [unit.property_unit.name, unit.property_unit.id] }, { selected: params.dig(:q, :property_unit_id_eq) }, class: 'form-select' %>
