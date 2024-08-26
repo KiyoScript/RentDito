@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
+// Connects to data-controller="load-properties"
 export default class extends Controller {
   static targets = ["room", "deck"];
 
@@ -97,7 +98,8 @@ export default class extends Controller {
       rooms.forEach((room) => {
         const option = document.createElement("option")
         option.value = room.id
-        option.textContent = room.number
+        option.textContent = room.name
+        console.log(room.name)
         this.roomSelect.appendChild(option)
       })
 

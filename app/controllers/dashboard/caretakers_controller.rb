@@ -49,7 +49,7 @@ class Dashboard::CaretakersController < ApplicationController
       :role,
       :password,
       :password_confirmation,
-      caretaker_attributes: [:property_id]
+      caretaker_attributes: [:property_id, :property_unit_id, :room_id, :deck, :check_in]
     )
   end
 

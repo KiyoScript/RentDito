@@ -1,6 +1,6 @@
 class Dashboard::PropertyUnitsController < ApplicationController
   before_action :authenticate_user!
-  
+
   def property_units
     property = Property.find(params[:id])
     property_units = property.property_units
@@ -14,7 +14,7 @@ class Dashboard::PropertyUnitsController < ApplicationController
     property_unit = PropertyUnit.find(params[:id])
     rooms = property_unit.rooms
 
-    render json: rooms.as_json(only: [:id, :number])
+    render json: rooms.as_json(only: [:id, :name])
   rescue ActiveRecord::RecordNotFound
     render json: { error: 'Property unit not found' }, status: :not_found
   end

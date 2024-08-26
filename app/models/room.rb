@@ -4,7 +4,7 @@ class Room < ApplicationRecord
 
   has_many :tenants
 
-  validates :number, presence: true
+  validates :name, :upper_deck, :lower_deck, presence: true
 
 
   scope :with_bedspace_availability, ->(availability) do
@@ -18,9 +18,13 @@ class Room < ApplicationRecord
     end
   end
 
+  scope :property_unit_name_eq, ->(name) do
+    joins(:property_unit).where(property_units: { name: name })
+  end
+
 
   def self.ransackable_attributes(auth_object = nil)
-    ["lower_deck", "number", "property_id", "property_unit_id", "upper_deck"]
+    ["lower_deck", "name", "property_id", "property_unit_id", "upper_deck"]
   end
 
   def self.ransackable_associations(auth_object = nil)

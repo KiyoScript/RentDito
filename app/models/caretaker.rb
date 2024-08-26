@@ -1,4 +1,2 @@
-class Caretaker < ApplicationRecord
-  belongs_to :user
-  belongs_to :property
+class Caretaker < Tenant
 end

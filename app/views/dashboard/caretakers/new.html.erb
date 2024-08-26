@@ -1,4 +1,4 @@
-<%= form_with model: @caretaker, url: dashboard_caretakers_path, method: :post, html: { class: "card", data: { controller: "password" } } do |form| %>
+<%= form_with model: @caretaker, url: dashboard_caretakers_path, method: :post, html: { class: "card", data: { controller: "password load-properties" } } do |form| %>
   <h4 class="card-header text-primary">New Caretaker</h4>
   <div class="card-body">
     <div class="mb-6">
@@ -43,7 +43,27 @@
     <%= form.fields_for :caretaker do |c| %>
       <div class="mb-6">
         <%= c.label :property_id, "Property", class: "form-label" %>
-        <%= c.select :property_id, options_from_collection_for_select(Property.all, :id, :address), { prompt: "Select Property" }, class: "form-select", id: "user_property", required: true %>
+        <%= c.select :property_id, options_for_select(Property.all.map { |p| [p.address, p.id] }), { prompt: "Property" }, class: "form-select", data: { action: "change->load-properties#loadPropertyUnits" }, required: true %>
+      </div>
+
+      <div class="mb-6">
+        <%= c.label :property_unit_id, "Property Unit", class: "form-label fs-6" %>
+        <%= c.select :property_unit_id, [], { prompt: "Choose Property Unit" }, class: "form-select", id: "user_property_unit", required: true %>
+      </div>
+
+      <div class="mb-6">
+        <%= c.label :room_id, "Room #", class: "form-label fs-6" %>
+        <%= c.select :room_id, [], { prompt: "Choose Room" }, class: "form-select", id: "user_room", data: { action: "change->load-properties#loadDecks" }, required: true %>
+      </div>
+
+      <div class="mb-6">
+        <%= c.label :deck, "Deck", class: "form-label fs-6" %>
+        <%= c.select :deck, [], { prompt: "Choose Deck" }, class: "form-select", id: "user_deck", data: { target: "load-properties.deck" }, required: true %>
+      </div>
+
+      <div class="mb-6">
+        <%= c.label :check_in, "Check In", class: "form-label fs-6" %>
+        <%= c.datetime_field :check_in, value: DateTime.now.strftime('%Y-%m-%dT%H:%M'), class: "form-select", required: true %>
       </div>
     <% end %>
 
