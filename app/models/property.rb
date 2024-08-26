@@ -8,14 +8,10 @@ class Property < ApplicationRecord
   accepts_nested_attributes_for :property_units, allow_destroy: true
 
 
-  validates :city, presence: true
-  validates :barangay, presence: true
-
-  enum city: { ormoc_city: 0, cebu_city: 1 }
-  enum barangay: { don_felipe_larrazabal: 0, punta: 1, cogon: 2 }
+  validates :city, :barangay,  presence: true
 
 
-  def display_name
+  def address
     "#{city.titleize}, #{barangay.titleize}"
   end
 

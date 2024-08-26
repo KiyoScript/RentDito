@@ -2,7 +2,7 @@
   <td>
     <%= property.id %>
   </td>
-  <td>Brgy. <%= property.display_name %> </td>
+  <td><%= property.address %> </td>
   <td>
     <%= render partial: "dashboard/properties/property_units", collection: property.property_units, as: :property_unit %>
   </td>

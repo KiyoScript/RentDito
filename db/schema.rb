@@ -32,8 +32,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_25_060146) do
   end
 
   create_table "properties", force: :cascade do |t|
-    t.integer "city"
-    t.integer "barangay"
+    t.string "city"
+    t.string "barangay"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

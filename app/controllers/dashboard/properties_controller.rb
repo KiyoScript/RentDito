@@ -1,9 +1,10 @@
 class Dashboard::PropertiesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_property, only: %i[show destroy]
+
   def index
     @q = Property.ransack(search_params)
-    @pagy, @properties = pagy(@q.result.order(created_at: :desc), distinct: :true)
+    @pagy, @properties = pagy(@q.result.order(created_at: :asc), distinct: :true)
   end
 
   def new
@@ -20,8 +21,7 @@ class Dashboard::PropertiesController < ApplicationController
     end
   end
 
-  def show;end
-
+  def show; end
 
   def destroy
     if @property.destroy
@@ -52,17 +52,6 @@ class Dashboard::PropertiesController < ApplicationController
   end
 
   def search_params
-    q_params = params.fetch(:q, {})
-              .permit(:city_eq, :barangay_eq)
-              {
-                city_eq: map_enum_value(Property.cities, q_params[:city_eq]),
-                barangay_eq: map_enum_value(Property.barangays, q_params[:barangay_eq])
-              }.compact
+    params.fetch(:q, {}).permit(:city_or_barangay_cont)
   end
-
-  def map_enum_value(enum_hash, value)
-    # Return the mapped value from the enum hash, or nil if not present
-    enum_hash[value.to_s] if value.present?
-  end
-
 end
