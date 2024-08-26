@@ -1,4 +1,4 @@
-<%= form_with model: @tenant, url: dashboard_tenants_path, method: :post, html: { class: "card", data: { controller: "password new-tenant-form" } } do |form| %>
+<%= form_with model: @tenant, url: dashboard_tenants_path, method: :post, html: { class: "card", data: { controller: "password load-properties" } } do |form| %>
   <h4 class="card-header text-primary">New Tenant</h4>
   <div class="card-body">
     <div class="mb-6">
@@ -43,7 +43,7 @@
     <%= form.fields_for :tenant do |t| %>
       <div class="mb-6">
         <%= t.label :property_id, "Property", class: "form-label fs-6" %>
-        <%= t.select :property_id, options_for_select(Property.all.map { |p| [p.address, p.id] }), { prompt: "Property" }, class: "form-select", data: { action: "change->new-tenant-form#loadPropertyUnits" }, required: true %>
+        <%= t.select :property_id, options_for_select(Property.all.map { |p| [p.address, p.id] }), { prompt: "Property" }, class: "form-select", data: { action: "change->load-properties#loadPropertyUnits" }, required: true %>
       </div>
 
       <div class="mb-6">
@@ -53,12 +53,12 @@
 
       <div class="mb-6">
         <%= t.label :room_id, "Room #", class: "form-label fs-6" %>
-        <%= t.select :room_id, [], { prompt: "Choose Room" }, class: "form-select", id: "user_room", data: { action: "change->new-tenant-form#loadDecks" }, required: true %>
+        <%= t.select :room_id, [], { prompt: "Choose Room" }, class: "form-select", id: "user_room", data: { action: "change->load-properties#loadDecks" }, required: true %>
       </div>
 
       <div class="mb-6">
         <%= t.label :deck, "Deck", class: "form-label fs-6" %>
-        <%= t.select :deck, [], { prompt: "Choose Deck" }, class: "form-select", id: "user_deck", data: { target: "new-tenant-form.deck" }, required: true %>
+        <%= t.select :deck, [], { prompt: "Choose Deck" }, class: "form-select", id: "user_deck", data: { target: "load-properties.deck" }, required: true %>
       </div>
 
       <div class="mb-6">

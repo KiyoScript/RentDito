@@ -3,7 +3,7 @@
   <div class="row px-4 pt-0">
     <div class="col-12">
       <div class="row">
-        <div class="col-12 text-primary p-3 text-end">
+        <div class="col-12 col-md-9 text-primary p-3 order-md-2 text-end">
           <button class="btn btn-outline-primary d-none d-md-inline-block d-flex justify-content-center" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
             <i class='bx bx-filter-alt'></i>
             <span class="text-normal text-nowrap">Filter</span>
@@ -35,9 +35,7 @@
               <%= form.select :property_id_eq, Property.all.map { |p| [p.address, p.id] }, { selected: params.dig(:q, :property_id_eq) }, class: 'form-select' %>
 
               <h5 class="text-primary mt-4">By Property Unit</h5>
-              <%= form.select :property_unit_id_eq, @rooms.map { |unit| [unit.property_unit.name, unit.property_unit.id] }, { selected: params.dig(:q, :property_unit_id_eq) }, class: 'form-select' %>
-
-              <div class="my-6">
+              <%= form.select :property_unit_name_eq, PropertyUnit.all.pluck(:name, :name).uniq, { selected: params.dig(:q, :property_unit_name_eq) }, class: 'form-select', include_blank: 'Select Property Unit' %>              <div class="my-6">
                 <div class="alert alert-info" role="alert">
                   <strong>Note:</strong>
                   Use the filtering below to check for available upper or lower deck bedspaces.
@@ -61,6 +59,14 @@
             </div>
           </div>
         <% end %>
+
+        <div class="col-12 col-md-3 py-0 py-lg-3 px-lg-3  order-md-1">
+          <%= search_form_for @q, url: dashboard_rooms_path, class: "d-flex align-items-center gap-2" do |form| %>
+            <%= form.label :search, class: "d-none" %>
+            <%= form.search_field :name_cont, class: "form-control", placeholder: "Type to search" %>
+            <%= form.submit class: 'btn btn-outline-primary' %>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
@@ -69,7 +75,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th>Room #</th>
+          <th>Room Name</th>
           <th>Upper Deck</th>
           <th>Lower Deck</th>
           <th>Actions</th>

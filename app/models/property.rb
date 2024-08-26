@@ -7,7 +7,7 @@ class Property < ApplicationRecord
 
   accepts_nested_attributes_for :property_units, allow_destroy: true
 
-
+  validates :barangay, uniqueness: { scope: :city }
   validates :city, :barangay,  presence: true
 
 
