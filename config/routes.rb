@@ -14,13 +14,13 @@ Rails.application.routes.draw do
 
   namespace :dashboard do
     resources :homepage, only: :index
-    resources :admins, except: %i[edit update]
-    resources :maintainers, except: %i[edit update]
-    resources :caretakers, except: %i[edit update]
-    resources :rooms, except: %i[edit update]
-    resources :tenants, except: %i[edit update show]
+    resources :admins, except: [:edit, :update]
+    resources :maintainers, except: [:edit, :update]
+    resources :caretakers, except: [:edit, :update]
+    resources :rooms, except: [:edit, :update]
+    resources :tenants, except: [:edit, :update, :show]
 
-    resources :properties, except: %i[edit update] do
+    resources :properties, except: [:edit, :update] do
       member do
         get :property_units
       end
@@ -32,10 +32,13 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :rooms, except: %i[edit update] do
+    resources :rooms, except: [:edit, :update] do
       member do
         get :decks
       end
     end
   end
+
+  resources :onboarding, only: [:show, :update]
+  resources :valid_ids, only: [:update]
 end

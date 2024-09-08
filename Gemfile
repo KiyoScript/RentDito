@@ -72,3 +72,4 @@ gem "dockerfile-rails", ">= 1.6", :group => :development
 gem "devise", "~> 4.9"
 gem "ransack"
 gem "pagy"
+gem "image_processing", ">= 1.2"

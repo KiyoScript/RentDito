@@ -1,6 +1,6 @@
 class Dashboard::PropertiesController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_property, only: %i[show destroy]
+  before_action :redirect_to_onbarding
 
   def index
     @q = Property.ransack(search_params)
@@ -53,5 +53,9 @@ class Dashboard::PropertiesController < ApplicationController
 
   def search_params
     params.fetch(:q, {}).permit(:city_or_barangay_cont)
+  end
+
+  def redirect_to_onbarding
+    redirect_to onboarding_path(current_user), notice: "Your account is awaiting verification. Please wait for the Landlord's approval." if current_user.unverified?
   end
 end
