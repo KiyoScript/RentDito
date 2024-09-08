@@ -3,6 +3,7 @@ class Room < ApplicationRecord
   belongs_to :property
 
   has_many :tenants
+  has_many :caretakers
 
   validates :name, :upper_deck, :lower_deck, presence: true
 

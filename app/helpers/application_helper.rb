@@ -35,4 +35,29 @@ module ApplicationHelper
     deck_class = DECK_BADGE_CLASS[deck] || DECK_BADGE_CLASS[1]
     content_tag(:span, deck, class: deck_class)
   end
+
+  def avatar(user)
+    if user.avatar.attached?
+      rails_blob_url(user.avatar.blob)
+    else
+      user.male? ? asset_path('male_avatar.png') : asset_path('female_avatar.png')
+    end
+  end
+
+  def first_valid_id(user)
+    if user.first_valid_id.attached?
+      rails_blob_url(user.first_valid_id.blob)
+    else
+      asset_path('id.png')
+    end
+  end
+
+  def second_valid_id(user)
+    if user.second_valid_id.attached?
+      rails_blob_url(user.second_valid_id.blob)
+    else
+      asset_path('id.png')
+    end
+  end
+
 end

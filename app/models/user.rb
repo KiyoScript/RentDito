@@ -10,6 +10,13 @@ class User < ApplicationRecord
   has_one :caretaker, dependent: :destroy
   has_one :tenant, dependent: :destroy
 
+  has_one_attached :avatar
+  has_one_attached :signature
+  has_one_attached :first_valid_id
+  has_one_attached :second_valid_id
+
+  # validates :avatar, content_type: ['image/png', 'image/jpg', 'image/jpeg'], size: { less_than: 5.megabytes }
+
   has_many :properties, dependent: :destroy
 
   scope :admin, -> {where(role: 'admin')}

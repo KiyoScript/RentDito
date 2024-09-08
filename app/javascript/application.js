@@ -11,6 +11,12 @@ import "menu"
 import "main"
 import "toastr"
 import "jquery-repeater"
+import "bs-stepper"
+import "popular"
+import "bootstrap5"
+import "autofocus"
+import "cleave"
+import "cleave-phone"
 
 document.addEventListener('turbo:load', () => {
   toastr.options = {
