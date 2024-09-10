@@ -41,4 +41,9 @@ Rails.application.routes.draw do
 
   resources :onboarding, only: [:show, :update]
   resources :valid_ids, only: [:update]
+  resources :profile, only: [:show] do
+    member do
+      patch :update_status
+    end
+  end
 end

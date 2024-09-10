@@ -1,0 +1,226 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="row">
+    <!-- User Sidebar -->
+    <div class="col-xl-4 col-lg-5">
+      <!-- User Card -->
+      <div class="card mb-6">
+        <div class="card-body pt-12">
+          <div class="user-avatar-section">
+            <div class="d-flex align-items-center flex-column">
+              <img src="<%= avatar(@user) %>" alt="Avatar" class="rounded-circle" style="width: 150px; height: auto;">
+              <div class="user-info text-center">
+                <h5><%= @user.fullname %></h5>
+                <span class="badge bg-label-primary"><%= @user.role %></span>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="btn-group my-4 w-100" data-controller="user-status" data-user-status-user-id="<%= @user.id %>">
+            <button class="<%= status_button_class(@user.status) %>" data-bs-toggle="dropdown">
+              <span data-user-status-target="statusLabel"><%= @user.status.titleize %></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="verified">Verified</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="rejected">Rejected</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="incomplete">Incomplete</a></li>
+            </ul>
+          </div>
+
+
+
+          <h5 class="pb-4 border-bottom mb-4">Details</h5>
+          <div class="info-container">
+            <ul class="list-unstyled mb-6">
+              <li class="mb-2">
+                <span class="h6">Email:</span>
+                <span><%= @user.email %></span>
+              </li>
+              <li class="mb-2">
+                <span class="h6">Age:</span>
+                <span><%= @user.age %></span>
+              </li>
+              <li class="mb-2">
+                <span class="h6">Gender:</span>
+                <span><%= gender_badge(@user.gender) %></span>
+              </li>
+              <li class="mb-2">
+                <span class="h6">Phone Number:</span>
+                <span><%= @user.phone_number %></span>
+              </li>
+
+
+              <% if @user.maintainer? %>
+                <li class="mb-2">
+                  <span class="h6">City:</span>
+                  <span><%= @user.maintainer.city.titleize %></span>
+                </li>
+              <% end %>
+
+
+              <% if @user.caretaker || @user.tenant %>
+                <h5 class="pb-4 border-bottom my-4">Others</h5>
+
+                <% user_presenter = UserPresenter.new(@user) %>
+
+                <li class="mb-2">
+                  <span class="h6">Property:</span>
+                  <span><%= user_presenter.property %></span>
+                </li>
+
+                <li class="mb-2">
+                  <span class="h6">Property Unit:</span>
+                  <span><%= user_presenter.property_unit %></span>
+                </li>
+
+                  <li class="mb-2">
+                  <span class="h6">Room:</span>
+                  <span><%= user_presenter.room %></span>
+                </li>
+
+                <li class="mb-2">
+                  <span class="h6">Deck:</span>
+                  <span><%= user_presenter.deck %></span>
+                </li>
+
+                <li class="mb-2">
+                  <span class="h6">Check In:</span>
+                  <span><%= user_presenter.check_in %></span>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- /User Card -->
+    </div>
+    <!--/ User Sidebar -->
+
+    <!-- User Content -->
+    <div class="col-xl-8 col-lg-7">
+      <!-- User Pills -->
+      <div class="nav-align-top">
+        <ul class="nav nav-pills mb-4" role="tablist">
+          <li class="nav-item">
+            <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#account-documents" aria-controls="account-documents" aria-selected="true">Personal Documents</button>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#emergency-contacts" aria-controls="emergency-contacts" aria-selected="false">Emergency Contacts</button>
+          </li>
+        </ul>
+      </div>
+      <!--/ User Pills -->
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="account-documents" role="tabpanel">
+          <div class="row gap-2 gap-md-0">
+            <div class="col-12 col-md-4">
+              <% if @user.signature.attached? %>
+                <div class="card">
+                  <div class="card-header">
+                    <h6 class="card-title">Signature</h6>
+                  </div>
+                  <div class="card-body d-flex justify-content-center align-items-center">
+                    <%= image_tag @user.signature, alt: "Signature", class: "img-thumbnail", style: "height: 15rem;" %>
+                  </div>
+                </div>
+              <% else %>
+                <div class="card">
+                  <div class="card-header">
+                    <h6 class="card-title">Signature</h6>
+                  </div>
+                  <div class="card-body d-flex justify-content-center align-items-center">
+                    <p class="text-danger">The Signature has not been uploaded yet.</p>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+            <div class="col-12 col-md-4">
+              <% if @user.first_valid_id.attached? %>
+                <div class="card">
+                  <div class="card-header">
+                    <h6 class="card-title">First Valid ID (Front)</h6>
+                  </div>
+                  <div class="card-body d-flex justify-content-center align-items-center">
+                    <%= image_tag @user.first_valid_id, alt: "First Valid ID", class: "img-thumbnail", style: "height: 15rem;" %>
+                  </div>
+                </div>
+              <% else %>
+                <div class="card">
+                  <div class="card-header">
+                    <h6 class="card-title">First Valid ID (Front)</h6>
+                  </div>
+                  <div class="card-body d-flex justify-content-center align-items-center">
+                    <p class="text-danger">The First Valid ID has not been uploaded yet.</p>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+            <div class="col-12 col-md-4">
+              <% if @user.second_valid_id.attached? %>
+                <div class="card">
+                  <div class="card-header">
+                    <h6 class="card-title">Second Valid ID (Front)</h6>
+                  </div>
+                  <div class="card-body d-flex justify-content-center align-items-center">
+                    <%= image_tag @user.second_valid_id, alt: "Second Valid ID", class: "img-thumbnail", style: "height: 15rem;" %>
+                  </div>
+                </div>
+              <% else %>
+                <div class="card">
+                  <div class="card-header">
+                    <h6 class="card-title">Second Valid ID (Front)</h6>
+                  </div>
+                  <div class="card-body d-flex justify-content-center align-items-center">
+                    <p class="text-danger">The Second Valid ID has not been uploaded yet.</p>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="emergency-contacts" role="tabpanel">
+          <div class="row g-6 mt-5">
+            <div class="col-md-12">
+              <h5 class="bg-secondary text-center text-white border rounded">1st Contact</h5>
+            </div>
+            <div class="col-md-6">
+              <p class="form-label fs-6">Contact Name:</p>
+              <p><%= @user.first_contact_name.present? ? @user.first_contact_name : "N/A" %></p>
+            </div>
+            <div class="col-md-6">
+              <p class="form-label fs-6">Contact Number:</p>
+              <p><%= @user.first_contact_number.present? ? @user.first_contact_number : "N/A" %></p>
+            </div>
+            <div class="col-md-6">
+              <p class="form-label fs-6">Second Contact Number:</p>
+              <p><%= @user.third_contact_number.present? ? @user.third_contact_number : "N/A" %></p>
+            </div>
+            <div class="col-md-6">
+              <p class="form-label fs-6">Relationship:</p>
+              <p><%= @user.first_relationship.present? ? @user.first_relationship : "N/A" %></p>
+            </div>
+            <div class="col-md-12">
+              <h5 class="bg-secondary text-center text-white border rounded">2nd Contact</h5>
+            </div>
+            <div class="col-md-6">
+              <p class="form-label fs-6">Contact Name:</p>
+              <p><%= @user.second_contact_name.present? ? @user.second_contact_name : "N/A" %></p>
+            </div>
+            <div class="col-md-6">
+              <p class="form-label fs-6">Contact Number:</p>
+              <p><%= @user.second_contact_number.present? ? @user.second_contact_number : "N/A" %></p>
+            </div>
+            <div class="col-md-6">
+              <p class="form-label fs-6">Fourth Contact Number:</p>
+              <p><%= @user.fourth_contact_number.present? ? @user.fourth_contact_number : "N/A" %></p>
+            </div>
+            <div class="col-md-6">
+              <p class="form-label fs-6">Relationship:</p>
+              <p><%= @user.second_relationship.present? ? @user.second_relationship : "N/A" %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

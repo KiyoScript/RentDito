@@ -1,6 +1,14 @@
 module ApplicationHelper
   include Pagy::Frontend
 
+  STATUS_BUTTON_CLASS = {
+    "verified" => "btn btn-success btn-sm dropdown-toggle hide-arrow",
+    "unverified" => "btn btn-warning btn-sm dropdown-toggle hide-arrow",
+    "rejected" => "btn btn-danger btn-sm dropdown-toggle hide-arrow",
+    "deactivated" => "btn btn-danger btn-sm dropdown-toggle hide-arrow",
+    "incomplete" => "btn btn-warning btn-sm dropdown-toggle hide-arrow"
+  }.freeze
+
   STATUS_BADGE_CLASS = {
     "verified" => "badge bg-label-success",
     "unverified" => "badge bg-label-warning",
@@ -8,7 +16,6 @@ module ApplicationHelper
     "deactivated" => "badge bg-label-danger",
     "incomplete" => "badge bg-label-warning"
   }.freeze
-
 
   GENDER_BADGE_CLASS = {
     "female" => "badge bg-label-primary",
@@ -36,6 +43,10 @@ module ApplicationHelper
     content_tag(:span, deck, class: deck_class)
   end
 
+  def status_button_class(status)
+    STATUS_BUTTON_CLASS[status] || STATUS_BUTTON_CLASS["unverified"]
+  end
+
   def avatar(user)
     if user.avatar.attached?
       rails_blob_url(user.avatar.blob)
@@ -59,5 +70,4 @@ module ApplicationHelper
       asset_path('id.png')
     end
   end
-
 end
