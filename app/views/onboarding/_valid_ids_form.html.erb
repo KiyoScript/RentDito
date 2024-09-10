@@ -34,7 +34,7 @@
 
 <%= form_with model: @user, url: valid_id_path(@user), method: :patch, html: { class: "dropzone needsclick my-5", id: "dropzone-basic", data: { controller: "upload-valid-ids" } } do |form| %>
   <div class="dz-message needsclick fs-6">
-    Upload Signature, First Valid ID, and Second Valid ID
+    Upload First Valid ID, and Second Valid ID
   </div>
   <div class="fallback">
     <%= form.file_field :first_valid_id, direct_upload: true, id: "first-valid-id-field" %>

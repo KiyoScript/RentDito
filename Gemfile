@@ -73,3 +73,4 @@ gem "devise", "~> 4.9"
 gem "ransack"
 gem "pagy"
 gem "image_processing", ">= 1.2"
+gem 'requestjs-rails'
