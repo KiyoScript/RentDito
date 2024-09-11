@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_08_142534) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_11_032413) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -96,7 +96,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_08_142534) do
   create_table "tenants", force: :cascade do |t|
     t.datetime "check_in"
     t.integer "deck"
-    t.date "date_of_birth"
     t.bigint "user_id", null: false
     t.bigint "property_id", null: false
     t.bigint "property_unit_id", null: false
@@ -132,6 +131,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_08_142534) do
     t.string "third_contact_number"
     t.string "fourth_contact_number"
     t.integer "age"
+    t.date "date_of_birth"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["gender"], name: "index_users_on_gender"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
