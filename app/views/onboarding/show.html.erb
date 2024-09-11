@@ -55,11 +55,19 @@
           </div>
         </div>
       <% elsif @user.incomplete? %>
-      <div class="alert alert-warning d-flex mx-0 mt-4" role="alert">
+        <div class="alert alert-warning d-flex mx-0 mt-4" role="alert">
           <span class="alert-icon rounded-circle"><i class="bx bx-command"></i></span>
           <div class="d-flex flex-column ps-1">
             <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">Incomplete Status</h6>
             <span>Your information is incomplete. Please complete all required fields to proceed.</span>
+          </div>
+        </div>
+      <% elsif @user.rejected? %>
+        <div class="alert alert-warning d-flex mx-0 mt-4" role="alert">
+          <span class="alert-icon rounded-circle"><i class="bx bx-command"></i></span>
+          <div class="d-flex flex-column ps-1">
+            <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">Rejected Status</h6>
+            <span>Your information is rejected. Please complete all required fields again to get verified.</span>
           </div>
         </div>
       <% end %>
