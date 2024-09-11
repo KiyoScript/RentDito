@@ -72,6 +72,13 @@ export default class extends Controller {
                 }
               }
             },
+            "user[date_of_birth]": {
+              validators: {
+                notEmpty: {
+                  message: 'The Birth of Date is required'
+                }
+              }
+            },
             "user[age]": {
               validators: {
                 notEmpty: {
