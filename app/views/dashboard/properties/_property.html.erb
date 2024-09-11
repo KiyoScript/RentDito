@@ -7,7 +7,7 @@
     <%= render partial: "dashboard/properties/property_units", collection: property.property_units, as: :property_unit %>
   </td>
   <td>
-    Images
+    <%= users_avatars(property.caretaker.map(&:user)) %>
   </td>
   <td>
     <div class="d-inline-block">

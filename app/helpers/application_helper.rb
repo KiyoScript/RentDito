@@ -70,4 +70,21 @@ module ApplicationHelper
       asset_path('id.png')
     end
   end
+
+  def users_avatars(users)
+    content_tag(:ul, class: "list-unstyled avatar-group d-flex flex-row align-items-center justify-content-start") do
+      users.map do |user|
+        return if user.tenant?
+
+        default_avatar = user.male? ? 'male_avatar.png' : 'female_avatar.png'
+
+        avatar_url = user.avatar.attached? ? rails_blob_url(user.avatar) : asset_path(default_avatar)
+        content_tag(:li, class: "avatar pull-up",
+                    data: { bs_toggle: "tooltip", popup: "tooltip-custom", bs_placement: "top", bs_title: user.fullname }) do
+          image_tag(avatar_url, alt: "#{user.firstname}'s Avatar", class: "rounded-circle")
+        end
+      end.join.html_safe
+
+    end
+  end
 end
