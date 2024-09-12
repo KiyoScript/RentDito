@@ -1,0 +1,373 @@
+
+  <a href="javascript:void(0)" class="app-brand auth-cover-brand gap-2">
+    <span class="app-brand-logo demo">
+      <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <defs>
+          <path d="M13.7918663,0.358365126 L3.39788168,7.44174259 C0.566865006,9.69408886 -0.379795268,12.4788597 0.557900856,15.7960551 C0.68998853,16.2305145 1.09562888,17.7872135 3.12357076,19.2293357 C3.8146334,19.7207684 5.32369333,20.3834223 7.65075054,21.2172976 L7.59773219,21.2525164 L2.63468769,24.5493413 C0.445452254,26.3002124 0.0884951797,28.5083815 1.56381646,31.1738486 C2.83770406,32.8170431 5.20850219,33.2640127 7.09180128,32.5391577 C8.347334,32.0559211 11.4559176,30.0011079 16.4175519,26.3747182 C18.0338572,24.4997857 18.6973423,22.4544883 18.4080071,20.2388261 C17.963753,17.5346866 16.1776345,15.5799961 13.0496516,14.3747546 L10.9194936,13.4715819 L18.6192054,7.984237 L13.7918663,0.358365126 Z" id="path-1"></path>
+          <path d="M5.47320593,6.00457225 C4.05321814,8.216144 4.36334763,10.0722806 6.40359441,11.5729822 C8.61520715,12.571656 10.0999176,13.2171421 10.8577257,13.5094407 L15.5088241,14.433041 L18.6192054,7.984237 C15.5364148,3.11535317 13.9273018,0.573395879 13.7918663,0.358365126 C13.5790555,0.511491653 10.8061687,2.3935607 5.47320593,6.00457225 Z" id="path-3"></path>
+          <path d="M7.50063644,21.2294429 L12.3234468,23.3159332 C14.1688022,24.7579751 14.397098,26.4880487 13.008334,28.506154 C11.6195701,30.5242593 10.3099883,31.790241 9.07958868,32.3040991 C5.78142938,33.4346997 4.13234973,34 4.13234973,34 C4.13234973,34 2.75489982,33.0538207 2.37032616e-14,31.1614621 C-0.55822714,27.8186216 -0.55822714,26.0572515 -4.05231404e-15,25.8773518 C0.83734071,25.6075023 2.77988457,22.8248993 3.3049379,22.52991 C3.65497346,22.3332504 5.05353963,21.8997614 7.50063644,21.2294429 Z" id="path-4"></path>
+          <path d="M20.6,7.13333333 L25.6,13.8 C26.2627417,14.6836556 26.0836556,15.9372583 25.2,16.6 C24.8538077,16.8596443 24.4327404,17 24,17 L14,17 C12.8954305,17 12,16.1045695 12,15 C12,14.5672596 12.1403557,14.1461923 12.4,13.8 L17.4,7.13333333 C18.0627417,6.24967773 19.3163444,6.07059163 20.2,6.73333333 C20.3516113,6.84704183 20.4862915,6.981722 20.6,7.13333333 Z" id="path-5"></path>
+        </defs>
+        <g id="g-app-brand" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+          <g id="Brand-Logo" transform="translate(-27.000000, -15.000000)">
+            <g id="Icon" transform="translate(27.000000, 15.000000)">
+              <g id="Mask" transform="translate(0.000000, 8.000000)">
+                <mask id="mask-2" fill="white">
+                  <use xlink:href="#path-1"></use>
+                </mask>
+                <use fill="#696cff" xlink:href="#path-1"></use>
+                <g id="Path-3" mask="url(#mask-2)">
+                  <use fill="#696cff" xlink:href="#path-3"></use>
+                  <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-3"></use>
+                </g>
+                <g id="Path-4" mask="url(#mask-2)">
+                  <use fill="#696cff" xlink:href="#path-4"></use>
+                  <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-4"></use>
+                </g>
+              </g>
+              <g id="Triangle" transform="translate(19.000000, 11.000000) rotate(-300.000000) translate(-19.000000, -11.000000) ">
+                <use fill="#696cff" xlink:href="#path-5"></use>
+                <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-5"></use>
+              </g>
+            </g>
+          </g>
+        </g>
+      </svg>
+    </span>
+    <span class="app-brand-text demo text-heading fw-bold">RentDito</span>
+  </a>
+
+<div class="row">
+  <div class="col-lg-5 d-none d-lg-block">
+    <div class="w-100 d-flex justify-content-center" bis_skin_checked="1">
+      <%= image_tag "onboarding.png", class: "img-fluid", width: "800", alt: "Login Image" %>
+    </div>
+  </div>
+  <div class="col-lg-7">
+    <div class="px-0 px-lg-10">
+      <h4 class="my-4">Hello <%= @user.role %> 👋</h4>
+      <% if @user.unverified? %>
+        <div class="alert alert-warning d-flex mx-0 mt-4" role="alert">
+          <span class="alert-icon rounded-circle"><i class="bx bx-command"></i></span>
+          <div class="d-flex flex-column ps-1">
+            <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">Unverified Status</h6>
+            <span>Your account is awaiting verification. Please wait for the Landlord's approval.</span>
+          </div>
+        </div>
+      <% elsif @user.incomplete? %>
+        <div class="alert alert-warning d-flex mx-0 mt-4" role="alert">
+          <span class="alert-icon rounded-circle"><i class="bx bx-command"></i></span>
+          <div class="d-flex flex-column ps-1">
+            <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">Incomplete Status</h6>
+            <span>Your information is incomplete. Please complete all required fields to proceed.</span>
+          </div>
+        </div>
+      <% elsif @user.rejected? %>
+        <div class="alert alert-warning d-flex mx-0 mt-4" role="alert">
+          <span class="alert-icon rounded-circle"><i class="bx bx-command"></i></span>
+          <div class="d-flex flex-column ps-1">
+            <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">Rejected Status</h6>
+            <span>Your information is rejected. Please complete all required fields again to get verified.</span>
+          </div>
+        </div>
+      <% elsif @user.deactivated? %>
+        <div class="alert alert-danger d-flex mx-0 mt-4" role="alert">
+          <span class="alert-icon rounded-circle"><i class="bx bx-command"></i></span>
+          <div class="d-flex flex-column ps-1">
+            <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">Deactivated Status</h6>
+            <span>Your account has been deactivated. Please contact support if you believe this is a mistake.</span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="d-flex flex-column align-items-center justify-content-center mt-10">
+      <div id="wizard-validation" class="bs-stepper bg-transparent shadow-none mt-2 shado" data-controller="wizard-form">
+        <div class="d-none d-md-flex bs-stepper-header">
+          <div class="step" data-target="#personal-info-validation">
+            <button type="button" class="step-trigger">
+              <span class="bs-stepper-circle">1</span>
+              <span class="bs-stepper-label mt-1">
+                <span class="bs-stepper-title">Personal Info</span>
+                <span class="bs-stepper-subtitle">Add Personal Info</span>
+              </span>
+            </button>
+          </div>
+          <div class="line">
+            <i class="bx bx-chevron-right"></i>
+          </div>
+          <div class="step" data-target="#account-details-validation">
+            <button type="button" class="step-trigger">
+              <span class="bs-stepper-circle">2</span>
+              <span class="bs-stepper-label mt-1">
+                <span class="bs-stepper-title">Account Details</span>
+                <span class="bs-stepper-subtitle">Setup Account Details</span>
+              </span>
+            </button>
+          </div>
+          <div class="line">
+            <i class="bx bx-chevron-right"></i>
+          </div>
+          <div class="step" data-target="#emergency-contacts-validation">
+            <button type="button" class="step-trigger">
+              <span class="bs-stepper-circle">3</span>
+              <span class="bs-stepper-label mt-1">
+                <span class="bs-stepper-title">Emergency Contacts</span>
+                <span class="bs-stepper-subtitle">Setup Emergency Contacts</span>
+              </span>
+            </button>
+          </div>
+        </div>
+        <div class="bs-stepper-content">
+          <%= form_with model: @user, url: onboarding_path(@user), method: :patch, html: { onSubmit: "return false", data: { controller: "upload-avatar signature-pad automate-age", "wizard-form-target": "wizardValidationForm"}} do |form| %>
+             <!-- Personal Info -->
+            <div id="personal-info-validation" class="content">
+              <div class="content-header mb-3">
+                <h5 class="mb-0">Personal Info</h5>
+                <small>Update your personal info.</small>
+              </div>
+              <div class="row g-6">
+                <div class="col-12 d-flex flex-column align-items-center justify-content-center gap-2 mb-6">
+                  <img src="<%= avatar(@user) %>" alt="Avatar" class="rounded-circle" style="width: 150px; height: auto;">
+                  <a role="button" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" data-bs-target="#uploadAvatarModal">
+                    Update Avatar
+                  </a>
+                </div>
+                <%= render partial: "avatar_modal", locals: { form: form } %>
+              </div>
+
+              <div class="row g-6">
+                <div class="col-md-6">
+                  <%= form.label :firstname, class: "form-label fs-6" %>
+                  <%= form.text_field :firstname, class: "form-control", id: "user_firstname"%>
+                </div>
+                <div class="col-md-6">
+                  <%= form.label :lastname, class: "form-label fs-6" %>
+                  <%= form.text_field :lastname, class: "form-control", id: "user_lastname"%>
+                </div>
+                <div class="col-md-6">
+                  <%= form.label :phone_number,  "Phone Number", class: "form-label fs-6" %>
+                  <%= form.text_field :phone_number, class: "form-control", id: "user_phone_number"%>
+                </div>
+                <div class="col-md-6">
+                  <p class="form-label fs-6">Gender</p>
+                  <div class="form-check">
+                    <%= form.radio_button :gender, :male, class: "form-check-input", id: "user_gender_male" %>
+                    <%= form.label :gender_male, "Male", class: "form-check-label fs-6"%>
+                  </div>
+                  <div class="form-check">
+                    <%= form.radio_button :gender, :female, class: "form-check-input", id: "user_gender_female" %>
+                    <%= form.label :gender_female, "Female", class: "form-check-label fs-6"%>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <%= form.label :date_of_birth, class: "form-label fs-6" %>
+                  <%= form.date_field :date_of_birth, class: "form-control", data: { automate_age_target: "birthdate" } %>
+                </div>
+
+                <div class="col-md-6">
+                  <%= form.label :age, class: "form-label fs-6" %>
+                  <%= form.number_field :age, class: "form-control", min: 18, placeholder: 18, data: { automate_age_target: "age" }, disabled: true %>
+                </div>
+
+                <div class="col-md-6">
+                  <%= form.label :signature, "Add Signature", class: "form-label fs-6 mb-6" %>
+                  <div class="d-flex flex-column align-items-center justify-content-center gap-2" style="height: 200px; width: 320px;">
+                    <canvas data-signature-pad-target="canvas" class="signature-pad border rounded" style="width: 100%; height: 100%;"></canvas>
+                    <%= form.hidden_field :signature, id: "user_signature", data: { signature_pad_target: "input" } %>
+                    <button type="button" class="btn btn-primary btn-sm" data-action="click->signature-pad#clearSignature">Clear</button>
+                  </div>
+                </div>
+
+                <div class="col-md-6 d-flex flex-column align-items-start justify-content-center">
+                  <p class="form-label fs-6 mb-6">Signature</p>
+                  <% if @user.signature.attached? %>
+                    <%= image_tag @user.signature, alt: "Current Signature", class: "img-thumbnail" %>
+                  <% else %>
+                    <p class="text-danger">No signature</p>
+                  <% end %>
+                </div>
+
+                <% if @user.maintainer? %>
+                  <div class="mb-3">
+                    <h5 class="bg-secondary text-center text-white border rounded mt-4">Additional Info</h5>
+                  </div>
+
+                  <div class="col-md-6">
+                    <%= form.label :city, class: "form-label fs-6" %>
+                    <%= form.text_field :city, class: "form-control", value: @user.maintainer.city.titleize, disabled: true%>
+                  </div>
+
+                <% elsif @user.caretaker? || @user.tenant? %>
+                 <div class="mb-3">
+                    <h5 class="bg-secondary text-center text-white border rounded mt-4">Additional Info</h5>
+                  </div>
+
+                  <div class="col-md-6">
+                    <%= form.label :property, class: "form-label fs-6" %>
+                    <%= form.text_field :property, class: "form-control", value: @user.caretaker.property.address || @user.tenant.property.address, disabled: true%>
+                  </div>
+
+                  <div class="col-md-6">
+                    <%= form.label :property_unit, class: "form-label fs-6" %>
+                    <%= form.text_field :property_unit, class: "form-control", value: @user.caretaker.property_unit.name || @user.tenant.property_unit.name, disabled: true%>
+                  </div>
+
+                  <div class="col-md-6">
+                    <%= form.label :room, class: "form-label fs-6" %>
+                    <%= form.text_field :room, class: "form-control", value: @user.caretaker.room.name || @user.tenant.room.name, disabled: true%>
+                  </div>
+
+                  <div class="col-md-6">
+                    <%= form.label :deck, class: "form-label fs-6" %>
+                    <%= form.text_field :deck, class: "form-control", value: @user.caretaker.deck || @user.tenant.deck, disabled: true%>
+                  </div>
+
+                  <div class="col-md-6">
+                    <%= form.label :check_in, class: "form-label fs-6" %>
+                    <%= form.datetime_field :check_in, value: @user.caretaker.check_in || @user.tenant.check_in, class: "form-select", disabled: true %>
+                  </div>
+                <% end %>
+
+                <div class="col-12 d-flex justify-content-end d-md-none">
+                  <button class="btn btn-primary btn-next w-100" type="button"> <span class="align-middle me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+                </div>
+                <div class="col-12 d-none d-md-flex justify-content-end ">
+                  <button class="btn btn-primary btn-next" type="button"> <span class="align-middle me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Account Details -->
+            <div id="account-details-validation" class="content">
+              <div class="content-header mb-3">
+                <h5 class="mb-0">Account Details</h5>
+                <small>Update Your Account Details.</small>
+              </div>
+              <div class="row g-6 mt-5">
+                <div class="col-md-6">
+                  <%= form.label "Email", class: "form-label fs-6"%>
+                  <%= form.email_field :email, class: "form-control", id: "user_Email"%>
+                </div>
+                <div class="col-md-6 d-none">
+                  <%= form.hidden_field :status, class: "form-control", id: "user_Status", value: "unverified"%>
+                </div>
+                <div class="col-md-6 form-password-toggle">
+                  <%= form.label "New Password", class: "form-label fs-6" %>
+                  <div class="input-group input-group-merge">
+                    <%= form.password_field :password, class: "form-control",
+                                                              id: "user_New Password",
+                                                              placeholder: "&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;".html_safe,
+                                                              required: true
+                    %>
+                    <span class="input-group-text cursor-pointer" id="password2-modern"><i class="bx bx-hide"></i></span>
+                  </div>
+                </div>
+                <div class="col-md-6 form-password-toggle">
+                  <%= form.label "Confirm New Password", class: "form-label fs-6" %>
+                  <div class="input-group input-group-merge">
+                    <%= form.password_field :password_confirmation, class: "form-control",
+                                                              id: "user_Confirm New Password",
+                                                              placeholder: "&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;".html_safe,
+                                                              required: true
+                    %>
+                    <span class="input-group-text cursor-pointer" id="password2-modern"><i class="bx bx-hide"></i></span>
+                  </div>
+                </div>
+
+                <div class="col-12 d-flex flex-column justify-content-between d-md-none gap-2">
+                  <button class="btn btn-primary btn-next" type="button"> <span class="align-middle d-sm-inline-block me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+                </div>
+                <div class="col-12 d-none d-md-flex justify-content-between ">
+                  <button class="btn btn-primary btn-prev" type="button"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                    <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                  </button>
+                  <button class="btn btn-primary btn-next" type="button"> <span class="align-middle d-sm-inline-block d-none me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+                </div>
+              </div>
+            </div>
+
+             <!-- Emergency Contact -->
+            <div id="emergency-contacts-validation" class="content">
+              <div class="content-header mb-3">
+                <h6 class="mb-0">Emergency Contacts</h6>
+                <small>Setup Emergency Contacts.</small>
+              </div>
+              <div class="row g-6 mt-5">
+                <div class="col-md-12">
+                 <h5 class="bg-secondary text-center text-white border rounded">1st Contact</h5>
+                </div>
+                <div class="col-md-6">
+                  <%= form.label :first_contact_name, "Contact Name", class: "form-label fs-6" %>
+                  <%= form.text_field :first_contact_name, class: "form-control", id: "user_first_contact_name", placeholder: "John Doe"%>
+                </div>
+                <div class="col-md-6">
+                 <%= form.label :first_contact_number, "Contact Number", class: "form-label fs-6" %>
+                 <%= form.telephone_field :first_contact_number, class: "form-control first-contact-number", id: "user_first_contact_number", placeholder: "xxxx xxx xxxx" %>
+                </div>
+                <div class="col-md-6">
+                 <%= form.label :third_contact_number, "Second Contact Number", class: "form-label fs-6" %>
+                 <%= form.telephone_field :third_contact_number, class: "form-control third-contact-number", id: "user_third_contact_number", placeholder: "xxxx xxx xxxx"%>
+                </div>
+                <div class="col-md-6">
+                 <%= form.label :first_relationship, "Relationshp", class: "form-label fs-6" %>
+                 <%= form.text_field :first_relationship, class: "form-control", id: "user_first_relationship", placeholder: "Father" %>
+                </div>
+                <div class="col-md-12">
+                 <h5 class="bg-secondary text-center text-white border rounded">2nd Contact</h5>
+                </div>
+                <div class="col-md-6">
+                  <%= form.label :second_contact_name, "Contact Name", class: "form-label fs-6" %>
+                  <%= form.text_field :second_contact_name, class: "form-control", id: "user_second_contact_name", placeholder: "Valentina Scarlet"%>
+                </div>
+                <div class="col-md-6">
+                 <%= form.label :second_contact_number, "Contact Number", class: "form-label fs-6" %>
+                 <%= form.telephone_field :second_contact_number, class: "form-control second-contact-number", id: "user_second_contact_number", placeholder: "xxxx xxx xxxx"%>
+                </div>
+                <div class="col-md-6">
+                 <%= form.label :fourth_contact_number, "Second Contact Number", class: "form-label fs-6" %>
+                 <%= form.telephone_field :fourth_contact_number, class: "form-control fourth-contact-number", id: "user_fourth_contact_number", placeholder: "xxxx xxx xxxx"%>
+                </div>
+                <div class="col-md-6">
+                 <%= form.label :second_relationship, "Relationship", class: "form-label fs-6" %>
+                 <%= form.text_field :second_relationship, class: "form-control", id: "user_second_relationship", placeholder: "Guardian" %>
+                </div>
+
+                <div class="col-12 d-flex flex-column justify-content-between d-md-none gap-2">
+                  <button class="btn btn-success btn-next btn-submit" data-action="click->signature-pad#saveSignature"> <span class="align-middle d-sm-inline-block me-sm-1 me-0">Submit</span>
+                </div>
+                <div class="col-12 d-none d-md-flex justify-content-between">
+                  <button class="btn btn-primary btn-prev" type="button"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                    <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                  </button>
+                  <button class="btn btn-success btn-next btn-submit" data-action="click->signature-pad#saveSignature"> <span class="align-middle d-sm-inline-block d-none me-sm-1 me-0">Submit</span></button>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <div class="accordion accordion-header-primary mt-5" id="validIdsAccordionStyle">
+            <div class="accordion-item card">
+              <h2 class="accordion-header">
+                <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#validIdsAccordion" aria-expanded="false">
+                  Valid IDs
+                </button>
+              </h2>
+
+              <div id="validIdsAccordion" class="accordion-collapse collapse show" data-bs-parent="#validIdsAccordionStyle">
+                <div class="accordion-body">
+                  <%= render 'onboarding/valid_ids_form'%>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <%= link_to destroy_user_session_path, class: 'btn btn-danger btn-sm w-100 d-flex align-items-center justify-content-center', method: :delete, data: { turbo_method: :delete } do %>
+            <i class="bx bx-power-off bx-sm me-3"></i><span>Log Out</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

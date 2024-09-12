@@ -1,6 +1,6 @@
 class Dashboard::MaintainersController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_maintainer, only: %i[destroy]
+  before_action :redirect_to_onbarding
 
   def index
     @q = User.maintainer.ransack(search_params)
@@ -65,5 +65,9 @@ class Dashboard::MaintainersController < ApplicationController
 
   def map_enum_value(enum_hash, value)
     enum_hash[value.to_s] if value.present?
+  end
+
+  def redirect_to_onbarding
+    redirect_to onboarding_path(current_user), notice: "Your account is awaiting verification. Please wait for the Landlord's approval." if current_user.unverified?
   end
 end

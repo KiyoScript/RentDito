@@ -1,6 +1,4 @@
 class Dashboard::PropertyUnitsController < ApplicationController
-  before_action :authenticate_user!
-
   def property_units
     property = Property.find(params[:id])
     property_units = property.property_units

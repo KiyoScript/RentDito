@@ -10,9 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_26_123423) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_11_032413) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
 
   create_table "caretakers", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -68,8 +96,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_26_123423) do
   create_table "tenants", force: :cascade do |t|
     t.datetime "check_in"
     t.integer "deck"
-    t.integer "age"
-    t.date "date_of_birth"
     t.bigint "user_id", null: false
     t.bigint "property_id", null: false
     t.bigint "property_unit_id", null: false
@@ -96,6 +122,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_26_123423) do
     t.integer "gender"
     t.integer "role"
     t.integer "status"
+    t.string "first_contact_name"
+    t.string "first_contact_number"
+    t.string "first_relationship"
+    t.string "second_contact_name"
+    t.string "second_contact_number"
+    t.string "second_relationship"
+    t.string "third_contact_number"
+    t.string "fourth_contact_number"
+    t.integer "age"
+    t.date "date_of_birth"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["gender"], name: "index_users_on_gender"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -103,6 +139,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_26_123423) do
     t.index ["status"], name: "index_users_on_status"
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "caretakers", "properties"
   add_foreign_key "caretakers", "property_units"
   add_foreign_key "caretakers", "rooms"
