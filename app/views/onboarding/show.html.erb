@@ -168,7 +168,7 @@
 
                 <div class="col-md-6">
                   <%= form.label :age, class: "form-label fs-6" %>
-                  <%= form.number_field :age, class: "form-control", min: 18, placeholder: 18, data: { automate_age_target: "age" } %>
+                  <%= form.number_field :age, class: "form-control", min: 18, placeholder: 18, data: { automate_age_target: "age" }, disabled: true %>
                 </div>
 
                 <div class="col-md-6">
@@ -190,8 +190,8 @@
                 </div>
 
                 <% if @user.maintainer? %>
-                  <div class="content-footer mb-3">
-                    <h5 class="mb-0">Additional Info</h5>
+                  <div class="mb-3">
+                    <h5 class="bg-secondary text-center text-white border rounded mt-4">Additional Info</h5>
                   </div>
 
                   <div class="col-md-6">
@@ -200,8 +200,8 @@
                   </div>
 
                 <% elsif @user.caretaker? || @user.tenant? %>
-                 <div class="content-footer mb-3">
-                    <h5 class="mb-0">Additional Info</h5>
+                 <div class="mb-3">
+                    <h5 class="bg-secondary text-center text-white border rounded mt-4">Additional Info</h5>
                   </div>
 
                   <div class="col-md-6">
