@@ -1,5 +1,7 @@
 class OnboardingController < ApplicationController
   layout "onboarding", only: [:show, :update]
+  before_action :authenticate_user!
+  before_action :set_policy!
   before_action :set_user
 
   def show; end
@@ -23,6 +25,10 @@ class OnboardingController < ApplicationController
   end
 
   private
+
+  def set_policy!
+    authorize User, policy_class: OnboardingPolicy
+  end
 
   def set_user
     @user = current_user

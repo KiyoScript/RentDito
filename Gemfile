@@ -74,3 +74,4 @@ gem "ransack"
 gem "pagy"
 gem "image_processing", ">= 1.2"
 gem 'requestjs-rails'
+gem "pundit", "~> 2.4"
