@@ -68,11 +68,13 @@
         <span class="badge rounded-pill bg-danger ms-auto">4</span>
       </a>
       <ul class="menu-sub">
-        <li class="menu-item <%= 'active' if request.path.include?('dashboard/admins') %>">
-          <%= link_to dashboard_admins_path, class: "menu-link" do %>
-            <div class="text-truncate" data-i18n="Admins">Admins</div>
-          <% end %>
-        </li>
+        <% if current_user.landlord? || current_user.admin? %>
+          <li class="menu-item <%= 'active' if request.path.include?('dashboard/admins') %>">
+            <%= link_to dashboard_admins_path, class: "menu-link" do %>
+              <div class="text-truncate" data-i18n="Admins">Admins</div>
+            <% end %>
+          </li>
+        <% end %>
         <li class="menu-item <%= 'active' if request.path.include?('dashboard/maintainers')%>">
           <%= link_to dashboard_maintainers_path, class: "menu-link" do %>
             <div class="text-truncate" data-i18n="Maintainers">Maintainers</div>
@@ -105,4 +107,5 @@
         <div class="text-truncate" data-i18n="Rooms">Rooms</div>
       <% end %>
     </li>
+  </ul>
 </aside>

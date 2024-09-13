@@ -55,7 +55,7 @@
         <div class="col-12 col-md-3 py-0 py-lg-3 px-lg-3  order-md-1">
           <%= search_form_for @q, url: dashboard_caretakers_path, class: "d-flex align-items-center gap-2" do |form| %>
             <%= form.label :search, class: "d-none" %>
-            <%= form.search_field :firstname_or_lastname_or_email_cont, class: "form-control", placeholder: "Type to search" %>
+            <%= form.search_field :firstname_or_lastname_or_email_cont, class: "form-control", placeholder: "Type to search", id: "q_search"%>
             <%= form.submit class: 'btn btn-outline-primary' %>
           <% end %>
         </div>
