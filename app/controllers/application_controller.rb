@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
     when "onboarding_policy"
       flash[:error] = "You cannot access the onboarding process because your account status is verified"
     else
-      flash[:error] = t "#{policy_name}.#{query_name}", scope: "pundit", default: "You are not authorized to perform this action."
+      flash[:error] = t "#{policy_name}.#{exception.query}", scope: "pundit", default: :default
     end
 
     redirect_back(fallback_location: root_path)

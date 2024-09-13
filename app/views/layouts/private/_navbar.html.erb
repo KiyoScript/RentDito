@@ -104,9 +104,9 @@
             <div class="dropdown-divider my-1"></div>
           </li>
           <li>
-            <a class="dropdown-item" href="javascript:void(0);">
+            <%= link_to profile_path(current_user), class: "dropdown-item" do %>
               <i class="bx bx-user bx-md me-3"></i><span>My Profile</span>
-            </a>
+            <% end  %>
           </li>
           <li>
             <a class="dropdown-item" href="javascript:void(0);">

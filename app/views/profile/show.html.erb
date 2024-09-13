@@ -16,16 +16,24 @@
           </div>
 
 
-          <div class="btn-group my-4 w-100" data-controller="user-status" data-user-status-user-id="<%= @user.id %>">
-            <button class="<%= status_button_class(@user.status) %>" data-bs-toggle="dropdown">
-              <span data-user-status-target="statusLabel"><%= @user.status.titleize %></span>
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="verified">Verified</a></li>
-              <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="rejected">Rejected</a></li>
-              <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="incomplete">Incomplete</a></li>
-            </ul>
-          </div>
+          <% if current_user.landlord? %>
+            <div class="btn-group my-4 w-100" data-controller="user-status" data-user-status-user-id="<%= @user.id %>">
+              <button class="<%= status_button_class(@user.status) %>" data-bs-toggle="dropdown">
+                <span data-user-status-target="statusLabel"><%= @user.status.titleize %></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="verified">Verified</a></li>
+                <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="rejected">Rejected</a></li>
+                <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="incomplete">Incomplete</a></li>
+              </ul>
+            </div>
+          <% else %>
+
+          <button class="<%= status_button_class(@user.status) %> w-100 my-4">
+            <span data-user-status-target="statusLabel"><%= @user.status.titleize %></span>
+          </button>
+
+          <% end %>
 
 
 

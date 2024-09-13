@@ -1,4 +1,5 @@
 class Dashboard::AdminsController < ApplicationController
+  before_action :set_policy!
   before_action :set_admin, only: %i[destroy]
   before_action :redirect_to_onbarding
 
@@ -27,6 +28,10 @@ class Dashboard::AdminsController < ApplicationController
   end
 
   private
+
+  def set_policy!
+    authorize User, policy_class: Dashboard::AdminsPolicy
+  end
 
   def set_admin
     @admin = User.find(params[:id])

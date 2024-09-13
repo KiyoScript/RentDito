@@ -1,4 +1,5 @@
-<tr data-controller="user-status" data-user-status-user-id="<%= tenant.id %>">
+<tr data-controller="user-status" data-user-status-user-id="<%= tenant.id %>
+">
   <td>
     <div class="d-flex justify-content-start align-items-center user-name" >
       <div class="avatar-wrapper">
@@ -20,7 +21,7 @@
   <td>
     <%= tenant.tenant.property.address %>
   </td>
-  <td>
+  <td data-user-status-target="statusLabel">
     <%= status_badge(tenant.status) %>
   </td>
   <td>
