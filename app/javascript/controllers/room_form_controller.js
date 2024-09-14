@@ -29,7 +29,7 @@ export default class extends Controller {
     const propertyUnitSelect = this.element.querySelector("[name='room[property_unit_id]']")
 
     if (propertyUnitSelect) {
-      propertyUnitSelect.innerHTML = "<option value=''>Choose Property Unit</option>"
+      propertyUnitSelect.innerHTML = "<option value=''>Choose Property Code</option>"
 
       if (propertyUnits.length > 0) {
         propertyUnits.forEach((unit, index) => {

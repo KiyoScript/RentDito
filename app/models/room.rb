@@ -2,11 +2,12 @@ class Room < ApplicationRecord
   belongs_to :property_unit
   belongs_to :property
 
-  has_many :tenants
-  has_many :caretakers
+  has_many :tenants, dependent: :destroy
+  has_many :caretakers, dependent: :destroy
 
   validates :name, :upper_deck, :lower_deck, presence: true
 
+  enum :accomodation, [:boarding_house, :apartment, :dormitory, :studio, :condo ]
 
   scope :with_bedspace_availability, ->(availability) do
     case availability
@@ -25,7 +26,7 @@ class Room < ApplicationRecord
 
 
   def self.ransackable_attributes(auth_object = nil)
-    ["lower_deck", "name", "property_id", "property_unit_id", "upper_deck"]
+    ["lower_deck", "name", "property_id", "property_unit_id", "upper_deck", "accomodation"]
   end
 
   def self.ransackable_associations(auth_object = nil)

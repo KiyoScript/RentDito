@@ -15,8 +15,13 @@
     </div>
 
     <div class="mb-3">
-      <%= form.label :property_unit_id, "Property Unit", class: "form-label fs-6" %>
-      <%= form.select :property_unit_id, options_for_select([]), class: "form-select", prompt: "Property Unit", required: true%>
+      <%= form.label :accomodation, "Type of Accomodation", class: "form-label fs-6" %>
+      <%= form.select :accomodation, options_for_select(Room.accomodations.keys.map { |key| [key.titleize, key] }), { prompt: "Type of accomodation "}, class: "form-select", selected: @room.accomodation || :boarding_house %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :property_unit_id, "Property Code", class: "form-label fs-6" %>
+      <%= form.select :property_unit_id, options_for_select([]), class: "form-select", prompt: "Property Code", required: true%>
     </div>
 
     <div class="mb-3">
