@@ -45,7 +45,7 @@
   </div>
   <div class="col-lg-7">
     <div class="px-0 px-lg-10">
-      <h4 class="my-4">Hello <%= @user.role %> 👋</h4>
+      <h4 class="my-4">Hello <%= @user.role.titleize %> 👋</h4>
       <% if @user.unverified? %>
         <div class="alert alert-warning d-flex mx-0 mt-4" role="alert">
           <span class="alert-icon rounded-circle"><i class="bx bx-command"></i></span>
@@ -199,34 +199,34 @@
                     <%= form.text_field :city, class: "form-control", value: @user.maintainer.city.titleize, disabled: true%>
                   </div>
 
-                <% elsif @user.caretaker? || @user.tenant? %>
+                <% elsif @user.utility_staff? || @user.tenant? %>
                  <div class="mb-3">
                     <h5 class="bg-secondary text-center text-white border rounded mt-4">Additional Info</h5>
                   </div>
 
                   <div class="col-md-6">
                     <%= form.label :property, class: "form-label fs-6" %>
-                    <%= form.text_field :property, class: "form-control", value: @user.caretaker.property.address || @user.tenant.property.address, disabled: true%>
+                    <%= form.text_field :property, class: "form-control", value: @user.utility_staff.property.address || @user.tenant.property.address, disabled: true%>
                   </div>
 
                   <div class="col-md-6">
                     <%= form.label :property_unit, class: "form-label fs-6" %>
-                    <%= form.text_field :property_unit, class: "form-control", value: @user.caretaker.property_unit.name || @user.tenant.property_unit.name, disabled: true%>
+                    <%= form.text_field :property_unit, class: "form-control", value: @user.utility_staff.property_unit.name || @user.tenant.property_unit.name, disabled: true%>
                   </div>
 
                   <div class="col-md-6">
                     <%= form.label :room, class: "form-label fs-6" %>
-                    <%= form.text_field :room, class: "form-control", value: @user.caretaker.room.name || @user.tenant.room.name, disabled: true%>
+                    <%= form.text_field :room, class: "form-control", value: @user.utility_staff.room.name || @user.tenant.room.name, disabled: true%>
                   </div>
 
                   <div class="col-md-6">
                     <%= form.label :deck, class: "form-label fs-6" %>
-                    <%= form.text_field :deck, class: "form-control", value: @user.caretaker.deck || @user.tenant.deck, disabled: true%>
+                    <%= form.text_field :deck, class: "form-control", value: @user.utility_staff.deck || @user.tenant.deck, disabled: true%>
                   </div>
 
                   <div class="col-md-6">
                     <%= form.label :check_in, class: "form-label fs-6" %>
-                    <%= form.datetime_field :check_in, value: @user.caretaker.check_in || @user.tenant.check_in, class: "form-select", disabled: true %>
+                    <%= form.datetime_field :check_in, value: @user.utility_staff.check_in || @user.tenant.check_in, class: "form-select", disabled: true %>
                   </div>
                 <% end %>
 

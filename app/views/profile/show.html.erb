@@ -10,7 +10,7 @@
               <img src="<%= avatar(@user) %>" alt="Avatar" class="rounded-circle" style="width: 150px; height: auto;">
               <div class="user-info text-center">
                 <h5><%= @user.fullname %></h5>
-                <span class="badge bg-label-primary"><%= @user.role %></span>
+                <span class="badge bg-label-primary"><%= @user.role.humanize %></span>
               </div>
             </div>
           </div>
@@ -66,7 +66,7 @@
               <% end %>
 
 
-              <% if @user.caretaker || @user.tenant %>
+              <% if @user.utility_staff || @user.tenant %>
                 <h5 class="pb-4 border-bottom my-4">Others</h5>
 
                 <% user_presenter = UserPresenter.new(@user) %>

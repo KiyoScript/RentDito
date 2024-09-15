@@ -1,31 +1,31 @@
-<tr data-controller="user-status" data-user-status-user-id="<%= caretaker.id %>">
+<tr data-controller="user-status" data-user-status-user-id="<%= utility_staff.id %>">
   <td>
     <div class="d-flex justify-content-start align-items-center user-name" >
       <div class="avatar-wrapper">
         <div class="avatar me-2">
-          <img src="<%= avatar(caretaker) %>" alt="Avatar" class="w-px-40 h-auto rounded-circle">
+          <img src="<%= avatar(utility_staff) %>" alt="Avatar" class="w-px-40 h-auto rounded-circle">
           <%# <span class="avatar-initial rounded-circle bg-label-dark">KS</span> %>
         </div>
       </div>
       <div class="d-flex flex-column" >
-        <span class="emp_name text-truncate"><%= caretaker.fullname %></span>
-        <small class="emp_post text-truncate text-muted"><%= caretaker.role %></small>
+        <span class="emp_name text-truncate"><%= utility_staff.fullname %></span>
+        <small class="emp_post text-truncate text-muted"><%= utility_staff.role.humanize %></small>
       </div>
     </div>
   </td>
-  <td><%= caretaker.email %></td>
+  <td><%= utility_staff.email %></td>
   <td>
-    <%= gender_badge(caretaker.gender) %>
+    <%= gender_badge(utility_staff.gender) %>
   </td>
   <td>
-    <%= caretaker.caretaker.property.address %>
+    <%= utility_staff.utility_staff.property.address %>
   </td>
   <td data-user-status-target="statusLabel">
-    <%= status_badge(caretaker.status) %>
+    <%= status_badge(utility_staff.status) %>
   </td>
   <td>
     <div class="d-inline-block">
-      <%= link_to profile_path(caretaker), class: "btn btn-icon view-record border" do %>
+      <%= link_to profile_path(utility_staff), class: "btn btn-icon view-record border" do %>
         <i class="bx bx-show bx-md"></i>
       <% end %>
       <%= link_to "javascript:void(0);", class: "btn btn-icon text-danger border", data: { action: "click->user-status#updateStatus", user_status_status: "deactivated" } do %>

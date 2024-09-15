@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     resources :homepage, only: :index
     resources :admins, except: [:edit, :update]
     resources :maintainers, except: [:edit, :update]
-    resources :caretakers, except: [:edit, :update]
+    resources :utility_staff, except: [:edit, :update]
     resources :rooms, except: [:edit, :update]
     resources :tenants, except: [:edit, :update, :show]
 
