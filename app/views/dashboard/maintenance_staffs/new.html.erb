@@ -1,10 +1,10 @@
-<%= form_with model: @maintainer, url: dashboard_maintainers_path, method: :post, html: { class: "card", data: { controller: "password" } } do |form| %>
-  <h4 class="card-header text-primary">New Maintainer</h4>
+<%= form_with model: @maintenance_staff, url: dashboard_maintenance_staffs_path, method: :post, html: { class: "card", data: { controller: "password" } } do |form| %>
+  <h4 class="card-header text-primary">New Maintenance Staff</h4>
   <div class="card-body">
     <div class="mb-6">
       <div class="alert alert-info" role="alert">
         <strong>Note:</strong>
-        Fill up necessary information to create a new Maintainer Account.
+        Fill up necessary information to create a new Maintenance Staff Account.
       </div>
     </div>
 
@@ -40,16 +40,16 @@
       </div>
     </div>
 
-    <%= form.fields_for :maintainer do |m| %>
+    <%= form.fields_for :maintenance_staff do |m| %>
       <div class="mb-6">
         <%= m.label :city, "City", class: "form-label fs-6" %>
-        <%= m.select :city, options_for_select(Maintainer.cities.keys.map { |key| [key.titleize, key] }), {},
+        <%= m.select :city, options_for_select(MaintenanceStaff.cities.keys.map { |key| [key.titleize, key] }), {},
                       class: "form-select", prompt: "Select City" %>
       </div>
     <% end %>
 
     <%= form.hidden_field :status, value: "incomplete" %>
-    <%= form.hidden_field :role, value: "maintainer" %>
+    <%= form.hidden_field :role, value: "maintenance_staff" %>
 
     <div class="mb-6 form-password-toggle">
       <%= form.label :password, class: "form-label fs-6" %>
@@ -83,11 +83,11 @@
   </div>
 
   <div class="card-footer d-flex align-items-center justify-content-between">
-    <%= link_to dashboard_maintainers_path, class: 'btn btn-secondary d-none d-md-inline-block ' do %>
+    <%= link_to dashboard_maintenance_staffs_path, class: 'btn btn-secondary d-none d-md-inline-block ' do %>
       <span class="fs-6">Back</span>
     <% end %>
 
-    <%= form.submit "Create Maintainer", class: "btn btn-primary d-none d-md-inline-block" %>
-    <%= form.submit "Create Maintainer", class: "btn btn-primary w-100 d-inline-block d-md-none" %>
+    <%= form.submit "Create Maintenance Staff", class: "btn btn-primary d-none d-md-inline-block" %>
+    <%= form.submit "Create Maintenance Staff", class: "btn btn-primary w-100 d-inline-block d-md-none" %>
   </div>
 <% end %>
