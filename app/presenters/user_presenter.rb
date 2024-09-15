@@ -4,22 +4,22 @@ class UserPresenter
   end
 
   def property
-    @user.caretaker? ?  @user.caretaker.property.address : @user.tenant.property.address
+    @user.utility_staff? ?  @user.utility_staff.property.address : @user.tenant.property.address
   end
 
   def property_unit
-    @user.caretaker? ? @user.caretaker.property_unit.name : @user.tenant.property_unit.name
+    @user.utility_staff? ? @user.utility_staff.property_unit.name : @user.tenant.property_unit.name
   end
 
   def room
-    @user.caretaker? ? @user.caretaker.room.name : @user.tenant.room.name
+    @user.utility_staff? ? @user.utility_staff.room.name : @user.tenant.room.name
   end
 
   def deck
-    @user.caretaker? ? @user.caretaker.deck : @user.tenant.deck
+    @user.utility_staff? ? @user.utility_staff.deck : @user.tenant.deck
   end
 
   def check_in
-    @user.caretaker? ? @user.caretaker.check_in : @user.tenant.check_in
+    @user.utility_staff? ? @user.utility_staff.check_in : @user.tenant.check_in
   end
 end

@@ -3,7 +3,7 @@ class Room < ApplicationRecord
   belongs_to :property
 
   has_many :tenants, dependent: :destroy
-  has_many :caretakers, dependent: :destroy
+  has_many :utility_staff, dependent: :destroy
 
   validates :name, :upper_deck, :lower_deck, presence: true
 

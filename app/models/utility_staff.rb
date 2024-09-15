@@ -1,0 +1,2 @@
+class UtilityStaff < Tenant
+end

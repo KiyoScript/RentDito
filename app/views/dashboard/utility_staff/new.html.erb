@@ -1,10 +1,10 @@
-<%= form_with model: @caretaker, url: dashboard_caretakers_path, method: :post, html: { class: "card", data: { controller: "password load-properties" } } do |form| %>
-  <h4 class="card-header text-primary">New Caretaker</h4>
+<%= form_with model: @utility_staff, url: dashboard_utility_staff_index_path, method: :post, html: { class: "card", data: { controller: "password load-properties" } } do |form| %>
+  <h4 class="card-header text-primary">New Utility Staff</h4>
   <div class="card-body">
     <div class="mb-6">
       <div class="alert alert-info" role="alert">
         <strong>Note:</strong>
-        Fill up necessary information to create a new Caretaker Account.
+        Fill up necessary information to create a new Utility Staff Account.
       </div>
     </div>
 
@@ -40,35 +40,35 @@
       </div>
     </div>
 
-    <%= form.fields_for :caretaker do |c| %>
+    <%= form.fields_for :utility_staff do |u| %>
       <div class="mb-6">
-        <%= c.label :property_id, "Property", class: "form-label" %>
-        <%= c.select :property_id, options_for_select(Property.all.map { |p| [p.address, p.id] }), { prompt: "Property" }, class: "form-select", data: { action: "change->load-properties#loadPropertyUnits" }, required: true %>
+        <%= u.label :property_id, "Property", class: "form-label" %>
+        <%= u.select :property_id, options_for_select(Property.all.map { |p| [p.address, p.id] }), { prompt: "Property" }, class: "form-select", data: { action: "change->load-properties#loadPropertyUnits" }, required: true %>
       </div>
 
       <div class="mb-6">
-        <%= c.label :property_unit_id, "Property Code", class: "form-label fs-6" %>
-        <%= c.select :property_unit_id, [], { prompt: "Choose Property Code" }, class: "form-select", id: "user_property_unit", required: true %>
+        <%= u.label :property_unit_id, "Property Code", class: "form-label fs-6" %>
+        <%= u.select :property_unit_id, [], { prompt: "Choose Property Code" }, class: "form-select", id: "user_property_unit", required: true %>
       </div>
 
       <div class="mb-6">
-        <%= c.label :room_id, "Room #", class: "form-label fs-6" %>
-        <%= c.select :room_id, [], { prompt: "Choose Room" }, class: "form-select", id: "user_room", data: { action: "change->load-properties#loadDecks" }, required: true %>
+        <%= u.label :room_id, "Room #", class: "form-label fs-6" %>
+        <%= u.select :room_id, [], { prompt: "Choose Room" }, class: "form-select", id: "user_room", data: { action: "change->load-properties#loadDecks" }, required: true %>
       </div>
 
       <div class="mb-6">
-        <%= c.label :deck, "Deck", class: "form-label fs-6" %>
-        <%= c.select :deck, [], { prompt: "Choose Deck" }, class: "form-select", id: "user_deck", data: { target: "load-properties.deck" }, required: true %>
+        <%= u.label :deck, "Deck", class: "form-label fs-6" %>
+        <%= u.select :deck, [], { prompt: "Choose Deck" }, class: "form-select", id: "user_deck", data: { target: "load-properties.deck" }, required: true %>
       </div>
 
       <div class="mb-6">
-        <%= c.label :check_in, "Check In", class: "form-label fs-6" %>
-        <%= c.datetime_field :check_in, value: DateTime.now.strftime('%Y-%m-%dT%H:%M'), class: "form-select", required: true %>
+        <%= u.label :check_in, "Check In", class: "form-label fs-6" %>
+        <%= u.datetime_field :check_in, value: DateTime.now.strftime('%Y-%m-%dT%H:%M'), class: "form-select", required: true %>
       </div>
     <% end %>
 
     <%= form.hidden_field :status, value: "incomplete" %>
-    <%= form.hidden_field :role, value: "caretaker" %>
+    <%= form.hidden_field :role, value: "utility_staff" %>
 
     <div class="mb-6 form-password-toggle">
       <%= form.label :password, class: "form-label" %>
@@ -102,12 +102,12 @@
   </div>
 
   <div class="card-footer d-flex align-items-center justify-content-between">
-    <%= link_to dashboard_caretakers_path, class: 'btn btn-secondary d-none d-md-inline-block ' do %>
+    <%= link_to dashboard_utility_staff_index_path, class: 'btn btn-secondary d-none d-md-inline-block ' do %>
       <i class='bx bxs-left-arrow bx-sm' ></i>
       <span class="fs-6">Back</span>
     <% end %>
 
-    <%= link_to dashboard_caretakers_path, class: 'btn btn-secondary d-inline-block d-md-none' do %>
+    <%= link_to dashboard_utility_staff_index_path, class: 'btn btn-secondary d-inline-block d-md-none' do %>
       <i class='bx bxs-left-arrow bx-sm' ></i>
       <span class="fs-6">Back</span>
     <% end %>

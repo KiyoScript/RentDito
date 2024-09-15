@@ -1,2 +1,0 @@
-class Caretaker < Tenant
-end
