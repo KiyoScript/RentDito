@@ -189,14 +189,14 @@
                   <% end %>
                 </div>
 
-                <% if @user.maintainer? %>
+                <% if @user.maintenance_staff? %>
                   <div class="mb-3">
                     <h5 class="bg-secondary text-center text-white border rounded mt-4">Additional Info</h5>
                   </div>
 
                   <div class="col-md-6">
                     <%= form.label :city, class: "form-label fs-6" %>
-                    <%= form.text_field :city, class: "form-control", value: @user.maintainer.city.titleize, disabled: true%>
+                    <%= form.text_field :city, class: "form-control", value: @user.maintenance_staff.city.titleize, disabled: true%>
                   </div>
 
                 <% elsif @user.utility_staff? || @user.tenant? %>

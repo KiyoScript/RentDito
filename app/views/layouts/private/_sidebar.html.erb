@@ -61,7 +61,7 @@
       <% end %>
     </li>
 
-    <li class="menu-item open <%= 'active' if request.path.include?('dashboard/admins') || request.path.include?('dashboard/maintainers') || request.path.include?('dashboard/utility_staff') || request.path.include?('dashboard/tenants') %>">
+    <li class="menu-item open <%= 'active' if request.path.include?('dashboard/admins') || request.path.include?('dashboard/maintenance_staffs') || request.path.include?('dashboard/utility_staff') || request.path.include?('dashboard/tenants') %>">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class='menu-icon tf-icons bx bx-group'></i>
         <div class="text-truncate" data-i18n="Accounts">Accounts</div>
@@ -75,9 +75,9 @@
             <% end %>
           </li>
         <% end %>
-        <li class="menu-item <%= 'active' if request.path.include?('dashboard/maintainers')%>">
-          <%= link_to dashboard_maintainers_path, class: "menu-link" do %>
-            <div class="text-truncate" data-i18n="Maintainers">Maintainers</div>
+        <li class="menu-item <%= 'active' if request.path.include?('dashboard/maintenance_staffs')%>">
+          <%= link_to dashboard_maintenance_staffs_path, class: "menu-link" do %>
+            <div class="text-truncate" data-i18n="Maintenance Staff">Maintenance Staff</div>
           <% end %>
         </li>
         <li class="menu-item <%= 'active' if request.path.include?('dashboard/utility_staff')%>">

@@ -58,10 +58,10 @@
               </li>
 
 
-              <% if @user.maintainer? %>
+              <% if @user.maintenance_staff? %>
                 <li class="mb-2">
                   <span class="h6">City:</span>
-                  <span><%= @user.maintainer.city.titleize %></span>
+                  <span><%= @user.maintenance_staff.city.titleize %></span>
                 </li>
               <% end %>
 
