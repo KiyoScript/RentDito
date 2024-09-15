@@ -103,14 +103,10 @@
 
   <div class="card-footer d-flex align-items-center justify-content-between">
     <%= link_to dashboard_utility_staff_index_path, class: 'btn btn-secondary d-none d-md-inline-block ' do %>
-      <i class='bx bxs-left-arrow bx-sm' ></i>
       <span class="fs-6">Back</span>
     <% end %>
 
-    <%= link_to dashboard_utility_staff_index_path, class: 'btn btn-secondary d-inline-block d-md-none' do %>
-      <i class='bx bxs-left-arrow bx-sm' ></i>
-      <span class="fs-6">Back</span>
-    <% end %>
-    <%= form.submit "Create Caretaker", class: "btn btn-primary" %>
+    <%= form.submit "Create Utility Staff", class: "btn btn-primary d-none d-md-inline-block" %>
+    <%= form.submit "Create Utility Staff", class: "btn btn-primary w-100 d-inline-block d-md-none" %>
   </div>
 <% end %>
