@@ -17,8 +17,8 @@ Rails.application.routes.draw do
     resources :admins, except: [:edit, :update, :destroy]
     resources :maintenance_staffs, except: [:edit, :update, :destroy]
     resources :utility_staff, except: [:edit, :update]
+    resources :tenants, except: [:edit, :update, :destroy]
     resources :rooms, except: [:edit, :update]
-    resources :tenants, except: [:edit, :update, :show]
 
     resources :properties, except: [:edit, :update] do
       member do
