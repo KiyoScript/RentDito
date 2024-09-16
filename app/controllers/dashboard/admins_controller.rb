@@ -1,7 +1,6 @@
 class Dashboard::AdminsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_policy!
-  before_action :set_admin, only: %i[destroy]
-  before_action :redirect_to_onbarding
 
   def index
     @q = User.admin.ransack(search_params)
@@ -19,22 +18,11 @@ class Dashboard::AdminsController < ApplicationController
   end
 
 
-  def destroy
-    if @admin.destroy
-      redirect_to dashboard_admins_path, notice: "Admin Successfully removed"
-    else
-      redirect_to dashboard_admins_path, alert: @admin.errors.full_messages.first
-    end
-  end
 
   private
 
   def set_policy!
     authorize User, policy_class: Dashboard::AdminsPolicy
-  end
-
-  def set_admin
-    @admin = User.find(params[:id])
   end
 
   def admin_params
@@ -64,9 +52,5 @@ class Dashboard::AdminsController < ApplicationController
   def map_enum_value(enum_hash, value)
     # Return the mapped value from the enum hash, or nil if not present
     enum_hash[value.to_s] if value.present?
-  end
-
-  def redirect_to_onbarding
-    redirect_to onboarding_path(current_user), notice: "Your account is awaiting verification. Please wait for the Landlord's approval." if current_user.unverified?
   end
 end

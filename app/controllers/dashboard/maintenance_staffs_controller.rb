@@ -1,5 +1,6 @@
 class Dashboard::MaintenanceStaffsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_policy!
 
   def index
     @q = User.maintenance_staff.ransack(search_params)
@@ -24,6 +25,10 @@ class Dashboard::MaintenanceStaffsController < ApplicationController
 
 
   private
+
+  def set_policy!
+    authorize User, policy_class: Dashboard::MaintenanceStaffsPolicy
+  end
 
   def maintenance_staff_params
     params.require(:user).permit(
