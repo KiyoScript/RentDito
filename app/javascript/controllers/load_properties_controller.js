@@ -76,7 +76,7 @@ export default class extends Controller {
     console.log("Updating property units")
 
     if (this.propertyUnitSelect) {
-      this.propertyUnitSelect.innerHTML = "<option value=''>Choose Property Unit</option>"
+      this.propertyUnitSelect.innerHTML = "<option value=''>Choose Property Code</option>"
 
       propertyUnits.forEach((unit) => {
         const option = document.createElement("option")

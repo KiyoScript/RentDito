@@ -1,6 +1,6 @@
 class Dashboard::RoomsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_policy!
+  before_action :set_policy!, except: [:decks]
   before_action :set_room, only: %i[show destroy decks]
 
   def index
