@@ -1,8 +1,7 @@
 class Dashboard::PropertiesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_property, only: %i[show destroy]
-  before_action :set_policy!
-
+  before_action :set_policy! , except: [:property_units]
   def index
     @q = Property.ransack(search_params)
     @pagy, @properties = pagy(@q.result.order(created_at: :asc), distinct: :true)

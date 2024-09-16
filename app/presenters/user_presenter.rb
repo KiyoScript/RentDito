@@ -22,4 +22,8 @@ class UserPresenter
   def check_in
     @user.utility_staff? ? @user.utility_staff.check_in : @user.tenant.check_in
   end
+
+  def accomodation
+    @user.utility_staff ? @user.utility_staff.room.accomodation : @user.tenant.room.accomodation
+  end
 end
