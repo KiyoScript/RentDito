@@ -1,6 +1,6 @@
 class Dashboard::TenantsController < ApplicationController
-  before_action :set_tenant, only: %i[destroy]
-  before_action :redirect_to_onbarding
+  before_action :authenticate_user!
+  before_action :set_policy!
 
   def index
     @q = User.tenant.ransack(search_params)
@@ -23,21 +23,12 @@ class Dashboard::TenantsController < ApplicationController
     end
   end
 
-
-  def destroy
-    if @tenant.destroy
-      redirect_to dashboard_tenants_path, notice: "Tenant successfully removed"
-    else
-      redirect_to dashboard_tenants_path, alert: @tenant.errors.full_messages.first
-    end
-  end
-
   private
 
-  def set_tenant
-    @tenant = User.find(params[:id])
+  def set_policy!
+    authorize User, policy_class: Dashboard::TenantsPolicy
   end
-
+  
   def tenant_params
     params.require(:user).permit(
       :firstname,
@@ -66,9 +57,5 @@ class Dashboard::TenantsController < ApplicationController
   def map_enum_value(enum_hash, value)
     # Return the mapped value from the enum hash, or nil if not present
     enum_hash[value.to_s] if value.present?
-  end
-
-  def redirect_to_onbarding
-    redirect_to onboarding_path(current_user), notice: "Your account is awaiting verification. Please wait for the Landlord's approval." if current_user.unverified?
   end
 end
