@@ -14,8 +14,8 @@ Rails.application.routes.draw do
 
   namespace :dashboard do
     resources :homepage, only: :index
-    resources :admins, except: [:edit, :update]
-    resources :maintenance_staffs, except: [:edit, :update]
+    resources :admins, except: [:edit, :update, :destroy]
+    resources :maintenance_staffs, except: [:edit, :update, :destroy]
     resources :utility_staff, except: [:edit, :update]
     resources :rooms, except: [:edit, :update]
     resources :tenants, except: [:edit, :update, :show]
