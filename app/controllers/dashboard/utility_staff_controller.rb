@@ -1,5 +1,6 @@
 class Dashboard::UtilityStaffController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_policy!
 
   def index
     @q = User.utility_staff.ransack(search_params)
@@ -23,6 +24,10 @@ class Dashboard::UtilityStaffController < ApplicationController
   end
 
   private
+
+  def set_policy!
+    authorize User, policy_class: Dashboard::UtilityStaffPolicy
+  end
 
   def utility_staff_params
     params.require(:user).permit(
