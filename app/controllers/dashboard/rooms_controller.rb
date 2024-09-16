@@ -1,6 +1,7 @@
 class Dashboard::RoomsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_policy!
   before_action :set_room, only: %i[show destroy decks]
-  before_action :redirect_to_onbarding
 
   def index
     @q = Room.ransack(params[:q])
@@ -40,15 +41,15 @@ class Dashboard::RoomsController < ApplicationController
 
   private
 
+  def set_policy!
+    authorize User, policy_class: Dashboard::RoomsPolicy
+  end
+
   def set_room
     @room = Room.find(params[:id])
   end
 
   def room_params
     params.require(:room).permit(:name, :lower_deck, :upper_deck, :property_id, :property_unit_id, :accomodation)
-  end
-
-  def redirect_to_onbarding
-    redirect_to onboarding_path(current_user), notice: "Your account is awaiting verification. Please wait for the Landlord's approval." if current_user.unverified?
   end
 end

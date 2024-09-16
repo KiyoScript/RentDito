@@ -20,8 +20,11 @@
       <%= link_to dashboard_room_path(room), class: "btn btn-icon view-record border" do %>
         <i class="bx bx-show bx-md"></i>
       <% end %>
-      <%= link_to dashboard_room_path(room), class: "btn btn-icon text-danger border", data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to remove Room #'#{room.name}'?" } do %>
-        <i class="bx bx-trash bx-md"></i>
+
+      <% if current_user.landlord? %>
+        <%= link_to dashboard_room_path(room), class: "btn btn-icon text-danger border", data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to remove Room #'#{room.name}'?" } do %>
+          <i class="bx bx-trash bx-md"></i>
+        <% end %>
       <% end %>
     </div>
   </td>
