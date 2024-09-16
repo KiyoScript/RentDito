@@ -14,8 +14,11 @@
       <%= link_to dashboard_property_path(property), class: "btn btn-icon view-record border" do %>
         <i class="bx bx-show bx-md"></i>
       <% end %>
-      <%= link_to dashboard_property_path(property), class: "btn btn-icon text-danger border", data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to remove '#{property.city}'?" } do %>
-        <i class="bx bx-trash bx-md"></i>
+
+      <% if current_user.landlord? %>
+        <%= link_to dashboard_property_path(property), class: "btn btn-icon text-danger border", data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to remove '#{property.city}'?" } do %>
+          <i class="bx bx-trash bx-md"></i>
+        <% end %>
       <% end %>
     </div>
   </td>
