@@ -81,7 +81,17 @@
       </tbody>
     </table>
   </div>
-  <div class="d-flex justify-content-center pt-2">
-    <%== pagy_bootstrap_nav(@pagy) %>
-  </div>
+
+  <% unless @maintenance_staffs.present? %>
+    <div class="container d-flex align-items-center justify-content-center flex-column p-4">
+      <%= image_tag 'no_search', class: "img-fluid", width: "400", alt: "No Seach Found"%>
+      <p class="text-dark mb-0"> Ups!... no records found</p>
+    </div>
+  <% end %>
+
+  <% if @maintenance_staffs.present? %>
+    <div class="d-flex justify-content-center pt-2">
+      <%== pagy_bootstrap_nav(@pagy) %>
+    </div>
+  <% end %>
 </div>
