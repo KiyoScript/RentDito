@@ -19,7 +19,13 @@ Rails.application.routes.draw do
     resources :utility_staff, except: [:edit, :update]
     resources :tenants, except: [:edit, :update, :destroy]
     resources :rooms, except: [:edit, :update]
-
+    resources :tickets do
+      member do
+        patch :assign_staff
+        patch :close_ticket
+      end
+    end
+    resources :tickets_history
     resources :properties, except: [:edit, :update] do
       member do
         get :property_units
@@ -40,6 +46,10 @@ Rails.application.routes.draw do
   end
 
   resources :onboarding, only: [:show, :update]
+  resources :tenant do
+    resources :tickets
+    resources :tickets_history
+  end
   resources :valid_ids, only: [:update]
   resources :profile, only: [:show] do
     member do

@@ -62,7 +62,6 @@
     </li>
 
 
-
     <% if current_user.landlord? || current_user.admin? %>
       <li class="menu-item open <%= 'active' if request.path.include?('dashboard/admins') || request.path.include?('dashboard/maintenance_staffs') || request.path.include?('dashboard/utility_staff') || request.path.include?('dashboard/tenants') %>">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -108,5 +107,37 @@
         <div class="text-truncate" data-i18n="Rooms">Rooms</div>
       <% end %>
     </li>
+
+    <li class="menu-item <%= 'active' if request.path == "/dashboard/tickets" %>">
+      <%= link_to dashboard_tickets_path, class: 'menu-link' do %>
+        <i class='menu-icon tf-icons bx bxs-wrench'></i>
+        <div class="text-truncate" data-i18n="Tickets">
+          <% if current_user.tenant? %>
+            My Tickets
+          <% elsif current_user.landlord? %>
+            Tickets
+          <% else %>
+            Assigned Tickets
+          <% end %>
+        </div>
+      <% end %>
+    </li>
+
+    <li class="menu-item open <%= 'active' if request.path == "/dashboard/tickets_history" %>">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class='menu-icon tf-icons bx bx-history'></i>
+        <div class="text-truncate" data-i18n="Histories">Histories</div>
+        <span class="badge rounded-pill bg-danger ms-auto">1</span>
+      </a>
+
+      <ul class="menu-sub">
+        <li class="menu-item <%= 'active' if request.path.include?('dashboard/ticket_history') %>">
+          <%= link_to dashboard_tickets_history_index_path, class: "menu-link" do %>
+            <div class="text-truncate" data-i18n="Tickets History">Tickets History</div>
+          <% end %>
+        </li>
+      </ul>
+    </li>
+
   </ul>
 </aside>

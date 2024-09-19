@@ -28,10 +28,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    if resource.incomplete? || resource.deactivated?
-      onboarding_path(resource)
-    else
-      root_path
-    end
+    return onboarding_path(resource) unless resource.verified?
+    root_path
   end
 end
