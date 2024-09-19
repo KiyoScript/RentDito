@@ -36,3 +36,4 @@
 .vscode/settings.json
 /config/credentials.yml.enc
 /config/local_env.yml
+config/local_env.yml

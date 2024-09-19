@@ -14,8 +14,17 @@ module ApplicationHelper
     "unverified" => "badge bg-label-warning",
     "rejected" => "badge bg-label-danger",
     "deactivated" => "badge bg-label-danger",
-    "incomplete" => "badge bg-label-warning"
+    "incomplete" => "badge bg-label-warning",
+    "open" => "badge bg-label-primary",
+    "pending" => "badge bg-label-info",
+    "closed" => "badge bg-label-secondary"
   }.freeze
+
+  LABEL_BADGE_CLASS = {
+    "normal" => "badge bg-label-info",
+    "urgent" => "badge bg-label-danger",
+    "minor" => "badge bg-label-warning"
+  }
 
   GENDER_BADGE_CLASS = {
     "female" => "badge bg-label-primary",
@@ -30,8 +39,14 @@ module ApplicationHelper
 
   def status_badge(status)
     badge_class = STATUS_BADGE_CLASS[status] || STATUS_BADGE_CLASS["verified"]
-    content_tag(:span, status.capitalize, class: badge_class)
+    content_tag(:span, status.titleize, class: badge_class)
   end
+
+  def label_badge(label)
+    badge_class = LABEL_BADGE_CLASS[label] || LABEL_BADGE_CLASS["normal"]
+    content_tag(:span, label.titleize, class: badge_class)
+  end
+
 
   def gender_badge(gender)
     badge_class = GENDER_BADGE_CLASS[gender] || GENDER_BADGE_CLASS["female"]
@@ -74,7 +89,6 @@ module ApplicationHelper
   def users_avatars(users)
     content_tag(:ul, class: "list-unstyled avatar-group d-flex flex-row align-items-center justify-content-start") do
       users.map do |user|
-        return if user.tenant?
 
         default_avatar = user.male? ? 'male_avatar.png' : 'female_avatar.png'
 

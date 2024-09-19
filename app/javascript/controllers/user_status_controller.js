@@ -15,7 +15,6 @@ export default class extends Controller {
 
 
 
-    console.log(event.target)
     const request = new FetchRequest('patch', `/profile/${userId}/update_status`, {
       body: JSON.stringify({ name: 'Request.JS', status: selectedStatus }),
       headers: { "Content-Type": "application/json" }

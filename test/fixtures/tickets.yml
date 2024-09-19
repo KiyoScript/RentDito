@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  category: 1
+  urgent: false
+  status: MyString
+  title: MyString
+  description: MyText
+  label: MyString
+  datetime: 2024-09-17 22:09:31
+  tenant: one
+  assigned_to: one
+  assigned_to_type: Assigned to
+
+two:
+  category: 1
+  urgent: false
+  status: MyString
+  title: MyString
+  description: MyText
+  label: MyString
+  datetime: 2024-09-17 22:09:31
+  tenant: two
+  assigned_to: two
+  assigned_to_type: Assigned to

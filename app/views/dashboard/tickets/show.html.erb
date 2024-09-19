@@ -1,0 +1,90 @@
+<div class="container mt-5">
+  <!-- Ticket Info Card -->
+  <div class="card mb-4 shadow">
+    <div class="card-header d-flex justify-content-between align-items-start">
+      <div class="my-2">
+        <h3 class="card-title"><%= @ticket.title %></h3>
+        <p class="text-secondary">Ticket # <%= @ticket.id %></p>
+      </div>
+        <%= status_badge(@ticket.status) %>
+    </div>
+
+    <div class="card-body">
+      <div class="row gap-4">
+        <div class="col-12">
+          <div class="form-label">
+            <p class="fw-bold fs-6 mb-2">Description</p>
+            <p class="fw-normal fs-6 mb-0"><%= @ticket.description %></p>
+          </div>
+        </div>
+
+        <div class="col-12 pb-4 border-bottom">
+          <div class="row">
+            <div class="col-6">
+              <div class="form-label">
+                <p class="fw-bold fs-6 mb-2">Category</p>
+                <p class="fw-normal fs-6 mb-0"><%= @ticket.category.titleize %></p>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="form-label">
+                <p class="fw-bold fs-6 mb-2">Label</p>
+                <%= label_badge(@ticket.label.titleize) %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <p class="fw-normal fs-6 d-flex align-items-center justify-content-start">
+            <i class='menu-icon tf-icons bx bxs-calendar'></i>
+            <span class="fw-normal fs-6"><%= @ticket.created_at.strftime("%B %d, %Y %I:%M %p") %></span>
+          </p>
+        </div>
+
+        <div class="col-12">
+          <p class="fw-normal fs-6 d-flex align-items-center justify-content-start">
+            <i class='menu-icon tf-icons bx bxs-user'></i>
+            Assigned to:
+            <span class="fw-normal fs-6 ms-2"><%= @ticket.assigned_to.present? ? @ticket.assigned_to.fullname.titleize : "N/A"%></span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer text-muted text-end">
+      <% if current_user.landlord? %>
+        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#assignStaffModal">
+          Assign Staff
+        </button>
+      <% end %>
+
+      <% unless current_user.landlord? || current_user.tenant? %>
+        <%= button_to 'Close Ticket', close_ticket_dashboard_ticket_path(@ticket), method: :patch, class: "btn btn-primary #{@ticket.closed? ? 'd-none' : ' ' }" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for assigning staff -->
+<div class="modal fade" id="assignStaffModal" tabindex="-1" aria-labelledby="assignStaffModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="assignStaffModalLabel">Assign Staff to Ticket</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <%= form_with model: @ticket, url: assign_staff_dashboard_ticket_path(@ticket), method: :patch do |f| %>
+          <div class="form-group">
+            <%= f.label :assigned_to_id, "Assign Staff" %>
+            <%= f.select :assigned_to_id, options_from_collection_for_select(@staff_members, :id, :fullname), {}, class: 'form-control' %>
+          </div>
+        <%= f.submit 'Assign', class: 'btn btn-primary w-100 mt-4' %>
+      <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -25,7 +25,6 @@ export default class extends Controller {
       fetch(`/dashboard/properties/${propertyId}/property_units`)
         .then(response => response.json())
         .then(data => {
-          console.log("Property units data:", data)
           this.updatePropertyUnits(data)
         })
         .catch(error => {

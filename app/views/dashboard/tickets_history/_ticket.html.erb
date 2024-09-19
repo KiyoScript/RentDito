@@ -1,0 +1,15 @@
+<tr>
+  <td><%= ticket.title.titleize%></td>
+  <td><%= ticket.category.titleize %></td>
+  <td><%= label_badge(ticket.label) %></td>
+  <td><%= status_badge(ticket.status)%></td>
+  <td><%= ticket.created_at.strftime("%B %d, %Y %I:%M %p") %></td>
+  <td><%= ticket.updated_at.strftime("%B %d, %Y %I:%M %p") %></td>
+   <td>
+    <div class="d-inline-block">
+      <%= link_to dashboard_ticket_path(ticket), class: "btn btn-icon view-record border" do %>
+        <i class="bx bx-show bx-md"></i>
+      <% end %>
+    </div>
+  </td>
+</tr>

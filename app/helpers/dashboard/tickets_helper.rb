@@ -1,0 +1,2 @@
+module Dashboard::TicketsHelper
+end
