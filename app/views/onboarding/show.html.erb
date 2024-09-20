@@ -189,8 +189,8 @@
                   <% end %>
                 </div>
 
-                <%= user_presenter = UserPresenter.new(@user) %>
-                
+                <% user_presenter = UserPresenter.new(@user) %>
+
                 <% if @user.maintenance_staff? %>
                   <div class="mb-3">
                     <h5 class="bg-secondary text-center text-white border rounded mt-4">Additional Info</h5>
