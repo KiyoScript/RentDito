@@ -54,8 +54,8 @@
     </div>
 
     <div class="card-footer text-muted text-end">
-      <% if current_user.landlord? %>
-        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#assignStaffModal">
+      <% if current_user.landlord?%>
+        <button type="button" class="btn btn-outline-primary <%= @ticket.closed? ? 'd-none' : '' %>" data-bs-toggle="modal" data-bs-target="#assignStaffModal">
           Assign Staff
         </button>
       <% end %>
