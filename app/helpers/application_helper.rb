@@ -20,11 +20,6 @@ module ApplicationHelper
     "closed" => "badge bg-label-secondary"
   }.freeze
 
-  LABEL_BADGE_CLASS = {
-    "normal" => "badge bg-label-info",
-    "urgent" => "badge bg-label-danger",
-    "minor" => "badge bg-label-warning"
-  }
 
   GENDER_BADGE_CLASS = {
     "female" => "badge bg-label-primary",
@@ -41,12 +36,6 @@ module ApplicationHelper
     badge_class = STATUS_BADGE_CLASS[status] || STATUS_BADGE_CLASS["verified"]
     content_tag(:span, status.titleize, class: badge_class)
   end
-
-  def label_badge(label)
-    badge_class = LABEL_BADGE_CLASS[label] || LABEL_BADGE_CLASS["normal"]
-    content_tag(:span, label.titleize, class: badge_class)
-  end
-
 
   def gender_badge(gender)
     badge_class = GENDER_BADGE_CLASS[gender] || GENDER_BADGE_CLASS["female"]

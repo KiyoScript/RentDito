@@ -17,6 +17,8 @@ import "bootstrap5"
 import "autofocus"
 import "cleave"
 import "cleave-phone"
+import "swiper"
+import "ui-carousel"
 
 document.addEventListener('turbo:load', () => {
   toastr.options = {
