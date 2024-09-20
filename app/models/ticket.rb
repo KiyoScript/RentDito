@@ -10,6 +10,7 @@ class Ticket < ApplicationRecord
 
   validate :check_out_datetime_valid, if: -> { category == 'check_out' }
 
+  has_many_attached :images
 
   def self.ransackable_attributes(auth_object = nil)
     ['category', 'status', 'label', 'title']

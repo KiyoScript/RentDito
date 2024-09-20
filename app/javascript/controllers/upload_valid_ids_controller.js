@@ -1,5 +1,5 @@
-import { Controller } from "@hotwired/stimulus";
-import "dropzone";
+import { Controller } from "@hotwired/stimulus"
+import "dropzone"
 
 export default class extends Controller {
   connect() {
@@ -19,7 +19,7 @@ export default class extends Controller {
           <div class="dz-filename" data-dz-name></div>
           <div class="dz-size" data-dz-size></div>
         </div>
-      </div>`;
+      </div>`
 
     const myDz = new Dropzone('#dropzone-basic', {
       previewTemplate: previewTemplate,

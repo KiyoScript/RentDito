@@ -1,13 +1,13 @@
-<%= form_with model: @ticket, url: dashboard_tickets_path, method: :post, local: true, html: { class: "card" } do |form| %>
+<%= form_with model: @ticket, url: dashboard_tickets_path, method: :post, local: true, html: { class: "card", data: { controller: 'upload-ticket-images' }, multipart: true } do |form| %>
   <h4 class="card-header text-primary">New Ticket</h4>
   <div class="card-body">
 
     <div class="mb-6">
       <div class="alert alert-info" role="alert">
-        <strong>Note:</strong>
-        Fill up necessary information to create a ticket.
+        <strong>Note:</strong> Fill up necessary information to create a ticket.
       </div>
     </div>
+
     <div class="mb-3">
       <%= form.label :title, class: "form-label fs-6" %>
       <%= form.text_field :title, class: "form-control", placeholder: "Network connectivity issue in BH8", required: true %>
@@ -20,7 +20,7 @@
 
     <div class="mb-3">
       <%= form.label :category, class: "form-label fs-6" %>
-      <%= form.select :category, options_for_select(Ticket.categories.keys.map { |key| [key.titleize, key] }), { prompt: "Select Category"}, class: "form-select", required: true %>
+      <%= form.select :category, options_for_select(Ticket.categories.keys.map { |key| [key.titleize, key] }), { prompt: "Select Category"}, class: "form-select", required: true, data: { action: "change->upload-ticket-images#showDropdownField"} %>
     </div>
 
     <div class="mb-3">
@@ -33,10 +33,27 @@
       <%= form.datetime_field :datetime, class: "form-select", value: DateTime.now.strftime('%Y-%m-%dT%H:%M'), required: true %>
     </div>
 
+    <!-- Dropzone Wrapper -->
+    <div class="mb-3" data-upload-ticket-images-target="dropzoneWrapper">
+      <%= form.label :images, class: "form-label fs-6" %>
+      <%= dropzone_controller_div do %>
+        <% form.object.images.each do |image| %>
+          <%= form.hidden_field :images, multiple: true, value: image.signed_id %>
+        <% end %>
+
+        <%= form.file_field :images, direct_upload: true, multiple: true, data: { upload_ticket_images_target: 'input' } %>
+
+        <div class="dropzone-msg dz-message needsclick text-gray-600">
+          <h3 class="dropzone-msg-title">Drag here to upload or click here to browse</h3>
+          <span class="dropzone-msg-desc text-sm">2 MB file size maximum. Allowed file types png, jpg.</span>
+        </div>
+      <% end %>
+      <div class="dz-preview dropzone-previews d-flex flex-row"></div>
+    </div>
     <%= form.hidden_field :status, value: :open %>
   </div>
 
- <div class="card-footer d-flex align-items-center justify-content-between">
+  <div class="card-footer d-flex align-items-center justify-content-between">
     <%= link_to dashboard_tickets_path, class: 'btn btn-secondary d-none d-md-inline-block ' do %>
       <span class="fs-6">Back</span>
     <% end %>

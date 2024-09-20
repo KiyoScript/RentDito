@@ -1,4 +1,5 @@
 class Dashboard::TicketsController < ApplicationController
+  include Dashboard::TicketsHelper
   before_action :authenticate_user!
   before_action :set_ticket, except: %i[index new create]
   before_action :set_staff_members, only: %i[show assign_staff]
@@ -23,7 +24,7 @@ class Dashboard::TicketsController < ApplicationController
 
 
   def create
-    @ticket  = current_user.tenant.tickets.new(ticket_params)
+    @ticket = current_user.tenant.tickets.new(ticket_params)
     if @ticket.save
       redirect_to dashboard_tickets_path, notice: 'Successfully created'
     else
@@ -78,6 +79,6 @@ class Dashboard::TicketsController < ApplicationController
   end
 
   def ticket_params
-    params.require(:ticket).permit(:category, :status, :title, :description, :label, :datetime)
+    params.require(:ticket).permit(:title, :description, :category, :label, :datetime, :status, images: [])
   end
 end
