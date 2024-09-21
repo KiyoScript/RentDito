@@ -21,14 +21,14 @@
 
         <div class="col-12 pb-4 border-bottom">
           <div class="row gy-4">
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-6">
               <div class="form-label">
                 <p class="fw-bold fs-6 mb-2">Category</p>
                 <p class="fw-normal fs-6 mb-0"><%= @ticket.category.titleize %></p>
               </div>
             </div>
 
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-6">
               <div class="form-label">
                 <p class="fw-bold fs-6 mb-2">Label</p>
                 <%= label_badge(@ticket.label) %>
@@ -69,6 +69,14 @@
             <i class='menu-icon tf-icons bx bxs-user'></i>
             Assigned to:
             <span class="fw-normal fs-6 ms-2"><%= @ticket.assigned_to.present? ? @ticket.assigned_to.fullname.titleize : "N/A"%></span>
+          </p>
+        </div>
+
+        <div class="col-12">
+          <p class="fw-normal fs-6 d-flex align-items-center justify-content-start">
+            <i class='menu-icon tf-icons bx bxs-user-pin'></i>
+            Created by:
+            <span class="fw-normal fs-6 ms-2"><%= @ticket.tenant.user.fullname %></span>
           </p>
         </div>
       </div>
