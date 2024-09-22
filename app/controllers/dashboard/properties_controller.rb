@@ -1,7 +1,7 @@
 class Dashboard::PropertiesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_property, only: %i[show destroy]
-  before_action :set_policy! , except: [:property_units]
+  before_action :set_property, only: [:edit, :update, :show, :destroy]
+  before_action :set_policy! , except: [:render_property_units]
   def index
     @q = Property.ransack(search_params)
     @pagy, @properties = pagy(@q.result.order(created_at: :asc), distinct: :true)
@@ -21,7 +21,20 @@ class Dashboard::PropertiesController < ApplicationController
     end
   end
 
-  def show; end
+  def edit;end
+
+  def update
+    if @property.update(property_params)
+      redirect_to dashboard_property_path(@property), notice: "Successfuly update"
+    else
+      redirect_to edit_dashboard_property_path(@property), alert: @property.errors.full_messages.first
+    end
+  end
+
+  def show
+    @q = @property.property_units.ransack(params[:q])
+    @pagy, @property_units = pagy(@q.result.order(created_at: :asc), distinct: :true)
+  end
 
   def destroy
     if @property.destroy
@@ -31,7 +44,7 @@ class Dashboard::PropertiesController < ApplicationController
     end
   end
 
-  def property_units
+  def render_property_units
     @property_units = PropertyUnit.where(property_id: params[:id])
     Rails.logger.debug("Property Units: #{@property_units.to_json}")
     render json: @property_units.as_json(only: [:id, :name])
@@ -44,15 +57,11 @@ class Dashboard::PropertiesController < ApplicationController
   end
 
   def set_property
-    @property = Property.find_by_id(params[:id])
+    @property = Property.find_by(id: params[:id])
   end
 
   def property_params
-    params.require(:property).permit(
-      :city,
-      :barangay,
-      property_units_attributes: [:name]
-    )
+    params.require(:property).permit( :city,:barangay)
   end
 
   def search_params

@@ -2,45 +2,113 @@
 <div class="row p-0 m-0 mb-6 gap-5">
   <div class="col-12 card card-border-shadow-primary">
     <div class="card-header d-flex justify-content-between" >
-      <h5 class="card-title m-0 text-primary">Property #<%= @property.id %></h5>
+      <h4 class="card-title m-0 text-primary">Property Details</h4>
       <h6 class="m-0">
-        <a href=" javascript:void(0)" class="menu-link text-center">
-          <i class='bx bx-edit bx-sm'></i>
-          <span>Edit</span>
-        </a>
+        <% if current_user.landlord? %>
+          <%= link_to edit_dashboard_property_path(@property), class: "menu-link text-center" do %>
+            <i class='bx bx-edit bx-sm'></i>
+            <span>Edit</span>
+          <% end %>
+        <% end %>
       </h6>
     </div>
     <div class="card-body">
       <p class="mb-0"><%= @property.city.titleize %> <br><%= @property.barangay.titleize %></p>
-      <h5 class="mt-6 text-primary">Total Unit(s)</h5>
-      <div class="d-flex align-items-center mb-2">
-        <div class="avatar me-4">
-          <span class="avatar-initial rounded bg-label-primary"><i class="bx bxs-home-smile bx-lg"></i></span>
-        </div>
-        <h4 class="mb-0"><%= @property.property_units.count %></h4>
-      </div>
-      <p class="mb-0">
-        <%= render partial: "dashboard/properties/property_units", collection: @property.property_units, as: :property_unit %>
-      </p>
     </div>
-
   </div>
 </div>
+
+<div class="row p-0 m-0 mb-6 gap-5">
+  <div class="col-12 card card-border-shadow-primary">
+    <div class="card-header d-flex justify-content-between" >
+      <h4 class="card-title m-0 text-primary">Property Codes</h4>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12 text-primary p-2 order-md-2 text-end">
+          <% if current_user.landlord? %>
+            <button type="button" class="btn btn-primary d-none d-md-inline-block ms-2 pb-2 mb-4 d-flex flex-row" data-bs-toggle="modal" data-bs-target="#newPropertyUnitModal">
+              <i class='bx bx-home-circle'></i>
+              <span>New Property Unit</span>
+            </button>
+
+            <button type="button" class="btn btn-primary w-100 d-inline-block d-md-none mt-2 mb-4 pb-2 d-flex flex-row" data-bs-toggle="modal" data-bs-target="#newPropertyUnitModal">
+              <i class='bx bx-home-circle'></i>
+              <span>New Property Unit</span>
+            </button>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="table-responsive text-nowrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Property Code</th>
+              <th># Rooms</th>
+              <th># Upper Deck</th>
+              <th># Lower Deck</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody class="table-border-bottom-0">
+            <%= render partial: "dashboard/properties/property_units", collection: @property_units, as: :property_unit %>
+          </tbody>
+        </table>
+      </div>
+
+      <% unless @property_units.present? %>
+        <div class="container d-flex align-items-center justify-content-center flex-column p-4">
+          <%= image_tag 'no_search', class: "img-fluid", width: "400", alt: "No Seach Found"%>
+          <p class="text-dark mb-0"> Ups!... no records found</p>
+        </div>
+      <% end %>
+
+      <% if @property_units.present? %>
+        <div class="d-flex justify-content-center pt-2">
+          <%== pagy_bootstrap_nav(@pagy) %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<% if current_user.landlord? %>
+  <div class="modal fade" id="newPropertyUnitModal" tabindex="-1" aria-labelledby="newPropertyUnitModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newPropertyUnitModalLabel">New Property Code</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <%= form_with(model: [@property, PropertyUnit.new], url: dashboard_property_property_units_path(@property), local: true) do |form| %>
+            <div class="my-3">
+              <%= form.label :name, "Property Code" %>
+              <%= form.text_field :name, class: "form-control mt-3", placeholder: "BH1", required: true %>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <%= form.submit "Create Property Code", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
 
 <div class="card mb-6 card-border-shadow-primary">
   <div class="card-header">
-    <h5 class="card-title m-0 text-primary">Assigned Caretakers</h5>
+    <h5 class="card-title m-0 text-primary">Assigned Staffs</h5>
   </div>
   <div class="card-body">
-    <%= render partial: "dashboard/properties/assigned_utility_staff", collection: @property.utility_staff, as: :utility_staff %>
+    <% if @property.utility_staffs.present? %>
+      <%= render partial: "dashboard/properties/assigned_utility_staff", collection: @property.utility_staffs, as: :utility_staff %>
+    <% else %>
+      N/A
+    <% end %>
   </div>
 </div>
-
-<%= link_to dashboard_properties_path, class: 'btn btn-secondary d-none d-md-inline-block ' do %>
-  <span class="fs-6">Back</span>
-<% end %>
-
-<%= link_to dashboard_properties_path, class: 'btn btn-secondary d-inline-block d-md-none w-100' do %>
-  <span class="fs-6">Back</span>
-<% end %>
 

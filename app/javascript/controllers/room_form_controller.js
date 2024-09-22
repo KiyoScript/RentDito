@@ -12,7 +12,7 @@ export default class extends Controller {
     const propertyId = event.target.value
 
     if (propertyId) {
-      fetch(`/dashboard/properties/${propertyId}/property_units`)
+      fetch(`/dashboard/properties/${propertyId}/render_property_units`)
         .then(response => response.json())
         .then(data => {
           this.updatePropertyUnits(data)

@@ -4,10 +4,10 @@
   </td>
   <td><%= property.address %> </td>
   <td>
-    <%= render partial: "dashboard/properties/property_units", collection: property.property_units, as: :property_unit %>
+    <%= property_unit_badges(property) %>
   </td>
   <td>
-    <%= users_avatars(property.utility_staff.map(&:user)) %>
+    <%= users_avatars(property.utility_staffs.map(&:user)) %>
   </td>
   <td>
     <div class="d-inline-block">

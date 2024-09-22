@@ -11,6 +11,14 @@ class Dashboard::PropertiesPolicy < ApplicationPolicy
     user.landlord?
   end
 
+  def edit?
+    user.landlord?
+  end
+
+  def update?
+    user.landlord?
+  end
+
   def show?
     user.verified? && (user.landlord? || user.admin? || user.maintenance_staff? || user.utility_staff? || user.tenant? )
   end
