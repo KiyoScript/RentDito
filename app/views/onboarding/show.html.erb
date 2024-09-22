@@ -168,7 +168,7 @@
 
                 <div class="col-md-6">
                   <%= form.label :age, class: "form-label fs-6" %>
-                  <%= form.number_field :age, class: "form-control", min: 18, placeholder: 18, data: { automate_age_target: "age" }, disabled: true %>
+                  <%= form.number_field :age, class: "form-control",value: @user.age.present? ? @user.age : 18,  min: 18, placeholder: 18, data: { automate_age_target: "age" }, readonly: true %>
                 </div>
 
                 <div class="col-md-6">
@@ -198,7 +198,7 @@
 
                   <div class="col-md-6">
                     <%= form.label :city, class: "form-label fs-6" %>
-                    <%= form.text_field :city, class: "form-control", value: user_presenter.city, disabled: true%>
+                    <%= form.text_field :city, class: "form-control", value: @user.maintenance_staff.city.titleize, disabled: true%>
                   </div>
 
                 <% elsif @user.utility_staff? || @user.tenant? %>

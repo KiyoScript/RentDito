@@ -1,9 +1,13 @@
 <div class="list-group-item d-flex justify-content-between align-items-center">
-  <div class="d-flex align-items-center">
-    <img src="<%= avatar(tenant.user) %>" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover; margin-right: 15px;">
-    <div>
+  <div class="d-flex align-items-center justify-content-center">
+    <div class="d-flex align-items-center flex-column justify-content-center">
+      <img src="<%= avatar(tenant.user) %>" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+      <span class="ms-2 text-muted"><%= gender_badge(tenant.user.gender) %></span>
+    </div>
+    <div class="ms-2">
       <h6 class="font-weight-bold mb-1"><%= tenant.user.fullname %></h6>
       <p class="text-muted mb-0">Room: <span class="ms-2 text-muted"><%= tenant.room.name %></span></p>
+      <p class="text-muted mb-0">Deck: <span class="ms-2 text-muted"><%= tenant.room.upper_deck? ? "Upper" : "Lower" %></span></p>
     </div>
   </div>
   <%= link_to profile_path(tenant.user), class: "btn btn-icon view-record border" do %>
