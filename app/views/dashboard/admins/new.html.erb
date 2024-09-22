@@ -1,4 +1,4 @@
-<%= form_with model: User.new, url: dashboard_admins_path, method: :post, html: { class: "card", data: { controller: "password" } } do |form| %>
+<%= form_with model: User.new, url: dashboard_admins_path, method: :post, html: { class: "card", data: { controller: "password new-admin-validation", new_admin_validation_target: "wizardValidationForm" }} do |form| %>
   <h4 class="card-header text-primary">New Admin</h4>
   <div class="card-body">
     <div class="mb-6">
@@ -8,63 +8,62 @@
       </div>
     </div>
 
-    <div class="mb-6">
+    <div class="form-group mb-6">
       <%= form.label :firstname, class: "form-label" %>
-      <%= form.text_field :firstname, class: "form-control", id: "user_firstname", placeholder: "Kiyo", required: true %>
+      <%= form.text_field :firstname, class: "form-control", id: "user_firstname", placeholder: "Kiyo",  data: { new_admin_validation_target: "firstname" } %>
     </div>
 
-    <div class="mb-6">
+    <div class="form-group mb-6">
       <%= form.label :lastname, class: "form-label" %>
-      <%= form.text_field :lastname, class: "form-control", id: "user_lastname", placeholder: "Script", required: true %>
+      <%= form.text_field :lastname, class: "form-control", id: "user_lastname", placeholder: "Script",  data: { new_admin_validation_target: "lastname" } %>
     </div>
 
-    <div class="mb-6">
+    <div class="form-group mb-6">
       <%= form.label :email, class: "form-label" %>
-      <%= form.email_field :email, class: "form-control", id: "user_email", placeholder: "kiyo@example.com", required: true %>
+      <%= form.email_field :email, class: "form-control", id: "user_email", placeholder: "kiyo@example.com",  data: { new_admin_validation_target: "email" } %>
     </div>
 
-    <div class="mb-6">
+    <div class="form-group mb-6">
       <%= form.label :phone_number, class: "form-label" %>
-      <%= form.telephone_field :phone_number, class: "form-control", id: "user_phone_number", placeholder: "0963 631 5870", required: true %>
+      <%= form.telephone_field :phone_number, class: "form-control", id: "user_phone_number", placeholder: "0963 631 5870",  data: { new_admin_validation_target: "phoneNumber" } %>
     </div>
 
-    <div class="mb-6">
-      <%= form.label :gender, class: "form-label" %>
+    <div class="form-group mb-6" data-new-admin-validation-target="gender">
+      <%= form.label :gender, "Gender", class: "form-label", for: "user_gender" %>
       <div class="form-check">
-        <%= form.radio_button :gender, :male, class: "form-check-input", id: "gender_male" %>
-        <%= form.label :gender_male, "Male", class: "form-check-label", required: true %>
+        <%= form.radio_button :gender, :male, { class: "form-check-input", id: "gender_male", data: { new_admin_validation_target: "genderMale" } } %>
+        <%= form.label :gender_male, "Male", class: "form-check-label" %>
       </div>
       <div class="form-check">
-        <%= form.radio_button :gender, :female, class: "form-check-input", id: "gender_female" %>
-        <%= form.label :gender_female, "Female", class: "form-check-label", required: true %>
+        <%= form.radio_button :gender, :female, { class: "form-check-input", id: "gender_female", data: { new_admin_validation_target: "genderFemale" } } %>
+        <%= form.label :gender_female, "Female", class: "form-check-label" %>
       </div>
     </div>
+
 
     <%= form.hidden_field :status, value: "incomplete" %>
     <%= form.hidden_field :role, value: "admin" %>
 
-    <div class="mb-6 form-password-toggle">
+    <div class="form-group mb-6 form-password-toggle">
       <%= form.label :password, class: "form-label" %>
       <div class="input-group input-group-merge has-validation">
         <%= form.password_field :password, autocomplete: "current-password",
                               class: "form-control",
                               id: "user_password",
                               placeholder: "············",
-                              required: true,
-                              data: { password_target: "password" } %>
+                              data: { new_admin_validation_target: "password", password_target: "password"  } %>
         <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
       </div>
     </div>
 
-    <div class="mb-6 form-password-toggle">
+    <div class="form-group mb-6 form-password-toggle">
       <%= form.label :password_confirmation, class: "form-label" %>
       <div class="input-group input-group-merge has-validation">
         <%= form.password_field :password_confirmation, autocomplete: "current-password",
                               class: "form-control",
                               id: "user_password_confirmation",
                               placeholder: "············",
-                              required: true,
-                              data: { password_target: "passwordConfirmation" } %>
+                              data: { new_admin_validation_target: "passwordConfirmation", password_target: "passwordConfirmation"  } %>
         <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
       </div>
     </div>

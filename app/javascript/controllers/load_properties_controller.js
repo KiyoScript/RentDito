@@ -44,7 +44,6 @@ export default class extends Controller {
       fetch(`/dashboard/property_units/${propertyUnitId}/rooms`)
         .then(response => response.json())
         .then(data => {
-          console.log("Rooms data:", data)
           this.updateRooms(data)
         })
         .catch(error => {
@@ -72,8 +71,6 @@ export default class extends Controller {
   }
 
   updatePropertyUnits(propertyUnits) {
-    console.log("Updating property units")
-
     if (this.propertyUnitSelect) {
       this.propertyUnitSelect.innerHTML = "<option value=''>Choose Property Code</option>"
 
@@ -89,8 +86,6 @@ export default class extends Controller {
   }
 
   updateRooms(rooms) {
-    console.log("Updating rooms")
-
     if (this.roomSelect) {
       this.roomSelect.innerHTML = "<option value=''>Choose Room</option>"
 
@@ -98,7 +93,6 @@ export default class extends Controller {
         const option = document.createElement("option")
         option.value = room.id
         option.textContent = room.name
-        console.log(room.name)
         this.roomSelect.appendChild(option)
       })
 
