@@ -18,11 +18,14 @@ class User < ApplicationRecord
   # validates :avatar, content_type: ['image/png', 'image/jpg', 'image/jpeg'], size: { less_than: 5.megabytes }
 
   has_many :properties, dependent: :destroy
+  has_many :assigned_tickets, as: :assigned_to, class_name: 'Ticket'
 
   scope :admin, -> {where(role: 'admin')}
   scope :maintenance_staff, -> {where(role: 'maintenance_staff')}
   scope :utility_staff, -> {where(role: 'utility_staff')}
   scope :tenant, -> {where(role: 'tenant')}
+
+  scope :staff_members, ->{where(role: %i[admin maintenance_staff utility_staff])}
 
   enum status: { verified: 0, unverified: 1, rejected: 2, deactivated: 3, incomplete: 4 }
   enum gender: { male: 0, female: 1 }

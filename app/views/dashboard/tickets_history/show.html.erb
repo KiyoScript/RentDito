@@ -1,0 +1,57 @@
+<div class="container mt-5">
+  <!-- Ticket Info Card -->
+  <div class="card mb-4 shadow">
+    <div class="card-header d-flex justify-content-between align-items-start">
+      <div class="my-2">
+        <h3 class="card-title"><%= @ticket.title %></h3>
+        <p class="text-secondary">Ticket # <%= @ticket.id %></p>
+      </div>
+        <%= status_badge(@ticket.status) %>
+    </div>
+
+    <div class="card-body">
+      <div class="row gap-4">
+        <div class="col-12">
+          <div class="form-label">
+            <p class="fw-bold fs-6 mb-2">Description</p>
+            <p class="fw-normal fs-6 mb-0"><%= @ticket.description %></p>
+          </div>
+        </div>
+
+        <div class="col-12 pb-4 border-bottom">
+          <div class="row">
+            <div class="col-6">
+              <div class="form-label">
+                <p class="fw-bold fs-6 mb-2">Category</p>
+                <p class="fw-normal fs-6 mb-0"><%= @ticket.category.titleize %></p>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="form-label">
+                <p class="fw-bold fs-6 mb-2">Label</p>
+                <%= label_badge(@ticket.label.titleize) %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <p class="fw-normal fs-6 d-flex align-items-center justify-content-start">
+            <i class='menu-icon tf-icons bx bxs-calendar'></i>
+            <span class="fw-normal fs-6"><%= @ticket.created_at.strftime("%B %d, %Y %I:%M %p") %></span>
+          </p>
+        </div>
+
+        <div class="col-12">
+          <p class="fw-normal fs-6 d-flex align-items-center justify-content-start">
+            <i class='menu-icon tf-icons bx bxs-user'></i>
+            Assigned to:
+            <%= @ticket.assigned_to.present?%>
+            <span class="fw-normal fs-6 ms-2"><%= @ticket.assigned_to.present? ? @ticket.assigned_to.fullname.titleize : "N/A"%></span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

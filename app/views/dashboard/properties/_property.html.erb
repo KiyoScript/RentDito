@@ -7,7 +7,7 @@
     <%= render partial: "dashboard/properties/property_units", collection: property.property_units, as: :property_unit %>
   </td>
   <td>
-    <%= property.utility_staff.map(&:user).select { |user| user.role == "utility_staff" }.any? ? users_avatars(property.utility_staff.map(&:user)) : 'None' %>
+    <%= users_avatars(property.utility_staff.map(&:user)) %>
   </td>
   <td>
     <div class="d-inline-block">

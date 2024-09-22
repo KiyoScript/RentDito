@@ -5,6 +5,8 @@ class Tenant < ApplicationRecord
   has_one :property_unit, through: :room
   has_one :property, through: :property_unit
 
+  has_many :tickets, dependent: :destroy
+
   enum deck: { lower: 0, upper: 1 }
 
   after_create :decrement_room_deck_availability

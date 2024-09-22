@@ -189,6 +189,8 @@
                   <% end %>
                 </div>
 
+                <% user_presenter = UserPresenter.new(@user) %>
+
                 <% if @user.maintenance_staff? %>
                   <div class="mb-3">
                     <h5 class="bg-secondary text-center text-white border rounded mt-4">Additional Info</h5>
@@ -196,7 +198,7 @@
 
                   <div class="col-md-6">
                     <%= form.label :city, class: "form-label fs-6" %>
-                    <%= form.text_field :city, class: "form-control", value: @user.maintenance_staff.city.titleize, disabled: true%>
+                    <%= form.text_field :city, class: "form-control", value: user_presenter.city, disabled: true%>
                   </div>
 
                 <% elsif @user.utility_staff? || @user.tenant? %>
@@ -206,27 +208,27 @@
 
                   <div class="col-md-6">
                     <%= form.label :property, class: "form-label fs-6" %>
-                    <%= form.text_field :property, class: "form-control", value: @user.utility_staff.property.address || @user.tenant.property.address, disabled: true%>
+                    <%= form.text_field :property, class: "form-control", value: user_presenter.property, disabled: true%>
                   </div>
 
                   <div class="col-md-6">
                     <%= form.label :property_unit, class: "form-label fs-6" %>
-                    <%= form.text_field :property_unit, class: "form-control", value: @user.utility_staff.property_unit.name || @user.tenant.property_unit.name, disabled: true%>
+                    <%= form.text_field :property_unit, class: "form-control", value: user_presenter.property_unit, disabled: true%>
                   </div>
 
                   <div class="col-md-6">
                     <%= form.label :room, class: "form-label fs-6" %>
-                    <%= form.text_field :room, class: "form-control", value: @user.utility_staff.room.name || @user.tenant.room.name, disabled: true%>
+                    <%= form.text_field :room, class: "form-control", value: user_presenter.room, disabled: true%>
                   </div>
 
                   <div class="col-md-6">
                     <%= form.label :deck, class: "form-label fs-6" %>
-                    <%= form.text_field :deck, class: "form-control", value: @user.utility_staff.deck || @user.tenant.deck, disabled: true%>
+                    <%= form.text_field :deck, class: "form-control", value: user_presenter.deck, disabled: true%>
                   </div>
 
                   <div class="col-md-6">
                     <%= form.label :check_in, class: "form-label fs-6" %>
-                    <%= form.datetime_field :check_in, value: @user.utility_staff.check_in || @user.tenant.check_in, class: "form-select", disabled: true %>
+                    <%= form.datetime_field :check_in, value: user_presenter.check_in, class: "form-select", disabled: true %>
                   </div>
                 <% end %>
 

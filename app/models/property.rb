@@ -2,7 +2,7 @@ class Property < ApplicationRecord
   belongs_to :user
 
   has_many :property_units, dependent: :destroy
-  has_many :utility_staff, dependent: :destroy
+  has_many :utility_staff, dependent: :destroy, class_name: 'UtilityStaff'
   has_many :tenants, through: :property_units
 
   accepts_nested_attributes_for :property_units, allow_destroy: true
