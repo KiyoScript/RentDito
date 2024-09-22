@@ -3,7 +3,7 @@ class Room < ApplicationRecord
   belongs_to :property
 
   has_many :tenants, dependent: :destroy
-  has_many :utility_staff, dependent: :destroy
+  has_many :utility_staffs, dependent: :destroy
 
   validates :name, :upper_deck, :lower_deck, presence: true
 
@@ -19,6 +19,9 @@ class Room < ApplicationRecord
       all
     end
   end
+
+  scope :total_upper_deck, -> { sum(:upper_deck) }
+  scope :total_lower_deck, -> { sum(:lower_deck) }
 
   scope :property_unit_name_eq, ->(name) do
     joins(:property_unit).where(property_units: { name: name })
