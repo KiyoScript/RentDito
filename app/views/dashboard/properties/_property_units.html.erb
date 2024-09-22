@@ -1,1 +1,19 @@
-<span class="badge bg-label-info"><%= property_unit.name.upcase%></span>
+<tr>
+  <td><%= property_unit.name %></td>
+  <td><%= deck_badge(property_unit.rooms.count) %></td>
+  <td><%= deck_badge(property_unit.rooms.total_upper_deck) %></td>
+  <td><%= deck_badge(property_unit.rooms.total_lower_deck) %></td>
+  <td>
+    <div class="d-inline-block">
+      <%= link_to dashboard_property_property_unit_path(property_unit.property, property_unit), class: "btn btn-icon view-record border" do %>
+        <i class="bx bx-show bx-md"></i>
+      <% end %>
+
+      <% if current_user.landlord? %>
+        <%= link_to dashboard_property_property_unit_path(property_unit.property, property_unit), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to remove this property unit?" }, class: "btn btn-icon text-danger border" do %>
+          <i class="bx bx-trash bx-md"></i>
+        <% end %>
+      <% end %>
+    </div>
+  </td>
+</tr>

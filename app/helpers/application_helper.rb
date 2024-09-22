@@ -44,11 +44,18 @@ module ApplicationHelper
 
   def deck_badge(deck)
     deck_class = DECK_BADGE_CLASS[deck] || DECK_BADGE_CLASS[1]
+    deck_class = "badge bg-label-success" if deck_class.nil?
     content_tag(:span, deck, class: deck_class)
   end
 
   def status_button_class(status)
     STATUS_BUTTON_CLASS[status] || STATUS_BUTTON_CLASS["unverified"]
+  end
+
+  def property_unit_badges(property)
+    property.property_units.map do |unit|
+      content_tag(:span, unit.name, class: 'badge bg-label-primary')
+    end.join(' ').html_safe
   end
 
   def avatar(user)

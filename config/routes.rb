@@ -26,9 +26,10 @@ Rails.application.routes.draw do
       end
     end
     resources :tickets_history
-    resources :properties, except: [:edit, :update] do
+    resources :properties do
+      resources :property_units
       member do
-        get :property_units
+        get :render_property_units
       end
     end
 
