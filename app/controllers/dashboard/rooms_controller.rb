@@ -16,7 +16,7 @@ class Dashboard::RoomsController < ApplicationController
   def create
     @room = Room.new(room_params)
     if @room.save
-      redirect_to dashboard_rooms_path, notice: "Successfully created"
+      redirect_to dashboard_rooms_path, notice: "Room successfully created"
     else
       redirect_to new_dashboard_room_path, alert: @room.errors.full_messages.first
     end

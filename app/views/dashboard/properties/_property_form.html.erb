@@ -1,0 +1,32 @@
+<h4 class="card-header text-primary">
+  <%= @property.persisted? ? "Edit Property" : "Create Property" %>
+</h4>
+<div class="card-body">
+  <div class="mb-6">
+    <div class="alert alert-info" role="alert">
+      <strong>Note:</strong>
+        <%= @property.persisted? ? "Update the necessary information to edit this property." : "Fill up necessary information to create a new property." %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-6 field mb-6">
+      <%= form.label :barangay, "Brgy/Street", class: "form-label fs-6" %>
+      <%= form.text_field :barangay, class: "form-control", id: "property_region", placeholder: "Don Felipe Larrazabal" %>
+    </div>
+
+    <div class="col-12 col-md-6 field mb-6">
+      <%= form.label :city, "District/City", class: "form-label fs-6" %>
+      <%= form.text_field :city, class: "form-control", id: "property_district", placeholder: "Ormoc City" %>
+    </div>
+  </div>
+</div>
+
+<div class="card-footer d-flex align-items-center justify-content-between">
+  <%= link_to dashboard_properties_path, class: 'btn btn-secondary d-none d-md-inline-block ' do %>
+    <span class="fs-6">Back</span>
+  <% end %>
+
+  <%= form.submit class: "btn btn-primary d-none d-md-inline-block" %>
+  <%= form.submit class: "btn btn-primary w-100 d-inline-block d-md-none" %>
+</div>

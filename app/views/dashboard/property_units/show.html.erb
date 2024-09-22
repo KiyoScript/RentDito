@@ -1,0 +1,116 @@
+<div class="d-flex flex-column">
+  <header class="bg-white shadow-sm">
+    <div class="container py-4 d-flex justify-content-between align-items-center">
+      <h4 class="font-weight-bold text-dark d-flex align-items-center mb-0">
+        <i class='bx bx-buildings me-2'></i>
+        <%= @property_unit.name %>
+      </h4>
+      <% if current_user.landlord? %>
+        <a href="#" class="menu-link text-center" data-bs-toggle="modal" data-bs-target="#updatePropertyUnitModal-<%= @property_unit.id %>">
+          <i class='bx bx-edit bx-sm'></i>
+          Edit
+        </a>
+      <% end %>
+    </div>
+  </header>
+
+
+  <div class="modal fade" id="updatePropertyUnitModal-<%= @property_unit.id %>" tabindex="-1" aria-labelledby="updatePropertyUnitModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updatePropertyUnitModalLabel">Edit Property Code</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <%= form_with(model: [@property_unit.property, @property_unit], url: dashboard_property_property_unit_path(@property_unit.property, @property_unit), method: :patch, local: false) do |form| %>
+            <div class="my-3">
+              <%= form.label :name, "Property Code" %>
+              <%= form.text_field :name, class: "form-control mt-3", value: @property_unit.name, required: true %>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <%= form.submit "Update Property Code", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <main class="py-5">
+    <div class="row">
+      <div class="col-lg-8 mb-4">
+        <div class="card mb-4">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+              <i class='bx bxs-door-open me-2' ></i>
+              <h5 class="m-0">Rooms</h5>
+            </div>
+            <% if current_user.landlord? %>
+              <%= link_to new_dashboard_room_path, class: "menu-link text-center ms-2 pb-2 align-items-center" do %>
+                <i class='bx bx-plus'></i>
+                <span class="mt-1 text-nowrap"></span>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <% if @property_unit.rooms.present? %>
+                <%= render partial: "dashboard/property_units/room", collection: @property_unit.rooms, as: :room %>
+              <% else %>
+                <div class="ms-1">
+                  N/A
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+              <i class='bx bxs-group me-2' ></i>
+              <h5 class="m-0">Tenants</h5>
+            </div>
+            <% if current_user.landlord? %>
+              <%= link_to new_dashboard_tenant_path, class: "menu-link text-center ms-2 pb-2 align-items-center" do %>
+                <i class='bx bx-plus'></i>
+                <span class="mt-1 text-nowrap"></span>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="card-body">
+            <div class="list-group">
+              <% if @property_unit.tenants.present? %>
+                <%= render partial: 'dashboard/property_units/tenant', collection: @property_unit.tenants.where(type: nil), as: :tenant %>
+              <% else %>
+                N/A
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-header">
+            <div class="d-flex align-items-center">
+              <i class='bx bxs-info-square me-2' ></i>
+              <h5 class="m-0">Details</h5>
+            </div>
+          </div>
+          <div class="card-body">
+            <dl class="row mb-0">
+              <dt class="col-sm-6 text-muted">Property</dt>
+              <dd class="col-sm-6"><%= @property_unit.property.city.titleize %></dd>
+              <dt class="col-sm-6 text-muted">Total Rooms</dt>
+              <dd class="col-sm-6"><%= @property_unit.rooms.count %></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
