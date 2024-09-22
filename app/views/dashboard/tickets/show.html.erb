@@ -40,11 +40,12 @@
                 <div class="form-label">
                   <p class="fw-bold fs-6 mb-2">Images</p>
                 </div>
-                <div class="swiper" id="swiper-with-arrows">
+                <div class="swiper h-auto" id="swiper-with-arrows">
                   <div class="swiper-wrapper">
                     <% @ticket.images.each do |image| %>
-                      <div class="swiper-slide" style="background-image: url(<%= url_for(image) %>)">
-                        <%= image.filename.to_s %>
+                      <div class="swiper-slide">
+                        <%= image_tag url_for(image), alt: image.filename.to_s, class: "img-fluid"%>
+                        <p class="mb-0 text-primary fs-6"><%= image.filename.to_s %></p>
                       </div>
                     <% end %>
                   </div>
@@ -52,7 +53,6 @@
                   <div class="swiper-button-prev swiper-button-white custom-icon"></div>
                 </div>
               </div>
-            <% else %>
             <% end %>
           </div>
         </div>
