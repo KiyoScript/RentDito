@@ -47,7 +47,6 @@
           <p class="fw-normal fs-6 d-flex align-items-center justify-content-start">
             <i class='menu-icon tf-icons bx bxs-user'></i>
             Assigned to:
-            <%= @ticket.assigned_to.present?%>
             <span class="fw-normal fs-6 ms-2"><%= @ticket.assigned_to.present? ? @ticket.assigned_to.fullname.titleize : "N/A"%></span>
           </p>
         </div>
