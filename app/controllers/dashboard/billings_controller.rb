@@ -8,7 +8,6 @@ class Dashboard::BillingsController < ApplicationController
       @q = Billing.ransack(params[:q])
       @pagy, @billings = pagy(@q.result.order(created_at: :desc), distinct: :true)
     else
-      # Fetch billings where the current_user is associated with the charges
       @q = Billing.joins(:charges).where(charges: { user_id: current_user.id }).distinct.ransack(params[:q])
       @pagy, @billings = pagy(@q.result.order(created_at: :desc), distinct: :true)
     end
@@ -38,7 +37,7 @@ class Dashboard::BillingsController < ApplicationController
 
   def show
     @property_units = @billing.property.property_units
-    @billing_charges = @billing.charges
+    @billing_charges = @billing.charges.order(created_at: :desc)
   end
 
   private
