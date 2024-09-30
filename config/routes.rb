@@ -44,6 +44,10 @@ Rails.application.routes.draw do
         get :decks
       end
     end
+
+    resources :billings do
+      resources :charges
+    end
   end
 
   resources :onboarding, only: [:show, :update]

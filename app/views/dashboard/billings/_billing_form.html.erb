@@ -1,0 +1,69 @@
+<h4 class="card-header text-primary">
+  <%= @billing.persisted? ? "Edit Billing" : "Create Billing" %>
+</h4>
+<div class="card-body">
+  <div class="mb-6">
+    <div class="alert alert-info" role="alert">
+      <strong>Note:</strong>
+      <%= @billing.persisted? ? "Ensure all necessary details are correct before updating this billing record." : "Please provide all the required details to create a new billing record." %>
+    </div>
+  </div>
+
+
+  <h5 class="text-secondary">Electricity Bill <i class='bx bxs-bolt' style='color: yellow; font-size: 1.5rem;'></i></h5>
+  <div class="row">
+    <div class="col-12 field mb-6">
+      <%= form.label :property_id, "Property", class: "form-label fs-6" %>
+      <%= form.select :property_id, options_for_select(Property.all.map { |p| [p.address, p.id] }), { prompt: "Property" }, class: "form-select", required: true %>
+    </div>
+
+    <div class="col-12 col-md-6 field mb-6">
+      <%= form.label :electricity_bill_start_date, "Start date", class: "form-label fs-6" %>
+      <%= form.date_field :electricity_bill_start_date, class: "form-control", data: { action: 'change->billing#generateEndDateValue', billing_target: 'startDateField'}, required: true %>
+    </div>
+
+    <div class="col-12 col-md-6 field mb-6">
+      <%= form.label :electricity_bill_end_date, "End date", class: "form-label fs-6" %>
+      <%= form.date_field :electricity_bill_end_date, class: "form-control", data: { billing_target: 'endDateField'}, required: true %>
+    </div>
+
+    <div class="col-12 col-md-6 field mb-6">
+      <%= form.label :electricity_bill_partial_amount, "Total amount", class: "form-label fs-6" %>
+      <%= form.number_field :electricity_bill_partial_amount, class: "form-control", min: 0.00, step: "any", required: true %>
+    </div>
+  </div>
+  <div class="divider border-bottom"></div>
+  <h5 class="text-secondary">Water Bill <i class='bx bxs-droplet text-info' style='font-size: 1.5rem;'></i></h5>
+  <div class="row">
+    <div class="col-12 col-md-6 field mb-6">
+      <%= form.label :water_bill_start_date, "Start date", class: "form-label fs-6" %>
+      <%= form.date_field :water_bill_start_date, class: "form-control", data: { action: 'change->billing#generateEndDateValue', billing_target: 'waterStartDateField'}, required: true %>
+    </div>
+
+    <div class="col-12 col-md-6 field mb-6">
+      <%= form.label :water_bill_end_date, "End date", class: "form-label fs-6" %>
+      <%= form.date_field :water_bill_end_date, class: "form-control", data: { billing_target: 'waterEndDateField'}, required: true %>
+    </div>
+
+    <div class="col-12 col-md-6 field mb-6">
+      <%= form.label :water_bill_total_amount, "Total amount", class: "form-label fs-6" %>
+      <%= form.number_field :water_bill_total_amount, class: "form-control", min: 0.00, step: "any", required: true %>
+    </div>
+
+    <div class="divider border-bottom"></div>
+
+    <div class="col-12 field mb-6">
+      <%= form.label :due_date, class: "form-label fs-6" %>
+      <%= form.datetime_field :due_date, class: "form-control", data: { billing_target: 'dueDateField' }, required: true %>
+    </div>
+  </div>
+</div>
+
+<div class="card-footer d-flex align-items-center justify-content-between">
+  <%= link_to dashboard_properties_path, class: 'btn btn-secondary d-none d-md-inline-block ' do %>
+    <span class="fs-6">Back</span>
+  <% end %>
+
+  <%= form.submit class: "btn btn-primary d-none d-md-inline-block" %>
+  <%= form.submit class: "btn btn-primary w-100 d-inline-block d-md-none" %>
+</div>

@@ -100,9 +100,9 @@
 <% end %>
 
 <div class="card mb-6 card-border-shadow-primary">
-  <div class="card-header">
-    <h5 class="card-title m-0 text-primary">Assigned Staffs</h5>
-  </div>
+   <div class="card-header d-flex justify-content-between" >
+      <h4 class="card-title m-0 text-primary">Assign Staffs</h4>
+    </div>
   <div class="card-body">
     <% if @property.utility_staffs.present? %>
       <%= render partial: "dashboard/properties/assigned_utility_staff", collection: @property.utility_staffs, as: :utility_staff %>

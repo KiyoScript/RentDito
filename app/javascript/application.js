@@ -37,7 +37,7 @@ document.addEventListener('turbo:load', () => {
     hideEasing: "linear",
     showMethod: "fadeIn",
     hideMethod: "fadeOut"
-  };
+  }
 })
 
 

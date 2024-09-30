@@ -19,6 +19,8 @@ class User < ApplicationRecord
 
   has_many :properties, dependent: :destroy
   has_many :assigned_tickets, as: :assigned_to, class_name: 'Ticket'
+  has_many :billings
+  has_many :charges
 
   scope :admin, -> {where(role: 'admin')}
   scope :maintenance_staff, -> {where(role: 'maintenance_staff')}

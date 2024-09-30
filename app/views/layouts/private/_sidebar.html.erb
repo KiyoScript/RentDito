@@ -123,6 +123,13 @@
       <% end %>
     </li>
 
+    <li class="menu-item <%= 'active' if request.path.include?('dashboard/billings') %>">
+      <%= link_to dashboard_billings_path, class: 'menu-link' do %>
+        <i class='menu-icon tf-icons bx bx-money'></i>
+        <div class="text-truncate" data-i18n="Billings">Billings</div>
+      <% end %>
+    </li>
+    
     <li class="menu-item open <%= 'active' if request.path == "/dashboard/tickets_history" %>">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class='menu-icon tf-icons bx bx-history'></i>
