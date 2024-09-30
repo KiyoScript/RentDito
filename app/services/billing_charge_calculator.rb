@@ -46,14 +46,13 @@ class BillingChargeCalculator
   end
 
   def update_charges_total_amount(charge)
-    extra_charge = charge.extra_charge_amount || 0.0
-    electricity_share = charge.electricity_share_amount || 0.0
-    water_share = charge.water_share_amount || 0.0
-    wifi_share = charge.wifi_share_amount || 0.0
-    monthly_rental = charge.monthly_rental_amount || 0.0
-
-    total_amount = extra_charge + electricity_share + water_share + wifi_share + monthly_rental
-
+    total_amount = [
+      charge.extra_charge_amount || 0.0,
+      charge.electricity_share_amount || 0.0,
+      charge.water_share_amount || 0.0,
+      charge.wifi_share_amount || 0.0,
+      charge.monthly_rental_amount || 0.0
+    ].sum
    charge.update_columns(total_amount: total_amount)
   end
 end
