@@ -4,6 +4,7 @@ pin "application"
 pin "@hotwired/turbo-rails", to: "turbo.min.js"
 pin "@hotwired/stimulus", to: "stimulus.min.js"
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
+pin "@hotwired/strada", to: "https://cdn.jsdelivr.net/npm/@hotwired/strada@latest/dist/strada.min.js", preload: true
 pin_all_from "app/javascript/controllers", under: "controllers"
 pin "helpers"
 pin "config"
