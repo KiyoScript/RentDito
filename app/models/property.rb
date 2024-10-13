@@ -5,6 +5,7 @@ class Property < ApplicationRecord
   has_many :utility_staffs, dependent: :destroy, class_name: 'UtilityStaff'
   has_many :tenants, through: :property_units
   has_many :billings, dependent: :destroy
+  has_many :rooms, through: :property_units
 
   validates :barangay, uniqueness: { scope: :city }
   validates :city, :barangay,  presence: true

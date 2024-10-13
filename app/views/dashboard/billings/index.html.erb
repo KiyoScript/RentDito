@@ -36,15 +36,6 @@
               <h5 class="text-primary">By Property</h5>
               <%= form.select :property_id_eq, Property.all.map { |p| [p.address, p.id] }, { selected: params.dig(:q, :property_id_eq) }, class: 'form-select' %>
 
-              <h5 class="text-primary mt-4">Type of Accomodation</h5>
-              <%= form.select :status_eq, [['Unpaid', 0], ['Paid', 1], ['Pending', 2]], { prompt: 'Select Status' }, class: 'form-select' %>
-
-              <div class="my-6">
-                <div class="alert alert-info" role="alert">
-                  <strong>Note:</strong>
-                  Use the filtering below to check for available upper or lower deck bedspaces.
-                </div>
-              </div>
             </div>
 
             <div class="d-flex flex-column justify-content-between align-items-center gap-2">
@@ -71,7 +62,6 @@
         <tr>
           <th>Billing No.</th>
           <th>Property</th>
-          <th>Status</th>
           <th>Total Amount</th>
           <th>Due Date</th>
           <th>Actions</th>

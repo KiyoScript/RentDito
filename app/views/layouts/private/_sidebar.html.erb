@@ -129,7 +129,25 @@
         <div class="text-truncate" data-i18n="Billings">Billings</div>
       <% end %>
     </li>
-    
+
+
+    <% if current_user.tenant? || current_user.utility_staff? %>
+      <li class="menu-item <%= 'active' if request.path.include?('dashboard/charges') %>">
+        <%= link_to dashboard_charges_path, class: 'menu-link' do %>
+          <i class='menu-icon tf-icons bx bx-money'></i>
+          <div class="text-truncate" data-i18n="Charges">Charges</div>
+        <% end %>
+      </li>
+    <% end %>
+
+    <li class="menu-item <%= 'active' if request.path.include?('dashboard/transactions') %>">
+      <%= link_to dashboard_transactions_path, class: 'menu-link' do %>
+        <i class='menu-icon tf-icons bx bx-money'></i>
+        <div class="text-truncate" data-i18n="Transactions">Transactions</div>
+      <% end %>
+    </li>
+
+
     <li class="menu-item open <%= 'active' if request.path == "/dashboard/tickets_history" %>">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class='menu-icon tf-icons bx bx-history'></i>

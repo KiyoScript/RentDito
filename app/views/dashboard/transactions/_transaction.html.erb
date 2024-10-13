@@ -1,0 +1,56 @@
+<tr>
+  <td>
+    <p class="text-primary"><%= formmated_date(transaction.created_at) %></p>
+    <%= transaction.created_at.strftime("%B %d, %Y %I:%M %p") %>
+  </td>
+  <td><%= transaction.transaction_type %></td>
+  <td>
+    <span class="badge bg-label-<%= transaction.under_review? ? 'warning' : 'success' %>">
+      <%= transaction.status.titleize %>
+    </span>
+  </td>
+  <td><%= transaction.amount.present? ? transaction.amount.format : "N/A" %></td>
+  <td><%= transaction.user.fullname %></td>
+  <td>
+    <div class="d-inline-block">
+      <button type="button" class="btn btn-icon view-record border" data-bs-toggle="modal" data-bs-target="#transactionModal-<%= transaction.id %>">
+        <i class="bx bx-show bx-md"></i>
+      </button>
+    </div>
+  </td>
+</tr>
+
+<!-- Transaction Modal -->
+<div class="modal fade" id="transactionModal-<%= transaction.id %>" tabindex="-1" aria-labelledby="transactionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="transactionModalLabel">Transaction Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <% if transaction.deposit? && transaction.deposit.receipt.attached? %>
+          <h5 class="text-primary mt-4">Receipt</h5>
+          <div class="text-center d-flex align-items-center justify-content-center">
+            <%= image_tag transaction.deposit.receipt, alt: "Signature", class: "img-thumbnail", style: "height: 30rem;" %>
+          </div>
+        <% end %>
+        <div class="mt-2">
+          <p><strong>Transaction Type:</strong> <%= transaction.transaction_type.titleize %></p>
+          <p><strong>Date:</strong> <%= transaction.created_at.strftime("%B %d, %Y %I:%M %p") %></p>
+          <p><strong>Status:</strong> <%= transaction.status.titleize %></p>
+          <p><strong>Amount:</strong> <%= transaction.amount.present? ? transaction.amount.format : "N/A" %></p>
+          <p><strong>Sender:</strong> <%= transaction.user.fullname %></p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <% if current_user.landlord? %>
+          <% if transaction.under_review? %>
+            <%= button_to 'Mark as Paid', mark_as_paid_dashboard_transaction_path(transaction), method: :patch, class: 'btn btn-primary', data: { confirm: 'Are you sure you want to mark this transaction as paid?' } %>
+          <% end %>
+        <% end %>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

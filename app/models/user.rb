@@ -14,6 +14,7 @@ class User < ApplicationRecord
   has_one_attached :signature
   has_one_attached :first_valid_id
   has_one_attached :second_valid_id
+  has_one :balance
 
   # validates :avatar, content_type: ['image/png', 'image/jpg', 'image/jpeg'], size: { less_than: 5.megabytes }
 
@@ -21,6 +22,9 @@ class User < ApplicationRecord
   has_many :assigned_tickets, as: :assigned_to, class_name: 'Ticket'
   has_many :billings
   has_many :charges
+  has_many :deposits
+  has_many :transactions
+  has_many :payments
 
   scope :admin, -> {where(role: 'admin')}
   scope :maintenance_staff, -> {where(role: 'maintenance_staff')}
@@ -34,6 +38,7 @@ class User < ApplicationRecord
   enum role: { landlord: 0, admin: 1, maintenance_staff: 2, utility_staff: 3, tenant: 4 }
 
   after_create :user_account_details
+  after_create :generate_user_balance
 
   accepts_nested_attributes_for :maintenance_staff, allow_destroy: true
   accepts_nested_attributes_for :utility_staff, allow_destroy: true
@@ -55,5 +60,12 @@ class User < ApplicationRecord
 
   def user_account_details
     UserAccountDetailsMailer.send_email(self, generated_password).deliver_now if generated_password.present?
+  end
+
+  def generate_user_balance
+    Balance.create(
+      user: self,
+      amount: 0.00
+    )
   end
 end

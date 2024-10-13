@@ -14,7 +14,8 @@ class BillingChargeCalculator
     )
 
     update_billing_charges!
-    update_charges_total_amount(charge)
+    update_charges_total_amount!(charge)
+    update_electricity_billing_total_amount!
   end
 
   private
@@ -31,11 +32,17 @@ class BillingChargeCalculator
   end
 
   def update_billing_charges!
+    extra_charges = []
+
     billing.charges.where.not(water_share_amount: 0.0, electricity_share_amount: 0.0).each do |charge|
       days_count_ratio = charge.days_count.to_f / total_days_of_all_occupants
       update_charge_share_amounts(charge, days_count_ratio)
-      update_charges_total_amount(charge)
+      update_charges_total_amount!(charge)
+
+      extra_charges << charge.extra_charge_amount
     end
+
+    update_extra_charges_total_amount(extra_charges.sum)
   end
 
   def update_charge_share_amounts(charge, days_count_ratio)
@@ -45,7 +52,7 @@ class BillingChargeCalculator
     )
   end
 
-  def update_charges_total_amount(charge)
+  def update_charges_total_amount!(charge)
     total_amount = [
       charge.extra_charge_amount || 0.0,
       charge.electricity_share_amount || 0.0,
@@ -53,6 +60,19 @@ class BillingChargeCalculator
       charge.wifi_share_amount || 0.0,
       charge.monthly_rental_amount || 0.0
     ].sum
-   charge.update_columns(total_amount: total_amount)
+   charge.update_columns(total_amount: total_amount, amount_to_pay: total_amount)
+  end
+
+  def update_extra_charges_total_amount(total_amount)
+    @billing.update(charges_total_amount: total_amount)
+  end
+
+  def update_electricity_billing_total_amount!
+    electricity_billing_total_amount = [
+      @billing.electricity_bill_partial_amount || 0.0,
+      @billing.charges_total_amount || 0.0
+    ].sum
+
+    @billing.update(electricity_bill_total_amount:  electricity_billing_total_amount)
   end
 end

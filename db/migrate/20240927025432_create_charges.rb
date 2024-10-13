@@ -8,6 +8,8 @@ class CreateCharges < ActiveRecord::Migration[7.1]
       t.decimal :monthly_rental_amount, precision: 6, scale: 2, default: 0.0
       t.decimal :total_amount, precision: 6, scale: 2, default: 0.0
       t.integer :days_count
+      t.integer :status, default: 0
+      t.decimal :paid_amount, precision: 6, scale: 2, default: 0.0
       t.references :user, null: false, foreign_key: true
       t.references :billing, null: false, foreign_key: true
 

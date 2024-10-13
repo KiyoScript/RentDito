@@ -1,117 +1,118 @@
 <div class="container-xxl flex-grow-1 container-p-y">
+  <!-- Header -->
   <div class="row">
-    <!-- User Sidebar -->
-    <div class="col-xl-4 col-lg-5">
-      <!-- User Card -->
+    <div class="col-12">
       <div class="card mb-6">
-        <div class="card-body pt-12">
-          <div class="user-avatar-section">
+        <div class="user-profile-header-banner">
+          <%= image_tag 'profile-banner', alt: 'Banner Image', class: 'img-fluid'%>
+        </div>
+        <div class="user-profile-header d-flex flex-column flex-lg-row text-sm-start text-center mb-8">
+         <div class="user-avatar-section p-4">
             <div class="d-flex align-items-center flex-column">
               <img src="<%= avatar(@user) %>" alt="Avatar" class="rounded-circle" style="width: 150px; height: auto;">
-              <div class="user-info text-center">
-                <h5><%= @user.fullname %></h5>
-                <span class="badge bg-label-primary"><%= @user.role.humanize %></span>
-              </div>
             </div>
           </div>
+          <div class="flex-grow-1 mt-3 mt-lg-5">
+            <div
+              class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-5 flex-md-row flex-column gap-4">
+              <div class="user-profile-info">
+                <h4 class="mb-2 mt-lg-7"><%= @user.fullname %></h4>
+                <ul
+                  class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-4 mt-4">
+                  <li class="list-inline-item">
+                    <i class="bx bx-calendar me-2 align-top"></i>
+                    <span class="fw-medium">Joined <%= @user.created_at.strftime("%B %d, %Y") %></span>
+                  </li>
+                </ul>
+              </div>
 
-
-          <% if current_user.landlord? && !current_user.verified? %>
-            <div class="btn-group my-4 w-100" data-controller="user-status" data-user-status-user-id="<%= @user.id %>">
-              <button class="<%= status_button_class(@user.status) %>" data-bs-toggle="dropdown">
+              <% if current_user.landlord? %>
+                <div class="btn-group my-4" data-controller="user-status" data-user-status-user-id="<%= @user.id %>">
+                  <button class="<%= status_button_class(@user.status) %>" data-bs-toggle="dropdown">
+                    <span data-user-status-target="statusLabel"><%= @user.status.titleize %></span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="verified">Verified</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="rejected">Rejected</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="incomplete">Incomplete</a></li>
+                  </ul>
+                </div>
+              <% else %>
+              <button class="<%= status_button_class(@user.status) %>my-4">
                 <span data-user-status-target="statusLabel"><%= @user.status.titleize %></span>
               </button>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="verified">Verified</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="rejected">Rejected</a></li>
-                <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="incomplete">Incomplete</a></li>
-              </ul>
+              <% end %>
             </div>
-          <% else %>
-
-          <button class="<%= status_button_class(@user.status) %> w-100 my-4">
-            <span data-user-status-target="statusLabel"><%= @user.status.titleize %></span>
-          </button>
-
-          <% end %>
-
-
-
-          <h5 class="pb-4 border-bottom mb-4">Details</h5>
-          <div class="info-container">
-            <ul class="list-unstyled mb-6">
-              <li class="mb-2">
-                <span class="h6">Email:</span>
-                <span><%= @user.email %></span>
-              </li>
-              <li class="mb-2">
-                <span class="h6">Age:</span>
-                <span><%= @user.age.present? ? @user.age : 'N/A' %></span>
-              </li>
-              <li class="mb-2">
-                <span class="h6">Gender:</span>
-                <span><%= gender_badge(@user.gender) %></span>
-              </li>
-              <li class="mb-2">
-                <span class="h6">Phone Number:</span>
-                <span><%= @user.phone_number %></span>
-              </li>
-
-
-              <% if @user.maintenance_staff? %>
-                <li class="mb-2">
-                  <span class="h6">City:</span>
-                  <span><%= @user.maintenance_staff.city.titleize %></span>
-                </li>
-              <% end %>
-
-
-              <% if @user.utility_staff || @user.tenant %>
-                <h5 class="pb-4 border-bottom my-4">Others</h5>
-
-                <% user_presenter = UserPresenter.new(@user) %>
-
-                <li class="mb-2">
-                  <span class="h6">Property:</span>
-                  <span><%= user_presenter.property %></span>
-                </li>
-
-                <li class="mb-2">
-                  <span class="h6">Accomodation:</span>
-                  <span><%= user_presenter.accomodation.titleize %></span>
-                </li>
-
-                <li class="mb-2">
-                  <span class="h6">Property Code:</span>
-                  <span><%= user_presenter.property_unit %></span>
-                </li>
-
-                <li class="mb-2">
-                  <span class="h6">Room:</span>
-                  <span><%= user_presenter.room %></span>
-                </li>
-
-                <li class="mb-2">
-                  <span class="h6">Deck:</span>
-                  <span><%= user_presenter.deck %></span>
-                </li>
-
-                <li class="mb-2">
-                  <span class="h6">Check In:</span>
-                  <span><%= user_presenter.check_in %></span>
-                </li>
-              <% end %>
-            </ul>
           </div>
         </div>
       </div>
-      <!-- /User Card -->
     </div>
-    <!--/ User Sidebar -->
+  </div>
+  <!--/ Header -->
+  <div class="row">
+    <div class="col-12 col-md-4">
+      <div class="card mb-6">
+        <div class="card-body">
+          <small class="card-text text-uppercase text-muted small">About</small>
+          <ul class="list-unstyled my-3 py-1">
+            <li class="d-flex align-items-center mb-4">
+              <i class="bx bx-user"></i><span class="fw-medium mx-2">Full Name:</span> <span><%= @user.fullname %></span>
+            </li>
+            <li class="d-flex align-items-center mb-4">
+              <i class="bx bx-check"></i><span class="fw-medium mx-2">Status:</span> <%= status_badge(@user.status)%>
+            </li>
+            <li class="d-flex align-items-center mb-4">
+              <i class="bx bx-hard-hat"></i><span class="fw-medium mx-2">Role:</span> <span><%= @user.role.titleize %></span>
+            </li>
+          </ul>
+          <small class="card-text text-uppercase text-muted small">Contacts</small>
+          <ul class="list-unstyled my-3 py-1">
+            <li class="d-flex align-items-center mb-4">
+              <i class="bx bx-phone"></i><span class="fw-medium mx-2">Contact:</span>
+              <span><%= @user.phone_number %></span>
+            </li>
+            <li class="d-flex align-items-center mb-4">
+              <i class="bx bx-envelope"></i><span class="fw-medium mx-2">Email:</span>
+              <span><%= @user.email %></span>
+            </li>
+          </ul>
+          <small class="card-text text-uppercase text-muted small">Others</small>
+          <ul class="list-unstyled mb-0 mt-3 pt-1">
+            <li class="d-flex flex-wrap mb-4">
+              <span class="fw-medium me-2">Gender: </span><span><%= gender_badge(@user.gender )%></span>
+            </li>
+            <% if @user.maintenance_staff? %>
+              <li class="d-flex flex-wrap">
+                <span class="fw-medium me-2">City: </span><span><%= @user.maintenance_staff.city.titleize %></span>
+              </li>
+            <% end %>
 
-    <!-- User Content -->
-    <div class="col-xl-8 col-lg-7">
-      <!-- User Pills -->
+            <% if @user.utility_staff || @user.tenant %>
+              <% user_presenter = UserPresenter.new(@user) %>
+              <li class="d-flex flex-wrap">
+                <span class="fw-medium me-2">Property: </span><span><%= user_presenter.property %></span>
+              </li>
+              <li class="d-flex flex-wrap">
+                <span class="fw-medium me-2">Accomodation: </span><span><%= user_presenter.accomodation.titleize %></span>
+              </li>
+              <li class="d-flex flex-wrap">
+                <span class="fw-medium me-2">Property Code: </span><span><%= user_presenter.property_unit %></span>
+              </li>
+              <li class="d-flex flex-wrap">
+                <span class="fw-medium me-2">Room: </span><span><%= user_presenter.room %></span>
+              </li>
+              <li class="d-flex flex-wrap">
+                <span class="fw-medium me-2">Deck: </span><span><%= user_presenter.deck %></span>
+              </li>
+              <li class="d-flex flex-wrap">
+                <span class="fw-medium me-2">Check In: </span><span><%= user_presenter.check_in %></span>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-8">
       <div class="nav-align-top">
         <ul class="nav nav-pills mb-4" role="tablist">
           <li class="nav-item">
@@ -122,7 +123,6 @@
           </li>
         </ul>
       </div>
-      <!--/ User Pills -->
       <div class="tab-content">
         <div class="tab-pane fade show active" id="account-documents" role="tabpanel">
           <div class="row gap-2 gap-md-0">

@@ -4,7 +4,6 @@ class Billing < ApplicationRecord
 
 
   has_many :charges, dependent: :destroy
-  enum :status, [:unpaid, :paid, :pending]
 
   before_create :generate_billing_number
   after_create :generate_charges
@@ -23,7 +22,7 @@ class Billing < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    ["status", "property_id", "number"]
+    ["property_id", "number"]
   end
 
   def self.ransackable_associations(auth_object = nil)
@@ -97,7 +96,9 @@ class Billing < ApplicationRecord
         monthly_rental_amount: user_monthly_rental,
         days_count: number_of_days,
         wifi_share_amount: user_wifi_share,
-        total_amount: (extra_charge_amount.to_f + water_share.to_f + electricity_share.to_f + user_monthly_rental.to_f + user_wifi_share.to_f ).round(2)
+        status: tenant.user.utility_staff? ? 'paid' : 'unpaid',
+        total_amount: (extra_charge_amount.to_f + water_share.to_f + electricity_share.to_f + user_monthly_rental.to_f + user_wifi_share.to_f ).round(2),
+        amount_to_pay: (extra_charge_amount.to_f + water_share.to_f + electricity_share.to_f + user_monthly_rental.to_f + user_wifi_share.to_f ).round(2)
       )
     end
   end

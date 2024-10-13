@@ -1,0 +1,80 @@
+<tr>
+  <td><%= charge.days_count %></td>
+  <td><%= charge_status_badge(charge.status) %></td>
+  <td>₱ <%= charge.amount_to_pay %></td>
+  <td>₱ <%= charge.paid_amount %></td>
+  <td>₱ <%= charge.total_amount %></td>
+  <td><%= charge.billing.due_date.strftime("%B %d, %Y") %></td>
+  <td>
+    <div class="d-inline-block">
+      <%= link_to 'javascript:void(0)', class: "btn btn-outline-primary btn-icon border", data: { bs_toggle: "modal", bs_target: "#chargeModal-#{charge.id}" } do %>
+        <i class="bx bx-show bx-md"></i>
+      <% end %>
+      <% unless charge.amount_to_pay == 0.0 %>
+        <%= link_to 'javascript:void(0)', class: "btn btn-icon view-record border btn-outline-success", data: { bs_toggle: "modal", bs_target: "#paymentModal-#{charge.id}" } do %>
+          <i class='bx bx-money bx-md'></i>
+        <% end %>
+      <% end %>
+    </div>
+  </td>
+</tr>
+
+<!-- Modal Structure for Charge Details -->
+<div class="modal fade" id="chargeModal-<%= charge.id %>" tabindex="-1" aria-labelledby="chargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header">
+        <h5 class="modal-title" id="chargeModalLabel">Charge Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="mb-3">
+          <strong>Total Amount:</strong>
+          <p class="text-muted">₱ <%= charge.total_amount %></p>
+        </div>
+        <div class="mb-3">
+          <strong>Extra Charge:</strong>
+          <p class="text-muted">₱ <%= charge.extra_charge_amount %></p>
+        </div>
+        <div class="mb-3">
+          <strong>Electricity Share:</strong>
+          <p class="text-muted">₱ <%= charge.electricity_share_amount %></p>
+        </div>
+        <div class="mb-3">
+          <strong>Water Share:</strong>
+          <p class="text-muted">₱ <%= charge.water_share_amount %></p>
+        </div>
+        <div class="mb-3">
+          <strong>WiFi Share:</strong>
+          <p class="text-muted">₱ <%= charge.wifi_share_amount %></p>
+        </div>
+        <div class="mb-3">
+          <strong>Monthly Rental:</strong>
+          <p class="text-muted">₱ <%= charge.monthly_rental_amount %></p>
+        </div>
+        <div class="mb-3">
+          <strong>Due Date:</strong>
+          <p class="text-muted"><%= charge.billing.due_date.strftime("%B %d, %Y") %></p>
+        </div>
+      </div>
+      <div class="modal-footer d-flex align-items-center justify-content-between">
+        <%= link_to 'View Billing', dashboard_billing_path(charge.billing.number), class: 'btn btn-primary ' %>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Structure for Payment -->
+<div class="modal fade" id="paymentModal-<%= charge.id %>" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header text-white">
+        <h5 class="modal-title" id="paymentModalLabel">Process Payment</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <%= turbo_frame_tag "add_payment_frame_#{charge.id}", src: new_dashboard_payment_path(charge_id: charge.id), target: "_top" %>
+    </div>
+  </div>
+</div>

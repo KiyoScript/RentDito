@@ -1,1 +1,77 @@
-<h3 class="text-primary">Admin Dashboard</h3>
+<h3 class="text-normal">Dashboard</h3>
+  <div class="row gap-2">
+    <div class="col-md-4" style="height: 18rem;">
+      <div class="card h-100" data-controller="fetch-occupied-bedspaces">
+        <div class="card-header d-flex align-items-center justify-content-between">
+          <h5 class="card-title m-0 me-2">Available <span class="text-primary">Bedspaces</span></h5>
+          <div class="dropdown">
+            <button class="btn p-0" type="button" id="cardOpt1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="bx bx-dots-vertical-rounded text-muted"></i>
+            </button>
+            <div id="propertyDropdownMenu" class="dropdown-menu" aria-labelledby="list_properties">
+              <% Property.all.each do |property| %>
+                <button class="dropdown-item" type="button" data-property-id="<%= property.id %>" data-action="click->fetch-occupied-bedspaces#updateCard">
+                  <%= property.address %>
+                </button>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="card-body text-center">
+          <div class="d-flex justify-content-center mb-3">
+            <div class="avatar avatar-md flex-shrink-0">
+              <span class="avatar-initial avatar-shadow-success rounded-circle"><i class="bx bx-buildings bx-26px"></i></span>
+            </div>
+          </div>
+          <p data-fetch-occupied-bedspaces-target="propertyName" class="mb-1">Select a property</p>
+          <div class="my-4">
+            <h4 data-fetch-occupied-bedspaces-target="occupancy" class="card-title mb-1">--/--</h4>
+            <span class="fw-bold text-primary">Upper</span><span> Deck - </span><span data-fetch-occupied-bedspaces-target="upperDeck" class="badge bg-label-danger me-1">--</span>
+            <span class="mb-1"></span> <span class="fw-bold text-primary">Lower</span>  Deck - <span data-fetch-occupied-bedspaces-target="lowerDeck" class="badge bg-label-danger me-1">--</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% if current_user.utility_staff? || current_user.tenant? %>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-3 me-2">Your <span class="text-primary">Balance</span></h5>
+          <p class="card-text">
+            Manage your funds and transactions
+          </p>
+        </div>
+        <div class="card-body my-2">
+
+          <% pending_deposit = current_user.deposits.find_by(status: 'pending') %>
+
+          <% if pending_deposit.present? %>
+            <div class="alert alert-info" role="alert">
+              You have a pending deposit of <%= pending_deposit.amount.format %> that has not yet been added to your balance.
+              Please wait while it is processed.
+            </div>
+          <% end %>
+
+          <p class="card-text">Current Balance</p>
+          <h4 class="card-title text-success">
+            <%= current_user.balance.present? ? current_user.balance.amount.format : '₱ 0.00' %>
+          </h4>
+
+          <% if current_user.balance.present? && current_user.balance.amount < Money.new(200_00, 'PHP') %>
+            <div class="alert alert-warning mt-2" role="alert">
+              Your balance is below the required minimum of ₱200. Please deposit money.
+            </div>
+          <% end %>
+
+          <div class="d-flex align-items-center justify-content-start gap-2 mt-4">
+            <%= turbo_frame_tag :new_deposit_frame, src: new_dashboard_deposit_path %>
+
+            <%= link_to dashboard_charges_path, class: 'btn btn-warning d-flex align-items-center' do %>
+              <i class='bx bx-receipt me-2'></i> Pay Charges
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  </div>
