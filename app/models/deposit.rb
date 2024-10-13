@@ -16,7 +16,7 @@ class Deposit < ApplicationRecord
       user: user,
       transaction_type: 'deposit',
       amount_cents: amount_cents,
-      charge_id: nil,
+      payment_id: nil,
       deposit_id: id
     )
   end
