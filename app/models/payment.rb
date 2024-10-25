@@ -48,8 +48,7 @@ has_many :transactions, dependent: :destroy
   private
 
   def sufficient_balance
-    charge_money = Money.new(charge.amount_to_pay * 100, "PHP")
-    if user.balance.amount < charge_money
+    if user.balance.amount < amount
       errors.add(:base, "User balance is insufficient to pay for this charge.")
     end
   end
