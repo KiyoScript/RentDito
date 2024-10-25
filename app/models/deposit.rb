@@ -5,7 +5,7 @@ class Deposit < ApplicationRecord
 
   has_many :transactions, dependent: :destroy
 
-  enum status: [:pending, :done]
+  enum status: [:pending, :done, :rejected]
   monetize :amount_cents
 
   after_create :create_transaction

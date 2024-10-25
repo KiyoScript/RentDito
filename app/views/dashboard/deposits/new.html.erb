@@ -1,13 +1,13 @@
 <%= turbo_frame_tag :new_deposit_frame do %>
   <button type="button" class="btn btn-primary d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#depositModal">
-    <i class='bx bx-wallet me-2'></i> Deposit
+    <i class='bx bx-wallet me-2'></i> Add Balance
   </button>
   <div class="modal fade" id="depositModal" tabindex="-1" aria-labelledby="depositModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <%= form_with model: @deposit, url: dashboard_deposits_path, method: :post, html: { data: { controller: "receipt-uploader deposit-form", action: "turbo:submit-end->deposit-form#closeModal" }} do |form| %>
           <div class="modal-header">
-            <h5 class="modal-title" id="depositModalLabel">Deposit</h5>
+            <h5 class="modal-title" id="depositModalLabel">Add Balance</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">

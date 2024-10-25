@@ -57,6 +57,7 @@ Rails.application.routes.draw do
     resources :transactions do
       member do
         patch :mark_as_paid
+        patch :mark_as_rejected
       end
     end
 

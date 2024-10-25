@@ -5,9 +5,7 @@
   </td>
   <td><%= transaction.transaction_type %></td>
   <td>
-    <span class="badge bg-label-<%= transaction.under_review? ? 'warning' : 'success' %>">
-      <%= transaction.status.titleize %>
-    </span>
+    <%= status_badge(transaction.status) %>
   </td>
   <td><%= transaction.amount.present? ? transaction.amount.format : "N/A" %></td>
   <td><%= transaction.user.fullname %></td>
@@ -20,7 +18,6 @@
   </td>
 </tr>
 
-<!-- Transaction Modal -->
 <div class="modal fade" id="transactionModal-<%= transaction.id %>" tabindex="-1" aria-labelledby="transactionModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -41,15 +38,32 @@
           <p><strong>Status:</strong> <%= transaction.status.titleize %></p>
           <p><strong>Amount:</strong> <%= transaction.amount.present? ? transaction.amount.format : "N/A" %></p>
           <p><strong>Sender:</strong> <%= transaction.user.fullname %></p>
+
+          <% if transaction.rejected? %>
+            <p><strong>Reason:</strong> <%= transaction.reason %></p>
+          <% end %>
         </div>
       </div>
       <div class="modal-footer">
         <% if current_user.landlord? %>
           <% if transaction.under_review? %>
-            <%= button_to 'Mark as Paid', mark_as_paid_dashboard_transaction_path(transaction), method: :patch, class: 'btn btn-primary', data: { confirm: 'Are you sure you want to mark this transaction as paid?' } %>
+            <%= button_to 'Mark as Paid', mark_as_paid_dashboard_transaction_path(transaction), method: :patch, class: 'btn btn-primary' %>
+
+            <button type="button" class="btn btn-danger" data-bs-toggle="collapse" data-bs-target="#rejectReasonForm-<%= transaction.id %>" aria-expanded="false" aria-controls="rejectReasonForm-<%= transaction.id %>">
+              Mark as Rejected
+            </button>
+
+            <div class="collapse mt-3 w-100" id="rejectReasonForm-<%= transaction.id %>">
+              <%= form_with model: transaction, url: mark_as_rejected_dashboard_transaction_path(transaction), method: :patch, class: "w-100" do |f| %>
+                <div class="form-group">
+                  <%= f.label :reason, "Reason for rejection" %>
+                  <%= f.text_area :reason, class: "form-control", rows: 3, placeholder: "Enter the reason for rejecting the transaction", required: true %>
+                </div>
+                <%= f.submit "Submit Rejection", class: "btn btn-danger mt-2" %>
+              <% end %>
+            </div>
           <% end %>
         <% end %>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

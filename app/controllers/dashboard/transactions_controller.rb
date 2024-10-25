@@ -20,4 +20,19 @@ class Dashboard::TransactionsController < ApplicationController
       redirect_to dashboard_transactions_path, alert: 'Failed to update transaction status.'
     end
   end
+
+  def mark_as_rejected
+    @transaction = Transaction.find(params[:id])
+    if @transaction.update(status: :rejected, reason: transaction_params[:reason])
+      redirect_to dashboard_transactions_path, notice: 'Transaction marked as rejected with a reason.'
+    else
+      redirect_to dashboard_transactions_path, alert: 'Failed to update transaction status.'
+    end
+  end
+
+  private
+
+  def transaction_params
+    params.require(:transaction).permit(:reason)
+  end
 end

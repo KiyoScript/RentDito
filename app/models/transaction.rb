@@ -4,7 +4,7 @@ class Transaction < ApplicationRecord
   belongs_to :deposit, optional: true
 
   enum transaction_type: [:deposit, :payment]
-  enum status: [:under_review, :done]
+  enum status: [:under_review, :done, :rejected]
 
   monetize :amount_cents
 
@@ -20,11 +20,18 @@ class Transaction < ApplicationRecord
 
 
   def update_transaction_and_deposit_status
-    return unless saved_change_to_status? && status == 'done'
+    return unless saved_change_to_status?
 
-    if deposit.present?
-    deposit.update(status: :done)
-      user.balance.update(amount: user.balance.amount + deposit.amount)
+    case status
+    when 'done'
+      if deposit.present?
+        deposit.update(status: :done)
+        user.balance.update(amount: user.balance.amount + deposit.amount)
+      end
+    when 'rejected'
+      if deposit.present?
+        deposit.update(status: :rejected)
+      end
     end
   end
 end
