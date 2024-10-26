@@ -24,6 +24,6 @@ class Charge < ApplicationRecord
   private
 
   def update_charges_share_amount
-    BillingChargeCalculator.new(self, number_of_days).update_charges_share_amount
+    BillingChargeCalculation.new(self, number_of_days).update_charges_share_amount
   end
 end

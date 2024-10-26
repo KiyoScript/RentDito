@@ -1,4 +1,4 @@
-class BillingChargeCalculator
+class BillingChargeCalculation
   attr_reader :charge, :billing, :number_of_days
 
   def initialize(charge, number_of_days)

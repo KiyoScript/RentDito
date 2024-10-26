@@ -21,7 +21,7 @@ module Dashboard::TransactionsHelper
   }.freeze
 
 
-  def status_badge(status)
+  def transaction_status_badge(status)
     badge_class = STATUS_BADGE_CLASS[status] || STATUS_BADGE_CLASS["done"]
     content_tag(:span, status.titleize, class: badge_class)
   end

@@ -9,6 +9,8 @@
   <td> ₱  <%= charge.monthly_rental_amount %></td>
   <td> ₱  <%= charge.total_amount %></td>
 
+  <td> <%= ChargePenaltyCalculation.new(charge.billing.due_date, charge.total_amount).total_with_penalty if (charge.unpaid? || charge.pending?) && (charge.billing.due_date < Date.today) %></td>
+
   <% if current_user.landlord? || current_user.admin? %>
     <td> ₱  <%= charge.paid_amount %></td>
     <td> <%= charge_status_badge(charge.status) %></td>

@@ -5,7 +5,7 @@
   </td>
   <td><%= transaction.transaction_type %></td>
   <td>
-    <%= status_badge(transaction.status) %>
+    <%= transaction_status_badge(transaction.status) %>
   </td>
   <td><%= transaction.amount.present? ? transaction.amount.format : "N/A" %></td>
   <td><%= transaction.user.fullname %></td>
