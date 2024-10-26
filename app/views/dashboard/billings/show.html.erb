@@ -60,7 +60,7 @@
           <tr>
             <td class="fw-bold">Wifi Bill Total Amount Due</td>
             <td colspan="2"><%= @billing.wifi_bill_total_amount %></td>
-            <td class="fw-bold">Monthly Renal Total Amount Due</td>
+            <td class="fw-bold">Monthly Rental Total Amount Due</td>
             <td><%= @billing.monthly_rental_total_amount %></td>
             <td class="fw-bold">Date Covered</td>
             <td colspan="5"><%= @billing.wifi_and_rental_date_covered %></td>
@@ -84,14 +84,15 @@
               <td class="fw-bold">Contact No.</td>
               <td class="fw-bold">Extra Charges (Appliances)</td>
               <td class="fw-bold">Electricity Sharing</td>
+              <td class="fw-bold text-danger"> Extra Charges & Electricity Sharing Penalty</td>
               <td class="fw-bold">Water Sharing</td>
+              <td class="fw-bold text-danger"> Water Sharing Penalty</td>
               <td class="fw-bold">Wifi Sharing</td>
               <td class="fw-bold">Monthly Rental</td>
+              <td class="fw-bold text-danger"> Wifi Sharing & Monthly Rental Penalty</td>
               <td class="fw-bold">Total Amount</td>
-              <td class="fw-bold">Total Amount (Due to Penalty)</td>
 
               <% if current_user.landlord? || current_user.admin? %>
-                <td class="fw-bold">Paid Amount</td>
                 <td class="fw-bold">Status</td>
               <% end %>
 

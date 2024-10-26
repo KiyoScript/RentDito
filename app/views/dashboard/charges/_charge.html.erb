@@ -1,9 +1,8 @@
 <tr>
   <td><%= charge.days_count %></td>
   <td><%= charge_status_badge(charge.status) %></td>
-  <td>₱ <%= charge.paid_amount %></td>
   <td>₱ <%= charge.total_amount %></td>
-  <td>₱ <%= ChargePenaltyCalculation.new(charge.billing.due_date, charge.total_amount).total_with_penalty if (charge.unpaid? || charge.pending?) && (charge.billing.due_date < Date.today) %></td>
+  <td class="<%= 'text-danger' if any_penalty?(charge) %>">₱ <%= any_penalty?(charge) ? total_amount_penalty(charge) : 0.0 %></td>
   <td><%= charge.billing.due_date.strftime("%B %d, %Y") %></td>
   <td>
     <div class="d-inline-block">
@@ -29,9 +28,9 @@
       </div>
 
       <div class="modal-body">
-        <div class="mb-3">
+        <div class="mb-3 <%= any_penalty?(charge) ? '' : 'd-none' %>">
           <strong>Total Amount (Due to Penalty)</strong>
-          <p class="text-muted">₱ <%= ChargePenaltyCalculation.new(charge.billing.due_date, charge.total_amount).total_with_penalty if (charge.unpaid? || charge.pending?) && (charge.billing.due_date < Date.today) %></p>
+          <p class="text-danger">₱ <%= total_amount_penalty(charge)  %> </p>
         </div>
         <div class="mb-3">
           <strong>Total Amount:</strong>

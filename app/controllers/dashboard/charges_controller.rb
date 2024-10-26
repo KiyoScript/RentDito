@@ -1,4 +1,6 @@
 class Dashboard::ChargesController < ApplicationController
+  include Dashboard::BillingsHelper
+
   before_action :authenticate_user!
   before_action :set_billing_and_charge, only: [:edit, :update]
 

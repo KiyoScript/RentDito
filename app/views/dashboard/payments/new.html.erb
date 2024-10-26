@@ -10,9 +10,9 @@
       <div class="my-3">
         <%= form.label :amount, "Total Payment Amount", for: "amount_#{@charge.id}", class: "form-label fs-6" %>
         <%= form.number_field :amount, id: "amount_#{@charge.id}", class: "form-control mt-3",
-          value: ChargePenaltyCalculation.new(@charge.billing.due_date, @charge.total_amount).total_with_penalty,
+          value: total_amount_penalty(@charge),
             step: 'any',
-            disabled: true %>
+            readonly: true %>
       </div>
 
       <div class="my-3">
