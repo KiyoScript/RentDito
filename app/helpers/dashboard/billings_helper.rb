@@ -21,7 +21,8 @@ module Dashboard::BillingsHelper
     return [
         charge_penalty(charge, 'electricity_share_amount'),
         charge_penalty(charge, 'water_share_amount'),
-        charge_penalty(charge, 'monthly_rental_amount')
+        charge_penalty(charge, 'monthly_rental_amount'),
+        charge.total_amount
     ].sum
   end
 
