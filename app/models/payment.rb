@@ -13,7 +13,6 @@ has_many :transactions, dependent: :destroy
 
   after_create :create_transaction!
   after_create :update_user_charge
-  after_create :update_charges_status
 
 
   def create_transaction!
@@ -31,19 +30,12 @@ has_many :transactions, dependent: :destroy
 
 
   def update_user_charge
-    charge_amount_to_pay = Money.new(charge.amount_to_pay * 100, 'PHP')
     paid_amount = Money.new(charge.paid_amount * 100, 'PHP')
 
-    updated_amount_to_pay = charge_amount_to_pay - amount
     updated_paid_amount = paid_amount + amount
 
-    charge.update_columns(paid_amount: updated_paid_amount, amount_to_pay: updated_amount_to_pay)
+    charge.update_columns(paid_amount: updated_paid_amount, status: 'paid')
   end
-
-  def update_charges_status
-    charge.update_columns(status: charge.amount_to_pay == 0.0? 'paid' : 'pending' )
-  end
-
 
   private
 
