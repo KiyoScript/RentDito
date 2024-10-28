@@ -1,15 +1,15 @@
 <tr>
   <td><%= charge.days_count %></td>
   <td><%= charge_status_badge(charge.status) %></td>
-  <t><%= peso(charge.total_amount)peso( %></t)d>
-  <td class="<%= 'text-danger' if any_penalty?(charge) %>"> <%= any_penalty?(charge) ? peso(total_amount_penalty(charge)) : peso(0.00) %></td>
+  <td class="<%= any_penalty?(charge) ? 'text-danger' : 'text-primary' %>"><%= peso(charge.total_amount)%> </td>
+  <td class="<%= any_penalty?(charge) ? 'text-danger' : 'text-primary' %>"> <%= peso(total_amount_penalty(charge)) %></td>
   <td><%= charge.billing.due_date.strftime("%B %d, %Y") %></td>
   <td>
     <div class="d-inline-block">
       <%= link_to 'javascript:void(0)', class: "btn btn-outline-primary btn-icon border", data: { bs_toggle: "modal", bs_target: "#chargeModal-#{charge.id}" } do %>
         <i class="bx bx-show bx-md"></i>
       <% end %>
-      <% unless charge.amount_to_pay == 0.0 %>
+      <% unless charge.paid? %>
         <%= link_to 'javascript:void(0)', class: "btn btn-icon view-record border btn-outline-success", data: { bs_toggle: "modal", bs_target: "#paymentModal-#{charge.id}" } do %>
           <i class='bx bx-money bx-md'></i>
         <% end %>
