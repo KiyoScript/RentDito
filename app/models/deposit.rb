@@ -8,6 +8,8 @@ class Deposit < ApplicationRecord
   enum status: [:pending, :done, :rejected]
   monetize :amount_cents
 
+  validates :reference_number, uniqueness: true
+
   after_create :create_transaction
 
 
