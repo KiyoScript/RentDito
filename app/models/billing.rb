@@ -68,6 +68,10 @@ class Billing < ApplicationRecord
     charges.sum(:monthly_rental_amount)
   end
 
+  def total_charges_amount
+    charges.sum(:total_amount)
+  end
+
   private
 
   def generate_billing_number
