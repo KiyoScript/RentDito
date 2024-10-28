@@ -64,7 +64,7 @@
 
         <p class="card-text">Current Balance</p>
         <h4 class="card-title text-success">
-          <%= current_user.balance.present? ? current_user.balance.amount.format : '₱ 0.00' %>
+          <%= current_user.balance.present? ? current_user.balance.amount.format : peso(0.00) %>
         </h4>
 
         <% if current_user.balance.present? && current_user.balance.amount < Money.new(200_00, 'PHP') %>

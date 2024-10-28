@@ -110,7 +110,7 @@
               <%= link_to 'javascript:void(0);', class: 'dropdown-item' do %>
                 <span class="d-flex align-items-center align-middle">
                   <i class="flex-shrink-0 bx bx-wallet-alt bx-md me-3"></i><span class="flex-grow-1 align-middle">Balance</span>
-                  <span class="flex-shrink-0 rounded-pill"><%= current_user.balance.present? ? current_user.balance.amount.format : '₱ 0.00' %></span>
+                  <span class="flex-shrink-0 rounded-pill"><%= current_user.balance.present? ? current_user.balance.amount.format :  peso(0.00) %></span>
                 </span>
               <% end %>
             </li>

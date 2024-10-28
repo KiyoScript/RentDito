@@ -1,7 +1,7 @@
 <tr>
   <td><%= billing.number %></td>
   <td><%= billing.property.address %></td>
-  <td><%= billing.total_charges_amount %></td>
+  <td><%= peso(billing.total_charges_amount) %></td>
   <td><%= billing.due_date.strftime("%B %d, %Y") %></td>
    <td>
     <div class="d-inline-block">

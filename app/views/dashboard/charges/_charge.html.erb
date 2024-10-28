@@ -1,8 +1,8 @@
 <tr>
   <td><%= charge.days_count %></td>
   <td><%= charge_status_badge(charge.status) %></td>
-  <td>₱ <%= charge.total_amount %></td>
-  <td class="<%= 'text-danger' if any_penalty?(charge) %>">₱ <%= any_penalty?(charge) ? total_amount_penalty(charge) : 0.0 %></td>
+  <t><%= peso(charge.total_amount)peso( %></t)d>
+  <td class="<%= 'text-danger' if any_penalty?(charge) %>"> <%= any_penalty?(charge) ? peso(total_amount_penalty(charge)) : peso(0.00) %></td>
   <td><%= charge.billing.due_date.strftime("%B %d, %Y") %></td>
   <td>
     <div class="d-inline-block">
@@ -30,31 +30,31 @@
       <div class="modal-body">
         <div class="mb-3 <%= any_penalty?(charge) ? '' : 'd-none' %>">
           <strong>Total Amount (Due to Penalty)</strong>
-          <p class="text-danger">₱ <%= total_amount_penalty(charge)  %> </p>
+          <p class="text-danger"><%= peso(total_amount_penalty(charge))  %> </p>
         </div>
         <div class="mb-3">
           <strong>Total Amount:</strong>
-          <p class="text-muted">₱ <%= charge.total_amount %></p>
+          <p class="text-muted"><%= peso(charge.total_amount) %></p>
         </div>
         <div class="mb-3">
           <strong>Extra Charge:</strong>
-          <p class="text-muted">₱ <%= charge.extra_charge_amount %></p>
+          <p class="text-muted"><%= peso(charge.extra_charge_amount) %></p>
         </div>
         <div class="mb-3">
           <strong>Electricity Share:</strong>
-          <p class="text-muted">₱ <%= charge.electricity_share_amount %></p>
+          <p class="text-muted"><%= peso(charge.electricity_share_amount) %></p>
         </div>
         <div class="mb-3">
           <strong>Water Share:</strong>
-          <p class="text-muted">₱ <%= charge.water_share_amount %></p>
+          <p class="text-muted"><%= peso(charge.water_share_amount) %></p>
         </div>
         <div class="mb-3">
           <strong>WiFi Share:</strong>
-          <p class="text-muted">₱ <%= charge.wifi_share_amount %></p>
+          <p class="text-muted"><%= peso(charge.wifi_share_amount) %></p>
         </div>
         <div class="mb-3">
           <strong>Monthly Rental:</strong>
-          <p class="text-muted">₱ <%= charge.monthly_rental_amount %></p>
+          <p class="text-muted"><%= peso(charge.monthly_rental_amount) %></p>
         </div>
         <div class="mb-3">
           <strong>Due Date:</strong>
