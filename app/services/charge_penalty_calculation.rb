@@ -7,7 +7,7 @@ class ChargePenaltyCalculation
   end
 
   def total_with_penalty
-    charge + (charge * penalty_rate).round(2)
+    (charge  * penalty_rate).round(2)
   end
 
   private
