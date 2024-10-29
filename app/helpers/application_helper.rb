@@ -20,6 +20,12 @@ module ApplicationHelper
     "closed" => "badge bg-label-secondary"
   }.freeze
 
+  CHARGE_STATUS_BADGE_CLASS = {
+    "unpaid" => "badge bg-label-danger",
+    "pending" => "badge bg-label-warning",
+    "paid" => "badge bg-label-success"
+  }.freeze
+
 
   GENDER_BADGE_CLASS = {
     "female" => "badge bg-label-primary",
@@ -34,6 +40,11 @@ module ApplicationHelper
 
   def status_badge(status)
     badge_class = STATUS_BADGE_CLASS[status] || STATUS_BADGE_CLASS["verified"]
+    content_tag(:span, status.titleize, class: badge_class)
+  end
+
+  def charge_status_badge(status)
+    badge_class = CHARGE_STATUS_BADGE_CLASS[status] || CHARGE_STATUS_BADGE_CLASS["unpaid"]
     content_tag(:span, status.titleize, class: badge_class)
   end
 
@@ -97,4 +108,9 @@ module ApplicationHelper
 
     end
   end
+
+  def peso(amount)
+    number_to_currency(amount, unit: "₱", precision: 2)
+  end
+
 end

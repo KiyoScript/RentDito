@@ -1,7 +1,7 @@
 class Dashboard::PropertiesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_property, only: [:edit, :update, :show, :destroy]
-  before_action :set_policy! , except: [:render_property_units]
+  before_action :set_property, only: [:edit, :update, :show, :destroy, :occupancy_data]
+  before_action :set_policy! , except: [:render_property_units, :occupancy_data]
   def index
     @q = Property.ransack(search_params)
     @pagy, @properties = pagy(@q.result.order(created_at: :asc), distinct: :true)
@@ -49,6 +49,23 @@ class Dashboard::PropertiesController < ApplicationController
     Rails.logger.debug("Property Units: #{@property_units.to_json}")
     render json: @property_units.as_json(only: [:id, :name])
   end
+
+  def occupancy_data
+    rooms = @property.rooms
+    total_upper_deck = rooms.sum(:upper_deck)
+    total_lower_deck = rooms.sum(:lower_deck)
+    total_occupants = @property.occupants.count
+    total_bedspaces = total_upper_deck + total_lower_deck
+
+    render json: {
+      property_name: @property.address,
+      total_occupants: total_occupants,
+      total_bedspaces: total_bedspaces,
+      total_upper_deck: total_upper_deck,
+      total_lower_deck: total_lower_deck
+    }
+  end
+
 
   private
 

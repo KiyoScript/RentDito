@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       resources :property_units
       member do
         get :render_property_units
+        get :occupancy_data
       end
     end
 
@@ -44,9 +45,27 @@ Rails.application.routes.draw do
         get :decks
       end
     end
+
+    resources :billings do
+      resources :charges
+    end
+
+    resources :charges, only: :index
+    resources :deposits, only: [:new, :create]
+    resources :payments, only: [:new, :create]
+
+    resources :transactions do
+      member do
+        patch :mark_as_paid
+        patch :mark_as_rejected
+      end
+    end
+
+    resources :transaction_history
   end
 
   resources :onboarding, only: [:show, :update]
+  resources :account_settings, only: [:show, :update]
   resources :tenant do
     resources :tickets
     resources :tickets_history
@@ -57,4 +76,6 @@ Rails.application.routes.draw do
       patch :update_status
     end
   end
+
+  resources :balances
 end

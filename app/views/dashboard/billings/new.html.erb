@@ -1,0 +1,3 @@
+<%= form_with model: @billing, url: dashboard_billings_path, method: :post, local: true, html:  { class: 'card', data: { controller: 'billing' } } do |form| %>
+  <%= render partial: 'billing_form', locals: { form: form, billing: @billing } %>
+<% end %>

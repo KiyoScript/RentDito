@@ -1,0 +1,111 @@
+<div class="card">
+  <div class="card-header">
+    <h2 class="card-title text-2xl font-bold">Billing Details</h2>
+    <div class="d-flex justify-content-between align-items-center">
+      <p class="text-muted small"><%= @billing.number %></p>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row g-4">
+      <div class="col-12 col-md-6">
+        <div class="d-flex align-items-start mb-4 flex-column">
+          <div class="form-label d-flex align-items-ceter justify-content-center mb-0">
+            <i class='bx bxs-calendar text-primary'></i>
+            <p class="fw-bold fs-6 ms-1" style="margin-top: 1px;">Due Date</p>
+          </div>
+          <p class="fw-normal fs-6 mb-0"><%= @billing.due_date.strftime("%B %d, %Y %I:%M %p") %></p>
+        </div>
+        <div class="d-flex align-items-start flex-column">
+          <div class="form-label d-flex align-items-ceter justify-content-center mb-0">
+            <i class='bx bxs-calendar-check text-success'></i>
+            <p class="fw-bold fs-6 ms-1" style="margin-top: 1px;">Date Covered</p>
+          </div>
+          <p class="fw-normal fs-6 mb-0"><%= @billing.date_covered%></p>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="d-flex align-items-start mb-4 flex-column">
+          <div class="form-label d-flex align-items-ceter justify-content-center mb-0">
+            <i class='bx bxs-user text-info'></i>
+            <p class="fw-bold fs-6 ms-1" style="margin-top: 1px;">Prepared by</p>
+          </div>
+          <p class="fw-normal fs-6 mb-0"><%= @billing.user.fullname %></p>
+        </div>
+        <div class="d-flex align-items-start flex-column">
+          <div class="form-label d-flex align-items-ceter justify-content-center mb-0">
+            <i class='bx bxs-home text-warning'></i>
+            <p class="fw-bold fs-6 ms-1" style="margin-top: 1px;">Property</p>
+          </div>
+          <p class="fw-normal fs-6 mb-0"><%= @billing.property.address %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-responsive text-nowrap mt-10">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th colspan="11" class="text-center fw-bold" scope="row"><%= @billing.property.address %> Bill Listing of <%= @billing.month%> </th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+          <tr>
+            <td class="fw-bold">Electricity Bill Total Amount Due</td>
+            <td colspan="2"><%= @billing.electricity_bill_partial_amount.format %></td>
+            <td><%= @billing.charges_total_amount.format %></td>
+            <td><%= @billing.electricity_bill_total.format %></td>
+            <td class="fw-bold border">Date Covered</td>
+            <td colspan="5"><%= @billing.electricity_bill_date_covered %></td>
+          </tr>
+          <tr>
+            <td class="fw-bold">Wifi Bill Total Amount Due</td>
+            <td colspan="2"><%= @billing.wifi_bill_total_amount %></td>
+            <td class="fw-bold">Monthly Rental Total Amount Due</td>
+            <td><%= @billing.monthly_rental_total_amount %></td>
+            <td class="fw-bold">Date Covered</td>
+            <td colspan="5"><%= @billing.wifi_and_rental_date_covered %></td>
+          </tr>
+          <tr>
+            <td class="fw-bold">Water Bill Total Amount Due</td>
+            <td colspan="4"><%= @billing.water_bill_total_amount.format %></td>
+            <td class="fw-bold">Date Covered</td>
+            <td><%= @billing.water_bill_date_covered %></td>
+            <td class="fw-bold" colspan="2">No. of Occupants</td>
+            <td colspan="2"><%= @billing.property.occupants.count  %></td>
+          </tr>
+
+          <% @property_units.each do |property_unit|%>
+            <tr>
+              <th colspan="11" class="text-center fw-bold" scope="row"><%= property_unit.name %> </th>
+            </tr>
+            <tr>
+              <td class="fw-bold">Room</td>
+              <td class="fw-bold">Name</td>
+              <td class="fw-bold">Contact No.</td>
+              <td class="fw-bold">Extra Charges (Appliances)</td>
+              <td class="fw-bold">Electricity Sharing</td>
+              <td class="fw-bold text-danger"> Extra Charges & Electricity Sharing Penalty</td>
+              <td class="fw-bold">Water Sharing</td>
+              <td class="fw-bold text-danger"> Water Sharing Penalty</td>
+              <td class="fw-bold">Wifi Sharing</td>
+              <td class="fw-bold">Monthly Rental</td>
+              <td class="fw-bold text-danger"> Wifi Sharing & Monthly Rental Penalty</td>
+              <td class="fw-bold">Total Amount</td>
+
+              <% if current_user.landlord? || current_user.admin? %>
+                <td class="fw-bold">Status</td>
+              <% end %>
+
+              <td class="fw-bold">Days No.</td>
+              <% if current_user.landlord? || current_user.admin? %>
+                <td class="fw-bold">Action</td>
+              <% end %>
+            </tr>
+
+            <%= render partial: 'billing_charges', collection: @billing_charges.select { |charge| charge.user.tenant.room.property_unit == property_unit }, as: :charge %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
