@@ -59,6 +59,7 @@ class Dashboard::PropertiesController < ApplicationController
 
     render json: {
       property_name: @property.address,
+      property_id: @property.id,
       total_occupants: total_occupants,
       total_bedspaces: total_bedspaces,
       total_upper_deck: total_upper_deck,
