@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_24_235607) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_29_005032) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -96,6 +96,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_24_235607) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "amount_to_pay", precision: 10, scale: 2, default: "0.0"
+    t.decimal "extra_charge_electricity_penalty", precision: 6, scale: 2
+    t.decimal "water_sharing_penalty", precision: 6, scale: 2
+    t.decimal "wifi_and_monthly_rental_penalty", precision: 6, scale: 2
+    t.decimal "total_amount_penalty", precision: 6, scale: 2
+    t.boolean "has_penalty", default: false
     t.index ["billing_id"], name: "index_charges_on_billing_id"
     t.index ["user_id"], name: "index_charges_on_user_id"
   end

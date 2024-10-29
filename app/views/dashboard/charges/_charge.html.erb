@@ -1,8 +1,8 @@
 <tr>
   <td><%= charge.days_count %></td>
   <td><%= charge_status_badge(charge.status) %></td>
-  <td class="<%= any_penalty?(charge) ? 'text-danger' : 'text-primary' %>"><%= peso(charge.total_amount)%> </td>
-  <td class="<%= any_penalty?(charge) ? 'text-danger' : 'text-primary' %>"> <%= peso(total_amount_penalty(charge)) %></td>
+  <td class="<%= (any_penalty?(charge) || charge.has_penalty?) ? 'text-danger' : 'text-primary' %>"><%= peso(charge.total_amount) %> </td>
+  <td class="<%= (any_penalty?(charge) || charge.has_penalty?) ? 'text-danger' : 'text-primary' %>"> <%= charge.total_amount_penalty? ? peso(charge.total_amount_penalty) : peso(total_amount_penalty(charge)) %></td>
   <td><%= charge.billing.due_date.strftime("%B %d, %Y") %></td>
   <td>
     <div class="d-inline-block">
@@ -28,9 +28,9 @@
       </div>
 
       <div class="modal-body">
-        <div class="mb-3 <%= any_penalty?(charge) ? '' : 'd-none' %>">
+        <div class="mb-3 <%= (any_penalty?(charge) || charge.has_penalty?) ? '' : 'd-none' %>">
           <strong>Total Amount (Due to Penalty)</strong>
-          <p class="text-danger"><%= peso(total_amount_penalty(charge))  %> </p>
+          <p class="text-danger"><%= peso(charge.total_amount_penalty)  %> </p>
         </div>
         <div class="mb-3">
           <strong>Total Amount:</strong>
