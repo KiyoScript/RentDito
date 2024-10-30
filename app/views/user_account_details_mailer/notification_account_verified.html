@@ -13,6 +13,9 @@
         text-decoration: none;
         color: inherit;
       }
+      .link {
+        color: blue;
+      }
       .container {
           width: 80%;
           margin: auto;
@@ -30,6 +33,8 @@
           margin-top: 20px;
           font-size: 0.9em;
           color: #777;
+          display: flex;
+          justify-content: center;
       }
       .button {
           display: inline-block;
@@ -45,6 +50,28 @@
         align-items: center;
         text-align: center;
       }
+      .bg-label-success {
+        background-color: #e8fadf !important;
+        color: #71dd37 !important;
+      }
+      .badge {
+        --bs-badge-padding-x: .77em;
+        --bs-badge-padding-y: .4235em;
+        --bs-badge-font-size: .8667em;
+        --bs-badge-font-weight: 500;
+        --bs-badge-color: #fff;
+        --bs-badge-border-radius: .25rem;
+        display: inline-block;
+        padding: var(--bs-badge-padding-y) var(--bs-badge-padding-x);
+        font-size: var(--bs-badge-font-size);
+        font-weight: var(--bs-badge-font-weight);
+        line-height: 1;
+        color: var(--bs-badge-color);
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: var(--bs-badge-border-radius);
+      }
   </style>
 </head>
   <body>
@@ -59,23 +86,15 @@
           <p>Dear Ms./Mrs. <%= @user.lastname %>,</p>
         <% end %>
       </p>
-      <p>Your account has been successfully created. To complete your registration and fill out the remaining information, please click the button below:</p>
-      <div class="details">
-        <p><strong>Email:</strong> <%= @user.email %></p>
-        <p><strong>Password:</strong> <%= @user.password %></p>
-      </div>
-      <p>If there are any concerns/questions about signing up, contact any of the following:</p>
+      <p>Congratulations. Your account is successfully <span class="badge bg-label-success">Verified</span>. You can now use your account in <a class="link" href="https://rentdito.com">RentDito</a>.</p>
+      <p>If there are any questions about RentDito, contact any of the following:</p>
       <div class="details">
         <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/gmail.png" alt="GMail Logo" width="20">&ensp;&nbsp;<a href="mailto:ederlindocojuangco@gmail.com" target="_blank">ederlindocojuangco@gmail.com</a></p>
         <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/facebook.png" alt="FB Logo" width="20">&ensp;&nbsp;<a href="https://www.facebook.com/profile.php?id=100089232990563">Mark Mercado</a></p>
         <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/call.png" alt="Call Logo" width="20">&ensp;&nbsp;+63 936 648 6958</p>
       </div>
       <div class="footer">
-        <p>Thank you.</p>
-        <p>Best regards,</p>
-        <p>RentDito Company<br>
-          <a href="https://rendito.fly.dev/sign_in" class="button">Complete Your Registration</a>
-        </p>
+        <p>© 2024 RentDito. All rights reserved.</p>
       </div>
     </div>
   </body>

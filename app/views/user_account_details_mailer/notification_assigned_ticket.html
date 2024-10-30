@@ -30,6 +30,8 @@
           margin-top: 20px;
           font-size: 0.9em;
           color: #777;
+          display: flex;
+          justify-content: center;
       }
       .button {
           display: inline-block;
@@ -59,23 +61,20 @@
           <p>Dear Ms./Mrs. <%= @user.lastname %>,</p>
         <% end %>
       </p>
-      <p>Your account has been successfully created. To complete your registration and fill out the remaining information, please click the button below:</p>
+      <p>A ticket #<%= @ticket.id %> were assigned to you. Please work on it as soon as possible. Thank you.</p>
       <div class="details">
-        <p><strong>Email:</strong> <%= @user.email %></p>
-        <p><strong>Password:</strong> <%= @user.password %></p>
+        <p><strong>Title:</strong> <%= @ticket.title %></p>
+        <p><strong>Category:</strong> <%= @ticket.category %></p>
+        <p><strong>Label:</strong> <%= @ticket.label %></p>
+        <p><strong>Description:</strong> <%= @ticket.description %></p>
       </div>
-      <p>If there are any concerns/questions about signing up, contact any of the following:</p>
+      <p>Here's a description of a tenant who created this ticket:</p>
       <div class="details">
-        <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/gmail.png" alt="GMail Logo" width="20">&ensp;&nbsp;<a href="mailto:ederlindocojuangco@gmail.com" target="_blank">ederlindocojuangco@gmail.com</a></p>
-        <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/facebook.png" alt="FB Logo" width="20">&ensp;&nbsp;<a href="https://www.facebook.com/profile.php?id=100089232990563">Mark Mercado</a></p>
-        <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/call.png" alt="Call Logo" width="20">&ensp;&nbsp;+63 936 648 6958</p>
+        <p><strong>Name:</strong> <%= @user.fullname %></p>
+        <p><strong>Contact Number:</strong> <%= @user.contact_number %></p>
       </div>
       <div class="footer">
-        <p>Thank you.</p>
-        <p>Best regards,</p>
-        <p>RentDito Company<br>
-          <a href="https://rendito.fly.dev/sign_in" class="button">Complete Your Registration</a>
-        </p>
+        <p>© 2024 RentDito. All rights reserved.</p>
       </div>
     </div>
   </body>
