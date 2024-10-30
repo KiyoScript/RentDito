@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_19_114052) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_29_005032) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,12 +42,102 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_19_114052) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "balances", force: :cascade do |t|
+    t.decimal "amount", precision: 6, scale: 2
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "amount_cents", precision: 10, scale: 2, default: "0.0", null: false
+    t.string "amount_currency", default: "PHP", null: false
+    t.index ["user_id"], name: "index_balances_on_user_id"
+  end
+
+  create_table "billings", force: :cascade do |t|
+    t.string "number"
+    t.decimal "electricity_bill_partial_amount", precision: 6, scale: 2, default: "0.0"
+    t.decimal "electricity_bill_total_amount", precision: 6, scale: 2, default: "0.0"
+    t.decimal "water_bill_total_amount", precision: 6, scale: 2, default: "0.0"
+    t.decimal "charges_total_amount", precision: 6, scale: 2, default: "0.0"
+    t.date "electricity_bill_start_date"
+    t.date "electricity_bill_end_date"
+    t.date "water_bill_start_date"
+    t.date "water_bill_end_date"
+    t.date "wifi_and_rental_start_date", default: "2024-09-01"
+    t.date "wifi_and_rental_end_date", default: "2024-09-30"
+    t.datetime "due_date"
+    t.bigint "user_id", null: false
+    t.bigint "property_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "electricity_bill_partial_amount_cents", precision: 10, scale: 2, default: "0.0", null: false
+    t.string "electricity_bill_partial_amount_currency", default: "PHP", null: false
+    t.decimal "electricity_bill_total_amount_cents", precision: 10, scale: 2, default: "0.0", null: false
+    t.string "electricity_bill_total_amount_currency", default: "PHP", null: false
+    t.decimal "water_bill_total_amount_cents", precision: 10, scale: 2, default: "0.0", null: false
+    t.string "water_bill_total_amount_currency", default: "PHP", null: false
+    t.decimal "charges_total_amount_cents", precision: 10, scale: 2, default: "0.0", null: false
+    t.string "charges_total_amount_currency", default: "PHP", null: false
+    t.index ["property_id"], name: "index_billings_on_property_id"
+    t.index ["user_id"], name: "index_billings_on_user_id"
+  end
+
+  create_table "charges", force: :cascade do |t|
+    t.decimal "extra_charge_amount", precision: 6, scale: 2, default: "0.0"
+    t.decimal "electricity_share_amount", precision: 6, scale: 2, default: "0.0"
+    t.decimal "water_share_amount", precision: 6, scale: 2, default: "0.0"
+    t.decimal "wifi_share_amount", precision: 6, scale: 2, default: "0.0"
+    t.decimal "monthly_rental_amount", precision: 6, scale: 2, default: "0.0"
+    t.decimal "total_amount", precision: 6, scale: 2, default: "0.0"
+    t.integer "days_count"
+    t.integer "status", default: 0
+    t.decimal "paid_amount", precision: 6, scale: 2, default: "0.0"
+    t.bigint "user_id", null: false
+    t.bigint "billing_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "amount_to_pay", precision: 10, scale: 2, default: "0.0"
+    t.decimal "extra_charge_electricity_penalty", precision: 6, scale: 2
+    t.decimal "water_sharing_penalty", precision: 6, scale: 2
+    t.decimal "wifi_and_monthly_rental_penalty", precision: 6, scale: 2
+    t.decimal "total_amount_penalty", precision: 6, scale: 2
+    t.boolean "has_penalty", default: false
+    t.index ["billing_id"], name: "index_charges_on_billing_id"
+    t.index ["user_id"], name: "index_charges_on_user_id"
+  end
+
+  create_table "deposits", force: :cascade do |t|
+    t.integer "status", default: 0
+    t.decimal "amount", precision: 6, scale: 2
+    t.bigint "user_id", null: false
+    t.string "reference_number"
+    t.datetime "date_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "amount_cents", precision: 10, scale: 2, default: "0.0", null: false
+    t.string "amount_currency", default: "PHP", null: false
+    t.index ["user_id"], name: "index_deposits_on_user_id"
+  end
+
   create_table "maintenance_staffs", force: :cascade do |t|
     t.integer "city"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_maintenance_staffs_on_user_id"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.string "suggestion"
+    t.decimal "amount", precision: 6, scale: 2
+    t.bigint "user_id", null: false
+    t.bigint "charge_id", null: false
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "amount_cents", precision: 10, scale: 2, default: "0.0", null: false
+    t.string "amount_currency", default: "PHP", null: false
+    t.index ["charge_id"], name: "index_payments_on_charge_id"
+    t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
   create_table "properties", force: :cascade do |t|
@@ -112,6 +202,23 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_19_114052) do
     t.index ["tenant_id"], name: "index_tickets_on_tenant_id"
   end
 
+  create_table "transactions", force: :cascade do |t|
+    t.integer "transaction_type"
+    t.decimal "amount", precision: 6, scale: 2
+    t.bigint "user_id", null: false
+    t.bigint "deposit_id"
+    t.integer "status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "amount_cents", precision: 10, scale: 2, default: "0.0", null: false
+    t.string "amount_currency", default: "PHP", null: false
+    t.bigint "payment_id"
+    t.text "reason"
+    t.index ["deposit_id"], name: "index_transactions_on_deposit_id"
+    t.index ["payment_id"], name: "index_transactions_on_payment_id"
+    t.index ["user_id"], name: "index_transactions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -159,7 +266,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_19_114052) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "balances", "users"
+  add_foreign_key "billings", "properties"
+  add_foreign_key "billings", "users"
+  add_foreign_key "charges", "billings"
+  add_foreign_key "charges", "users"
+  add_foreign_key "deposits", "users"
   add_foreign_key "maintenance_staffs", "users"
+  add_foreign_key "payments", "charges"
+  add_foreign_key "payments", "users"
   add_foreign_key "properties", "users"
   add_foreign_key "property_units", "properties"
   add_foreign_key "rooms", "properties"
@@ -169,6 +284,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_19_114052) do
   add_foreign_key "tenants", "rooms"
   add_foreign_key "tenants", "users"
   add_foreign_key "tickets", "tenants"
+  add_foreign_key "transactions", "deposits"
+  add_foreign_key "transactions", "payments"
+  add_foreign_key "transactions", "users"
   add_foreign_key "utility_staff", "properties"
   add_foreign_key "utility_staff", "property_units"
   add_foreign_key "utility_staff", "rooms"

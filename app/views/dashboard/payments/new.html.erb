@@ -1,0 +1,29 @@
+<%= turbo_frame_tag "add_payment_frame_#{@charge.id}" do %>
+  <div class="modal-body">
+    <div class="alert alert-info">
+      <strong>Balance:</strong> <%= @charge.user.balance.amount.format %>
+    </div>
+
+    <%= form_with model: @payment, url: dashboard_payments_path, method: :post, local: false do |form| %>
+      <%= form.hidden_field :charge_id, value: @charge.id %>
+
+      <div class="my-3">
+        <%= form.label :amount, "Total Payment Amount", for: "amount_#{@charge.id}", class: "form-label fs-6" %>
+        <%= form.number_field :amount, id: "amount_#{@charge.id}", class: "form-control mt-3",
+          value: total_amount_penalty(@charge),
+            step: 'any',
+            readonly: true %>
+      </div>
+
+      <div class="my-3">
+        <%= form.label :suggestion, "Payment Suggestion/Notes", for: "suggestion_#{@charge.id}", class: "form-label fs-6" %>
+        <%= form.text_area :suggestion, id: "suggestion_#{@charge.id}", class: "form-control mt-3", rows: 5 %>
+      </div>
+
+      <div class="modal-footer mt-5">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <%= form.submit "Submit Payment", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

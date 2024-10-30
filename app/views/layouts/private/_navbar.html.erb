@@ -1,20 +1,14 @@
 <nav class="layout-navbar container-fluid navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
-  <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
-
-    <form
-      method="post"
-      data-controller="bridge--form">
+  <div id="layout-menu-toggle" class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
 
       <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
         <i class="bx bx-menu bx-md"></i>
       </a>
 
-    </form>
-
   </div>
 
-  <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-    <ul class="navbar-nav flex-row align-items-center ms-auto">
+  <div id="navbar-container" class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+    <ul id="navbar" class="navbar-nav flex-row align-items-center ms-auto">
       <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2">
         <a
           class="nav-link dropdown-toggle hide-arrow"
@@ -108,6 +102,19 @@
               </div>
             </a>
           </li>
+          <% if current_user.utility_staff? || current_user.tenant? %>
+            <li>
+              <div class="dropdown-divider my-1"></div>
+            </li>
+            <li>
+              <%= link_to 'javascript:void(0);', class: 'dropdown-item' do %>
+                <span class="d-flex align-items-center align-middle">
+                  <i class="flex-shrink-0 bx bx-wallet-alt bx-md me-3"></i><span class="flex-grow-1 align-middle">Balance</span>
+                  <span class="flex-shrink-0 rounded-pill"><%= current_user.balance.present? ? current_user.balance.amount.format :  peso(0.00) %></span>
+                </span>
+              <% end %>
+            </li>
+          <% end %>
           <li>
             <div class="dropdown-divider my-1"></div>
           </li>
@@ -117,9 +124,9 @@
             <% end  %>
           </li>
           <li>
-            <a class="dropdown-item" href="javascript:void(0);">
+            <%= link_to account_setting_path(current_user), class: 'dropdown-item' do %>
               <i class="bx bx-cog bx-md me-3"></i><span>Settings</span>
-            </a>
+            <% end %>
           </li>
           <li>
             <div class="dropdown-divider my-1"></div>

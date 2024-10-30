@@ -1,0 +1,317 @@
+<div class="container">
+  <div class="d-flex flex-column align-items-center justify-content-center mt-10">
+    <div id="wizard-validation" class="bs-stepper bg-transparent shadow-none mt-2 shado" data-controller="wizard-form">
+      <div class="d-none d-md-flex bs-stepper-header">
+        <div class="step" data-target="#personal-info-validation">
+          <button type="button" class="step-trigger">
+            <span class="bs-stepper-circle">1</span>
+            <span class="bs-stepper-label mt-1">
+              <span class="bs-stepper-title">Personal Info</span>
+              <span class="bs-stepper-subtitle">Add Personal Info</span>
+            </span>
+          </button>
+        </div>
+        <div class="line">
+          <i class="bx bx-chevron-right"></i>
+        </div>
+        <div class="step" data-target="#account-details-validation">
+          <button type="button" class="step-trigger">
+            <span class="bs-stepper-circle">2</span>
+            <span class="bs-stepper-label mt-1">
+              <span class="bs-stepper-title">Account Details</span>
+              <span class="bs-stepper-subtitle">Setup Account Details</span>
+            </span>
+          </button>
+        </div>
+        <div class="line">
+          <i class="bx bx-chevron-right"></i>
+        </div>
+        <div class="step" data-target="#emergency-contacts-validation">
+          <button type="button" class="step-trigger">
+            <span class="bs-stepper-circle">3</span>
+            <span class="bs-stepper-label mt-1">
+              <span class="bs-stepper-title">Emergency Contacts</span>
+              <span class="bs-stepper-subtitle">Setup Emergency Contacts</span>
+            </span>
+          </button>
+        </div>
+      </div>
+      <div class="bs-stepper-content">
+        <%= form_with model: @user, url: account_setting_path(@user), method: :patch, html: { onSubmit: "return false", data: { controller: "upload-avatar signature-pad automate-age", "wizard-form-target": "wizardValidationForm"}} do |form| %>
+          <!-- Personal Info -->
+          <div id="personal-info-validation" class="content">
+            <div class="content-header mb-3">
+              <h5 class="mb-0">Personal Info</h5>
+              <small>Update your personal info.</small>
+            </div>
+            <div class="row g-6">
+              <div class="col-12 d-flex flex-column align-items-center justify-content-center gap-2 mb-6">
+                <img src="<%= avatar(@user) %>" alt="Avatar" class="rounded-circle" style="width: 150px; height: auto;">
+                <a role="button" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" data-bs-target="#uploadAvatarModal">
+                  Update Avatar
+                </a>
+              </div>
+              <%= render partial: "account_settings/avatar_modal", locals: { form: form } %>
+            </div>
+
+            <div class="row g-6">
+              <div class="col-md-6">
+                <%= form.label :firstname, class: "form-label fs-6" %>
+                <%= form.text_field :firstname, class: "form-control", id: "user_firstname"%>
+              </div>
+              <div class="col-md-6">
+                <%= form.label :lastname, class: "form-label fs-6" %>
+                <%= form.text_field :lastname, class: "form-control", id: "user_lastname"%>
+              </div>
+              <div class="col-md-6">
+                <%= form.label :phone_number,  "Phone Number", class: "form-label fs-6" %>
+                <%= form.text_field :phone_number, class: "form-control", id: "user_phone_number"%>
+              </div>
+              <div class="col-md-6">
+                <p class="form-label fs-6">Gender</p>
+                <div class="form-check">
+                  <%= form.radio_button :gender, :male, class: "form-check-input", id: "user_gender_male" %>
+                  <%= form.label :gender_male, "Male", class: "form-check-label fs-6"%>
+                </div>
+                <div class="form-check">
+                  <%= form.radio_button :gender, :female, class: "form-check-input", id: "user_gender_female" %>
+                  <%= form.label :gender_female, "Female", class: "form-check-label fs-6"%>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <%= form.label :date_of_birth, class: "form-label fs-6" %>
+                <%= form.date_field :date_of_birth, class: "form-control", data: { automate_age_target: "birthdate" } %>
+              </div>
+
+              <div class="col-md-6">
+                <%= form.label :age, class: "form-label fs-6" %>
+                <%= form.number_field :age, class: "form-control",value: @user.age.present? ? @user.age : 18,  min: 18, placeholder: 18, data: { automate_age_target: "age" }, readonly: true %>
+              </div>
+
+              <div class="col-md-6">
+                <%= form.label :signature, "Add Signature", class: "form-label fs-6 mb-6" %>
+                <div class="d-flex flex-column align-items-center justify-content-center gap-2" style="height: 200px; width: 320px;">
+                  <canvas data-signature-pad-target="canvas" class="signature-pad border rounded" style="width: 100%; height: 100%;"></canvas>
+                  <%= form.hidden_field :signature, id: "user_signature", data: { signature_pad_target: "input" } %>
+                  <button type="button" class="btn btn-primary btn-sm" data-action="click->signature-pad#clearSignature">Clear</button>
+                </div>
+              </div>
+
+              <div class="col-md-6 d-flex flex-column align-items-start justify-content-center">
+                <p class="form-label fs-6 mb-6">Signature</p>
+                <% if @user.signature.attached? %>
+                  <%= image_tag @user.signature, alt: "Current Signature", class: "img-thumbnail" %>
+                <% else %>
+                  <p class="text-danger">No signature</p>
+                <% end %>
+              </div>
+
+              <% user_presenter = UserPresenter.new(@user) %>
+
+              <% if @user.maintenance_staff? %>
+                <div class="mb-3">
+                  <h5 class="bg-secondary text-center text-white border rounded mt-4">Additional Info</h5>
+                </div>
+
+                <div class="col-md-6">
+                  <%= form.label :city, class: "form-label fs-6" %>
+                  <%= form.text_field :city, class: "form-control", value: @user.maintenance_staff.city.titleize, disabled: true%>
+                </div>
+
+              <% elsif @user.utility_staff? || @user.tenant? %>
+              <div class="mb-3">
+                  <h5 class="bg-secondary text-center text-white border rounded mt-4">Additional Info</h5>
+                </div>
+
+                <div class="col-md-6">
+                  <%= form.label :property, class: "form-label fs-6" %>
+                  <%= form.text_field :property, class: "form-control", value: user_presenter.property, disabled: true%>
+                </div>
+
+                <div class="col-md-6">
+                  <%= form.label :property_unit, class: "form-label fs-6" %>
+                  <%= form.text_field :property_unit, class: "form-control", value: user_presenter.property_unit, disabled: true%>
+                </div>
+
+                <div class="col-md-6">
+                  <%= form.label :room, class: "form-label fs-6" %>
+                  <%= form.text_field :room, class: "form-control", value: user_presenter.room, disabled: true%>
+                </div>
+
+                <div class="col-md-6">
+                  <%= form.label :deck, class: "form-label fs-6" %>
+                  <%= form.text_field :deck, class: "form-control", value: user_presenter.deck, disabled: true%>
+                </div>
+
+                <div class="col-md-6">
+                  <%= form.label :check_in, class: "form-label fs-6" %>
+                  <%= form.datetime_field :check_in, value: user_presenter.check_in, class: "form-select", disabled: true %>
+                </div>
+              <% end %>
+
+              <div class="col-12 d-flex justify-content-end d-md-none">
+                <button class="btn btn-primary btn-next w-100" type="button"> <span class="align-middle me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+              </div>
+              <div class="col-12 d-none d-md-flex justify-content-end ">
+                <button class="btn btn-primary btn-next" type="button"> <span class="align-middle me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Account Details -->
+          <div id="account-details-validation" class="content w-100">
+            <div class="content-header mb-3">
+              <h5 class="mb-0">Account Details</h5>
+              <small>Update Your Account Details.</small>
+            </div>
+            <div class="row g-6 mt-5">
+              <div class="col-md-6">
+                <%= form.label "Email", class: "form-label fs-6"%>
+                <%= form.email_field :email, class: "form-control", id: "user_Email"%>
+              </div>
+              <div class="col-md-6 d-none">
+                <%= form.hidden_field :status, class: "form-control", id: "user_Status", value: "unverified"%>
+              </div>
+              <div class="col-md-6 form-password-toggle">
+                <%= form.label "New Password", class: "form-label fs-6" %>
+                <div class="input-group input-group-merge">
+                  <%= form.password_field :password, class: "form-control",
+                                                            id: "user_New Password",
+                                                            placeholder: "&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;".html_safe,
+                                                            required: true
+                  %>
+                  <span class="input-group-text cursor-pointer" id="password2-modern"><i class="bx bx-hide"></i></span>
+                </div>
+              </div>
+              <div class="col-md-6 form-password-toggle">
+                <%= form.label "Confirm New Password", class: "form-label fs-6" %>
+                <div class="input-group input-group-merge">
+                  <%= form.password_field :password_confirmation, class: "form-control",
+                                                            id: "user_Confirm New Password",
+                                                            placeholder: "&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;".html_safe,
+                                                            required: true
+                  %>
+                  <span class="input-group-text cursor-pointer" id="password2-modern"><i class="bx bx-hide"></i></span>
+                </div>
+              </div>
+
+
+              <div class="col-12 d-flex flex-column justify-content-between d-md-none gap-2">
+                <button class="btn btn-primary btn-next" type="button"> <span class="align-middle d-sm-inline-block me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+              </div>
+              <div class="col-12 d-none d-md-flex justify-content-between ">
+                <button class="btn btn-primary btn-prev" type="button"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                  <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                </button>
+                <button class="btn btn-primary btn-next" type="button"> <span class="align-middle d-sm-inline-block d-none me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Emergency Contact -->
+          <div id="emergency-contacts-validation" class="content">
+            <div class="content-header mb-3">
+              <h6 class="mb-0">Emergency Contacts</h6>
+              <small>Setup Emergency Contacts.</small>
+            </div>
+            <div class="row g-6 mt-5">
+              <div class="col-md-12">
+              <h5 class="bg-secondary text-center text-white border rounded">1st Contact</h5>
+              </div>
+              <div class="col-md-6">
+                <%= form.label :first_contact_name, "Contact Name", class: "form-label fs-6" %>
+                <%= form.text_field :first_contact_name, class: "form-control", id: "user_first_contact_name", placeholder: "John Doe"%>
+              </div>
+              <div class="col-md-6">
+              <%= form.label :first_contact_number, "Contact Number", class: "form-label fs-6" %>
+              <%= form.telephone_field :first_contact_number, class: "form-control first-contact-number", id: "user_first_contact_number", placeholder: "xxxx xxx xxxx" %>
+              </div>
+              <div class="col-md-6">
+              <%= form.label :third_contact_number, "Second Contact Number", class: "form-label fs-6" %>
+              <%= form.telephone_field :third_contact_number, class: "form-control third-contact-number", id: "user_third_contact_number", placeholder: "xxxx xxx xxxx"%>
+              </div>
+              <div class="col-md-6">
+              <%= form.label :first_relationship, "Relationshp", class: "form-label fs-6" %>
+              <%= form.text_field :first_relationship, class: "form-control", id: "user_first_relationship", placeholder: "Father" %>
+              </div>
+              <div class="col-md-12">
+              <h5 class="bg-secondary text-center text-white border rounded">2nd Contact</h5>
+              </div>
+              <div class="col-md-6">
+                <%= form.label :second_contact_name, "Contact Name", class: "form-label fs-6" %>
+                <%= form.text_field :second_contact_name, class: "form-control", id: "user_second_contact_name", placeholder: "Valentina Scarlet"%>
+              </div>
+              <div class="col-md-6">
+              <%= form.label :second_contact_number, "Contact Number", class: "form-label fs-6" %>
+              <%= form.telephone_field :second_contact_number, class: "form-control second-contact-number", id: "user_second_contact_number", placeholder: "xxxx xxx xxxx"%>
+              </div>
+              <div class="col-md-6">
+              <%= form.label :fourth_contact_number, "Second Contact Number", class: "form-label fs-6" %>
+              <%= form.telephone_field :fourth_contact_number, class: "form-control fourth-contact-number", id: "user_fourth_contact_number", placeholder: "xxxx xxx xxxx"%>
+              </div>
+              <div class="col-md-6">
+              <%= form.label :second_relationship, "Relationship", class: "form-label fs-6" %>
+              <%= form.text_field :second_relationship, class: "form-control", id: "user_second_relationship", placeholder: "Guardian" %>
+              </div>
+
+              <div class="col-12 d-flex flex-column justify-content-between d-md-none gap-2">
+                <button class="btn btn-primary btn-next btn-submit" data-action="click->signature-pad#saveSignature"> <span class="align-middle d-sm-inline-block me-sm-1 me-0">Submit</span>
+              </div>
+              <div class="col-12 d-none d-md-flex justify-content-between">
+                <button class="btn btn-primary btn-prev" type="button"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                  <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                </button>
+                <button class="btn btn-primary btn-next btn-submit" data-action="click->signature-pad#saveSignature"> <span class="align-middle d-sm-inline-block d-none me-sm-1 me-0">Submit</span></button>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+
+        <div class="accordion accordion-header-primary mt-5" onsubmit="return false" id="validIdsAccordionStyle">
+          <div class="accordion-item card">
+            <h2 class="accordion-header">
+              <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#validIdsAccordion" aria-expanded="false">
+                Valid IDs
+              </button>
+            </h2>
+
+            <div id="validIdsAccordion" class="accordion-collapse collapse" data-bs-parent="#validIdsAccordionStyle">
+              <div class="accordion-body">
+                <%= render 'account_settings/valid_ids_form'%>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <% unless current_user.landlord? %>
+          <div class="card">
+            <h5 class="card-header">Deactivate Account</h5>
+            <div class="card-body">
+              <div class="mb-6 col-12 mb-0">
+                <div class="alert alert-warning">
+                  <h5 class="alert-heading mb-1">Are you sure you want to deactivate your account?</h5>
+                  <p class="mb-0">Once you deactivate your account, you need to contact the landlord if you want to activate again. Please be certain.</p>
+                </div>
+              </div>
+              <form id="formAccountDeactivation" onsubmit="return false" class="fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate" data-controller="deactivate-account" data-deactivate-account-user-id="<%= @user.id %>" >
+                <div class="form-check my-8 ms-2">
+                  <input class="form-check-input" type="checkbox" name="accountActivation" id="accountActivation" data-deactivate-account-target="checkBoxField" data-action="input->deactivate-account#enableButton">
+                  <label class="form-check-label" for="accountActivation">I confirm my account deactivation</label>
+                  <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback d-none" data-deactivate-account-target="errorMessage">
+                    <div data-field="accountActivation" data-validator="notEmpty">
+                      Please confirm you want to delete account
+                    </div>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-danger deactivate-account" disabled="disabled" data-deactivate-account-target="submitButton" data-action="click->deactivate-account#updateStatus">Deactivate Account</button>
+            </form>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

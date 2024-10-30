@@ -23,6 +23,7 @@ pin "cleave"
 pin "cleave-phone"
 pin "dropzone", to: "https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js", preload: true
 pin "cropper", to: "https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js", preload: true
+pin 'tesseract', to: "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js", preload: true
 pin "signature_pad", preload: true # @5.0.3
 pin "swiper"
 pin "ui-carousel"

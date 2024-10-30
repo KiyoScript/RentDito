@@ -1,0 +1,42 @@
+<tr>
+  <td><%= charge.user.tenant.room.name %></td>
+  <td><%= charge.user.fullname %></td>
+  <td><%= charge.user.phone_number %></td>
+  <td> <%= peso(charge.extra_charge_amount) %></td>
+  <td> <%= peso(charge.electricity_share_amount) %></td>
+  <td class="<%= (has_penalty?(charge, 'extra_charge_amount') || charge.has_penalty?) ? 'text-danger' : 'text-primary' %>"> <%= charge.extra_charge_electricity_penalty? ? peso(charge.extra_charge_electricity_penalty) :  has_penalty?(charge, 'extra_charge_amount') ? peso(charge_penalty(charge, 'extra_charge_amount')) : peso(0.00) %></td>
+  <td> <%= peso(charge.water_share_amount) %> </td>
+  <td class="<%= (has_penalty?(charge, 'water_share_amount') ||  charge.has_penalty?) ? 'text-danger' : 'text-primary' %>"> <%= charge.water_sharing_penalty? ? peso(charge.water_sharing_penalty) : has_penalty?(charge, 'water_share_amount') ? peso(charge_penalty(charge, 'water_share_amount')) : peso(0.00) %></td>
+  <td> <%= peso(charge.wifi_share_amount) %></td>
+  <td> <%= peso(charge.monthly_rental_amount) %></td>
+  <td class="<%= (has_penalty?(charge, 'monthly_rental_amount') || charge.has_penalty?) ? 'text-danger' : 'text-primary' %>"> <%= charge.wifi_and_monthly_rental_penalty? ? peso(charge.wifi_and_monthly_rental_penalty) : has_penalty?(charge, 'monthly_rental_amount') ? peso(charge_penalty(charge, 'monthly_rental_amount')) : peso(0.00) %></td>
+  <td class="<%= (any_penalty?(charge) || charge.has_penalty? ) ? 'text-danger' : 'text-primary' %>""> <%= charge.total_amount_penalty? ? peso(charge.total_amount_penalty) : peso(total_amount_penalty(charge)) %></td>
+
+  <% if current_user.landlord? || current_user.admin? %>
+    <td> <%= charge_status_badge(charge.status) %></td>
+  <% end %>
+
+  <td> <%= charge.days_count %></td>
+  <% if current_user.landlord? || current_user.admin? %>
+    <td>
+      <a href="javascript:void(0)" class="menu-link text-center" data-bs-toggle="modal" data-bs-target="#updateChargesModal-<%= dom_id(charge) %>">
+        <i class='bx bx-edit bx-sm'></i>
+        Edit
+      </a>
+    </td>
+  <% end %>
+</tr>
+
+<div class="modal fade" id="updateChargesModal-<%= dom_id(charge)%>" tabindex="-1" aria-labelledby="updateChargesModalLabel" aria-hidden="true" data-controller="billing-charges" data-action="turbo:submit-end->billing-charges#hideModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateChargesModalLabel"><%= charge.user.fullname %></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <%= turbo_frame_tag :edit_billing_charges_frame, src: edit_dashboard_billing_charge_path(charge.billing, charge) %>
+    </div>
+  </div>
+</div>
+
+
