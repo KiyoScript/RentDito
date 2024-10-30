@@ -56,6 +56,8 @@
       <%= form.label :due_date, class: "form-label fs-6" %>
       <%= form.datetime_field :due_date, class: "form-control", data: { billing_target: 'dueDateField' }, required: true %>
     </div>
+    <%= form.hidden_field :wifi_and_rental_start_date, value: Date.today.beginning_of_month %>
+    <%= form.hidden_field :wifi_and_rental_end_date, value: Date.today.next_month.beginning_of_month %>
   </div>
 </div>
 

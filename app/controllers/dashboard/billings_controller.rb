@@ -56,6 +56,8 @@ class Dashboard::BillingsController < ApplicationController
       :electricity_bill_end_date,
       :water_bill_start_date,
       :water_bill_end_date,
+      :wifi_and_rental_start_date,
+      :wifi_and_rental_end_date,
       :due_date,
       :property_id
     )
