@@ -63,7 +63,7 @@
         <div class="d-flex flex-column align-items-start justify-content-center mt-5">
 
           <div class="w-100 d-flex justify-content-center">
-            <div class="d-flex align-items-center justify-content-center flex-column px-4 px-md-0 mx-4 mx-md-0">
+            <div class="d-flex align-items-center justify-content-center flex-column px-md-0 mx-md-0">
                 <h4 class="my-4 text-center">Hello <%= @user.role.titleize %> 👋</h4>
               <% if @user.unverified? %>
                 <div class="alert alert-warning d-flex flex-wrap align-items-center" role="alert">
@@ -137,7 +137,7 @@
                 </button>
               </div>
             </div>
-            <div class="bs-stepper-content">
+            <div class="bs-stepper-content p-1 p-0 p-sm-1">
               <%= form_with model: @user, url: onboarding_path(@user), method: :patch, html: { onSubmit: "return false", data: { controller: "upload-avatar signature-pad automate-age", "wizard-form-target": "wizardValidationForm"}} do |form| %>
                 <!-- Personal Info -->
                 <div id="personal-info-validation" class="content">
@@ -369,7 +369,7 @@
               <% end %>
 
               <div class="accordion accordion-header-primary mt-5" id="validIdsAccordionStyle">
-                <div class="accordion-item card">
+                <div class="accordion-item card border-0 shadow-none">
                   <h2 class="accordion-header">
                     <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#validIdsAccordion" aria-expanded="false">
                       Valid IDs
