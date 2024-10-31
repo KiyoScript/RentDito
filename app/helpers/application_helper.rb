@@ -107,8 +107,13 @@ module ApplicationHelper
 
       if users.size > 4
         additional_count = users.size - 4
-        content_tag(:li, class: "avatar pull-up", data: { bs_toggle: "tooltip", bs_title: "+#{additional_count} more" }) do
-          content_tag(:span, "+#{additional_count}", class: "rounded-circle additional-avatar")
+        content_tag(:li, class: "avatar") do
+          content_tag(:span,
+            class: "avatar-initial rounded-circle pull-up",
+            data: { bs_toggle: "tooltip", bs_placement: "bottom", bs_title: "+#{additional_count} more" }
+          ) do
+            "+#{additional_count}"
+          end
         end
       else
         ""
