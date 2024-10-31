@@ -2,7 +2,6 @@ class Dashboard::BillingsController < ApplicationController
   include Dashboard::BillingsHelper
   before_action :authenticate_user!
   before_action :set_billing, only: [:show, :destroy]
-  before_action :get_billing_id, only: :billing_data\
 
   def index
     if current_user.landlord? || current_user.admin?
@@ -42,17 +41,33 @@ class Dashboard::BillingsController < ApplicationController
   end
 
   def billing_data
+    year_month = params[:year_month]
+    year, month = year_month.split('-').map(&:to_i)
+
+    billings = Billing.where("EXTRACT(YEAR FROM due_date) = ? AND EXTRACT(MONTH FROM due_date) = ?", year, month)
+
+    total_paid = billings.sum(&:total_paid_amount).round(2)
+    total_amount = billings.sum(&:total_charges_amount).round(2)
+    total_water_billing_amount = billings.sum(&:total_water_billing_amount).round(2)
+    total_water_billing_paid_amount = billings.sum(&:total_water_billing_paid_amount).round(2)
+    total_electricity_billing_amount = billings.sum(&:total_electricity_billing_amount).round(2)
+    total_electricity_billing_paid_amount = billings.sum(&:total_electricity_billing_paid_amount).round(2)
+    total_wifi_billing_amount = billings.sum(&:total_wifi_billing_amount).round(2)
+    total_wifi_billing_paid_amount = billings.sum(&:total_wifi_billing_paid_amount).round(2)
+    total_monthly_rental_billing_amount = billings.sum(&:total_monthly_rental_billing_amount).round(2)
+    total_monthly_rental_billing_paid_amount = billings.sum(&:total_monthly_rental_billing_paid_amount).round(2)
+
     render json: {
-      total_paid: @billing.total_paid_amount.round(2),
-      total_amount: @billing.total_charges_amount.round(2),
-      total_water_billing_amount: @billing.total_water_billing_amount.round(2),
-      total_water_billing_paid_amount: @billing.total_water_billing_paid_amount.round(2),
-      total_electricity_billing_amount: @billing.total_electricity_billing_amount.round(2),
-      total_electricity_billing_paid_amount: @billing.total_electricity_billing_paid_amount.round(2),
-      total_wifi_billing_amount: @billing.total_wifi_billing_amount.round(2),
-      total_wifi_billing_paid_amount: @billing.total_wifi_billing_paid_amount.round(2),
-      total_monthly_rental_billing_amount: @billing.total_monthly_rental_billing_amount.round(2),
-      total_monthly_rental_billing_paid_amount: @billing.total_monthly_rental_billing_paid_amount.round(2)
+      total_paid: total_paid,
+      total_amount: total_amount,
+      total_water_billing_amount: total_water_billing_amount,
+      total_water_billing_paid_amount: total_water_billing_paid_amount,
+      total_electricity_billing_amount: total_electricity_billing_amount,
+      total_electricity_billing_paid_amount: total_electricity_billing_paid_amount,
+      total_wifi_billing_amount: total_wifi_billing_amount,
+      total_wifi_billing_paid_amount: total_wifi_billing_paid_amount,
+      total_monthly_rental_billing_amount: total_monthly_rental_billing_amount,
+      total_monthly_rental_billing_paid_amount: total_monthly_rental_billing_paid_amount
     }
   end
 
@@ -61,10 +76,6 @@ class Dashboard::BillingsController < ApplicationController
   def set_billing
     @billing = Billing.find_by(number: params.dig(:id))
     redirect_to dashboard_billings_path, alert: "Billing not exist!" if @billing.nil?
-  end
-
-  def get_billing_id
-    @billing = Billing.find_by(id: params[:id])
   end
 
   def billing_params

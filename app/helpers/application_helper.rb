@@ -95,19 +95,27 @@ module ApplicationHelper
 
   def users_avatars(users)
     content_tag(:ul, class: "list-unstyled avatar-group d-flex flex-row align-items-center justify-content-start") do
-      users.map do |user|
-
+      users.first(4).map do |user|
         default_avatar = user.male? ? 'male_avatar.png' : 'female_avatar.png'
-
         avatar_url = user.avatar.attached? ? rails_blob_url(user.avatar) : asset_path(default_avatar)
+
         content_tag(:li, class: "avatar pull-up",
                     data: { bs_toggle: "tooltip", popup: "tooltip-custom", bs_placement: "top", bs_title: user.fullname }) do
           image_tag(avatar_url, alt: "#{user.firstname}'s Avatar", class: "rounded-circle")
         end
-      end.join.html_safe
+      end.join.html_safe +
 
+      if users.size > 4
+        additional_count = users.size - 4
+        content_tag(:li, class: "avatar pull-up", data: { bs_toggle: "tooltip", bs_title: "+#{additional_count} more" }) do
+          content_tag(:span, "+#{additional_count}", class: "rounded-circle additional-avatar")
+        end
+      else
+        ""
+      end
     end
   end
+
 
   def peso(amount)
     number_to_currency(amount, unit: "₱", precision: 2)

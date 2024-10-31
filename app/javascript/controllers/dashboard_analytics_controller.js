@@ -27,11 +27,14 @@ export default class extends Controller {
   ]
 
   async updateCard(event){
-    const billingId = event.target.dataset.dashboardAnalyticsBillingId
+    const yearMonth = event.currentTarget.dataset.dashboardAnalyticsBillingMonth;
+
     const clickedBillingMonth = event.currentTarget.innerText.trim()
     this.monthlyTarget.innerText = clickedBillingMonth
 
-    const request = new FetchRequest("get", `/dashboard/billings/${billingId}/billing_data`, { responseKind: "json" })
+
+    const request = new FetchRequest("get", `/dashboard/billings/billing_data?year_month=${yearMonth}`, { responseKind: "json" });
+
     const response = await request.perform()
 
     if (response.ok) {

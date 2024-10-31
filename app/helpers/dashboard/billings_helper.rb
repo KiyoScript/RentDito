@@ -65,4 +65,12 @@ module Dashboard::BillingsHelper
       charge.unpaid? || charge.pending? && charge.billing.wifi_and_rental_end_date < Date.today
     end
   end
+
+  def unique_billing_months(limit = 5)
+    Billing.select("DATE_TRUNC('month', due_date) as billing_month")
+           .group("billing_month")
+           .order("billing_month DESC")
+           .limit(limit)
+           .map { |billing| billing.billing_month }
+  end
 end
