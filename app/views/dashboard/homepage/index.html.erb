@@ -2,157 +2,56 @@
   <div class="col-xl-3 col-lg-6 col-md-6">
     <div class="card-body p-6 bg-white">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h6 class="fw-normal mb-0 text-body">Total 3 users</h6>
-        <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-          <li
-            data-bs-toggle="tooltip"
-            data-popup="tooltip-custom"
-            data-bs-placement="top"
-            title="Maricar Perez"
-            class="avatar pull-up">
-            <img class="rounded-circle" src="https://scontent.fceb1-2.fna.fbcdn.net/v/t39.30808-6/435976518_1782189525595815_6183644354870120738_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGZ3kkxdBmwAFqhnarLvB3LqDpHbd0q6EioOkdt3SroSAl4uRkZp_1bHHAQ2IvfMxA3rm297u22kOTBadc0iqpp&_nc_ohc=LwA-Uk0DHxUQ7kNvgFKXCxW&_nc_zt=23&_nc_ht=scontent.fceb1-2.fna&_nc_gid=AuoEaoWth1-aWvTXY0wKMpd&oh=00_AYAZ7uZGMNUdKRKB6fmJrT3alEiWnBg2SkovgHalOvGzxQ&oe=67211275" alt="Avatar" />
-          </li>
-          <li
-            data-bs-toggle="tooltip"
-            data-popup="tooltip-custom"
-            data-bs-placement="top"
-            title="Clent Vienceth Fat"
-            class="avatar pull-up">
-            <img class="rounded-circle" src="https://scontent.fceb1-2.fna.fbcdn.net/v/t1.30497-1/453178253_471506465671661_2781666950760530985_n.png?stp=dst-png_s200x200&_nc_cat=1&ccb=1-7&_nc_sid=136b72&_nc_eui2=AeGAAke2Yvig0T37UMzCwgWMWt9TLzuBU1Ba31MvO4FTUA5SyGPoUCzISsPDBut-ENz66bT5u37FwSbKlsA9vTm1&_nc_ohc=5aCdrv5LSSkQ7kNvgF3Xlek&_nc_zt=24&_nc_ht=scontent.fceb1-2.fna&_nc_gid=AGhideOou-SofttxV3l3WPR&oh=00_AYAJY-rtCFNXtEQrd8Df_JsdQxm2GvaoSDt0i-p7anC3Tw&oe=6742B17A" alt="Avatar" />
-          </li>
-          <li
-            data-bs-toggle="tooltip"
-            data-popup="tooltip-custom"
-            data-bs-placement="top"
-            title="Christian Saragena"
-            class="avatar pull-up">
-            <img class="rounded-circle" src="https://scontent.fceb1-3.fna.fbcdn.net/v/t39.30808-1/462884216_1232062974513284_2765664740753620188_n.jpg?stp=dst-jpg_s100x100&_nc_cat=106&ccb=1-7&_nc_sid=0ecb9b&_nc_eui2=AeF-2LWaGzotU4-5CE5XCXi5JwslOkC0jOgnCyU6QLSM6B5dFMbxRgnJXnDrz5TWG-71G1GhOtNHXW_LwlgvsEA6&_nc_ohc=AsQD1dHGwEIQ7kNvgGbTbWv&_nc_zt=24&_nc_ht=scontent.fceb1-3.fna&_nc_gid=ARmfumR82SUq4Z6WMns3c2c&oh=00_AYCwTnSfGb_oJjKFZfjjfkkHMgxQ-CzlF8k9m7qcBjKboQ&oe=672115A4" alt="Avatar" />
-          </li>
-        </ul>
+        <h6 class="fw-normal mb-0 text-body">Total <%= User.admin.count %> Users</h6>
+        <%= users_avatars(User.admin) %>
       </div>
       <div class="d-flex justify-content-between align-items-end">
         <div class="role-heading">
           <h5 class="mb-1">Administrator</h5>
-          <a
-            href="/dashboard/admins"
-            ><span>View Users</span></a
-          >
+          <%= link_to 'View Users', dashboard_admins_path %>
         </div>
-        <a href="javascript:void(0);"><i class="bx bx-copy bx-md text-muted"></i></a>
       </div>
     </div>
   </div>
   <div class="col-xl-3 col-lg-6 col-md-6">
     <div class="card-body p-6 bg-white">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h6 class="fw-normal mb-0 text-body">Total 1 user</h6>
-        <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-          <li
-            data-bs-toggle="tooltip"
-            data-popup="tooltip-custom"
-            data-bs-placement="top"
-            title="Lawrence Caudilla"
-            class="avatar pull-up">
-            <img class="rounded-circle" src="https://scontent.fceb1-3.fna.fbcdn.net/v/t39.30808-6/434650754_2555442154663600_3208268087124658021_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeHXiYfrzdSEF5VXEXBF573_YzgcX7kR18djOBxfuRHXx5rVrhwIM0sDXGbP1SxY_DUhxTCuTC__dDXXEoyHIYzb&_nc_ohc=mw8_dq6In_QQ7kNvgGTOXEY&_nc_zt=23&_nc_ht=scontent.fceb1-3.fna&_nc_gid=AhQI1qFGZfOkgn0bPWHdLbX&oh=00_AYAl_faxpsvOUpTca10f9Pv9-_sRLmZzUfbyWCGvDl8Puw&oe=6721473B" alt="Avatar" />
-          </li>
-        </ul>
+        <h6 class="fw-normal mb-0 text-body">Total <%= User.maintenance_staff.count %> Users</h6>
+        <%= users_avatars(User.maintenance_staff) %>
       </div>
       <div class="d-flex justify-content-between align-items-end">
         <div class="role-heading">
           <h5 class="mb-1">Maintenance Staff</h5>
-          <a
-            href="/dashboard/maintenance_staffs"
-            ><span>View Users</span></a
-          >
+          <%= link_to 'View Users', dashboard_maintenance_staffs_path %>
         </div>
-        <a href="javascript:void(0);"><i class="bx bx-copy bx-md text-muted"></i></a>
       </div>
     </div>
   </div>
   <div class="col-xl-3 col-lg-6 col-md-6">
     <div class="card-body p-6 bg-white">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h6 class="fw-normal mb-0 text-body">Total 2 users</h6>
-        <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-          <li
-            data-bs-toggle="tooltip"
-            data-popup="tooltip-custom"
-            data-bs-placement="top"
-            title="Ojay Cabusas"
-            class="avatar pull-up">
-            <img class="rounded-circle" src="https://scontent.fceb1-1.fna.fbcdn.net/v/t39.30808-1/463596245_574840388440184_1233526314439780720_n.jpg?stp=dst-jpg_s200x200&_nc_cat=101&ccb=1-7&_nc_sid=0ecb9b&_nc_eui2=AeHQ1danos-rFTXxBwpTrhldZYF5XTWLfFxlgXldNYt8XLXnn6UkrQ8rWmKy5vLSGQj1I8261zqqDWymVokjbHEA&_nc_ohc=ZMUy78sUbpcQ7kNvgEFt_r4&_nc_zt=24&_nc_ht=scontent.fceb1-1.fna&_nc_gid=ApQxtzawP9l2j6cM5XIqnAz&oh=00_AYDYNqV-avOGEQ5oPSB31MepmnP1zhwZoQECx_KOWAUpBA&oe=672132BC" alt="Avatar" />
-          </li>
-          <li
-            data-bs-toggle="tooltip"
-            data-popup="tooltip-custom"
-            data-bs-placement="top"
-            title="Kevin Cabusas"
-            class="avatar pull-up">
-            <img class="rounded-circle" src="https://scontent.fceb1-4.fna.fbcdn.net/v/t39.30808-1/464145032_1766657977404852_6973481667294372327_n.jpg?stp=c204.0.1224.1224a_dst-jpg_s100x100&_nc_cat=107&ccb=1-7&_nc_sid=0ecb9b&_nc_eui2=AeE9iocm-ekuKDmRw5DJxYddvJtcbBN08Qy8m1xsE3TxDAFDIsGW0AaArnlf9CBDOuIkJyB0fVPNo4-rbHaF90Hd&_nc_ohc=xwVQstuIJjEQ7kNvgHha-i8&_nc_zt=24&_nc_ht=scontent.fceb1-4.fna&_nc_gid=ADv-pSWtSxJ3waOWF0BRK2M&oh=00_AYCBnAcxghpwYVmdILnl4LGyonBNNvaFUlWlFQrqZug3jw&oe=67214302" alt="Avatar" />
-          </li>
-        </ul>
+        <h6 class="fw-normal mb-0 text-body">Total <%= User.utility_staff.count %> Users</h6>
+        <%= users_avatars(User.utility_staff) %>
       </div>
       <div class="d-flex justify-content-between align-items-end">
         <div class="role-heading">
           <h5 class="mb-1">Utility Staff</h5>
-          <a
-            href="/dashboard/utility_staff"
-            ><span>View Users</span></a
-          >
+          <%= link_to 'View Users', dashboard_utility_staff_index_path %>
         </div>
-        <a href="javascript:void(0);"><i class="bx bx-copy bx-md text-muted"></i></a>
       </div>
     </div>
   </div>
   <div class="col-xl-3 col-lg-6 col-md-6">
     <div class="card-body p-6 bg-white">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h6 class="fw-normal mb-0 text-body">Total 5 users</h6>
-        <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-          <li
-            data-bs-toggle="tooltip"
-            data-popup="tooltip-custom"
-            data-bs-placement="top"
-            title="John Lloyd de Sape"
-            class="avatar pull-up">
-            <img class="rounded-circle" src="https://scontent.fceb1-2.fna.fbcdn.net/v/t39.30808-6/425491579_2107408959611717_2366932878815564108_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeEhfWLqR9qW4AJGaxKRHSRJLif2zMd_cOQuJ_bMx39w5NBcGG0YXxiGr7KDjbirtv4r6nkfevWOJR0m3yaKUGsL&_nc_ohc=a_6sIAUt_TcQ7kNvgExosbY&_nc_zt=23&_nc_ht=scontent.fceb1-2.fna&_nc_gid=AJarfg0h4rMBDWx5lCOZShJ&oh=00_AYDGmv-zHQY4ehVEPihXQE-H0b1R8tdZyEFK1dYX8zjC_w&oe=67211DF0" alt="Avatar" />
-          </li>
-          <li
-            data-bs-toggle="tooltip"
-            data-popup="tooltip-custom"
-            data-bs-placement="top"
-            title="Rex Arribe"
-            class="avatar pull-up">
-            <img class="rounded-circle" src="https://scontent.fceb1-5.fna.fbcdn.net/v/t39.30808-1/459570058_1485636715651143_6225822848220439489_n.jpg?stp=dst-jpg_s100x100&_nc_cat=110&ccb=1-7&_nc_sid=0ecb9b&_nc_eui2=AeETQRzWYQLFnjjCjTY49d57NE4nDXga4Fo0TicNeBrgWjdtYu53UwT2-0essPRFGXFSEvsLSWgzvm7r5DXeS3kv&_nc_ohc=-wqad9DOVbkQ7kNvgEqwxDu&_nc_zt=24&_nc_ht=scontent.fceb1-5.fna&_nc_gid=AoUn2RqZ1iprrB4NM6hQWd7&oh=00_AYAm7vOV2iEOkVJ2OnTfyVVCO9DaVfXxaQ7dhl7a3Fcvvw&oe=672118FF" alt="Avatar" />
-          </li>
-          <li
-            data-bs-toggle="tooltip"
-            data-popup="tooltip-custom"
-            data-bs-placement="top"
-            title="Arnel Jocosol"
-            class="avatar pull-up">
-            <img class="rounded-circle" src="https://scontent.fceb1-4.fna.fbcdn.net/v/t39.30808-1/454754684_2683374031838373_8029637107753728424_n.jpg?stp=dst-jpg_s200x200&_nc_cat=107&ccb=1-7&_nc_sid=50d2ac&_nc_eui2=AeHezIa3kDl_HoZHbRVvu-4PUfE5Fbaq5CRR8TkVtqrkJM6RZ3h3Kq7d1_slDZflb3H58FW6HbexAO_W_P5G6opi&_nc_ohc=dWqLIHkFo88Q7kNvgGk_d3b&_nc_zt=24&_nc_ht=scontent.fceb1-4.fna&_nc_gid=ANlRDBAJdAzDXUVkYMKBgrK&oh=00_AYDYdpXqmnaIq0Ul_mu7hC_tDMxFEpZ0Xj_SiBRCzauAeg&oe=672135E6" alt="Avatar" />
-          </li>
-          <li class="avatar">
-            <span
-              class="avatar-initial rounded-circle pull-up"
-              data-bs-toggle="tooltip"
-              data-bs-placement="bottom"
-              title="2 more"
-              >+2</span
-            >
-          </li>
-        </ul>
+        <h6 class="fw-normal mb-0 text-body">Total <%= User.tenant.count %> Users</h6>
+        <%= users_avatars(User.tenant) %>
       </div>
       <div class="d-flex justify-content-between align-items-end">
         <div class="role-heading">
           <h5 class="mb-1">Tenant</h5>
-          <a
-            href="/dashboard/tenants"
-            ><span>View Users</span></a
-          >
+          <%= link_to 'View Users', dashboard_tenants_path %>
         </div>
-        <a href="javascript:void(0);"><i class="bx bx-copy bx-md text-muted"></i></a>
       </div>
     </div>
   </div>
@@ -165,9 +64,9 @@
         <div class="content-left">
           <span class="text-heading">Verified Users</span>
           <div class="d-flex align-items-center my-1">
-            <h4 class="mb-0 me-2">6/11</h4>
+            <h4 class="mb-0 me-2"><%= User.verified.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
           </div>
-          <small class="mb-0 text-success">(54.55%)</small>
+          <small class="mb-0 text-success"><%= User.get_percentage(User.verified.count, User.where.not(role: 'landlord').count) %></small>
         </div>
         <div class="avatar d-flex align-items-start flex-column">
           <span class="avatar-initial rounded bg-label-success">
@@ -183,9 +82,9 @@
         <div class="content-left">
           <span class="text-heading">Unverified Users</span>
           <div class="d-flex align-items-center my-1">
-            <h4 class="mb-0 me-2">2/11</h4>
+            <h4 class="mb-0 me-2"><%= User.unverified.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
           </div>
-          <small class="mb-0 text-warning">(18.18%)</small>
+          <small class="mb-0 text-warning"><%= User.get_percentage(User.unverified.count, User.where.not(role: 'landlord').count) %></small>
         </div>
         <div class="avatar">
           <span class="avatar-initial rounded bg-label-warning">
@@ -201,9 +100,9 @@
         <div class="content-left">
           <span class="text-heading">Rejected Users</span>
           <div class="d-flex align-items-center my-1">
-            <h4 class="mb-0 me-2">1/11</h4>
+            <h4 class="mb-0 me-2"><%= User.rejected.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
           </div>
-          <small class="mb-0 text-danger">(9.09%)</small>
+          <small class="mb-0 text-danger"><%= User.get_percentage(User.rejected.count, User.where.not(role: 'landlord').count) %></small>
         </div>
         <div class="avatar">
           <span class="avatar-initial rounded bg-label-danger">
@@ -219,9 +118,9 @@
         <div class="content-left">
           <span class="text-heading">Incomplete Users</span>
           <div class="d-flex align-items-center my-1">
-            <h4 class="mb-0 me-2">2/11</h4>
+            <h4 class="mb-0 me-2"><%= User.incomplete.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
           </div>
-          <small class="mb-0 text-info">(18.18%)</small>
+          <small class="mb-0 text-info"><%= User.get_percentage(User.incomplete.count, User.where.not(role: 'landlord').count) %></small>
         </div>
         <div class="avatar">
           <span class="avatar-initial rounded bg-label-primary">
@@ -257,7 +156,9 @@
             <span class="avatar-initial avatar-shadow-success rounded-circle"><i class="bx bx-buildings bx-26px"></i></span>
           </div>
         </div>
-        <p data-fetch-occupied-bedspaces-target="propertyName" class="mb-1">Select a property</p>
+        <a href=""data-fetch-occupied-bedspaces-target="propertyId">
+          <p data-fetch-occupied-bedspaces-target="propertyName" class="mb-1">Select a property</p>
+        </a>
         <div class="my-4">
           <h4 data-fetch-occupied-bedspaces-target="occupancy" class="card-title mb-1">--/--</h4>
           <span class="fw-bold text-primary">Upper</span><span> Deck - </span><span data-fetch-occupied-bedspaces-target="upperDeck" class="badge bg-label-danger me-1">--</span>
@@ -266,6 +167,7 @@
       </div>
     </div>
   </div>
+
   <div class="col-md-8 mt-4">
     <div class="card h-100">
       <div class="card-header d-flex justify-content-between">
@@ -283,11 +185,23 @@
               <div class="me-2">
                 <h6 class="mb-1 fw-normal">Closed Tickets</h6>
                 <p class="text-success mb-0">
-                  46.15%
+                  <% if current_user.landlord? %>
+                    <%= Ticket.get_percentage(Ticket.closed.count, Ticket.count) %>
+                  <% elsif current_user.tenant? %>
+                    <%= Ticket.get_percentage(Ticket.where(tenant: current_user.tenant).closed.count, Ticket.where(tenant: current_user.tenant).count) %>
+                  <% else %>
+                    <%= Ticket.get_percentage(Ticket.assigned_to_user(current_user).closed.count, Ticket.assigned_to_user(current_user).count) %>
+                  <% end %>
                 </p>
               </div>
               <div class="user-progress">
-                <h6 class="mb-0">6/13</h6>
+                <% if current_user.landlord? %>
+                  <h6 class="mb-0"><%= Ticket.closed.count %>/<%= Ticket.count %></h6>
+                <% elsif current_user.tenant? %>
+                  <h6 class="mb-0"><%= Ticket.where(tenant: current_user.tenant).closed.count %>/<%= Ticket.where(tenant: current_user.tenant).count %></h6>
+                <% else %>
+                  <h6 class="mb-0"><%= Ticket.assigned_to_user(current_user).closed.count %>/<%= Ticket.assigned_to_user(current_user).count %>
+                <% end %>
               </div>
             </div>
           </li>
@@ -299,11 +213,23 @@
               <div class="me-2">
                 <h6 class="mb-1 fw-normal">Pending Tickets</h6>
                 <p class="text-warning mb-0">
-                  30.77%
+                  <% if current_user.landlord? %>
+                    <%= Ticket.get_percentage(Ticket.pending.count, Ticket.count) %>
+                  <% elsif current_user.tenant? %>
+                    <%= Ticket.get_percentage(Ticket.where(tenant: current_user.tenant).pending.count, Ticket.where(tenant: current_user.tenant).count) %>
+                  <% else %>
+                    <%= Ticket.get_percentage(Ticket.assigned_to_user(current_user).pending.count, Ticket.assigned_to_user(current_user).count) %>
+                  <% end %>
                 </p>
               </div>
               <div class="user-progress">
-                <h6 class="mb-0">4/13</h6>
+                <% if current_user.landlord? %>
+                  <h6 class="mb-0"><%= Ticket.pending.count %>/<%= Ticket.count %></h6>
+                <% elsif current_user.tenant? %>
+                  <h6 class="mb-0"><%= Ticket.where(tenant: current_user.tenant).pending.count %>/<%= Ticket.where(tenant: current_user.tenant).count %></h6>
+                <% else %>
+                  <h6 class="mb-0"><%= Ticket.assigned_to_user(current_user).pending.count %>/<%= Ticket.assigned_to_user(current_user).count %>
+                <% end %>
               </div>
             </div>
           </li>
@@ -315,11 +241,23 @@
               <div class="me-2">
                 <h6 class="mb-1 fw-normal">Open Tickets</h6>
                 <p class="text-info mb-0">
-                  23.08%
+                  <% if current_user.landlord? %>
+                    <%= Ticket.get_percentage(Ticket.open.count, Ticket.count) %>
+                  <% elsif current_user.tenant? %>
+                    <%= Ticket.get_percentage(Ticket.where(tenant: current_user.tenant).open.count, Ticket.where(tenant: current_user.tenant).count) %>
+                  <% else %>
+                    <%= Ticket.get_percentage(Ticket.assigned_to_user(current_user).open.count, Ticket.assigned_to_user(current_user).count) %>
+                  <% end %>
                 </p>
               </div>
               <div class="user-progress">
-                <h6 class="mb-0">3/13</h6>
+                <% if current_user.landlord? %>
+                  <h6 class="mb-0"><%= Ticket.open.count %>/<%= Ticket.count %></h6>
+                <% elsif current_user.tenant? %>
+                  <h6 class="mb-0"><%= Ticket.where(tenant: current_user.tenant).open.count %>/<%= Ticket.where(tenant: current_user.tenant).count %></h6>
+                <% else %>
+                  <h6 class="mb-0"><%= Ticket.assigned_to_user(current_user).open.count %>/<%= Ticket.assigned_to_user(current_user).count %>
+                <% end %>
               </div>
             </div>
           </li>
@@ -329,83 +267,41 @@
   </div>
 </div>
 
-<div class="row g-6 mt-0">
-  <% if current_user.utility_staff? || current_user.tenant? %>
-  <div class="col-md-4 mt-4">
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title mb-3 me-2">Your <span class="text-primary">Balance</span></h5>
-        <p class="card-text">
-          Manage your funds and transactions
-        </p>
-      </div>
-      <div class="card-body my-2">
-
-        <% pending_deposit = current_user.deposits.find_by(status: 'pending') %>
-
-        <% if pending_deposit.present? %>
-          <div class="alert alert-info" role="alert">
-            You have a pending deposit of <%= pending_deposit.amount.format %> that has not yet been added to your balance.
-            Please wait while it is processed.
-          </div>
-        <% end %>
-
-        <p class="card-text">Current Balance</p>
-        <h4 class="card-title text-success">
-          <%= current_user.balance.present? ? current_user.balance.amount.format : '₱ 0.00' %>
-        </h4>
-
-        <% if current_user.balance.present? && current_user.balance.amount < Money.new(200_00, 'PHP') %>
-          <div class="alert alert-warning mt-2" role="alert">
-            Your balance is below the required minimum of ₱200. Please deposit money.
-          </div>
-        <% end %>
-
-        <div class="d-flex align-items-center justify-content-start gap-2 mt-4">
-          <%= turbo_frame_tag :new_deposit_frame, src: new_dashboard_deposit_path %>
-
-          <%= link_to dashboard_charges_path, class: 'btn btn-warning d-flex align-items-center' do %>
-            <i class='bx bx-receipt me-2'></i> Pay Charges
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </div>
-  <% end %>
-</div>
-<div class="row g-6 mt-0 mb-4">
-  <div class="col-md-6 mt-4 mb-0">
+<div class="row mt-0 mb-4">
+  <div class="col-md-4 mt-4 mb-0" data-controller="dashboard-analytics">
     <div class="card h-100">
       <div class="card-header d-flex justify-content-between">
         <div class="card-title mb-0">
           <h5 class="mb-1 me-2">Monthly Billing</h5>
-          <p class="card-subtitle">October 2024</p>
+          <p class="card-subtitle" data-dashboard-analytics-target="monthly">--</p>
         </div>
         <div class="dropdown">
-          <button
-            class="btn text-muted p-0"
-            type="button"
-            id="orederStatistics"
-            data-bs-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false">
-            <i class="bx bx-dots-vertical-rounded bx-lg"></i>
+          <button class="btn p-0" type="button" id="cardOpt1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="bx bx-dots-vertical-rounded text-muted"></i>
           </button>
-          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="orederStatistics">
-            <a class="dropdown-item" href="javascript:void(0);">October 2024</a>
-            <a class="dropdown-item" href="javascript:void(0);">September 2024</a>
-            <a class="dropdown-item" href="javascript:void(0);">August 2024</a>
+          <div class="dropdown-menu" aria-labelledby="monthlyBilling">
+            <% Billing.all.order(created_at: :desc).limit(5).each do |billing| %>
+              <button class="dropdown-item" type="button" data-dashboard-analytics-billing-id="<%= billing.id %>" data-dashboard-analytics-target="getMonthly" data-action="click->dashboard-analytics#updateCard">
+                <%= billing.month %>
+              </button>
+            <% end %>
           </div>
         </div>
       </div>
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-6" style="position: relative;">
           <div class="d-flex flex-column align-items-left gap-1">
-            <h3 class="mb-1">₱11,385 / ₱13,625</h3>
+            <h3 class="mb-1"><span data-dashboard-analytics-target="totalPaid"><%= peso(0.00)%></span> / <span data-dashboard-analytics-target="totalAmount"><%= peso(0.00)%></span></h3>
             <small>Total Paid / Total Payment</small>
           </div>
-          <div class="resize-triggers"><div class="expand-trigger"><div style="width: 10vw; height: 119px;"></div></div><div class="contract-trigger"></div></div>
-          <div id="orderStatisticsChart" style="min-height: 117.55px;"><div id="apexchartsocybqo1x" class="apexcharts-canvas apexchartsocybqo1x apexcharts-theme-light" style="width: 110px; height: 117.55px;"><svg id="SvgjsSvg3127" width="110" height="117.55" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev" class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)" style="background: transparent;"><g id="SvgjsG3129" class="apexcharts-inner apexcharts-graphical" transform="translate(-7, 0)"><defs id="SvgjsDefs3128"><clipPath id="gridRectMaskocybqo1x"><rect id="SvgjsRect3131" width="130" height="153" x="-4.5" y="-2.5" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect></clipPath><clipPath id="forecastMaskocybqo1x"></clipPath><clipPath id="nonForecastMaskocybqo1x"></clipPath><clipPath id="gridRectMarkerMaskocybqo1x"><rect id="SvgjsRect3132" width="125" height="152" x="-2" y="-2" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect></clipPath></defs><g id="SvgjsG3133" class="apexcharts-pie"><g id="SvgjsG3134" transform="translate(0, 0) scale(1)"><circle id="SvgjsCircle3135" r="37.518292682926834" cx="60.5" cy="60.5" fill="transparent"></circle><g id="SvgjsG3136" class="apexcharts-slices"><g id="SvgjsG3137" class="apexcharts-series apexcharts-pie-series" seriesName="Electronic" rel="1" data:realIndex="0"><path id="SvgjsPath3138" d="M 60.5 10.475609756097555 A 50.024390243902445 50.024390243902445 0 0 1 108.66002814246913 46.97035445435381 L 96.62002110685185 50.35276584076536 A 37.518292682926834 37.518292682926834 0 0 0 60.5 22.981707317073166 L 60.5 10.475609756097555 z" fill="rgba(113,221,55,1)" fill-opacity="1" stroke-opacity="1" stroke-linecap="butt" stroke-width="5" stroke-dasharray="0" class="apexcharts-pie-area apexcharts-donut-slice-0" index="0" j="0" data:angle="74.30830039525692" data:startAngle="0" data:strokeWidth="5" data:value="2350" data:pathOrig="M 60.5 10.475609756097555 A 50.024390243902445 50.024390243902445 0 0 1 108.66002814246913 46.97035445435381 L 96.62002110685185 50.35276584076536 A 37.518292682926834 37.518292682926834 0 0 0 60.5 22.981707317073166 L 60.5 10.475609756097555 z" stroke="#ffffff"></path></g><g id="SvgjsG3139" class="apexcharts-series apexcharts-pie-series" seriesName="Sports" rel="2" data:realIndex="1"><path id="SvgjsPath3140" d="M 108.66002814246913 46.97035445435381 A 50.024390243902445 50.024390243902445 0 0 1 38.06965625168233 105.21374842938745 L 43.67724218876175 94.03531132204058 A 37.518292682926834 37.518292682926834 0 0 0 96.62002110685185 50.35276584076536 L 108.66002814246913 46.97035445435381 z" fill="rgba(105,108,255,1)" fill-opacity="1" stroke-opacity="1" stroke-linecap="butt" stroke-width="5" stroke-dasharray="0" class="apexcharts-pie-area apexcharts-donut-slice-1" index="0" j="1" data:angle="132.3320158102767" data:startAngle="74.30830039525692" data:strokeWidth="5" data:value="4185" data:pathOrig="M 108.66002814246913 46.97035445435381 A 50.024390243902445 50.024390243902445 0 0 1 38.06965625168233 105.21374842938745 L 43.67724218876175 94.03531132204058 A 37.518292682926834 37.518292682926834 0 0 0 96.62002110685185 50.35276584076536 L 108.66002814246913 46.97035445435381 z" stroke="#ffffff"></path></g><g id="SvgjsG3141" class="apexcharts-series apexcharts-pie-series" seriesName="Decor" rel="3" data:realIndex="2"><path id="SvgjsPath3142" d="M 38.06965625168233 105.21374842938745 A 50.024390243902445 50.024390243902445 0 0 1 19.472994844825514 89.1220975344493 L 29.729746133619138 81.96657315083698 A 37.518292682926834 37.518292682926834 0 0 0 43.67724218876175 94.03531132204058 L 38.06965625168233 105.21374842938745 z" fill="rgba(133,146,163,1)" fill-opacity="1" stroke-opacity="1" stroke-linecap="butt" stroke-width="5" stroke-dasharray="0" class="apexcharts-pie-area apexcharts-donut-slice-2" index="0" j="2" data:angle="28.458498023715407" data:startAngle="206.64031620553362" data:strokeWidth="5" data:value="900" data:pathOrig="M 38.06965625168233 105.21374842938745 A 50.024390243902445 50.024390243902445 0 0 1 19.472994844825514 89.1220975344493 L 29.729746133619138 81.96657315083698 A 37.518292682926834 37.518292682926834 0 0 0 43.67724218876175 94.03531132204058 L 38.06965625168233 105.21374842938745 z" stroke="#ffffff"></path></g><g id="SvgjsG3143" class="apexcharts-series apexcharts-pie-series" seriesName="Fashion" rel="4" data:realIndex="3"><path id="SvgjsPath3144" d="M 19.472994844825514 89.1220975344493 A 50.024390243902445 50.024390243902445 0 0 1 60.491269096883734 10.475610518012587 L 60.4934518226628 22.98170788850944 A 37.518292682926834 37.518292682926834 0 0 0 29.729746133619138 81.96657315083698 L 19.472994844825514 89.1220975344493 z" fill="rgba(3,195,236,1)" fill-opacity="1" stroke-opacity="1" stroke-linecap="butt" stroke-width="5" stroke-dasharray="0" class="apexcharts-pie-area apexcharts-donut-slice-3" index="0" j="3" data:angle="124.90118577075097" data:startAngle="235.09881422924903" data:strokeWidth="5" data:value="3950" data:pathOrig="M 19.472994844825514 89.1220975344493 A 50.024390243902445 50.024390243902445 0 0 1 60.491269096883734 10.475610518012587 L 60.4934518226628 22.98170788850944 A 37.518292682926834 37.518292682926834 0 0 0 29.729746133619138 81.96657315083698 L 19.472994844825514 89.1220975344493 z" stroke="#ffffff"></path></g></g></g><g id="SvgjsG3145" class="apexcharts-datalabels-group" transform="translate(0, 0) scale(1)"><text id="SvgjsText3146" font-family="Helvetica, Arial, sans-serif" x="60.5" y="77.5" text-anchor="middle" dominant-baseline="auto" font-size="13px" font-weight="400" fill="#646e78" class="apexcharts-text apexcharts-datalabel-label" style="font-family: Helvetica, Arial, sans-serif;">Monthly</text><text id="SvgjsText3147" font-family="Public Sans" x="60.5" y="59.5" text-anchor="middle" dominant-baseline="auto" font-size="18px" font-weight="500" fill="#384551" class="apexcharts-text apexcharts-datalabel-value" style="font-family: Public Sans">83.56%</text></g></g><line id="SvgjsLine3149" x1="0" y1="0" x2="121" y2="0" stroke-dasharray="0" stroke-width="0" stroke-linecap="butt" class="apexcharts-ycrosshairs-hidden"></line></g><g id="SvgjsG3130" class="apexcharts-annotations"></g></svg><div class="apexcharts-legend"></div><div class="apexcharts-tooltip apexcharts-theme-dark"><div class="apexcharts-tooltip-series-group" style="order: 1;"><span class="apexcharts-tooltip-marker" style="background-color: rgb(113, 221, 55);"></span><div class="apexcharts-tooltip-text" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;"><div class="apexcharts-tooltip-y-group"><span class="apexcharts-tooltip-text-y-label"></span><span class="apexcharts-tooltip-text-y-value"></span></div><div class="apexcharts-tooltip-goals-group"><span class="apexcharts-tooltip-text-goals-label"></span><span class="apexcharts-tooltip-text-goals-value"></span></div><div class="apexcharts-tooltip-z-group"><span class="apexcharts-tooltip-text-z-label"></span><span class="apexcharts-tooltip-text-z-value"></span></div></div></div><div class="apexcharts-tooltip-series-group" style="order: 2;"><span class="apexcharts-tooltip-marker" style="background-color: rgb(105, 108, 255);"></span><div class="apexcharts-tooltip-text" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;"><div class="apexcharts-tooltip-y-group"><span class="apexcharts-tooltip-text-y-label"></span><span class="apexcharts-tooltip-text-y-value"></span></div><div class="apexcharts-tooltip-goals-group"><span class="apexcharts-tooltip-text-goals-label"></span><span class="apexcharts-tooltip-text-goals-value"></span></div><div class="apexcharts-tooltip-z-group"><span class="apexcharts-tooltip-text-z-label"></span><span class="apexcharts-tooltip-text-z-value"></span></div></div></div><div class="apexcharts-tooltip-series-group" style="order: 3;"><span class="apexcharts-tooltip-marker" style="background-color: rgb(133, 146, 163);"></span><div class="apexcharts-tooltip-text" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;"><div class="apexcharts-tooltip-y-group"><span class="apexcharts-tooltip-text-y-label"></span><span class="apexcharts-tooltip-text-y-value"></span></div><div class="apexcharts-tooltip-goals-group"><span class="apexcharts-tooltip-text-goals-label"></span><span class="apexcharts-tooltip-text-goals-value"></span></div><div class="apexcharts-tooltip-z-group"><span class="apexcharts-tooltip-text-z-label"></span><span class="apexcharts-tooltip-text-z-value"></span></div></div></div><div class="apexcharts-tooltip-series-group" style="order: 4;"><span class="apexcharts-tooltip-marker" style="background-color: rgb(3, 195, 236);"></span><div class="apexcharts-tooltip-text" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;"><div class="apexcharts-tooltip-y-group"><span class="apexcharts-tooltip-text-y-label"></span><span class="apexcharts-tooltip-text-y-value"></span></div><div class="apexcharts-tooltip-goals-group"><span class="apexcharts-tooltip-text-goals-label"></span><span class="apexcharts-tooltip-text-goals-value"></span></div><div class="apexcharts-tooltip-z-group"><span class="apexcharts-tooltip-text-z-label"></span><span class="apexcharts-tooltip-text-z-value"></span></div></div></div></div></div></div>
+          <div class="resize-triggers">
+            <div class="expand-trigger">
+              <div style="width: 10vw; height: 119px;"></div>
+            </div>
+            <div class="contract-trigger"></div>
+          </div>
+          <div data-dashboard-analytics-target="billingDonutChart">
+          </div>
         </div>
         <ul class="p-0 m-0">
           <li class="d-flex align-items-center mb-5">
@@ -417,10 +313,10 @@
             <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
               <div class="me-2">
                 <h6 class="mb-0">Water</h6>
-                <small>₱2,350.00 / ₱3,133.75</small>
+                <small><span data-dashboard-analytics-target="waterTotalPaid"><%= peso(0.00)%></span> / <span data-dashboard-analytics-target="waterTotalAmount"><%= peso(0.00) %></span></small>
               </div>
               <div class="user-progress">
-                <h6 class="mb-0">74.99%</h6>
+                <h6 class="mb-0" data-dashboard-analytics-target="waterPercentage">0%</h6>
               </div>
             </div>
           </li>
@@ -431,10 +327,10 @@
             <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
               <div class="me-2">
                 <h6 class="mb-0">Electricity</h6>
-                <small>₱4,185.00 / ₱5,041.25</small>
+                <small><span data-dashboard-analytics-target="electricityTotalPaid"><%= peso(0.00)%></span> / <span data-dashboard-analytics-target="electricityTotalAmount"><%= peso(0.00) %></span></small>
               </div>
               <div class="user-progress">
-                <h6 class="mb-0">83.01%</h6>
+                <h6 class="mb-0" data-dashboard-analytics-target="electricityPercentage">0%</h6>
               </div>
             </div>
           </li>
@@ -445,10 +341,10 @@
             <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
               <div class="me-2">
                 <h6 class="mb-0">Wi-Fi</h6>
-                <small>₱900.00 / ₱1,500.00</small>
+                <small><span data-dashboard-analytics-target="wifiTotalPaid"><%= peso(0.00) %></span> / <span data-dashboard-analytics-target="wifiTotalAmount"><%= peso(0.00) %></span></small>
               </div>
               <div class="user-progress">
-                <h6 class="mb-0">60.00%</h6>
+                <h6 class="mb-0" data-dashboard-analytics-target="wifiPercentage">0%</h6>
               </div>
             </div>
           </li>
@@ -461,10 +357,10 @@
             <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
               <div class="me-2">
                 <h6 class="mb-0">Rental</h6>
-                <small>₱3,950.00 / ₱3,950.00</small>
+                <small><span data-dashboard-analytics-target="monthlyRentalTotalPaid"><%= peso(0.00) %></span> / <span data-dashboard-analytics-target="monthlyRentalTotalAmount"><%= peso(0.00) %></span></small>
               </div>
               <div class="user-progress">
-                <h6 class="mb-0">100.00%</h6>
+                <h6 class="mb-0" data-dashboard-analytics-target="monthlyRentalPercentage">0%</h6>
               </div>
             </div>
           </li>
@@ -472,4 +368,50 @@
       </div>
     </div>
   </div>
+
+  <div class="col-md-8">
+    <% if current_user.utility_staff? || current_user.tenant? %>
+      <div class="col-md-4 mt-4">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title mb-3 me-2">Your <span class="text-primary">Balance</span></h5>
+            <p class="card-text">
+              Manage your funds and transactions
+            </p>
+          </div>
+          <div class="card-body my-2">
+
+            <% pending_deposit = current_user.deposits.find_by(status: 'pending') %>
+
+            <% if pending_deposit.present? %>
+              <div class="alert alert-info" role="alert">
+                You have a pending deposit of <%= pending_deposit.amount.format %> that has not yet been added to your balance.
+                Please wait while it is processed.
+              </div>
+            <% end %>
+
+            <p class="card-text">Current Balance</p>
+            <h4 class="card-title text-success">
+              <%= current_user.balance.present? ? current_user.balance.amount.format : '₱ 0.00' %>
+            </h4>
+
+            <% if current_user.balance.present? && current_user.balance.amount < Money.new(200_00, 'PHP') %>
+              <div class="alert alert-warning mt-2" role="alert">
+                Your balance is below the required minimum of ₱200. Please deposit money.
+              </div>
+            <% end %>
+
+            <div class="d-flex align-items-center justify-content-start gap-2 mt-4">
+              <%= turbo_frame_tag :new_deposit_frame, src: new_dashboard_deposit_path %>
+
+              <%= link_to dashboard_charges_path, class: 'btn btn-warning d-flex align-items-center' do %>
+                <i class='bx bx-receipt me-2'></i> Pay Charges
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>
+

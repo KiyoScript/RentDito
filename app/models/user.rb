@@ -56,6 +56,14 @@ class User < ApplicationRecord
     "#{firstname} #{lastname}"
   end
 
+
+  def self.get_percentage(status_users, total_users)
+    return "0.0%" if total_users.zero?
+
+    total_percentage = (status_users.to_f / total_users.to_f) * 100
+    return "(#{total_percentage.round(2)}%)"
+  end
+
   private
 
   def user_account_details

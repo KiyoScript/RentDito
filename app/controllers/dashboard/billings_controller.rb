@@ -2,6 +2,7 @@ class Dashboard::BillingsController < ApplicationController
   include Dashboard::BillingsHelper
   before_action :authenticate_user!
   before_action :set_billing, only: [:show, :destroy]
+  before_action :get_billing_id, only: :billing_data\
 
   def index
     if current_user.landlord? || current_user.admin?
@@ -40,11 +41,30 @@ class Dashboard::BillingsController < ApplicationController
     @billing_charges = @billing.charges.order(created_at: :desc)
   end
 
+  def billing_data
+    render json: {
+      total_paid: @billing.total_paid_amount.round(2),
+      total_amount: @billing.total_charges_amount.round(2),
+      total_water_billing_amount: @billing.total_water_billing_amount.round(2),
+      total_water_billing_paid_amount: @billing.total_water_billing_paid_amount.round(2),
+      total_electricity_billing_amount: @billing.total_electricity_billing_amount.round(2),
+      total_electricity_billing_paid_amount: @billing.total_electricity_billing_paid_amount.round(2),
+      total_wifi_billing_amount: @billing.total_wifi_billing_amount.round(2),
+      total_wifi_billing_paid_amount: @billing.total_wifi_billing_paid_amount.round(2),
+      total_monthly_rental_billing_amount: @billing.total_monthly_rental_billing_amount.round(2),
+      total_monthly_rental_billing_paid_amount: @billing.total_monthly_rental_billing_paid_amount.round(2)
+    }
+  end
+
   private
 
   def set_billing
     @billing = Billing.find_by(number: params.dig(:id))
     redirect_to dashboard_billings_path, alert: "Billing not exist!" if @billing.nil?
+  end
+
+  def get_billing_id
+    @billing = Billing.find_by(id: params[:id])
   end
 
   def billing_params

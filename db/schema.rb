@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_29_005032) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_30_102837) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -62,8 +62,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_29_005032) do
     t.date "electricity_bill_end_date"
     t.date "water_bill_start_date"
     t.date "water_bill_end_date"
-    t.date "wifi_and_rental_start_date", default: "2024-09-01"
-    t.date "wifi_and_rental_end_date", default: "2024-09-30"
+    t.date "wifi_and_rental_start_date"
+    t.date "wifi_and_rental_end_date"
     t.datetime "due_date"
     t.bigint "user_id", null: false
     t.bigint "property_id", null: false

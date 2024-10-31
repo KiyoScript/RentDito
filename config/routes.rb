@@ -46,7 +46,10 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :billings do
+    resources :billings, except: [:edit, :update] do
+      member do
+        get :billing_data
+      end
       resources :charges
     end
 
