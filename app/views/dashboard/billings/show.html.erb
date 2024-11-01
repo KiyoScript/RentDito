@@ -71,7 +71,7 @@
             <td class="fw-bold">Date Covered</td>
             <td><%= @billing.water_bill_date_covered %></td>
             <td class="fw-bold" colspan="2">No. of Occupants</td>
-            <td colspan="2"><%= @billing.property.occupants.count  %></td>
+            <td colspan="2"><%= @billing.charges.count  %></td>
           </tr>
 
           <% @property_units.each do |property_unit|%>
