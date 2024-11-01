@@ -123,15 +123,17 @@
       <% end %>
     </li>
 
-    <li class="menu-item <%= 'active' if request.path.include?('dashboard/billings') %>">
-      <%= link_to dashboard_billings_path, class: 'menu-link' do %>
-        <i class='menu-icon tf-icons bx bx-money'></i>
-        <div class="text-truncate" data-i18n="Billings">Billings</div>
-      <% end %>
-    </li>
+    <% unless current_user.utility_staff? || current_user.maintenance_staff? %>
+      <li class="menu-item <%= 'active' if request.path.include?('dashboard/billings') %>">
+        <%= link_to dashboard_billings_path, class: 'menu-link' do %>
+          <i class='menu-icon tf-icons bx bx-money'></i>
+          <div class="text-truncate" data-i18n="Billings">Billings</div>
+        <% end %>
+      </li>
+    <% end %>
 
 
-    <% if current_user.tenant? || current_user.utility_staff? %>
+    <% if current_user.tenant? %>
       <li class="menu-item <%= 'active' if request.path.include?('dashboard/charges') %>">
         <%= link_to dashboard_charges_path, class: 'menu-link' do %>
           <i class='menu-icon tf-icons bx bx-money'></i>
@@ -140,12 +142,15 @@
       </li>
     <% end %>
 
-    <li class="menu-item <%= 'active' if request.path.include?('dashboard/transactions') %>">
-      <%= link_to dashboard_transactions_path, class: 'menu-link' do %>
-        <i class='menu-icon tf-icons bx bx-money'></i>
-        <div class="text-truncate" data-i18n="Transactions">Transactions</div>
-      <% end %>
-    </li>
+
+    <% unless current_user.utility_staff? || current_user.maintenance_staff? %>
+      <li class="menu-item <%= 'active' if request.path.include?('dashboard/transactions') %>">
+        <%= link_to dashboard_transactions_path, class: 'menu-link' do %>
+          <i class='menu-icon tf-icons bx bx-money'></i>
+          <div class="text-truncate" data-i18n="Transactions">Transactions</div>
+        <% end %>
+      </li>
+    <% end %>
 
 
     <li class="menu-item open <%= 'active' if request.path == "/dashboard/tickets_history" %>">

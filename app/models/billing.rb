@@ -72,6 +72,42 @@ class Billing < ApplicationRecord
     charges.sum(:total_amount)
   end
 
+  def total_paid_amount
+    charges.paid.sum(:total_amount)
+  end
+
+  def total_water_billing_amount
+    charges.sum(:water_share_amount)
+  end
+
+  def total_water_billing_paid_amount
+    charges.paid.sum(:water_share_amount)
+  end
+
+  def total_electricity_billing_amount
+    [charges.sum(:electricity_share_amount), charges.sum(:extra_charge_amount)].sum
+  end
+
+  def total_electricity_billing_paid_amount
+    [charges.paid.sum(:electricity_share_amount), charges.paid.sum(:extra_charge_amount)].sum
+  end
+
+  def total_wifi_billing_amount
+    charges.sum(:wifi_share_amount)
+  end
+
+  def total_wifi_billing_paid_amount
+    charges.paid.sum(:wifi_share_amount)
+  end
+
+  def total_monthly_rental_billing_amount
+    charges.sum(:monthly_rental_amount)
+  end
+
+  def total_monthly_rental_billing_paid_amount
+    charges.paid.sum(:monthly_rental_amount)
+  end
+
   private
 
   def generate_billing_number

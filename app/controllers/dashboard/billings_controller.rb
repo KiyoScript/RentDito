@@ -2,6 +2,7 @@ class Dashboard::BillingsController < ApplicationController
   include Dashboard::BillingsHelper
   before_action :authenticate_user!
   before_action :set_billing, only: [:show, :destroy]
+  before_action :set_policy!, except: :billing_data
 
   def index
     if current_user.landlord? || current_user.admin?
@@ -13,6 +14,10 @@ class Dashboard::BillingsController < ApplicationController
     end
   end
 
+  def show
+    @property_units = @billing.property.property_units
+    @billing_charges = @billing.charges.order(created_at: :desc)
+  end
 
   def new
     @billing = current_user.billings.new
@@ -35,12 +40,42 @@ class Dashboard::BillingsController < ApplicationController
     end
   end
 
-  def show
-    @property_units = @billing.property.property_units
-    @billing_charges = @billing.charges.order(created_at: :desc)
+  def billing_data
+    year_month = params[:year_month]
+    year, month = year_month.split('-').map(&:to_i)
+
+    billings = Billing.where("EXTRACT(YEAR FROM due_date) = ? AND EXTRACT(MONTH FROM due_date) = ?", year, month)
+
+    total_paid = billings.sum(&:total_paid_amount).round(2)
+    total_amount = billings.sum(&:total_charges_amount).round(2)
+    total_water_billing_amount = billings.sum(&:total_water_billing_amount).round(2)
+    total_water_billing_paid_amount = billings.sum(&:total_water_billing_paid_amount).round(2)
+    total_electricity_billing_amount = billings.sum(&:total_electricity_billing_amount).round(2)
+    total_electricity_billing_paid_amount = billings.sum(&:total_electricity_billing_paid_amount).round(2)
+    total_wifi_billing_amount = billings.sum(&:total_wifi_billing_amount).round(2)
+    total_wifi_billing_paid_amount = billings.sum(&:total_wifi_billing_paid_amount).round(2)
+    total_monthly_rental_billing_amount = billings.sum(&:total_monthly_rental_billing_amount).round(2)
+    total_monthly_rental_billing_paid_amount = billings.sum(&:total_monthly_rental_billing_paid_amount).round(2)
+
+    render json: {
+      total_paid: total_paid,
+      total_amount: total_amount,
+      total_water_billing_amount: total_water_billing_amount,
+      total_water_billing_paid_amount: total_water_billing_paid_amount,
+      total_electricity_billing_amount: total_electricity_billing_amount,
+      total_electricity_billing_paid_amount: total_electricity_billing_paid_amount,
+      total_wifi_billing_amount: total_wifi_billing_amount,
+      total_wifi_billing_paid_amount: total_wifi_billing_paid_amount,
+      total_monthly_rental_billing_amount: total_monthly_rental_billing_amount,
+      total_monthly_rental_billing_paid_amount: total_monthly_rental_billing_paid_amount
+    }
   end
 
   private
+
+  def set_policy!
+    authorize User, policy_class: Dashboard::BillingsPolicy
+  end
 
   def set_billing
     @billing = Billing.find_by(number: params.dig(:id))
@@ -56,6 +91,8 @@ class Dashboard::BillingsController < ApplicationController
       :electricity_bill_end_date,
       :water_bill_start_date,
       :water_bill_end_date,
+      :wifi_and_rental_start_date,
+      :wifi_and_rental_end_date,
       :due_date,
       :property_id
     )

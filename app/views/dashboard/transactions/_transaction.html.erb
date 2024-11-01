@@ -45,24 +45,22 @@
         </div>
       </div>
       <div class="modal-footer">
-        <% if current_user.landlord? %>
-          <% if transaction.under_review? %>
-            <%= button_to 'Mark as Paid', mark_as_paid_dashboard_transaction_path(transaction), method: :patch, class: 'btn btn-primary' %>
+        <% if current_user.landlord? || current_user.admin? && transaction.under_review? %>
+          <%= button_to 'Mark as Paid', mark_as_paid_dashboard_transaction_path(transaction), method: :patch, class: 'btn btn-primary' %>
 
-            <button type="button" class="btn btn-danger" data-bs-toggle="collapse" data-bs-target="#rejectReasonForm-<%= transaction.id %>" aria-expanded="false" aria-controls="rejectReasonForm-<%= transaction.id %>">
-              Mark as Rejected
-            </button>
+          <button type="button" class="btn btn-danger" data-bs-toggle="collapse" data-bs-target="#rejectReasonForm-<%= transaction.id %>" aria-expanded="false" aria-controls="rejectReasonForm-<%= transaction.id %>">
+            Mark as Rejected
+          </button>
 
-            <div class="collapse mt-3 w-100" id="rejectReasonForm-<%= transaction.id %>">
-              <%= form_with model: transaction, url: mark_as_rejected_dashboard_transaction_path(transaction), method: :patch, class: "w-100" do |f| %>
-                <div class="form-group">
-                  <%= f.label :reason, "Reason for rejection" %>
-                  <%= f.text_area :reason, class: "form-control", rows: 3, placeholder: "Enter the reason for rejecting the transaction", required: true %>
-                </div>
-                <%= f.submit "Submit Rejection", class: "btn btn-danger mt-2" %>
-              <% end %>
-            </div>
-          <% end %>
+          <div class="collapse mt-3 w-100" id="rejectReasonForm-<%= transaction.id %>">
+            <%= form_with model: transaction, url: mark_as_rejected_dashboard_transaction_path(transaction), method: :patch, class: "w-100" do |f| %>
+              <div class="form-group">
+                <%= f.label :reason, "Reason for rejection" %>
+                <%= f.text_area :reason, class: "form-control", rows: 3, placeholder: "Enter the reason for rejecting the transaction", required: true %>
+              </div>
+              <%= f.submit "Submit Rejection", class: "btn btn-danger mt-2" %>
+            <% end %>
+          </div>
         <% end %>
       </div>
     </div>

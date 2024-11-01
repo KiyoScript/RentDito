@@ -45,7 +45,7 @@
       <table class="table table-bordered">
         <thead>
           <tr>
-            <th colspan="11" class="text-center fw-bold" scope="row"><%= @billing.property.address %> Bill Listing of <%= @billing.month%> </th>
+            <th colspan="11" class="text-center fw-bold" scope="row"><%= @billing.property.address %> Bill Listing of <%= @billing.due_date.strftime("%B %Y")%> </th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
@@ -59,9 +59,9 @@
           </tr>
           <tr>
             <td class="fw-bold">Wifi Bill Total Amount Due</td>
-            <td colspan="2"><%= @billing.wifi_bill_total_amount %></td>
+            <td colspan="2"><%= peso(@billing.wifi_bill_total_amount) %></td>
             <td class="fw-bold">Monthly Rental Total Amount Due</td>
-            <td><%= @billing.monthly_rental_total_amount %></td>
+            <td><%= peso(@billing.monthly_rental_total_amount) %></td>
             <td class="fw-bold">Date Covered</td>
             <td colspan="5"><%= @billing.wifi_and_rental_date_covered %></td>
           </tr>
@@ -71,7 +71,7 @@
             <td class="fw-bold">Date Covered</td>
             <td><%= @billing.water_bill_date_covered %></td>
             <td class="fw-bold" colspan="2">No. of Occupants</td>
-            <td colspan="2"><%= @billing.property.occupants.count  %></td>
+            <td colspan="2"><%= @billing.charges.count  %></td>
           </tr>
 
           <% @property_units.each do |property_unit|%>

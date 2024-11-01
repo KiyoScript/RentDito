@@ -19,6 +19,7 @@ import "cleave"
 import "cleave-phone"
 import "swiper"
 import "ui-carousel"
+import "apexcharts"
 
 document.addEventListener('turbo:load', () => {
   toastr.options = {

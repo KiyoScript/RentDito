@@ -47,7 +47,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <% if current_user.landlord? %>
+        <% if current_user.landlord? || current_user.admin? %>
           <% if transaction.under_review? %>
             <%= button_to 'Mark as Paid', mark_as_paid_dashboard_transaction_path(transaction), method: :patch, class: 'btn btn-primary', data: { confirm: 'Are you sure you want to mark this transaction as paid?' } %>
           <% end %>
