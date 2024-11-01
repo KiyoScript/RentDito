@@ -59,9 +59,9 @@
           </tr>
           <tr>
             <td class="fw-bold">Wifi Bill Total Amount Due</td>
-            <td colspan="2"><%= @billing.wifi_bill_total_amount %></td>
+            <td colspan="2"><%= peso(@billing.wifi_bill_total_amount) %></td>
             <td class="fw-bold">Monthly Rental Total Amount Due</td>
-            <td><%= @billing.monthly_rental_total_amount %></td>
+            <td><%= peso(@billing.monthly_rental_total_amount) %></td>
             <td class="fw-bold">Date Covered</td>
             <td colspan="5"><%= @billing.wifi_and_rental_date_covered %></td>
           </tr>

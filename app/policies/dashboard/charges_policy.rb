@@ -4,10 +4,10 @@ class Dashboard::ChargesPolicy < ApplicationPolicy
   end
 
   def edit?
-    (user.tenant? && user.verified?)
+    user.landlord? || (user.admin? && user.verified?) || (user.tenant? && user.verified?)
   end
 
   def update?
-    (user.tenant? && user.verified?)
+    user.landlord? || (user.admin? && user.verified?) || (user.tenant? && user.verified?)
   end
 end
