@@ -3,7 +3,7 @@ class Dashboard::TransactionsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    if current_user.landlord?
+    if current_user.landlord? || current_user.admin?
       @q = Transaction.ransack(params[:q])
       @pagy, @transactions = pagy(@q.result.order(created_at: :desc), distinct: true)
     else
