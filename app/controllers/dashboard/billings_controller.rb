@@ -2,6 +2,7 @@ class Dashboard::BillingsController < ApplicationController
   include Dashboard::BillingsHelper
   before_action :authenticate_user!
   before_action :set_billing, only: [:show, :destroy]
+  before_action :set_policy!, except: :billing_data
 
   def index
     if current_user.landlord? || current_user.admin?
@@ -13,6 +14,10 @@ class Dashboard::BillingsController < ApplicationController
     end
   end
 
+  def show
+    @property_units = @billing.property.property_units
+    @billing_charges = @billing.charges.order(created_at: :desc)
+  end
 
   def new
     @billing = current_user.billings.new
@@ -33,11 +38,6 @@ class Dashboard::BillingsController < ApplicationController
     else
       redirect_to dashboard_billings_path, alert: @billing.erros.full_messages.first
     end
-  end
-
-  def show
-    @property_units = @billing.property.property_units
-    @billing_charges = @billing.charges.order(created_at: :desc)
   end
 
   def billing_data
@@ -72,6 +72,10 @@ class Dashboard::BillingsController < ApplicationController
   end
 
   private
+
+  def set_policy!
+    authorize User, policy_class: Dashboard::BillingsPolicy
+  end
 
   def set_billing
     @billing = Billing.find_by(number: params.dig(:id))

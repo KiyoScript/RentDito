@@ -3,7 +3,7 @@ class Dashboard::ChargesController < ApplicationController
 
   before_action :authenticate_user!
   before_action :set_billing_and_charge, only: [:edit, :update]
-
+  before_action :set_policy!
   def index
     @q = current_user.charges.ransack(params[:q])
     @pagy, @charges = pagy(@q.result.order(created_at: :desc), distinct: :true)
@@ -20,6 +20,11 @@ class Dashboard::ChargesController < ApplicationController
   end
 
   private
+
+
+  def set_policy!
+    authorize User, policy_class: Dashboard::ChargesPolicy
+  end
 
   def set_billing_and_charge
     @billing = Billing.find(params[:billing_id])
