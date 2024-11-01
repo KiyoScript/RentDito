@@ -45,7 +45,7 @@
       <table class="table table-bordered">
         <thead>
           <tr>
-            <th colspan="11" class="text-center fw-bold" scope="row"><%= @billing.property.address %> Bill Listing of <%= @billing.month%> </th>
+            <th colspan="11" class="text-center fw-bold" scope="row"><%= @billing.property.address %> Bill Listing of <%= @billing.due_date.strftime("%B %Y")%> </th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
