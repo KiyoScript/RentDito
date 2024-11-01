@@ -20,6 +20,13 @@ class Ticket < ApplicationRecord
     []
   end
 
+  def self.get_percentage(ticket_status, total_tickets)
+    return "0.0%" if total_tickets.zero?
+
+    total_percentage = (ticket_status.to_f / total_tickets.to_f) * 100
+    return "(#{total_percentage.round(2)}%)"
+  end
+
 
   private
   def check_out_datetime_valid

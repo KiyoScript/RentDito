@@ -1,9 +1,146 @@
-<h3 class="text-normal">Dashboard</h3>
-<div class="row gap-2">
-  <div class="col-md-4" style="height: 18rem;">
+<div class="row row-bordered rounded g-0 <%= current_user.landlord? || current_user.admin? ? '' : 'd-none'%>">
+  <div class="col-xl-3 col-lg-6 col-md-6">
+    <div class="card-body p-6 bg-white">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h6 class="fw-normal mb-0 text-body">Total <%= User.admin.count %> Users</h6>
+        <%= users_avatars(User.admin) %>
+      </div>
+      <div class="d-flex justify-content-between align-items-end">
+        <div class="role-heading">
+          <h5 class="mb-1">Administrator</h5>
+          <%= link_to 'View Users', dashboard_admins_path %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-lg-6 col-md-6">
+    <div class="card-body p-6 bg-white">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h6 class="fw-normal mb-0 text-body">Total <%= User.maintenance_staff.count %> Users</h6>
+        <%= users_avatars(User.maintenance_staff) %>
+      </div>
+      <div class="d-flex justify-content-between align-items-end">
+        <div class="role-heading">
+          <h5 class="mb-1">Maintenance Staff</h5>
+          <%= link_to 'View Users', dashboard_maintenance_staffs_path %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-lg-6 col-md-6">
+    <div class="card-body p-6 bg-white">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h6 class="fw-normal mb-0 text-body">Total <%= User.utility_staff.count %> Users</h6>
+        <%= users_avatars(User.utility_staff) %>
+      </div>
+      <div class="d-flex justify-content-between align-items-end">
+        <div class="role-heading">
+          <h5 class="mb-1">Utility Staff</h5>
+          <%= link_to 'View Users', dashboard_utility_staff_index_path %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-lg-6 col-md-6">
+    <div class="card-body p-6 bg-white">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h6 class="fw-normal mb-0 text-body">Total <%= User.tenant.count %> Users</h6>
+        <%= users_avatars(User.tenant) %>
+      </div>
+      <div class="d-flex justify-content-between align-items-end">
+        <div class="role-heading">
+          <h5 class="mb-1">Tenant</h5>
+          <%= link_to 'View Users', dashboard_tenants_path %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row row-bordered rounded mt-6 g-0 <%= current_user.landlord? || current_user.admin? ? '' : 'd-none'%>">
+  <div class="col-sm-6 col-xl-3">
+    <div class="card-body p-6 bg-white">
+      <div class="d-flex align-items-start justify-content-between">
+        <div class="content-left">
+          <span class="text-heading">Verified Users</span>
+          <div class="d-flex align-items-center my-1">
+            <h4 class="mb-0 me-2"><%= User.verified.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
+          </div>
+          <small class="mb-0 text-success"><%= User.get_percentage(User.verified.count, User.where.not(role: 'landlord').count) %></small>
+        </div>
+        <div class="avatar d-flex align-items-start flex-column">
+          <span class="avatar-initial rounded bg-label-success">
+            <i class="bx bx-user-check bx-lg"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3">
+    <div class="card-body p-6 bg-white">
+      <div class="d-flex align-items-start justify-content-between">
+        <div class="content-left">
+          <span class="text-heading">Unverified Users</span>
+          <div class="d-flex align-items-center my-1">
+            <h4 class="mb-0 me-2"><%= User.unverified.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
+          </div>
+          <small class="mb-0 text-warning"><%= User.get_percentage(User.unverified.count, User.where.not(role: 'landlord').count) %></small>
+        </div>
+        <div class="avatar">
+          <span class="avatar-initial rounded bg-label-warning">
+            <i class="bx bx-user-voice bx-lg"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3">
+    <div class="card-body p-6 bg-white">
+      <div class="d-flex align-items-start justify-content-between">
+        <div class="content-left">
+          <span class="text-heading">Rejected Users</span>
+          <div class="d-flex align-items-center my-1">
+            <h4 class="mb-0 me-2"><%= User.rejected.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
+          </div>
+          <small class="mb-0 text-danger"><%= User.get_percentage(User.rejected.count, User.where.not(role: 'landlord').count) %></small>
+        </div>
+        <div class="avatar">
+          <span class="avatar-initial rounded bg-label-danger">
+            <i class="bx bx-user-plus bx-lg"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-xl-3">
+    <div class="card-body p-6 bg-white">
+      <div class="d-flex align-items-start justify-content-between">
+        <div class="content-left">
+          <span class="text-heading">Incomplete Users</span>
+          <div class="d-flex align-items-center my-1">
+            <h4 class="mb-0 me-2"><%= User.incomplete.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
+          </div>
+          <small class="mb-0 text-info"><%= User.get_percentage(User.incomplete.count, User.where.not(role: 'landlord').count) %></small>
+        </div>
+        <div class="avatar">
+          <span class="avatar-initial rounded bg-label-primary">
+            <i class="bx bx-group bx-lg"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if current_user.maintenance_staff? || current_user.utility_staff? || current_user.tenant? %>
+<div class="row g-6">
+<% else %>
+<div class="row g-6 mt-3 mb-3">
+<% end %>
+  <div class="col-md-4 mt-4" style="height: 18rem;">
     <div class="card h-100" data-controller="fetch-occupied-bedspaces">
       <div class="card-header d-flex align-items-center justify-content-between">
-        <h5 class="card-title m-0 me-2">Available <span class="text-primary">Bedspaces</span></h5>
+        <h5 class="card-title m-0 me-2">Occupied/Available <span class="text-primary">Bedspaces</span></h5>
         <div class="dropdown">
           <button class="btn p-0" type="button" id="cardOpt1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="bx bx-dots-vertical-rounded text-muted"></i>
@@ -23,68 +160,262 @@
             <span class="avatar-initial avatar-shadow-success rounded-circle"><i class="bx bx-buildings bx-26px"></i></span>
           </div>
         </div>
-
         <a href=""data-fetch-occupied-bedspaces-target="propertyId">
           <p data-fetch-occupied-bedspaces-target="propertyName" class="mb-1">Select a property</p>
         </a>
         <div class="my-4">
           <h4 data-fetch-occupied-bedspaces-target="occupancy" class="card-title mb-1">--/--</h4>
           <span class="fw-bold text-primary">Upper</span><span> Deck - </span><span data-fetch-occupied-bedspaces-target="upperDeck" class="badge bg-label-danger me-1">--</span>
-          <span class="mb-1"></span> <span class="fw-bold text-primary">Lower</span> Deck - <span data-fetch-occupied-bedspaces-target="lowerDeck" class="badge bg-label-danger me-1">--</span>
+          <span class="mb-1"></span> <span class="fw-bold text-primary">Lower</span>  Deck - <span data-fetch-occupied-bedspaces-target="lowerDeck" class="badge bg-label-danger me-1">--</span>
         </div>
       </div>
     </div>
   </div>
 
-  <% if current_user.utility_staff? || current_user.tenant? %>
-  <div class="col-md-4">
-    <div class="card">
-      <div class="card-header">
-        <h5 class="card-title mb-3 me-2">Your <span class="text-primary">Balance</span></h5>
-        <p class="card-text">Manage your funds and transactions</p>
-      </div>
-      <div class="card-body my-2">
-
-        <% pending_deposit = current_user.deposits.where(status: 'pending') %>
-        <% rejected_deposit = current_user.deposits.where(status: 'rejected') %>
-        <% transaction = Transaction.where(deposit_id: rejected_deposit.last.id) %>
-
-
-        <% if pending_deposit.present? %>
-          <div class="alert alert-info" role="alert">
-            You have a pending deposit of <%= pending_deposit.last.amount.format %> that has not yet been added to your balance.
-            Please wait while it is processed.
-          </div>
-        <% end %>
-
-        <% if rejected_deposit.present? %>
-          <div class="alert alert-danger" role="alert">
-            Your deposit of <%= rejected_deposit.last.amount.format %> has been rejected. Please contact support or try again.
-            <hr>
-            <p class= 'mt-2'><%= transaction.last.reason %></p>
-          </div>
-        <% end %>
-
-        <p class="card-text">Current Balance</p>
-        <h4 class="card-title text-success">
-          <%= current_user.balance.present? ? current_user.balance.amount.format : peso(0.00) %>
-        </h4>
-
-        <% if current_user.balance.present? && current_user.balance.amount < Money.new(200_00, 'PHP') %>
-          <div class="alert alert-warning mt-2" role="alert">
-            Your balance is below the required minimum of ₱200. Please deposit money.
-          </div>
-        <% end %>
-
-        <div class="d-flex align-items-center justify-content-start gap-2 mt-4">
-          <%= turbo_frame_tag :new_deposit_frame, src: new_dashboard_deposit_path %>
-
-          <%= link_to dashboard_charges_path, class: 'btn btn-warning d-flex align-items-center' do %>
-            <i class='bx bx-receipt me-2'></i> Pay Charges
-          <% end %>
+  <div class="col-md-8 mt-4">
+    <div class="card h-100">
+      <div class="card-header d-flex justify-content-between">
+        <div class="card-title mb-0">
+          <h5 class="mb-1 me-2">Tickets Summary</h5>
         </div>
+      </div>
+      <div class="card-body">
+        <ul class="p-0 m-0">
+          <li class="d-flex mb-4 align-items-center">
+            <div class="avatar flex-shrink-0 me-4">
+              <span class="avatar-initial rounded bg-label-success"><i class="bx bx-check-circle bx-lg"></i></span>
+            </div>
+            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+              <div class="me-2">
+                <h6 class="mb-1 fw-normal">Closed Tickets</h6>
+                <p class="text-success mb-0">
+                  <% if current_user.landlord? %>
+                    <%= Ticket.get_percentage(Ticket.closed.count, Ticket.count) %>
+                  <% elsif current_user.tenant? %>
+                    <%= Ticket.get_percentage(Ticket.where(tenant: current_user.tenant).closed.count, Ticket.where(tenant: current_user.tenant).count) %>
+                  <% else %>
+                    <%= Ticket.get_percentage(Ticket.assigned_to_user(current_user).closed.count, Ticket.assigned_to_user(current_user).count) %>
+                  <% end %>
+                </p>
+              </div>
+              <div class="user-progress">
+                <% if current_user.landlord? %>
+                  <h6 class="mb-0"><%= Ticket.closed.count %>/<%= Ticket.count %></h6>
+                <% elsif current_user.tenant? %>
+                  <h6 class="mb-0"><%= Ticket.where(tenant: current_user.tenant).closed.count %>/<%= Ticket.where(tenant: current_user.tenant).count %></h6>
+                <% else %>
+                  <h6 class="mb-0"><%= Ticket.assigned_to_user(current_user).closed.count %>/<%= Ticket.assigned_to_user(current_user).count %>
+                <% end %>
+              </div>
+            </div>
+          </li>
+          <li class="d-flex mb-4 align-items-center">
+            <div class="avatar flex-shrink-0 me-4">
+              <span class="avatar-initial rounded bg-label-warning"><i class="bx bx-time-five bx-lg"></i></span>
+            </div>
+            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+              <div class="me-2">
+                <h6 class="mb-1 fw-normal">Pending Tickets</h6>
+                <p class="text-warning mb-0">
+                  <% if current_user.landlord? %>
+                    <%= Ticket.get_percentage(Ticket.pending.count, Ticket.count) %>
+                  <% elsif current_user.tenant? %>
+                    <%= Ticket.get_percentage(Ticket.where(tenant: current_user.tenant).pending.count, Ticket.where(tenant: current_user.tenant).count) %>
+                  <% else %>
+                    <%= Ticket.get_percentage(Ticket.assigned_to_user(current_user).pending.count, Ticket.assigned_to_user(current_user).count) %>
+                  <% end %>
+                </p>
+              </div>
+              <div class="user-progress">
+                <% if current_user.landlord? %>
+                  <h6 class="mb-0"><%= Ticket.pending.count %>/<%= Ticket.count %></h6>
+                <% elsif current_user.tenant? %>
+                  <h6 class="mb-0"><%= Ticket.where(tenant: current_user.tenant).pending.count %>/<%= Ticket.where(tenant: current_user.tenant).count %></h6>
+                <% else %>
+                  <h6 class="mb-0"><%= Ticket.assigned_to_user(current_user).pending.count %>/<%= Ticket.assigned_to_user(current_user).count %>
+                <% end %>
+              </div>
+            </div>
+          </li>
+          <li class="d-flex mb-0 align-items-center">
+            <div class="avatar flex-shrink-0 me-4">
+              <span class="avatar-initial rounded bg-label-info"><i class='bx bx-info-circle' ></i></span>
+            </div>
+            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+              <div class="me-2">
+                <h6 class="mb-1 fw-normal">Open Tickets</h6>
+                <p class="text-info mb-0">
+                  <% if current_user.landlord? %>
+                    <%= Ticket.get_percentage(Ticket.open.count, Ticket.count) %>
+                  <% elsif current_user.tenant? %>
+                    <%= Ticket.get_percentage(Ticket.where(tenant: current_user.tenant).open.count, Ticket.where(tenant: current_user.tenant).count) %>
+                  <% else %>
+                    <%= Ticket.get_percentage(Ticket.assigned_to_user(current_user).open.count, Ticket.assigned_to_user(current_user).count) %>
+                  <% end %>
+                </p>
+              </div>
+              <div class="user-progress">
+                <% if current_user.landlord? %>
+                  <h6 class="mb-0"><%= Ticket.open.count %>/<%= Ticket.count %></h6>
+                <% elsif current_user.tenant? %>
+                  <h6 class="mb-0"><%= Ticket.where(tenant: current_user.tenant).open.count %>/<%= Ticket.where(tenant: current_user.tenant).count %></h6>
+                <% else %>
+                  <h6 class="mb-0"><%= Ticket.assigned_to_user(current_user).open.count %>/<%= Ticket.assigned_to_user(current_user).count %>
+                <% end %>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-0 mb-4">
+  <% if current_user.landlord? || current_user.admin? %>
+  <div class="col-md-4 mt-4 mb-0" data-controller="dashboard-analytics">
+    <div class="card h-100">
+      <div class="card-header d-flex justify-content-between">
+        <div class="card-title mb-0">
+          <h5 class="mb-1 me-2">Monthly Billing</h5>
+          <p class="card-subtitle" data-dashboard-analytics-target="monthly">--</p>
+        </div>
+        <div class="dropdown">
+          <button class="btn p-0" type="button" id="cardOpt1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="bx bx-dots-vertical-rounded text-muted"></i>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="monthlyBilling">
+            <% unique_billing_months.each do |billing_month| %>
+              <button class="dropdown-item" type="button" data-dashboard-analytics-billing-month="<%= billing_month.strftime('%Y-%m') %>" data-dashboard-analytics-target="getMonthly" data-action="click->dashboard-analytics#updateCard">
+                <%= billing_month.strftime('%B %Y') %>
+              </button>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-6" style="position: relative;">
+          <div class="d-flex flex-column align-items-left gap-1">
+            <h3 class="mb-1"><span data-dashboard-analytics-target="totalPaid"><%= peso(0.00)%></span> / <span data-dashboard-analytics-target="totalAmount"><%= peso(0.00)%></span></h3>
+            <small>Total Paid / Total Payment</small>
+          </div>
+          <div class="resize-triggers">
+            <div class="expand-trigger">
+              <div style="width: 10vw; height: 119px;"></div>
+            </div>
+            <div class="contract-trigger"></div>
+          </div>
+          <div data-dashboard-analytics-target="billingDonutChart">
+          </div>
+        </div>
+        <ul class="p-0 m-0">
+          <li class="d-flex align-items-center mb-5">
+            <div class="avatar flex-shrink-0 me-3">
+              <span class="avatar-initial rounded bg-label-primary"
+                ><i class='bx bx-droplet' ></i
+              ></span>
+            </div>
+            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+              <div class="me-2">
+                <h6 class="mb-0">Water</h6>
+                <small><span data-dashboard-analytics-target="waterTotalPaid"><%= peso(0.00)%></span> / <span data-dashboard-analytics-target="waterTotalAmount"><%= peso(0.00) %></span></small>
+              </div>
+              <div class="user-progress">
+                <h6 class="mb-0" data-dashboard-analytics-target="waterPercentage">0%</h6>
+              </div>
+            </div>
+          </li>
+          <li class="d-flex align-items-center mb-5">
+            <div class="avatar flex-shrink-0 me-3">
+              <span class="avatar-initial rounded bg-label-success"><i class='bx bxs-bolt' ></i></span>
+            </div>
+            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+              <div class="me-2">
+                <h6 class="mb-0">Electricity</h6>
+                <small><span data-dashboard-analytics-target="electricityTotalPaid"><%= peso(0.00)%></span> / <span data-dashboard-analytics-target="electricityTotalAmount"><%= peso(0.00) %></span></small>
+              </div>
+              <div class="user-progress">
+                <h6 class="mb-0" data-dashboard-analytics-target="electricityPercentage">0%</h6>
+              </div>
+            </div>
+          </li>
+          <li class="d-flex align-items-center mb-5">
+            <div class="avatar flex-shrink-0 me-3">
+              <span class="avatar-initial rounded bg-label-info"><i class='bx bx-wifi' ></i></span>
+            </div>
+            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+              <div class="me-2">
+                <h6 class="mb-0">Wi-Fi</h6>
+                <small><span data-dashboard-analytics-target="wifiTotalPaid"><%= peso(0.00) %></span> / <span data-dashboard-analytics-target="wifiTotalAmount"><%= peso(0.00) %></span></small>
+              </div>
+              <div class="user-progress">
+                <h6 class="mb-0" data-dashboard-analytics-target="wifiPercentage">0%</h6>
+              </div>
+            </div>
+          </li>
+          <li class="d-flex align-items-center">
+            <div class="avatar flex-shrink-0 me-3">
+              <span class="avatar-initial rounded bg-label-secondary"
+                ><i class='bx bx-building-house' ></i
+              ></span>
+            </div>
+            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+              <div class="me-2">
+                <h6 class="mb-0">Rental</h6>
+                <small><span data-dashboard-analytics-target="monthlyRentalTotalPaid"><%= peso(0.00) %></span> / <span data-dashboard-analytics-target="monthlyRentalTotalAmount"><%= peso(0.00) %></span></small>
+              </div>
+              <div class="user-progress">
+                <h6 class="mb-0" data-dashboard-analytics-target="monthlyRentalPercentage">0%</h6>
+              </div>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
   <% end %>
+
+  <% if current_user.tenant? %>
+    <div class="col-md-4 mt-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-3 me-2">Your <span class="text-primary">Balance</span></h5>
+          <p class="card-text">
+            Manage your funds and transactions
+          </p>
+        </div>
+        <div class="card-body my-2">
+
+          <% pending_deposit = current_user.deposits.find_by(status: 'pending') %>
+
+          <% if pending_deposit.present? %>
+            <div class="alert alert-info" role="alert">
+              You have a pending deposit of <%= pending_deposit.amount.format %> that has not yet been added to your balance.
+              Please wait while it is processed.
+            </div>
+          <% end %>
+
+          <p class="card-text">Current Balance</p>
+          <h4 class="card-title text-success">
+            <%= current_user.balance.present? ? current_user.balance.amount.format : '₱ 0.00' %>
+          </h4>
+
+          <% if current_user.balance.present? && current_user.balance.amount < Money.new(200_00, 'PHP') %>
+            <div class="alert alert-warning mt-2" role="alert">
+              Your balance is below the required minimum of ₱200. Please deposit money.
+            </div>
+          <% end %>
+
+          <div class="d-flex flex-row flex-md-column flex-xxl-row align-items-center justify-content-start gap-2 mt-4">
+            <%= turbo_frame_tag :new_deposit_frame, src: new_dashboard_deposit_path %>
+
+            <%= link_to dashboard_charges_path, class: 'btn btn-warning d-flex align-items-center' do %>
+              <i class='bx bx-receipt me-2'></i> Pay Charges
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>
+
