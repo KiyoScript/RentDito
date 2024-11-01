@@ -1,6 +1,7 @@
 class Dashboard::TransactionsController < ApplicationController
   include Dashboard::TransactionsHelper
   before_action :authenticate_user!
+  before_action :set_policy!, only: :index
 
   def index
     if current_user.landlord? || current_user.admin?
@@ -31,6 +32,10 @@ class Dashboard::TransactionsController < ApplicationController
   end
 
   private
+
+  def set_policy!
+    authorize User, policy_class: Dashboard::TransactionsPolicy
+  end
 
   def transaction_params
     params.require(:transaction).permit(:reason)
