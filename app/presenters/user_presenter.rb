@@ -16,7 +16,7 @@ class UserPresenter
   end
 
   def deck
-    @user.utility_staff? ? @user.utility_staff.deck : @user.tenant.deck
+    @user.utility_staff? ? @user.utility_staff.deck.titleize : @user.tenant.deck.titleize
   end
 
   def check_in
