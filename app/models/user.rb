@@ -9,12 +9,12 @@ class User < ApplicationRecord
   has_one :maintenance_staff, dependent: :destroy
   has_one :utility_staff, dependent: :destroy
   has_one :tenant, dependent: :destroy
+  has_one :balance, dependent: :destroy
 
   has_one_attached :avatar
   has_one_attached :signature
   has_one_attached :first_valid_id
   has_one_attached :second_valid_id
-  has_one :balance
 
   # validates :avatar, content_type: ['image/png', 'image/jpg', 'image/jpeg'], size: { less_than: 5.megabytes }
 
@@ -53,7 +53,7 @@ class User < ApplicationRecord
   end
 
   def fullname
-    "#{firstname} #{lastname}"
+    "#{firstname} #{lastname}".titleize
   end
 
 

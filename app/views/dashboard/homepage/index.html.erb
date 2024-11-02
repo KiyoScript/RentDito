@@ -64,9 +64,9 @@
         <div class="content-left">
           <span class="text-heading">Verified Users</span>
           <div class="d-flex align-items-center my-1">
-            <h4 class="mb-0 me-2"><%= User.verified.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
+            <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').verified.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
           </div>
-          <small class="mb-0 text-success"><%= User.get_percentage(User.verified.count, User.where.not(role: 'landlord').count) %></small>
+          <small class="mb-0 text-success"><%= User.get_percentage(User.where.not(role: 'landlord').verified.count, User.where.not(role: 'landlord').count) %></small>
         </div>
         <div class="avatar d-flex align-items-start flex-column">
           <span class="avatar-initial rounded bg-label-success">
@@ -82,9 +82,9 @@
         <div class="content-left">
           <span class="text-heading">Unverified Users</span>
           <div class="d-flex align-items-center my-1">
-            <h4 class="mb-0 me-2"><%= User.unverified.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
+            <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').unverified.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
           </div>
-          <small class="mb-0 text-warning"><%= User.get_percentage(User.unverified.count, User.where.not(role: 'landlord').count) %></small>
+          <small class="mb-0 text-warning"><%= User.get_percentage(User.where.not(role: 'landlord').unverified.count, User.where.not(role: 'landlord').count) %></small>
         </div>
         <div class="avatar">
           <span class="avatar-initial rounded bg-label-warning">
@@ -100,9 +100,9 @@
         <div class="content-left">
           <span class="text-heading">Rejected Users</span>
           <div class="d-flex align-items-center my-1">
-            <h4 class="mb-0 me-2"><%= User.rejected.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
+            <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').rejected.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
           </div>
-          <small class="mb-0 text-danger"><%= User.get_percentage(User.rejected.count, User.where.not(role: 'landlord').count) %></small>
+          <small class="mb-0 text-danger"><%= User.get_percentage(User.where.not(role: 'landlord').rejected.count, User.where.not(role: 'landlord').count) %></small>
         </div>
         <div class="avatar">
           <span class="avatar-initial rounded bg-label-danger">
@@ -118,9 +118,9 @@
         <div class="content-left">
           <span class="text-heading">Incomplete Users</span>
           <div class="d-flex align-items-center my-1">
-            <h4 class="mb-0 me-2"><%= User.incomplete.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
+            <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').incomplete.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
           </div>
-          <small class="mb-0 text-info"><%= User.get_percentage(User.incomplete.count, User.where.not(role: 'landlord').count) %></small>
+          <small class="mb-0 text-info"><%= User.get_percentage(User.where.not(role: 'landlord').incomplete.count, User.where.not(role: 'landlord').count) %></small>
         </div>
         <div class="avatar">
           <span class="avatar-initial rounded bg-label-primary">
@@ -285,10 +285,14 @@
             <i class="bx bx-dots-vertical-rounded text-muted"></i>
           </button>
           <div class="dropdown-menu" aria-labelledby="monthlyBilling">
-            <% unique_billing_months.each do |billing_month| %>
-              <button class="dropdown-item" type="button" data-dashboard-analytics-billing-month="<%= billing_month.strftime('%Y-%m') %>" data-dashboard-analytics-target="getMonthly" data-action="click->dashboard-analytics#updateCard">
-                <%= billing_month.strftime('%B %Y') %>
-              </button>
+            <% unless unique_billing_months.any? %>
+              <button class= "dropdown-item"> No Billing Records.</button>
+            <% else %>
+              <% unique_billing_months.each do |billing_month| %>
+                <button class="dropdown-item" type="button" data-dashboard-analytics-billing-month="<%= billing_month.strftime('%Y-%m') %>" data-dashboard-analytics-target="getMonthly" data-action="click->dashboard-analytics#updateCard">
+                  <%= billing_month.strftime('%B %Y') %>
+                </button>
+              <% end %>
             <% end %>
           </div>
         </div>
