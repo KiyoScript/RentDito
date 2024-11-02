@@ -22,6 +22,7 @@ default: &default
 development:
   <<: *default
   database: rentdito_development
+  
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -78,7 +79,12 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  <<: *default
-  database: rentdito_production
-  username: rentdito
-  password: <%= ENV["RENTDITO_DATABASE_PASSWORD"] %>
+  primary: &primary_production
+    <<: *default
+    database: rentdito_production
+    username: rentdito
+    password: <%= ENV["RENTDITO_DATABASE_PASSWORD"] %>
+  cable:
+    <<: *primary_production
+    database: rentdito_production_cable
+    migrations_paths: db/cable_migrate

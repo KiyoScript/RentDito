@@ -93,6 +93,7 @@ module ApplicationHelper
     end
   end
 
+
   def users_avatars(users)
     content_tag(:ul, class: "list-unstyled avatar-group d-flex flex-row align-items-center justify-content-start") do
       users.first(4).map do |user|
@@ -124,6 +125,23 @@ module ApplicationHelper
 
   def peso(amount)
     number_to_currency(amount, unit: "₱", precision: 2)
+  end
+
+  def notification_icon_and_color(notifiable_type, message=nil)
+    case notifiable_type
+    when "Ticket"
+      if message.include?("closed")
+        { icon: "bx bx-check-circle", color: "bg-label-success" }
+      elsif message.include?("created")
+        { icon: "bx bx-wrench", color: "bg-label-primary" }
+      else
+        { icon: "bx bx-wrench", color: "bg-label-info" }
+      end
+    when "Billing"
+      { icon: "bx bx-money", color: "bg-label-info" }
+    else
+      { icon: "bx bx-info-circle", color: "bg-label-warning" }
+    end
   end
 
 end

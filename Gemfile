@@ -77,3 +77,4 @@ gem 'requestjs-rails'
 gem 'pundit', '~> 2.4'
 gem 'money-rails', '~> 1.12'
 gem 'aws-sdk-s3'
+gem "solid_cable", "~> 1.0"

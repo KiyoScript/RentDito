@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_30_102837) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_02_110807) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -126,6 +126,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_30_102837) do
     t.index ["user_id"], name: "index_maintenance_staffs_on_user_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.text "message"
+    t.string "notifiable_type", null: false
+    t.bigint "notifiable_id", null: false
+    t.bigint "user_id", null: false
+    t.boolean "read", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
   create_table "payments", force: :cascade do |t|
     t.string "suggestion"
     t.decimal "amount", precision: 6, scale: 2
@@ -168,6 +180,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_30_102837) do
     t.integer "accomodation"
     t.index ["property_id"], name: "index_rooms_on_property_id"
     t.index ["property_unit_id"], name: "index_rooms_on_property_unit_id"
+  end
+
+  create_table "solid_cable_messages", force: :cascade do |t|
+    t.text "channel"
+    t.text "payload"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["channel"], name: "index_solid_cable_messages_on_channel"
+    t.index ["created_at"], name: "index_solid_cable_messages_on_created_at"
   end
 
   create_table "tenants", force: :cascade do |t|
@@ -273,6 +294,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_30_102837) do
   add_foreign_key "charges", "users"
   add_foreign_key "deposits", "users"
   add_foreign_key "maintenance_staffs", "users"
+  add_foreign_key "notifications", "users"
   add_foreign_key "payments", "charges"
   add_foreign_key "payments", "users"
   add_foreign_key "properties", "users"

@@ -25,6 +25,7 @@ class User < ApplicationRecord
   has_many :deposits
   has_many :transactions
   has_many :payments
+  has_many :notifications
 
   scope :admin, -> {where(role: 'admin')}
   scope :maintenance_staff, -> {where(role: 'maintenance_staff')}
@@ -39,6 +40,8 @@ class User < ApplicationRecord
 
   after_create :user_account_details
   after_create :generate_user_balance
+
+  after_update :notify_users_status_with_email_notification!, if: -> { saved_change_to_status? }
 
   accepts_nested_attributes_for :maintenance_staff, allow_destroy: true
   accepts_nested_attributes_for :utility_staff, allow_destroy: true
@@ -68,6 +71,15 @@ class User < ApplicationRecord
 
   def user_account_details
     UserAccountDetailsMailer.send_email(self, generated_password).deliver_now if generated_password.present?
+  end
+
+  def notify_users_status_with_email_notification!
+    case status
+    when 'verified'
+      NotificationAccountVerifiedMailer.send_email(self).deliver_now
+    when 'rejected'
+      NotificationAccountRejectedMailer.send_email(self).deliver_now
+    end
   end
 
   def generate_user_balance

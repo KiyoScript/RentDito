@@ -80,7 +80,7 @@
         <img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/logo.png" alt="RentDito Logo">
       </div>
       <p>
-        <% if @user.gender == 0 %>
+        <% if @user.male? %>
           <p>Dear Mr. <%= @user.lastname %>,</p>
         <% else %>
           <p>Dear Ms./Mrs. <%= @user.lastname %>,</p>

@@ -86,16 +86,17 @@
           <p>Greetings Ms./Mrs. <%= @user.lastname %>,</p>
         <% end %>
       </p>
-      <p>A monthly bill for <%= bill.month %> <%= bill.year %> has been generated. Please pay your bills as soon as possible.</p>
+
+      <!-- If condition applies here.-->
+      <p>Today is due date of your Wi-Fi and rental bills. Please pay today to avoid penalties.</p>
+
+      <p><strong>NOTE:</strong> There's a 5% penalty increase in every 5 days.</p>
       <div class="details">
-        <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/water.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @user.water %></p>
-        <p class="info_container"><strong>Due Date:</strong>&nbsp;<%= water.due_date %></p>
-        <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/electricity.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @user.electricity %></p>
-        <p class="info_container"><strong>Due Date:</strong>&nbsp;<%= electricity.due_date %></p>
+
+        <!-- If condition applies here, depending on which bill is facing due date.-->
         <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/wifi.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @user.wifi %></p>
-        <p class="info_container"><strong>Due Date:</strong>&nbsp;<%= wifi.due_date %></p>
         <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/rental.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @user.rental %></p>
-        <p class="info_container"><strong>Due Date:</strong>&nbsp;<%= rental.due_date %></p>
+
       </div>
       <p>If there are any questions about your sharing in <%= bill.month %> <%= bill.year %>, contact any of the following:</p>
       <div class="details">

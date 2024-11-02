@@ -65,6 +65,12 @@ Rails.application.routes.draw do
     end
 
     resources :transaction_history
+
+    resources :notifications do
+      member do
+        patch :mark_as_read
+      end
+    end
   end
 
   resources :onboarding, only: [:show, :update]
