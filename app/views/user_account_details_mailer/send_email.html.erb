@@ -57,7 +57,9 @@
         <p>Thank you.</p>
         <p>Best regards,</p>
         <p>RentDito Company<br>
-          <a href="https://rendito.fly.dev/sign_in" class="button">Complete Your Registration</a>
+          <%= link_to "https://rentdito.fly.dev/onboarding/#{@user.id}", class: 'button' do %>
+            Complete Your Registration
+          <% end %>
         </p>
       </div>
     </div>
