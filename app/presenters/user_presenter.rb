@@ -20,7 +20,7 @@ class UserPresenter
   end
 
   def check_in
-    @user.utility_staff? ? @user.utility_staff.check_in : @user.tenant.check_in
+    @user.utility_staff? ? @user.utility_staff.check_in.strftime("%B %d, %Y %I:%M %p") : @user.tenant.check_in.strftime("%B %d, %Y %I:%M %p")
   end
 
   def accomodation

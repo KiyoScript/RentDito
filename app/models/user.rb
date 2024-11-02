@@ -53,7 +53,7 @@ class User < ApplicationRecord
   end
 
   def fullname
-    "#{firstname} #{lastname}"
+    "#{firstname} #{lastname}".titleize
   end
 
 
