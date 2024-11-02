@@ -285,10 +285,14 @@
             <i class="bx bx-dots-vertical-rounded text-muted"></i>
           </button>
           <div class="dropdown-menu" aria-labelledby="monthlyBilling">
-            <% unique_billing_months.each do |billing_month| %>
-              <button class="dropdown-item" type="button" data-dashboard-analytics-billing-month="<%= billing_month.strftime('%Y-%m') %>" data-dashboard-analytics-target="getMonthly" data-action="click->dashboard-analytics#updateCard">
-                <%= billing_month.strftime('%B %Y') %>
-              </button>
+            <% unless unique_billing_months.any? %>
+              <button class= "dropdown-item"> No Billing Records.</button>
+            <% else %>
+              <% unique_billing_months.each do |billing_month| %>
+                <button class="dropdown-item" type="button" data-dashboard-analytics-billing-month="<%= billing_month.strftime('%Y-%m') %>" data-dashboard-analytics-target="getMonthly" data-action="click->dashboard-analytics#updateCard">
+                  <%= billing_month.strftime('%B %Y') %>
+                </button>
+              <% end %>
             <% end %>
           </div>
         </div>
