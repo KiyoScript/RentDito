@@ -116,6 +116,10 @@ module ApplicationHelper
             "+#{additional_count}"
           end
         end
+      elsif users.size == 0
+        content_tag(:li, class: "avatar pull-up") do
+
+        end
       else
         ""
       end
