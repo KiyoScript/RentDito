@@ -81,28 +81,6 @@ class Ticket < ApplicationRecord
     NotificationClosedTicketMailer.send_email(tenant.user, self).deliver_now
   end
 
-
-  # def notify_billing
-  #   Notification.create!(
-  #     user: tenant.user,
-  #     message: "New billing update for your account."
-  #   )
-
-  #   NotificationChannel.broadcast_to(tenant.user, { message: "New billing update for your account." })
-  # end
-
-  # def notify_charges
-  #   puts "Notification type: Charges"
-  #   puts "Broadcasting charges notification to tenant.user: #{tenant.user.id}"
-
-  #   Notification.create!(
-  #     user: tenant.user,
-  #     message: "You have new charges applied."
-  #   )
-
-  #   NotificationChannel.broadcast_to(tenant.user, { message: "You have new charges applied." })
-  # end
-
   def check_out_datetime_valid
     min_days = 15
     if datetime.present? && datetime < DateTime.now + min_days.days
