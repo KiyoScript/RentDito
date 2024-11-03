@@ -7,23 +7,24 @@ consumer.subscriptions.create("NotificationChannel", {
     const newNotificationCount = document.getElementById("new-notification-count")
     const noNotificationMessage = document.getElementById("no-notification-message")
 
-    // Function to determine the icon and color based on notification type
     const getIconAndColor = (type) => {
       switch (type) {
         case "Ticket":
-          return { icon: "bx bx-wrench", color: "bg-label-info" };
+          return { icon: "bx bx-wrench", color: "bg-label-info" }
         case "TicketClosed":
-          return { icon: "bx bx-check-circle", color: "bg-label-success" };
+          return { icon: "bx bx-check-circle", color: "bg-label-success" }
         case "TicketCreated":
-          return { icon: "bx bx-wrench", color: "bg-label-primary" };
+          return { icon: "bx bx-wrench", color: "bg-label-primary" }
         case "NewBilling":
-          return { icon: "bx bx-money", color: "bg-label-info" };
+          return { icon: "bx bx-money", color: "bg-label-info" }
+        case "DueDateBilling":
+          return { icon: "bx bx-info-circle", color: "bg-label-primary" }
         default:
-          return { icon: "bx bx-info-circle", color: "bg-label-primary" };
+          return { icon: "bx bx-info-circle", color: "bg-label-primary" }
       }
     }
 
-    const { icon, color } = getIconAndColor(data.type);
+    const { icon, color } = getIconAndColor(data.type)
 
     notificationList.insertAdjacentHTML("afterbegin", `
       <li class="list-group-item list-group-item-action dropdown-notifications-item">
@@ -46,14 +47,14 @@ consumer.subscriptions.create("NotificationChannel", {
               </div>
             </div>
           </li>
-    `);
+    `)
 
     if (typeof(noNotificationMessage) != 'undefined' && noNotificationMessage != null) {
-      noNotificationMessage.remove();
+      noNotificationMessage.remove()
     }
 
     const count = parseInt(notificationCount.textContent, 10) || 0;
     notificationCount.textContent = count + 1;
-    newNotificationCount.textContent = `${count + 1} New`;
+    newNotificationCount.textContent = `${count + 1} New`
   }
 })

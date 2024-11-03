@@ -138,7 +138,15 @@ module ApplicationHelper
         { icon: "bx bx-wrench", color: "bg-label-info" }
       end
     when "Billing"
-      { icon: "bx bx-money", color: "bg-label-info" }
+      if message.include?('Water')
+        { icon: "bx bx-info-circle", color: "bg-label-warning" }
+      elsif message.include?('Electricity')
+        { icon: "bx bx-info-circle", color: "bg-label-warning" }
+      elsif message.include?('WiFi')
+        { icon: "bx bx-info-circle", color: "bg-label-warning" }
+      else
+        { icon: "bx bx-money", color: "bg-label-info" }
+      end
     else
       { icon: "bx bx-info-circle", color: "bg-label-warning" }
     end

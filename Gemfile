@@ -78,3 +78,7 @@ gem 'pundit', '~> 2.4'
 gem 'money-rails', '~> 1.12'
 gem 'aws-sdk-s3'
 gem "solid_cable", "~> 1.0"
+gem "solid_queue", "~> 1.0"
+gem "mission_control-jobs"
+gem "parallel", "~> 1.24"
+gem 'whenever', require: false

@@ -87,4 +87,8 @@ Rails.application.routes.draw do
   end
 
   resources :balances
+
+  constraints(lambda { |req| req.env['warden'].user&.landlord? }) do
+    mount MissionControl::Jobs::Engine, at: "/jobs", as: :mission_control_jobs
+  end
 end

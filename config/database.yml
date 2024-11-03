@@ -22,7 +22,12 @@ default: &default
 development:
   <<: *default
   database: rentdito_development
-  
+  queue:
+    <<: *default
+    database: rentdito_queue_development
+    migrations_paths: db/queue_migrate
+
+
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -88,3 +93,11 @@ production:
     <<: *primary_production
     database: rentdito_production_cable
     migrations_paths: db/cable_migrate
+  queue:
+    <<: *primary_production
+    database: rentdito_production_queue
+    migrations_paths: db/queue_migrate
+
+
+
+

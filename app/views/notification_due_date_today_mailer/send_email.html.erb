@@ -80,25 +80,37 @@
         <img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/logo.png" alt="RentDito Logo">
       </div>
       <p>
-        <% if @user.gender == 0 %>
+        <% if @user.male? %>
           <p>Greetings Mr. <%= @user.lastname %>,</p>
         <% else %>
           <p>Greetings Ms./Mrs. <%= @user.lastname %>,</p>
         <% end %>
       </p>
-
-      <!-- If condition applies here.-->
-      <p>Today is due date of your Wi-Fi and rental bills. Please pay today to avoid penalties.</p>
+      <% if @subject.include?('Water and Electricity') %>
+        <p>Today is due date of your Water  and Electricity bills. Please pay today to avoid penalties.</p>
+      <% elsif @subject.include?('Water') %>
+        <p>Today is due date of your Water bill. Please pay today to avoid penalties.</p>
+      <% elsif @subject.include?('Electricity') %>
+        <p>Today is due date of your Blectricity bill. Please pay today to avoid penalties.</p>
+      <% else %>
+        <p>Today is due date of your Wi-Fi and Rental bills. Please pay today to avoid penalties.</p>
+      <% end %>
 
       <p><strong>NOTE:</strong> There's a 5% penalty increase in every 5 days.</p>
       <div class="details">
-
-        <!-- If condition applies here, depending on which bill is facing due date.-->
-        <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/wifi.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @user.wifi %></p>
-        <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/rental.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @user.rental %></p>
-
+        <% if @subject.include?('Water and Electricity') %>
+          <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/water.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @charge.water_share_amount %></p>
+          <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/electricity.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @charge.electricity_share_amount %></p>
+        <% elsif @subject.include?('Water') %>
+          <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/water.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @charge.water_share_amount %></p>
+        <% elsif @subject.include?('Electricity') %>
+          <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/electricity.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @charge.electricity_share_amount %></p>
+        <% else %>
+          <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/wifi.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @charge.wifi_share_amount %></p>
+          <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/rental.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @charge.monthly_rental_amount %></p>
+        <% end %>
       </div>
-      <p>If there are any questions about your sharing in <%= bill.month %> <%= bill.year %>, contact any of the following:</p>
+      <p>If there are any questions about your sharing in <%= @billing.due_date.strftime("%B %Y") %>, contact any of the following:</p>
       <div class="details">
         <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/gmail.png" alt="GMail Logo" width="20">&ensp;&nbsp;<a href="mailto:ederlindocojuangco@gmail.com" target="_blank">ederlindocojuangco@gmail.com</a></p>
         <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/facebook.png" alt="FB Logo" width="20">&ensp;&nbsp;<a href="https://www.facebook.com/profile.php?id=100089232990563">Mark Mercado</a></p>

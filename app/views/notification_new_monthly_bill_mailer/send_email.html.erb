@@ -92,7 +92,7 @@
         <p class="info_container"><strong>Due Date:</strong>&nbsp;<%= @bill.water_bill_end_date.strftime("%B %d, %Y") %></p>
         <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/electricity.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @charge.electricity_share_amount %></p>
         <p class="info_container"><strong>Due Date:</strong>&nbsp;<%= @bill.electricity_bill_end_date.strftime("%B %d, %Y") %></p>
-        <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/wifi.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @charge.wifi_and_monthly_rental_penalty %></p>
+        <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/wifi.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @charge.wifi_share_amount %></p>
         <p class="info_container"><strong>Due Date:</strong>&nbsp;<%= @bill.wifi_and_rental_end_date.strftime("%B %d, %Y") %></p>
         <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/rental.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @charge.monthly_rental_amount %></p>
         <p class="info_container"><strong>Due Date:</strong>&nbsp;<%= @bill.wifi_and_rental_end_date.strftime("%B %d, %Y") %></p>
