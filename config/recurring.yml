@@ -8,3 +8,7 @@
 #     command: "SoftDeletedRecord.due.delete_all"
 #     priority: 2
 #     schedule: at 5am every day
+daily_reminder_monthly_billing_duedate_report:
+  class: MonthlyBillingDuedateReminderJob
+  queue: default
+  schedule: "0 0 * * *" #every 12 AM
