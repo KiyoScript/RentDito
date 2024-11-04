@@ -8,7 +8,7 @@ class MonthlyBillingDuedateReminderJob < ApplicationJob
       billing.property.occupants.each do |tenant|
         subject = nil
         if (today == (billing.water_bill_end_date && billing.electricity_bill_end_date))
-          subject = "Water and Electricity Bill Date is Today"
+          subject = "Water and Electricity Bill Due Date is Today"
         elsif (today == billing.water_bill_end_date)
           subject = "Water Bill Due Date is Today"
         elsif (today == billing.electricity_bill_end_date)
