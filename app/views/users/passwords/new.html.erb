@@ -1,16 +1,30 @@
-<h2>Forgot your password?</h2>
+<div class="authentication-wrapper authentication-cover">
+  <div class="authentication-inner row m-0">
+    <div class="d-flex col-12 col-lg-6 align-items-center">
+      <img src="<%= asset_path('forgot-password.svg') %>" alt="Forgot Password" class="img-fluid" style="max-width: 100%; height: auto;" />
+    </div>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "users/shared/error_messages", resource: resource %>
+    <div class="d-flex col-12 col-lg-6 align-items-center authentication-bg p-6">
+      <div class="w-px-400 mx-auto mt-12 pt-5">
+        <h2 class="mb-1">Forgot your password?</h2>
+        <p class="mb-6">Enter your email to reset your password.</p>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+        <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "mb-6" }) do |f| %>
+          <!-- Error messages -->
+          <%= render "users/shared/error_messages", resource: resource %>
+
+          <!-- Email Field -->
+          <div class="mb-6">
+            <%= f.label :email, class: "form-label" %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "you@example.com", required: true %>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="actions">
+            <%= f.submit "Send me reset password instructions", class: "btn btn-primary d-grid w-100" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
-
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
-  </div>
-<% end %>
-
-<%= render "users/shared/links" %>
+</div>

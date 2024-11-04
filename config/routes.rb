@@ -6,8 +6,12 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   devise_for :users, controllers: {
-    sessions: 'users/sessions'
-  }, path: '', path_names: { sign_in: 'sign_in'}
+    sessions: 'users/sessions',
+    passwords: 'users/passwords'
+  }, path: '', path_names: {
+    sign_in: 'sign_in',
+    password: 'forgot_password'
+  }
 
   # Defines the root path route ("/")
   root "dashboard/homepage#index"
