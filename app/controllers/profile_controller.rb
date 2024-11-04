@@ -9,7 +9,7 @@ class ProfileController < ApplicationController
     room_name = @user.utility_staff? ? @user.utility_staff.room.name : @user.tenant.room.name
     user_params = @user.utility_staff? ? utility_staff_params : tenant_params
     if @user.update(user_params)
-      redirect_to profile_path(@user), notice: "Transfer successfully to room #{room_name}"
+      redirect_to profile_path(@user), notice: "Transferred successfully from room #{room_name}."
     else
       redirect_to profile_path(@user), alert: @user.errors.full_messages.first
     end
