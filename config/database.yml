@@ -84,11 +84,8 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  primary: &primary_production
-    <<: *default
-    database: rentdito_production
-    username: rentdito
-    password: <%= ENV["RENTDITO_DATABASE_PASSWORD"] %>
+  <<: *default
+  url: <%= ENV["DATABASE_URL"] %>
   cable:
     <<: *primary_production
     database: rentdito_production_cable
