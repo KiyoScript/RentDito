@@ -54,6 +54,9 @@ Rails.application.routes.draw do
       collection do
         get :billing_data
       end
+      member do
+        post :new_monthly_bill_notification
+      end
       resources :charges
     end
 

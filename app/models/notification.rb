@@ -4,4 +4,8 @@ class Notification < ApplicationRecord
 
 
   scope :unread, -> { where(read: false) }
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["message",  "read"]
+  end
 end
