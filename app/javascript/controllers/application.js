@@ -1,5 +1,5 @@
 import { Application } from "@hotwired/stimulus"
-import "@hotwired/strada"
+import "https://cdn.jsdelivr.net/npm/@hotwired/strada@latest/dist/strada.min.js"
 
 import MenuController from "https://rentdito-js.s3.ap-southeast-2.amazonaws.com/controllers/menu_controller.js"
 import BridgeFormController from "https://rentdito-js.s3.ap-southeast-2.amazonaws.com/controllers/bridge/form_controller.js"
