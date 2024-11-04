@@ -130,6 +130,25 @@
       </div>
     </div>
   </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="card-body p-6 bg-white">
+      <div class="d-flex align-items-start justify-content-between">
+        <div class="content-left">
+          <span class="text-heading">Deactivated Users</span>
+          <div class="d-flex align-items-center my-1">
+            <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').deactivated.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
+          </div>
+          <small class="mb-0 text-danger"><%= User.get_percentage(User.where.not(role: 'landlord').deactivated.count, User.where.not(role: 'landlord').count) %></small>
+        </div>
+        <div class="avatar">
+          <span class="avatar-initial rounded bg-label-danger">
+            <i class="bx bx-group bx-lg"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <% if current_user.maintenance_staff? || current_user.utility_staff? || current_user.tenant? %>
