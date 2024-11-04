@@ -45,6 +45,7 @@ Rails.application.configure do
     address:                      'smtp.gmail.com',
     port:                         587,
     domain:                       Rails.application.credentials.dig(:gmail, :domain),
+    gmail_name:                   Rails.application.credentials.dig(:gmail, :name),
     user_name:                    Rails.application.credentials.dig(:gmail, :user_name),
     password:                     Rails.application.credentials.dig(:gmail, :password),
     authentication:               'plain',
@@ -69,7 +70,7 @@ Rails.application.configure do
 
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
-  
+
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.silence_polling = true
 

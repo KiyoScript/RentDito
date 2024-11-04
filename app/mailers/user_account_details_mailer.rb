@@ -2,6 +2,6 @@ class UserAccountDetailsMailer < ApplicationMailer
   def send_email(user, password)
     @user = user
     @password = password
-    mail(to: email_to_deliver(user.email), subject: "RentDito - Your account details!!!")
+    mail(from: "#{Rails.application.credentials.dig(:gmail, :name)} <#{Rails.application.credentials.dig(:gmail, :user_name)}>", to: email_to_deliver(user.email), subject: "Complete Your Registration, #{@user.firstname}!")
   end
 end
