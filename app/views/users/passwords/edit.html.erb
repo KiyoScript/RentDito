@@ -1,25 +1,45 @@
-<h2>Change your password</h2>
+<div class="authentication-wrapper authentication-cover">
+  <a href="javascript:void(0)" class="app-brand auth-cover-brand gap-2">
+    <span class="app-brand-logo demo">
+      <%= image_tag "dark_brand_logo.png", class: "img-fluid", width: "100", alt: "Brand Logo" %>
+    </span>
+    <span class="app-brand-text demo text-heading fw-bold">RentDito</span>
+  </a>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "users/shared/error_messages", resource: resource %>
-  <%= f.hidden_field :reset_password_token %>
+  <div class="authentication-inner row m-0">
+    <div class="d-none d-lg-flex col-lg-7 col-xl-8 align-items-center p-5">
+      <div class="w-100 d-flex justify-content-center">
+        <%= image_tag "rent.png", class: "img-fluid", width: "500", alt: "Change Password Image" %>
+      </div>
+    </div>
 
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
-    <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
+    <div class="d-flex col-12 col-lg-5 col-xl-4 align-items-center authentication-bg p-sm-12 p-6">
+      <div class="w-px-400 mx-auto mt-12 pt-5">
+        <h4 class="mb-1">Change Your Password 🔒</h4>
+        <p class="mb-6">Enter your new password below</p>
+
+        <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "mb-6" }) do |f| %>
+          <%= render "users/shared/error_messages", resource: resource %>
+          <%= f.hidden_field :reset_password_token %>
+
+          <div class="mb-6 fv-plugins-icon-container">
+            <%= f.label :password, "New Password", class: "form-label" %>
+            <% if @minimum_password_length %>
+              <small class="form-text text-muted">(<%= @minimum_password_length %> characters minimum)</small>
+            <% end %>
+            <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "form-control", placeholder: "New Password" %>
+          </div>
+
+          <div class="mb-6 fv-plugins-icon-container">
+            <%= f.label :password_confirmation, "Confirm New Password", class: "form-label" %>
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", placeholder: "Confirm New Password" %>
+          </div>
+
+          <div class="actions">
+            <%= f.submit "Change my password", class: "btn btn-primary d-grid w-100" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Change my password" %>
-  </div>
-<% end %>
-
-<%= render "users/shared/links" %>
+</div>
