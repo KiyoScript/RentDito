@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_02_221720) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_04_103653) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -322,6 +322,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_02_221720) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "type"
+    t.datetime "transfer_date"
     t.index ["property_id"], name: "index_tenants_on_property_id"
     t.index ["property_unit_id"], name: "index_tenants_on_property_unit_id"
     t.index ["room_id"], name: "index_tenants_on_room_id"

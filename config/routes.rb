@@ -87,9 +87,10 @@ Rails.application.routes.draw do
     resources :tickets_history
   end
   resources :valid_ids, only: [:update]
-  resources :profile, only: [:show] do
+  resources :profile, only: :show do
     member do
       patch :update_status
+      patch :transfer
     end
   end
 

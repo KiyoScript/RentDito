@@ -20,12 +20,12 @@ class User < ApplicationRecord
 
   has_many :properties, dependent: :destroy
   has_many :assigned_tickets, as: :assigned_to, class_name: 'Ticket'
-  has_many :billings
-  has_many :charges
-  has_many :deposits
-  has_many :transactions
-  has_many :payments
-  has_many :notifications
+  has_many :billings, dependent: :destroy
+  has_many :charges, dependent: :destroy
+  has_many :deposits, dependent: :destroy
+  has_many :transactions, dependent: :destroy
+  has_many :payments, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   scope :admin, -> {where(role: 'admin')}
   scope :maintenance_staff, -> {where(role: 'maintenance_staff')}
