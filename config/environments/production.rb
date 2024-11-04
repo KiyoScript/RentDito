@@ -73,7 +73,7 @@ Rails.application.configure do
 
 
   #Single database configuration
-  config.solid_queue.connects_to = { database: { writing: :queue } }
+  # config.solid_queue.connects_to = { database: { writing: :queue } }
 
 
   # config.active_job.queue_name_prefix = "rentdito_production"
