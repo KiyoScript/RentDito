@@ -4,7 +4,7 @@
     <div class="col-12">
       <div class="row">
         <!-- Search bar to search messages -->
-        <div class="col-3 text-primary p-3 order-md-2 text-end">
+        <div class="col-12 col-md-3 text-primary p-3 order-md-2 text-end">
           <%= search_form_for @q, url: dashboard_notifications_path, method: :get, class: "d-flex gap-2 align-items-center" do |form| %>
             <%= form.text_field :message_cont, placeholder: "Search messages...", class: "form-control", value: params.dig(:q, :message_cont) %>
             <%= form.submit 'Search', class: 'btn btn-primary' %>
