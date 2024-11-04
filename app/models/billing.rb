@@ -8,7 +8,6 @@ class Billing < ApplicationRecord
 
   before_create :generate_billing_number
   after_create :generate_charges
-  after_create :notify_all_tenants!
 
   monetize :electricity_bill_partial_amount_cents
   monetize :electricity_bill_total_amount_cents
@@ -109,7 +108,7 @@ class Billing < ApplicationRecord
   def total_monthly_rental_billing_paid_amount
     charges.paid.sum(:monthly_rental_amount)
   end
-  
+
   def notify_all_tenants!
     property.occupants.each do |tenant|
       Notification.create!(
