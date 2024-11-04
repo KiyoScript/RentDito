@@ -1,6 +1,6 @@
 class NotificationAccountRejectedMailer < ApplicationMailer
   def send_email(user)
     @user = user
-    mail(from: "#{Rails.application.credentials.dig(:gmail, :name)} <#{Rails.application.credentials.dig(:gmail, :user_name)}>", to: email_to_deliver(user.email), subject: "Your account information is rejected, #{@user.firstname}!")
+    mail(from: email_sender, to: email_to_deliver(user.email), subject: "Your account information is rejected, #{@user.firstname}!")
   end
 end

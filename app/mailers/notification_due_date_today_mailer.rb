@@ -4,6 +4,6 @@ class NotificationDueDateTodayMailer < ApplicationMailer
     @billing = billing
     @charge = charge
     @subject = subject
-    mail(from: "#{Rails.application.credentials.dig(:gmail, :name)} <#{Rails.application.credentials.dig(:gmail, :user_name)}>", to: email_to_deliver(user.email), subject: subject)
+    mail(from: email_sender, to: email_to_deliver(user.email), subject: subject)
   end
 end
