@@ -16,7 +16,7 @@
       </div>
 
       <div class="my-3">
-        <%= form.label :suggestion, "Payment Suggestion/Notes", for: "suggestion_#{@charge.id}", class: "form-label fs-6" %>
+        <%= form.label :suggestion, "Customer/Tenant Feedback (E.g. Cleanliness, House Rules, etc..)", for: "suggestion_#{@charge.id}", class: "form-label fs-6" %>
         <%= form.text_area :suggestion, id: "suggestion_#{@charge.id}", class: "form-control mt-3", rows: 5 %>
       </div>
 
