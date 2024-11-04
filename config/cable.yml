@@ -1,7 +1,5 @@
 development:
-  adapter: solid_cable
-  polling_interval: 3.seconds
-  message_retention: 1.day
+  adapter: async
 
 test:
   adapter: test
@@ -12,5 +10,5 @@ test:
 #   channel_prefix: rentdito_production
 production:
   adapter: solid_cable
-  polling_interval: 3.seconds
+  polling_interval: 0.1.seconds
   message_retention: 1.day
