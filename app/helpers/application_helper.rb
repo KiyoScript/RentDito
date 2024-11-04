@@ -93,6 +93,7 @@ module ApplicationHelper
     end
   end
 
+
   def users_avatars(users)
     content_tag(:ul, class: "list-unstyled avatar-group d-flex flex-row align-items-center justify-content-start") do
       users.first(4).map do |user|
@@ -115,6 +116,10 @@ module ApplicationHelper
             "+#{additional_count}"
           end
         end
+      elsif users.size == 0
+        content_tag(:li, class: "avatar pull-up") do
+
+        end
       else
         ""
       end
@@ -124,6 +129,31 @@ module ApplicationHelper
 
   def peso(amount)
     number_to_currency(amount, unit: "₱", precision: 2)
+  end
+
+  def notification_icon_and_color(notifiable_type, message=nil)
+    case notifiable_type
+    when "Ticket"
+      if message.include?("closed")
+        { icon: "bx bx-check-circle", color: "bg-label-success" }
+      elsif message.include?("created")
+        { icon: "bx bx-wrench", color: "bg-label-primary" }
+      else
+        { icon: "bx bx-wrench", color: "bg-label-info" }
+      end
+    when "Billing"
+      if message.include?('Water')
+        { icon: "bx bx-info-circle", color: "bg-label-warning" }
+      elsif message.include?('Electricity')
+        { icon: "bx bx-info-circle", color: "bg-label-warning" }
+      elsif message.include?('WiFi')
+        { icon: "bx bx-info-circle", color: "bg-label-warning" }
+      else
+        { icon: "bx bx-money", color: "bg-label-info" }
+      end
+    else
+      { icon: "bx bx-info-circle", color: "bg-label-warning" }
+    end
   end
 
 end

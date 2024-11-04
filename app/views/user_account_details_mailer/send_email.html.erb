@@ -2,13 +2,16 @@
 <html lang="en">
 <head>
   <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
-  <title>User Accouunt Details </title>
   <style>
       body {
           font-family: Arial, sans-serif;
           line-height: 1.6;
           background-color: #f9f9f9;
           color: #333;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
       }
       .container {
           width: 80%;
@@ -22,9 +25,6 @@
           text-align: center;
           padding-bottom: 10px;
           color: #696cff;
-      }
-      .details {
-          margin-top: 20px;
       }
       .footer {
           margin-top: 20px;
@@ -40,18 +40,35 @@
           text-decoration: none;
           border-radius: 5px;
       }
+      .info_container {
+        display: flex;
+        align-items: center;
+        text-align: center;
+      }
   </style>
 </head>
   <body>
     <div class="container">
       <div class="header">
-        <h1>Welcome to RentDito</h1>
+        <img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/logo.png" alt="RentDito Logo">
       </div>
-      <p>Dear <%= @user.firstname %> <%= @user.lastname %>,</p>
+      <p>
+        <% if @user.gender == 0 %>
+          <p>Dear Mr. <%= @user.lastname %>,</p>
+        <% else %>
+          <p>Dear Ms./Mrs. <%= @user.lastname %>,</p>
+        <% end %>
+      </p>
       <p>Your account has been successfully created. To complete your registration and fill out the remaining information, please click the button below:</p>
       <div class="details">
         <p><strong>Email:</strong> <%= @user.email %></p>
         <p><strong>Password:</strong> <%= @user.password %></p>
+      </div>
+      <p>If there are any concerns/questions about signing up, contact any of the following:</p>
+      <div class="details">
+        <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/gmail.png" alt="GMail Logo" width="20">&ensp;&nbsp;<a href="mailto:ederlindocojuangco@gmail.com" target="_blank">ederlindocojuangco@gmail.com</a></p>
+        <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/facebook.png" alt="FB Logo" width="20">&ensp;&nbsp;<a href="https://www.facebook.com/profile.php?id=100089232990563">Mark Mercado</a></p>
+        <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/call.png" alt="Call Logo" width="20">&ensp;&nbsp;+63 936 648 6958</p>
       </div>
       <div class="footer">
         <p>Thank you.</p>

@@ -68,7 +68,14 @@ Rails.application.configure do
   # config.cache_store = :mem_cache_store
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
-  # config.active_job.queue_adapter = :resque
+  config.active_job.queue_adapter = :solid_queue
+  config.solid_queue.silence_polling = true
+
+
+  #Single database configuration
+  config.solid_queue.connects_to = { database: { writing: :queue } }
+
+
   # config.active_job.queue_name_prefix = "rentdito_production"
 
   config.action_mailer.perform_caching = false
@@ -84,6 +91,7 @@ Rails.application.configure do
     address:                      'smtp.gmail.com',
     port:                         587,
     domain:                       Rails.application.credentials.dig(:gmail, :domain),
+    gmail_name:                   Rails.application.credentials.dig(:gmail, :name),
     user_name:                    Rails.application.credentials.dig(:gmail, :user_name),
     password:                     Rails.application.credentials.dig(:gmail, :password),
     authentication:               'plain',

@@ -29,3 +29,5 @@ pin "signature_pad", preload: true # @5.0.3
 pin "swiper"
 pin "ui-carousel"
 pin "@rails/activestorage", to: "activestorage.esm.js"
+pin "@rails/actioncable", to: "actioncable.esm.js"
+pin_all_from "app/javascript/channels", under: "channels"

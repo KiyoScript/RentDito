@@ -4,71 +4,68 @@
       <i class="bx bx-menu bx-md"></i>
     </a>
   </div>
-
   <div id="navbar-container" class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
     <ul id="navbar" class="navbar-nav flex-row align-items-center ms-auto">
-      <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2">
-        <a
-          class="nav-link dropdown-toggle hide-arrow"
-          href="javascript:void(0);"
-          data-bs-toggle="dropdown"
-          data-bs-auto-close="outside"
-          aria-expanded="false">
+      <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2" data-controller="notifications">
+        <a class="nav-link dropdown-toggle hide-arrow show" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="true">
           <span class="position-relative">
             <i class="bx bx-bell bx-md"></i>
-            <span class="badge rounded-pill bg-danger badge-dot badge-notifications border"></span>
+            <span id="notification-count" class="badge bg-danger badge-notifications ms-1"><%= current_user.notifications.unread.count %></span>
           </span>
         </a>
         <ul class="dropdown-menu dropdown-menu-end p-0">
           <li class="dropdown-menu-header border-bottom">
             <div class="dropdown-header d-flex align-items-center py-3">
-              <h6 class="mb-0 me-auto">Notification</h6>
+              <h6 class="mb-0 me-auto">Notifications</h6>
               <div class="d-flex align-items-center h6 mb-0">
-                <span class="badge bg-label-primary me-2">1 New</span>
-                <a
-                  href="javascript:void(0)"
-                  class="dropdown-notifications-all p-2"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  title="Mark all as read"
-                  ><i class="bx bx-envelope-open text-heading"></i
-                ></a>
+                <span class="badge bg-label-primary me-2" id="new-notification-count">
+                  <%= current_user.notifications.unread.count %> New
+                </span>
+                <a href="javascript:void(0)" class="dropdown-notifications-all p-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Mark all as read">
+                  <i class="bx bx-envelope-open text-heading"></i>
+                </a>
               </div>
             </div>
           </li>
-          <li class="dropdown-notifications-list scrollable-container">
+          <li class="dropdown-notifications-list scrollable-container" id="notification-list">
             <ul class="list-group list-group-flush">
-              <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
-                <div class="d-flex">
-                  <div class="flex-shrink-0 me-3">
-                    <div class="avatar">
-                      <span class="avatar-initial rounded-circle bg-label-success"
-                        ><i class="bx bx-pie-chart-alt"></i
-                      ></span>
-                    </div>
-                  </div>
-                  <div class="flex-grow-1">
-                    <h6 class="small mb-0">Monthly report is generated</h6>
-                    <small class="mb-1 d-block text-body">July monthly financial report is generated </small>
-                    <small class="text-muted">3 days ago</small>
-                  </div>
-                  <div class="flex-shrink-0 dropdown-notifications-actions">
-                    <a href="javascript:void(0)" class="dropdown-notifications-read"
-                      ><span class="badge badge-dot"></span
-                    ></a>
-                    <a href="javascript:void(0)" class="dropdown-notifications-archive"
-                      ><span class="bx bx-x"></span
-                    ></a>
-                  </div>
-                </div>
-              </li>
+              <% unless current_user.notifications.any? %>
+                <li class="list-group-item list-group-item-action dropdown-notifications-item text-center"  id="no-notification-message">
+                  <p class="text-normal mb-0">You don't have any notification</p>
+                </li>
+              <% else %>
+                <% current_user.notifications.order(created_at: :desc).limit(5).each do |notification| %>
+                  <%= link_to notification.notifiable_type == "Ticket" ? dashboard_ticket_path(notification.notifiable) : dashboard_billing_path(notification.notifiable.number),
+                              data: { action: "click->notifications#markAsRead", notifications_target: 'getNotificationId', id: notification.id, url: mark_as_read_dashboard_notification_path(notification) } do %>
+                    <li class="list-group-item list-group-item-action dropdown-notifications-item <%= 'marked-as-read' if notification.read %>">
+                      <div class="d-flex">
+                        <% icon_and_color = notification_icon_and_color(notification.notifiable_type, notification.message) %>
+                        <div class="flex-shrink-0 me-3">
+                          <div class="avatar">
+                            <span class="avatar-initial rounded-circle <%= icon_and_color[:color] %>">
+                              <i class="<%= icon_and_color[:icon] %>"></i>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="flex-grow-1">
+                          <h6 class="small mb-0 <%= notification.read? ? '' : 'fw-bold'%>"><%= notification.message %></h6>
+                          <small class="text-muted"><%= time_ago_in_words(notification.created_at) %> ago</small>
+                        </div>
+                        <div class="flex-shrink-0 dropdown-notifications-actions">
+                          <p class="mb-0">
+                            <span class="badge badge-dot bg-primary <%= notification.read? ? 'd-none' : '' %>"></span>
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                  <% end %>
+                <% end %>
+              <% end %>
             </ul>
           </li>
           <li class="border-top">
             <div class="d-grid p-4">
-              <a class="btn btn-primary btn-sm d-flex" href="javascript:void(0);">
-                <small class="align-middle">View all notifications</small>
-              </a>
+              <%= link_to "View all notifications", dashboard_notifications_path, class: "btn btn-primary btn-sm d-flex" %>
             </div>
           </li>
         </ul>

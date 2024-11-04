@@ -50,6 +50,9 @@ Rails.application.routes.draw do
       collection do
         get :billing_data
       end
+      member do
+        post :new_monthly_bill_notification
+      end
       resources :charges
     end
 
@@ -65,6 +68,12 @@ Rails.application.routes.draw do
     end
 
     resources :transaction_history
+
+    resources :notifications do
+      member do
+        patch :mark_as_read
+      end
+    end
   end
 
   resources :onboarding, only: [:show, :update]
@@ -81,4 +90,8 @@ Rails.application.routes.draw do
   end
 
   resources :balances
+
+  constraints(lambda { |req| req.env['warden'].user&.landlord? }) do
+    mount MissionControl::Jobs::Engine, at: "/jobs", as: :mission_control_jobs
+  end
 end

@@ -1,8 +1,8 @@
 class Dashboard::BillingsController < ApplicationController
   include Dashboard::BillingsHelper
   before_action :authenticate_user!
-  before_action :set_billing, only: [:show, :destroy]
-  before_action :set_policy!, except: :billing_data
+  before_action :set_billing, only: [:show, :destroy, :new_monthly_bill_notification]
+  before_action :set_policy!, except: [:billing_data, :new_monthly_bill_notification]
 
   def index
     if current_user.landlord? || current_user.admin?
@@ -69,6 +69,11 @@ class Dashboard::BillingsController < ApplicationController
       total_monthly_rental_billing_amount: total_monthly_rental_billing_amount,
       total_monthly_rental_billing_paid_amount: total_monthly_rental_billing_paid_amount
     }
+  end
+
+  def new_monthly_bill_notification
+    @billing.notify_all_tenants!
+    redirect_to dashboard_billing_path(@billing.number), notice: "Monthly bill notification successfuly sent"
   end
 
   private

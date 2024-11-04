@@ -4,6 +4,7 @@ class Billing < ApplicationRecord
 
 
   has_many :charges, dependent: :destroy
+  has_many :notifications, as: :notifiable
 
   before_create :generate_billing_number
   after_create :generate_charges
@@ -108,6 +109,19 @@ class Billing < ApplicationRecord
     charges.paid.sum(:monthly_rental_amount)
   end
 
+  def notify_all_tenants!
+    property.occupants.each do |tenant|
+      Notification.create!(
+        user: tenant.user,
+        message: "#{self.due_date.strftime("%B %Y")} billing report is generated.",
+        notifiable: self
+      )
+
+      NotificationChannel.broadcast_to(tenant.user, { type: 'NewBilling', message: "#{self.due_date.strftime("%B %Y")} billing report is generated." })
+      NotificationNewMonthlyBillMailer.send_email(tenant.user, self, tenant.user.charges.find_by(billing_id: self)).deliver_now
+    end
+  end
+
   private
 
   def generate_billing_number
@@ -142,4 +156,6 @@ class Billing < ApplicationRecord
       )
     end
   end
+
+
 end
