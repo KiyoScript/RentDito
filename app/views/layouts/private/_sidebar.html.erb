@@ -67,9 +67,10 @@
       <% end %>
     </li>
 
-    <li class="menu-item <%= 'active' if request.path == "/dashboard/tickets" %>">
+
+    <li class="menu-item <%= 'd-none' if current_user.agent? %><%= 'active' if request.path == "/dashboard/tickets" %>">
       <%= link_to dashboard_tickets_path, class: 'menu-link' do %>
-        <i class='menu-icon tf-icons bx bxs-wrench'></i>
+        <i class='menu-icon tf-icons bx bx-wrench'></i>
         <div class="text-truncate" data-i18n="Tickets">
           <% if current_user.tenant? %>
             My Tickets
@@ -83,7 +84,7 @@
     </li>
 
     <% unless current_user.utility_staff? || current_user.maintenance_staff? %>
-      <li class="menu-item <%= 'active' if request.path.include?('dashboard/billings') %>">
+      <li class="menu-item <%= 'd-none' if current_user.agent? %> <%= 'active' if request.path.include?('dashboard/billings') %>">
         <%= link_to dashboard_billings_path, class: 'menu-link' do %>
           <i class='menu-icon tf-icons bx bx-money'></i>
           <div class="text-truncate" data-i18n="Billings">Billings</div>
@@ -103,7 +104,7 @@
 
 
     <% unless current_user.utility_staff? || current_user.maintenance_staff? %>
-      <li class="menu-item <%= 'active' if request.path.include?('dashboard/transactions') %>">
+      <li class="menu-item <%= 'd-none' if current_user.agent? %> <%= 'active' if request.path.include?('dashboard/transactions') %>">
         <%= link_to dashboard_transactions_path, class: 'menu-link' do %>
           <i class='menu-icon tf-icons bx bx-money'></i>
           <div class="text-truncate" data-i18n="Transactions">Transactions</div>
@@ -112,7 +113,17 @@
     <% end %>
 
 
-    <li class="menu-item open <%= 'active' if request.path == "/dashboard/tickets_history" %>">
+    <% unless current_user.utility_staff? || current_user.maintenance_staff? %>
+      <li class="menu-item <%= 'd-none' if current_user.agent? %> <%= 'active' if request.path.include?('dashboard/feedbacks') %>">
+        <%= link_to dashboard_feedbacks_path, class: 'menu-link' do %>
+          <i class='menu-icon tf-icons bx bx-message-dots'></i>
+          <div class="text-truncate" data-i18n="Feedbacks">Feedbacks</div>
+        <% end %>
+      </li>
+    <% end %>
+
+
+    <li class="menu-item open <%= 'd-none' if current_user.agent? %> <%= 'active' if request.path == "/dashboard/tickets_history" %>">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class='menu-icon tf-icons bx bx-history'></i>
         <div class="text-truncate" data-i18n="Histories">Histories</div>

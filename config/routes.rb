@@ -63,6 +63,8 @@ Rails.application.routes.draw do
     resources :charges, only: :index
     resources :deposits, only: [:new, :create]
     resources :payments, only: [:new, :create]
+    resources :feedbacks, only: :index
+
 
     resources :transactions do
       member do
