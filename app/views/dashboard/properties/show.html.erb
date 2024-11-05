@@ -90,7 +90,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <%= form.submit "Create Property Code", class: "btn btn-primary", data: { "bridge--form-target" => "submit", "bridge-title" => "Create" } %>
+              <%= form.submit "Create Property Code", class: "btn btn-primary hidden-element", data: { "bridge--form-target" => "submit", "bridge-title" => "Create" } %>
             </div>
           <% end %>
         </div>

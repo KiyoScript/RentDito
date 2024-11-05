@@ -30,7 +30,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <%= form.submit "Update Property Code", class: "btn btn-primary", data: { "bridge--form-target" => "submit", "bridge-title" => "Update" } %>
+              <%= form.submit "Update Property Code", class: "btn btn-primary hidden-element", data: { "bridge--form-target" => "submit", "bridge-title" => "Update" } %>
             </div>
           <% end %>
         </div>
