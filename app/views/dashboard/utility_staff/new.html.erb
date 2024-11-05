@@ -1,4 +1,4 @@
-<%= form_with model: @utility_staff, url: dashboard_utility_staff_index_path, method: :post, html: { class: "card", data: { controller: "password load-properties form-validation"} } do |form| %>
+<%= form_with model: @utility_staff, url: dashboard_utility_staff_index_path, method: :post, html: { class: "card", data: { controller: "password load-properties form-validation bridge--form", action: "turbo:submit-start->bridge--form#submitStart turbo:submit-end->bridge--form#submitEnd" }} do |form| %>
   <h4 class="card-header text-primary">New Utility Staff</h4>
   <div class="card-body">
     <div class="mb-6">
@@ -94,7 +94,7 @@
       </div>
     </div>
 
-    <button type="button" class="btn btn-outline-secondary" data-action="click->password#generatePassword">
+    <button type="button" class="btn col-12 col-md-3 btn-outline-secondary" data-action="click->password#generatePassword">
       Generate Password
     </button>
   </div>
@@ -105,6 +105,6 @@
     <% end %>
 
     <%= form.submit "Create Utility Staff", class: "btn btn-primary d-none d-md-inline-block" %>
-    <%= form.submit "Create Utility Staff", class: "btn btn-primary w-100 d-inline-block d-md-none" %>
+    <%= form.submit "Create Utility Staff", class: "btn btn-primary w-100 d-md-none d-inline-block", data: { "bridge--form-target" => "submit", "bridge-title" => "Create" } %>
   </div>
 <% end %>

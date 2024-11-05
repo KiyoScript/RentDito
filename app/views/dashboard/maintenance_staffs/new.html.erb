@@ -1,4 +1,4 @@
-<%= form_with model: @maintenance_staff, url: dashboard_maintenance_staffs_path, method: :post, html: { class: "card", data: { controller: "password new-maintenance-validation", new_maintenance_validation_target: "wizardValidationForm" } } do |form| %>
+<%= form_with model: @maintenance_staff, url: dashboard_maintenance_staffs_path, method: :post, html: { class: "card", data: { controller: "password new-maintenance-validation bridge--form", action: "turbo:submit-start->bridge--form#submitStart turbo:submit-end->bridge--form#submitEnd", new_maintenance_validation_target: "wizardValidationForm" } } do |form| %>
   <h4 class="card-header text-primary">New Maintenance Staff</h4>
   <div class="card-body">
     <div class="mb-6">
@@ -76,7 +76,7 @@
       </div>
     </div>
 
-    <button type="button" class="btn btn-outline-secondary" data-action="click->password#generatePassword">
+    <button type="button" class="btn col-12 col-md-3 btn-outline-secondary" data-action="click->password#generatePassword">
       Generate Password
     </button>
   </div>
@@ -87,6 +87,6 @@
     <% end %>
 
     <%= form.submit "Create Maintenance Staff", class: "btn btn-primary d-none d-md-inline-block" %>
-    <%= form.submit "Create Maintenance Staff", class: "btn btn-primary w-100 d-inline-block d-md-none" %>
+    <%= form.submit "Create Maintenance Staff", class: "btn btn-primary w-100 d-md-none d-inline-block hidden-element", data: { "bridge--form-target" => "submit", "bridge-title" => "Create" } %>
   </div>
 <% end %>
