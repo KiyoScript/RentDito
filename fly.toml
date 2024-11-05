@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for rentdito on 2024-08-20T23:01:17+08:00
+# fly.toml app configuration file generated for rentdito on 2024-11-05T15:21:29+08:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -33,6 +33,6 @@ console_command = '/rails/bin/rails console'
       X-Forwarded-Proto = 'https'
 
 [[vm]]
-  memory = '1gb'
+  memory = '4gb'
   cpu_kind = 'shared'
-  cpus = 1
+  cpus = 4
