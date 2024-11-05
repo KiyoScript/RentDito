@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     passwords: 'users/passwords'
   }, path: '', path_names: {
     sign_in: 'sign_in',
-    password: 'forgot_password'
+    password: 'forgot_password/edit'
   }
 
   # Defines the root path route ("/")
