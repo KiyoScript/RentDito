@@ -6,9 +6,9 @@ class Charge < ApplicationRecord
 
   has_many :payments, dependent: :destroy
 
-  after_update_commit :update_charges_share_amount
-
   enum status: [:unpaid, :paid, :pending]
+
+  after_update_commit :update_charges_share_amount
 
 
 
