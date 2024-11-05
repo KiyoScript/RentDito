@@ -13,8 +13,7 @@
             </div>
           </div>
           <div class="flex-grow-1 mt-3 mt-lg-5">
-            <div
-              class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-5 flex-md-row flex-column gap-4">
+            <div class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-5 flex-md-row flex-column gap-4">
               <div class="user-profile-info">
                 <h4 class="mb-2 mt-lg-7"><%= @user.fullname %></h4>
                 <ul
@@ -42,6 +41,92 @@
                 <span data-user-status-target="statusLabel"><%= @user.status.titleize %></span>
               </button>
               <% end %>
+            </div>
+            <div class="container p-4 d-flex flex-row align-items-center justify-content-center justify-content-md-end">
+              <%= link_to 'javascript:void(0)', class: "btn btn-warning", data: { bs_toggle: "modal", bs_target: "#transferModal" } do %>
+                Transfer to another room
+              <% end %>
+            </div>
+            <div class="modal fade" id="transferModal" tabindex="-1" aria-labelledby="transferModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <%= form_with model: @user, url: transfer_profile_path(@user), method: :patch, html: { class: "card", data: { controller: "load-properties"} } do |form| %>
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="transferModalLabel">Transfer this <%= @user.role.humanize %></h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <% if @user.utility_staff? %>
+                        <%= form.fields_for :utility_staff do |u| %>
+                          <div class="form-group mb-6">
+                            <%= u.label :property_id, "Property", class: "form-label" %>
+                            <%= u.select :property_id, options_for_select(Property.all.map { |p| [p.address, p.id] }), { prompt: "Property" }, class: "form-select", data: { action: "change->load-properties#loadPropertyUnits"} %>
+                          </div>
+                          <div class="form-group mb-6">
+                            <%= u.label :property_unit_id, "Property Code", class: "form-label fs-6" %>
+                            <%= u.select :property_unit_id, [], { prompt: "Choose Property Code" }, class: "form-select", id: "user_property_unit", required: true %>
+                          </div>
+
+                          <div class="form-group mb-6">
+                            <%= u.label :room_id, "Room #", class: "form-label fs-6" %>
+                            <%= u.select :room_id, [], { prompt: "Choose Room" }, class: "form-select", id: "user_room", required:true, data: { action: "change->load-properties#loadDecks" } %>
+                          </div>
+
+                          <div class="form-group mb-6">
+                            <%= u.label :deck, "Deck", class: "form-label fs-6" %>
+                            <%= u.select :deck, [], { prompt: "Choose Deck" }, class: "form-select", id: "user_deck", required:true, data: { load_properties_target: "deck"} %>
+                          </div>
+
+                          <div class="form-group mb-6 d-none">
+                            <%= u.label :transfer_date, class: "form-label fs-6" %>
+                            <%= u.datetime_field :transfer_date, value: DateTime.now.strftime('%Y-%m-%dT%H:%M'), class: "form-select" %>
+                          </div>
+
+                          <div class="form-group mb-6 d-none">
+                            <%= u.label :check_in, class: "form-label fs-6" %>
+                            <%= u.datetime_field :check_in, class: "form-select" %>
+                          </div>
+                        <% end %>
+                      <% else %>
+                        <%= form.fields_for :tenant do |u| %>
+                          <div class="form-group mb-6">
+                            <%= u.label :property_id, "Property", class: "form-label" %>
+                            <%= u.select :property_id, options_for_select(Property.all.map { |p| [p.address, p.id] }), { prompt: "Property" }, class: "form-select", data: { action: "change->load-properties#loadPropertyUnits"} %>
+                          </div>
+                          <div class="form-group mb-6">
+                            <%= u.label :property_unit_id, "Property Code", class: "form-label fs-6" %>
+                            <%= u.select :property_unit_id, [], { prompt: "Choose Property Code" }, class: "form-select", id: "user_property_unit", required: true %>
+                          </div>
+
+                          <div class="form-group mb-6">
+                            <%= u.label :room_id, "Room #", class: "form-label fs-6" %>
+                            <%= u.select :room_id, [], { prompt: "Choose Room" }, class: "form-select", id: "user_room", required:true, data: { action: "change->load-properties#loadDecks" } %>
+                          </div>
+
+                          <div class="form-group mb-6">
+                            <%= u.label :deck, "Deck", class: "form-label fs-6" %>
+                            <%= u.select :deck, [], { prompt: "Choose Deck" }, class: "form-select", id: "user_deck", required:true, data: { load_properties_target: "deck"} %>
+                          </div>
+
+                          <div class="form-group mb-6 d-none">
+                            <%= u.label :transfer_date, class: "form-label fs-6" %>
+                            <%= u.datetime_field :transfer_date, value: DateTime.now.strftime('%Y-%m-%dT%H:%M'), class: "form-select" %>
+                          </div>
+
+                          <div class="form-group mb-6 d-none">
+                            <%= u.label :check_in, class: "form-label fs-6" %>
+                            <%= u.datetime_field :check_in, class: "form-select" %>
+                          </div>
+                        <% end %>
+                      <% end %>
+                    </div>
+                    <div class="modal-footer d-flex align-items-center justify-content-between">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <%= form.submit 'Transfer', class: 'btn btn-primary', data: { bs_dismiss: 'modal' }%>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
             </div>
           </div>
         </div>
