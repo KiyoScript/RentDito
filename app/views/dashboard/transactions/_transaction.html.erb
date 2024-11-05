@@ -1,0 +1,68 @@
+<tr>
+  <td>
+    <p class="text-primary"><%= formmated_date(transaction.created_at) %></p>
+    <%= transaction.created_at.strftime("%B %d, %Y %I:%M %p") %>
+  </td>
+  <td><%= transaction.transaction_type %></td>
+  <td>
+    <%= transaction_status_badge(transaction.status) %>
+  </td>
+  <td><%= transaction.amount.present? ? transaction.amount.format : "N/A" %></td>
+  <td><%= transaction.user.fullname %></td>
+  <td>
+    <div class="d-inline-block">
+      <button type="button" class="btn btn-icon view-record border" data-bs-toggle="modal" data-bs-target="#transactionModal-<%= transaction.id %>">
+        <i class="bx bx-show bx-md"></i>
+      </button>
+    </div>
+  </td>
+</tr>
+
+<div class="modal fade" id="transactionModal-<%= transaction.id %>" tabindex="-1" aria-labelledby="transactionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="transactionModalLabel">Transaction Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <% if transaction.deposit? && transaction.deposit.receipt.attached? %>
+          <h5 class="text-primary mt-4">Receipt</h5>
+          <div class="text-center d-flex align-items-center justify-content-center">
+            <%= image_tag transaction.deposit.receipt, alt: "Signature", class: "img-thumbnail", style: "height: 30rem;" %>
+          </div>
+        <% end %>
+        <div class="mt-2">
+          <p><strong>Transaction Type:</strong> <%= transaction.transaction_type.titleize %></p>
+          <p><strong>Date:</strong> <%= transaction.created_at.strftime("%B %d, %Y %I:%M %p") %></p>
+          <p><strong>Status:</strong> <%= transaction.status.titleize %></p>
+          <p><strong>Amount:</strong> <%= transaction.amount.present? ? transaction.amount.format : "N/A" %></p>
+          <p><strong>Sender:</strong> <%= transaction.user.fullname %></p>
+
+          <% if transaction.rejected? %>
+            <p><strong>Reason:</strong> <%= transaction.reason %></p>
+          <% end %>
+        </div>
+      </div>
+      <div class="modal-footer d-flex flex-row align-items-center justify-content-center gap-2">
+        <% if current_user.landlord? || current_user.admin? %>
+          <% if transaction.under_review? %>
+            <%= button_to 'Mark as Paid', mark_as_paid_dashboard_transaction_path(transaction), method: :patch, class: 'btn btn-primary w-100' %>
+            <button type="button" class="btn btn-danger w-100" data-bs-toggle="collapse" data-bs-target="#rejectReasonForm-<%= transaction.id %>" aria-expanded="false" aria-controls="rejectReasonForm-<%= transaction.id %>">
+              Mark as Rejected
+            </button>
+          <% end %>
+          <div class="collapse mt-3 w-100" id="rejectReasonForm-<%= transaction.id %>">
+            <%= form_with model: transaction, url: mark_as_rejected_dashboard_transaction_path(transaction), method: :patch, class: "w-100" do |f| %>
+              <div class="form-group">
+                <%= f.label :reason, "Reason for rejection" %>
+                <%= f.text_area :reason, class: "form-control", rows: 3, placeholder: "Enter the reason for rejecting the transaction", required: true %>
+              </div>
+              <%= f.submit "Submit Rejection", class: "btn btn-danger mt-2 w-100" %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

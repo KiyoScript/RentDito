@@ -1,0 +1,21 @@
+<div class="modal fade avatar-updates-container" id="uploadAvatarModal" style="z-index:999999;" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateAvatarModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="updateAvatarModalLabel">Upload Avatar</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" data-action="click->upload-avatar#clearAvatarForm" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="avatar-wrapper" data-upload-avatar-target="avatarWrapper">
+          <!-- Render the image preview here -->
+        </div>
+        <br>
+        <%= form.file_field :avatar, class: "form-control form-control-solid", data: { action: "input->upload-avatar#loadImage" }, id: "avatarImageInput" %>
+      </div>
+      <div class="modal-footer">
+        <button id="avatar-updates-form-close-btn" type="button" data-action="click->upload-avatar#clearAvatarForm" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary btn-sm" data-upload-avatar-target="updateAvatarButton" data-action="click->upload-avatar#updateAvatar" disabled>Update</button>
+      </div>
+    </div>
+  </div>
+</div>

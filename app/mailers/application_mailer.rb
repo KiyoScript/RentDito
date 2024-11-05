@@ -10,4 +10,8 @@ class ApplicationMailer < ActionMailer::Base
       ENV['MAIL_INTERCEPTOR_EMAIL']
     end
   end
+
+  def email_sender
+    "#{Rails.application.credentials.dig(:gmail, :name)} <#{Rails.application.credentials.dig(:gmail, :user_name)}>"
+  end
 end

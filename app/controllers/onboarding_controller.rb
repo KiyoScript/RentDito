@@ -42,6 +42,7 @@ class OnboardingController < ApplicationController
       :phone_number,
       :gender,
       :age,
+      :date_of_birth,
       :status,
       :role,
       :password,

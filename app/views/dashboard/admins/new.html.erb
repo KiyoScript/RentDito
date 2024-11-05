@@ -1,4 +1,4 @@
-<%= form_with model: User.new, url: dashboard_admins_path, method: :post, html: { class: "card", data: { controller: "password new-admin-validation", new_admin_validation_target: "wizardValidationForm" }} do |form| %>
+<%= form_with model: User.new, url: dashboard_admins_path, method: :post, html: { class: "card", data: { controller: "password new-admin-validation bridge--form", action: "turbo:submit-start->bridge--form#submitStart turbo:submit-end->bridge--form#submitEnd", new_admin_validation_target: "wizardValidationForm"}} do |form| %>
   <h4 class="card-header text-primary">New Admin</h4>
   <div class="card-body">
     <div class="mb-6">
@@ -80,6 +80,6 @@
     <% end %>
 
     <%= form.submit "Create Admin", class: "btn btn-primary d-none d-md-inline-block" %>
-    <%= form.submit "Create Admin", class: "btn btn-primary w-100 d-inline-block d-md-none" %>
+    <%= form.submit "Create Admin", class: "btn btn-primary w-100 d-inline-block d-none", data: { "bridge--form-target" => "submit", "bridge-title" => "Create" } %>
   </div>
 <% end %>

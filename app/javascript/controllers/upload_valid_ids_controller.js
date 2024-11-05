@@ -24,7 +24,7 @@ export default class extends Controller {
     const myDz = new Dropzone('#dropzone-basic', {
       previewTemplate: previewTemplate,
       parallelUploads: 2,
-      maxFilesize: 1,
+      maxFilesize: 5,
       addRemoveLinks: true,
       maxFiles: 2,
       init: function () {

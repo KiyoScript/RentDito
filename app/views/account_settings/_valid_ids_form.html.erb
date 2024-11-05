@@ -1,0 +1,43 @@
+
+<div class="mb-6">
+  <div class="alert alert-info" role="alert">
+    <strong>Note:</strong>
+      If you want to update your valid IDS just reupload them.
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 col-md-6">
+    <% if @user.first_valid_id.attached? %>
+      <div class="card">
+        <div class="card-header">
+          <h6 class="card-title">First Valid ID (Front)</h6>
+        </div>
+        <div class="card-body d-flex justify-content-center align-items-center">
+          <%= image_tag @user.first_valid_id, alt: "First Valid ID", class: "img-thumbnail", style: "height: 15rem;" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-12 col-md-6">
+    <% if @user.second_valid_id.attached? %>
+      <div class="card">
+        <div class="card-header">
+          <h6 class="card-title">Second Valid ID (Front)</h6>
+        </div>
+        <div class="card-body d-flex justify-content-center align-items-center">
+          <%= image_tag @user.second_valid_id, alt: "Second Valid ID", class: "img-thumbnail", style: "height: 15rem;" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<%= form_with model: @user, url: valid_id_path(@user), method: :patch, html: { class: "dropzone needsclick my-5", id: "dropzone-basic", data: { controller: "upload-valid-ids" } } do |form| %>
+  <div class="dz-message needsclick fs-6">
+    Upload First Valid ID, and Second Valid ID
+  </div>
+  <div class="fallback">
+    <%= form.file_field :first_valid_id, direct_upload: true, id: "first-valid-id-field" %>
+    <%= form.file_field :second_valid_id, direct_upload: true, id: "second-valid-id-field" %>
+  </div>
+<% end %>

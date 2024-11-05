@@ -2,7 +2,7 @@
 
 en:
   pundit:
-    default: 'You are not authorized to perform this acton.'
+    default: 'You are not authorized to perform this action.'
   devise:
     confirmations:
       confirmed: "Your email address has been successfully confirmed."

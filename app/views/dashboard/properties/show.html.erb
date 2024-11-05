@@ -59,7 +59,7 @@
 
       <% unless @property_units.present? %>
         <div class="container d-flex align-items-center justify-content-center flex-column p-4">
-          <%= image_tag 'no_search', class: "img-fluid", width: "400", alt: "No Seach Found"%>
+          <%= image_tag 'no_search.svg', class: "img-fluid", width: "400", alt: "No Seach Found"%>
           <p class="text-dark mb-0"> Ups!... no records found</p>
         </div>
       <% end %>
@@ -100,9 +100,9 @@
 <% end %>
 
 <div class="card mb-6 card-border-shadow-primary">
-  <div class="card-header">
-    <h5 class="card-title m-0 text-primary">Assigned Staffs</h5>
-  </div>
+   <div class="card-header d-flex justify-content-between" >
+      <h4 class="card-title m-0 text-primary">Assign Staffs</h4>
+    </div>
   <div class="card-body">
     <% if @property.utility_staffs.present? %>
       <%= render partial: "dashboard/properties/assigned_utility_staff", collection: @property.utility_staffs, as: :utility_staff %>

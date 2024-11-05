@@ -16,6 +16,8 @@ class ApplicationController < ActionController::Base
 
     when "onboarding_policy"
       flash[:error] = "You cannot access the onboarding process because your account status is verified"
+    when "account_settings_policy"
+      flash[:error] = "You just recently deactivated your account"
     else
       flash[:error] = t "#{policy_name}.#{exception.query}", scope: "pundit", default: :default
     end

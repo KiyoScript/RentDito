@@ -20,6 +20,12 @@ module ApplicationHelper
     "closed" => "badge bg-label-secondary"
   }.freeze
 
+  CHARGE_STATUS_BADGE_CLASS = {
+    "unpaid" => "badge bg-label-danger",
+    "pending" => "badge bg-label-warning",
+    "paid" => "badge bg-label-success"
+  }.freeze
+
 
   GENDER_BADGE_CLASS = {
     "female" => "badge bg-label-primary",
@@ -34,6 +40,11 @@ module ApplicationHelper
 
   def status_badge(status)
     badge_class = STATUS_BADGE_CLASS[status] || STATUS_BADGE_CLASS["verified"]
+    content_tag(:span, status.titleize, class: badge_class)
+  end
+
+  def charge_status_badge(status)
+    badge_class = CHARGE_STATUS_BADGE_CLASS[status] || CHARGE_STATUS_BADGE_CLASS["unpaid"]
     content_tag(:span, status.titleize, class: badge_class)
   end
 
@@ -82,19 +93,67 @@ module ApplicationHelper
     end
   end
 
+
   def users_avatars(users)
     content_tag(:ul, class: "list-unstyled avatar-group d-flex flex-row align-items-center justify-content-start") do
-      users.map do |user|
-
+      users.first(4).map do |user|
         default_avatar = user.male? ? 'male_avatar.png' : 'female_avatar.png'
-
         avatar_url = user.avatar.attached? ? rails_blob_url(user.avatar) : asset_path(default_avatar)
+
         content_tag(:li, class: "avatar pull-up",
                     data: { bs_toggle: "tooltip", popup: "tooltip-custom", bs_placement: "top", bs_title: user.fullname }) do
           image_tag(avatar_url, alt: "#{user.firstname}'s Avatar", class: "rounded-circle")
         end
-      end.join.html_safe
+      end.join.html_safe +
 
+      if users.size > 4
+        additional_count = users.size - 4
+        content_tag(:li, class: "avatar") do
+          content_tag(:span,
+            class: "avatar-initial rounded-circle pull-up",
+            data: { bs_toggle: "tooltip", bs_placement: "bottom", bs_title: "+#{additional_count} more" }
+          ) do
+            "+#{additional_count}"
+          end
+        end
+      elsif users.size == 0
+        content_tag(:li, class: "avatar pull-up") do
+
+        end
+      else
+        ""
+      end
     end
   end
+
+
+  def peso(amount)
+    number_to_currency(amount, unit: "₱", precision: 2)
+  end
+
+  def notification_icon_and_color(notifiable_type, message=nil)
+    case notifiable_type
+    when "Ticket"
+      if message.include?("closed")
+        { icon: "bx bx-check-circle", color: "bg-label-success" }
+      elsif message.include?("created")
+        { icon: "bx bx-wrench", color: "bg-label-primary" }
+      else
+        { icon: "bx bx-wrench", color: "bg-label-info" }
+      end
+    when "Billing"
+      if message.include?('Water')
+        { icon: "bx bx-info-circle", color: "bg-label-warning" }
+      elsif message.include?('Electricity')
+        { icon: "bx bx-info-circle", color: "bg-label-warning" }
+      elsif message.include?('WiFi')
+        { icon: "bx bx-info-circle", color: "bg-label-warning" }
+      else
+        { icon: "bx bx-money", color: "bg-label-info" }
+      end
+    else
+      { icon: "bx bx-info-circle", color: "bg-label-warning" }
+    end
+  end
+
 end

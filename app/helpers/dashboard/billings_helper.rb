@@ -1,0 +1,76 @@
+module Dashboard::BillingsHelper
+  def billing_type_icon(billing)
+    case billing.downcase
+    when 'water'
+      "<i class='bx bxs-droplet' style='color: blue;'></i>".html_safe
+    when 'electricity'
+      "<i class='bx bxs-bolt' style='color: yellow;'></i>".html_safe
+    when 'wifi'
+      "<i class='bx bx-wifi' style='color: green;'></i>".html_safe
+    when 'rental'
+      "<i class='bx bx-home' style='color: orange;'></i>".html_safe
+    else
+      "<i class='bx bx-question-mark' style='color: gray;'></i>".html_safe
+    end
+  end
+
+
+
+  def total_amount_penalty(charge)
+    return charge.total_amount if charge.paid?
+    return [
+        charge_penalty(charge, 'electricity_share_amount'),
+        charge_penalty(charge, 'water_share_amount'),
+        charge_penalty(charge, 'monthly_rental_amount'),
+        charge.total_amount
+    ].sum
+  end
+
+
+  def charge_penalty(charge, charge_type)
+    wifi_rental_total_amount = [charge.extra_charge_amount, charge.monthly_rental_amount].sum
+    extra_charge_with_electricity = [charge.extra_charge_amount + charge.electricity_share_amount].sum
+    case charge_type
+    when 'extra_charge_amount'
+      ChargePenaltyCalculation.new(charge.billing.electricity_bill_end_date, extra_charge_with_electricity).total_with_penalty
+    when 'electricity_share_amount'
+      ChargePenaltyCalculation.new(charge.billing.electricity_bill_end_date, extra_charge_with_electricity).total_with_penalty
+    when 'water_share_amount'
+      ChargePenaltyCalculation.new(charge.billing.water_bill_end_date, charge.water_share_amount).total_with_penalty
+    when 'monthly_rental_amount'
+      ChargePenaltyCalculation.new(charge.billing.wifi_and_rental_end_date, wifi_rental_total_amount).total_with_penalty
+    when 'wifi_share_amount'
+      ChargePenaltyCalculation.new(charge.billing.wifi_and_rental_end_date, wifi_rental_total_amount).total_with_penalty
+
+    end
+  end
+
+  def any_penalty?(charge)
+    %w[extra_charge_amount electricity_share_amount water_share_amount wifi_share_amount monthly_rental_amount].any? do |charge_type|
+      has_penalty?(charge, charge_type)
+    end
+  end
+
+  def has_penalty?(charge, charge_type)
+    case charge_type
+    when 'extra_charge_amount'
+      charge.unpaid? || charge.pending? && charge.billing.electricity_bill_end_date < Date.today
+    when 'electricity_share_amount'
+      charge.unpaid? || charge.pending? && charge.billing.electricity_bill_end_date < Date.today
+    when 'water_share_amount'
+      charge.unpaid? || charge.pending? && charge.billing.water_bill_end_date < Date.today
+    when 'wifi_share_amount'
+      charge.unpaid? || charge.pending? && charge.billing.wifi_and_rental_end_date < Date.today
+    when 'monthly_rental_amount'
+      charge.unpaid? || charge.pending? && charge.billing.wifi_and_rental_end_date < Date.today
+    end
+  end
+
+  def unique_billing_months(limit = 5)
+    Billing.select("DATE_TRUNC('month', due_date) as billing_month")
+           .group("billing_month")
+           .order("billing_month DESC")
+           .limit(limit)
+           .map { |billing| billing.billing_month }
+  end
+end

@@ -3,9 +3,10 @@
   <div class="alert alert-info" role="alert">
     <strong>Note:</strong>
       If you want to update your valid IDS just reupload them.
+      <span class="text-danger">2 Valid Id's (required).</span>
   </div>
 </div>
-<div class="row">
+<div class="row g-5">
   <div class="col-12 col-md-6">
     <% if @user.first_valid_id.attached? %>
       <div class="card">
@@ -31,8 +32,11 @@
     <% end %>
   </div>
 </div>
-
-<%= form_with model: @user, url: valid_id_path(@user), method: :patch, html: { class: "dropzone needsclick my-5", id: "dropzone-basic", data: { controller: "upload-valid-ids" } } do |form| %>
+<%= form_with model: @user, url: valid_id_path(@user), method: :patch, html: { class: "dropzone needsclick my-5 position-relative", id: "dropzone-basic", data: { controller: "upload-valid-ids" } } do |form| %>
+  <span class="position-absolute top-0 end-0 m-2 d-flex align-items-center" style="cursor: pointer;">
+    Click this right corner to add another Valid ID
+    <i class="text-danger bx bx-right-arrow-alt me-1"></i>
+  </span>
   <div class="dz-message needsclick fs-6">
     Upload First Valid ID, and Second Valid ID
   </div>
@@ -41,3 +45,4 @@
     <%= form.file_field :second_valid_id, direct_upload: true, id: "second-valid-id-field" %>
   </div>
 <% end %>
+

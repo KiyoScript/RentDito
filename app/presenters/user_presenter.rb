@@ -16,11 +16,11 @@ class UserPresenter
   end
 
   def deck
-    @user.utility_staff? ? @user.utility_staff.deck : @user.tenant.deck
+    @user.utility_staff? ? @user.utility_staff.deck.titleize : @user.tenant.deck.titleize
   end
 
   def check_in
-    @user.utility_staff? ? @user.utility_staff.check_in : @user.tenant.check_in
+    @user.utility_staff? ? @user.utility_staff.check_in.strftime("%B %d, %Y %I:%M %p") : @user.tenant.check_in.strftime("%B %d, %Y %I:%M %p")
   end
 
   def accomodation

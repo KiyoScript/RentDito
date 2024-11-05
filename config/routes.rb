@@ -6,8 +6,12 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   devise_for :users, controllers: {
-    sessions: 'users/sessions'
-  }, path: '', path_names: { sign_in: 'sign_in'}
+    sessions: 'users/sessions',
+    passwords: 'users/passwords'
+  }, path: '', path_names: {
+    sign_in: 'sign_in',
+    password: 'forgot_password/edit'
+  }
 
   # Defines the root path route ("/")
   root "dashboard/homepage#index"
@@ -30,6 +34,7 @@ Rails.application.routes.draw do
       resources :property_units
       member do
         get :render_property_units
+        get :occupancy_data
       end
     end
 
@@ -44,17 +49,54 @@ Rails.application.routes.draw do
         get :decks
       end
     end
+
+    resources :billings, except: [:edit, :update] do
+      collection do
+        get :billing_data
+      end
+      member do
+        post :new_monthly_bill_notification
+      end
+      resources :charges
+    end
+
+    resources :charges, only: :index
+    resources :deposits, only: [:new, :create]
+    resources :payments, only: [:new, :create]
+
+    resources :transactions do
+      member do
+        patch :mark_as_paid
+        patch :mark_as_rejected
+      end
+    end
+
+    resources :transaction_history
+
+    resources :notifications do
+      member do
+        patch :mark_as_read
+      end
+    end
   end
 
   resources :onboarding, only: [:show, :update]
+  resources :account_settings, only: [:show, :update]
   resources :tenant do
     resources :tickets
     resources :tickets_history
   end
   resources :valid_ids, only: [:update]
-  resources :profile, only: [:show] do
+  resources :profile, only: :show do
     member do
       patch :update_status
+      patch :transfer
     end
+  end
+
+  resources :balances
+
+  constraints(lambda { |req| req.env['warden'].user&.landlord? }) do
+    mount MissionControl::Jobs::Engine, at: "/jobs", as: :mission_control_jobs
   end
 end

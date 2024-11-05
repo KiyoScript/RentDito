@@ -1,0 +1,2 @@
+module Dashboard::TransactionHistoryHelper
+end

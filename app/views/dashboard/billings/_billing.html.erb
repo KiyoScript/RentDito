@@ -1,0 +1,21 @@
+<tr>
+  <td><%= billing.number %></td>
+  <td><%= billing.property.address %></td>
+  <td><%= peso(billing.total_charges_amount) %></td>
+  <td><%= billing.due_date.strftime("%B %d, %Y") %></td>
+   <td>
+    <div class="d-inline-block d-flex align-items-center">
+      <%= link_to dashboard_billing_path(billing.number), class: "btn btn-icon view-record border" do %>
+        <i class="bx bx-show bx-md"></i>
+      <% end %>
+      <% if current_user.landlord? ||current_user.admin? %>
+        <%= button_to new_monthly_bill_notification_dashboard_billing_path(billing.number), class: 'btn btn-icon view-record border' do %>
+          <i class="bx bx-bell bx-md"></i>
+        <% end %>
+        <%= link_to dashboard_billing_path(billing.number), class: "btn btn-icon text-danger border", data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to remove this billing'#{billing.number}'?" } do %>
+          <i class="bx bx-trash bx-md"></i>
+        <% end %>
+      <% end %>
+    </div>
+  </td>
+</tr>

@@ -37,7 +37,7 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
+  config.active_storage.service = :amazon
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
@@ -68,7 +68,14 @@ Rails.application.configure do
   # config.cache_store = :mem_cache_store
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
-  # config.active_job.queue_adapter = :resque
+  config.active_job.queue_adapter = :solid_queue
+  config.solid_queue.silence_polling = true
+
+
+  #Single database configuration
+  # config.solid_queue.connects_to = { database: { writing: :queue } }
+
+
   # config.active_job.queue_name_prefix = "rentdito_production"
 
   config.action_mailer.perform_caching = false
@@ -77,13 +84,17 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
   #
-   config.action_mailer.perform_deliveries = true
+  config.action_mailer.perform_deliveries = true
+
+
+  config.action_mailer.default_url_options = { host: 'rentdito.fly.dev', protocol: 'https' }
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address:                      'smtp.gmail.com',
     port:                         587,
     domain:                       Rails.application.credentials.dig(:gmail, :domain),
+    gmail_name:                   Rails.application.credentials.dig(:gmail, :name),
     user_name:                    Rails.application.credentials.dig(:gmail, :user_name),
     password:                     Rails.application.credentials.dig(:gmail, :password),
     authentication:               'plain',
