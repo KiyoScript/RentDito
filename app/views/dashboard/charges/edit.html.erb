@@ -7,11 +7,11 @@
       </div>
       <div class="my-3">
         <%= form.label :electricity_share_amount, "Electricity Sharing", for: "electricity_share_amount_#{@charge.id}", class: "form-label fs-6" %>
-        <%= form.number_field :electricity_share_amount, id: "electricity_share_amount_#{@charge.id}", class: "form-control mt-3", data: { billing_charges_target: "electricityShareAmount", action: "input->billing-charges#calculateTotal" }, disabled: true %>
+        <%= form.number_field :electricity_share_amount, id: "electricity_share_amount_#{@charge.id}", class: "form-control mt-3", data: { billing_charges_target: "electricityShareAmount", action: "input->billing-charges#calculateTotal" }, readonly: true %>
       </div>
       <div class="my-3">
         <%= form.label :water_share_amount, "Water Sharing", for: "water_share_amount_#{@charge.id}", class: "form-label fs-6" %>
-        <%= form.number_field :water_share_amount, id: "water_share_amount_#{@charge.id}", class: "form-control mt-3", data: { billing_charges_target: "waterShareAmount", action: "input->billing-charges#calculateTotal" }, disabled: true %>
+        <%= form.number_field :water_share_amount, id: "water_share_amount_#{@charge.id}", class: "form-control mt-3", data: { billing_charges_target: "waterShareAmount", action: "input->billing-charges#calculateTotal" }, readonly: true %>
       </div>
       <div class="my-3">
         <%= form.label :wifi_share_amount, "Wifi Sharing", for: "wifi_share_amount_#{@charge.id}", class: "form-label fs-6" %>
@@ -23,7 +23,7 @@
       </div>
       <div class="my-3">
         <%= form.label :total_amount, "Total Amount", for: "total_amount_#{@charge.id}", class: "form-label fs-6" %>
-        <%= form.number_field :total_amount, id: "total_amount_#{@charge.id}", class: "form-control mt-3", data: { billing_charges_target: "totalAmount" }, disabled: true %>
+        <%= form.number_field :total_amount, id: "total_amount_#{@charge.id}", class: "form-control mt-3", data: { billing_charges_target: "totalAmount" }, readonly: true %>
       </div>
       <div class="my-3">
         <%= form.label :days_count, "Days Count", for: "days_count_#{@charge.id}", class: "form-label fs-6" %>
