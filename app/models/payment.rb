@@ -48,6 +48,10 @@ class Payment < ApplicationRecord
 
   end
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["suggestion"]
+  end
+
   private
 
   def sufficient_balance

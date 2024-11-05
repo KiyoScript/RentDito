@@ -1,6 +1,6 @@
 <%= turbo_frame_tag :edit_billing_charges_frame do %>
   <div class="modal-body">
-    <%= form_with model: [@charge.billing, @charge], url: dashboard_billing_charge_path(@charge.billing, @charge), method: :patch, local: false do |form| %>
+    <%= form_with model: [@charge.billing, @charge], data: { controller: 'billing bridge--form', action: "turbo:submit-start->bridge--form#submitStart turbo:submit-end->bridge--form#submitEnd" }, url: dashboard_billing_charge_path(@charge.billing, @charge), method: :patch, local: false do |form| %>
       <div class="my-3">
         <%= form.label :extra_charge_amount, "Extra Charges (Appliances)", for: "extra_charge_amount_#{@charge.id}", class: "form-label fs-6"%>
         <%= form.number_field :extra_charge_amount, id: "extra_charge_amount_#{@charge.id}", class: "form-control mt-3", data: { billing_charges_target: "extraChargeAmount", action: "input->billing-charges#calculateTotal" }, required: true %>
@@ -31,7 +31,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <%= form.submit class: "btn btn-primary" %>
+        <%= form.submit class: "btn btn-primary hidden-element", data: { "bridge--form-target" => "submit", "bridge-title" => "Create" } %>
       </div>
     <% end %>
   </div>

@@ -1,4 +1,4 @@
-<%= form_with model: @ticket, url: dashboard_tickets_path, method: :post, local: true, html: { class: "card", data: { controller: 'upload-ticket-images' }, multipart: true } do |form| %>
+<%= form_with model: @ticket, url: dashboard_tickets_path, method: :post, local: true, html: { class: "card", data: { controller: 'upload-ticket-images bridge--form', action: "turbo:submit-start->bridge--form#submitStart turbo:submit-end->bridge--form#submitEnd" }, multipart: true } do |form| %>
   <h4 class="card-header text-primary">New Ticket</h4>
   <div class="card-body">
 
@@ -59,6 +59,6 @@
     <% end %>
 
     <%= form.submit "Create Ticket", class: "btn btn-primary btn btn-secondary d-none d-md-inline-block" %>
-    <%= form.submit "Create Ticket", class: "btn btn-primary btn btn-secondary w-100 d-inline-block d-md-none" %>
+    <%= form.submit "Create Ticket", class: "btn btn-primary btn btn-secondary w-100 d-inline-block d-md-none hidden-element", data: { "bridge--form-target" => "submit", "bridge-title" => "Create" } %>
   </div>
 <% end %>

@@ -106,14 +106,16 @@
       </div>
 
       <div class="modal-body">
-        <%= form_with model: @ticket, url: assign_staff_dashboard_ticket_path(@ticket), method: :patch do |f| %>
+        <%= form_with model: @ticket, data: { controller: "bridge--form", action: "turbo:submit-start->bridge--form#submitStart turbo:submit-end->bridge--form#submitEnd" }, url: assign_staff_dashboard_ticket_path(@ticket), method: :patch do |f| %>
           <div class="form-group">
             <%= f.label :assigned_to_id, "Assign Staff" %>
             <%= f.select :assigned_to_id, options_from_collection_for_select(@staff_members, :id, :fullname), {}, class: 'form-control' %>
           </div>
-        <%= f.submit 'Assign', class: 'btn btn-primary w-100 mt-4' %>
+        <%= f.submit 'Assign', class: 'btn btn-primary w-100 mt-4 hidden-element', data: { "bridge--form-target" => "submit", "bridge-title" => "Assign" }  %>
       <% end %>
       </div>
     </div>
   </div>
 </div>
+
+, data: { "bridge--form-target" => "submit", "bridge-title" => "Create" }

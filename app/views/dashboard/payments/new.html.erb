@@ -4,7 +4,7 @@
       <strong>Balance:</strong> <%= @charge.user.balance.amount.format %>
     </div>
 
-    <%= form_with model: @payment, url: dashboard_payments_path, method: :post, local: false do |form| %>
+    <%= form_with model: @payment, html: { data: { controller: "bridge--form", action: "turbo:submit-start->bridge--form#submitStart turbo:submit-end->bridge--form#submitEnd" }}, url: dashboard_payments_path, method: :post, local: false do |form| %>
       <%= form.hidden_field :charge_id, value: @charge.id %>
 
       <div class="my-3">
@@ -22,7 +22,7 @@
 
       <div class="modal-footer mt-5">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <%= form.submit "Submit Payment", class: "btn btn-primary" %>
+        <%= form.submit "Submit Payment", class: "btn btn-primary hidden-element", data: { "bridge--form-target" => "submit", "bridge-title" => "Submit" } %>
       </div>
     <% end %>
   </div>

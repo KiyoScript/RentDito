@@ -68,7 +68,7 @@
       </div>
     </div>
 
-    <button type="button" class="btn btn-outline-secondary" data-action="click->password#generatePassword">
+    <button type="button" class="btn col-12 col-md-3 btn-outline-secondary" data-action="click->password#generatePassword">
       Generate Password
     </button>
   </div>
@@ -80,6 +80,6 @@
     <% end %>
 
     <%= form.submit "Create Admin", class: "btn btn-primary d-none d-md-inline-block" %>
-    <%= form.submit "Create Admin", class: "btn btn-primary w-100 d-inline-block d-none", data: { "bridge--form-target" => "submit", "bridge-title" => "Create" } %>
+    <%= form.submit "Create Admin", class: "btn btn-primary w-100 d-md-none d-inline-block hidden-element", data: { "bridge--form-target" => "submit", "bridge-title" => "Create" } %>
   </div>
 <% end %>

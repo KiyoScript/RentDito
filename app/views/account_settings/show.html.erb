@@ -37,7 +37,7 @@
         </div>
       </div>
       <div class="bs-stepper-content">
-        <%= form_with model: @user, url: account_setting_path(@user), method: :patch, html: { onSubmit: "return false", data: { controller: "upload-avatar signature-pad automate-age", "wizard-form-target": "wizardValidationForm"}} do |form| %>
+        <%= form_with model: @user, url: account_setting_path(@user), method: :patch, html: { onSubmit: "return false", data: { controller: "upload-avatar signature-pad automate-age", "wizard-form-target": "wizardValidationForm" }} do |form| %>
           <!-- Personal Info -->
           <div id="personal-info-validation" class="content">
             <div class="content-header mb-3">

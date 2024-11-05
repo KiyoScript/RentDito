@@ -83,14 +83,14 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <%= form_with(model: [@property, PropertyUnit.new], url: dashboard_property_property_units_path(@property), local: true) do |form| %>
+          <%= form_with(model: [@property, PropertyUnit.new], data: { controller: "bridge--form", action: "turbo:submit-start->bridge--form#submitStart turbo:submit-end->bridge--form#submitEnd" }, url: dashboard_property_property_units_path(@property), local: true) do |form| %>
             <div class="my-3">
               <%= form.label :name, "Property Code" %>
               <%= form.text_field :name, class: "form-control mt-3", placeholder: "BH1", required: true %>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <%= form.submit "Create Property Code", class: "btn btn-primary" %>
+              <%= form.submit "Create Property Code", class: "btn btn-primary hidden-element", data: { "bridge--form-target" => "submit", "bridge-title" => "Create" } %>
             </div>
           <% end %>
         </div>

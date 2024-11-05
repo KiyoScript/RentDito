@@ -1,0 +1,41 @@
+<div class="card">
+  <h5 class="card-header">Feedbacks</h5>
+  <div class="row px-4 pt-0">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-12 col-md-3 text-primary p-3 order-md-2 text-end">
+          <%= search_form_for @q, url: dashboard_feedbacks_path, method: :get, class: "d-flex gap-2 align-items-center" do |form| %>
+            <%= form.text_field :suggestion_cont, placeholder: "Search messages...", class: "form-control", value: params.dig(:q, :message_cont) %>
+            <%= form.submit 'Search', class: 'btn btn-primary' %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive text-nowrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Feedback</th>
+          <th class="<%'d-none' if current_user.landlord? || current_user.admin? %>">Sender</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody class="table-border-bottom-0">
+        <%= render partial: "dashboard/feedbacks/feedback", collection: @feedbacks, as: :feedback %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if @feedbacks.blank? %>
+    <div class="container d-flex align-items-center justify-content-center flex-column p-4">
+      <%= image_tag 'no_search.svg', class: "img-fluid", width: "400", alt: "No Feedbacks Found" %>
+      <p class="text-dark mb-0">Oops! No feedbacks found</p>
+    </div>
+  <% else %>
+    <div class="d-flex justify-content-center pt-2">
+      <%== pagy_bootstrap_nav(@pagy) %>
+    </div>
+  <% end %>
+</div>
