@@ -1,6 +1,6 @@
 <h2>Resend unlock instructions</h2>
 
-<%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
+<%= form_for(resource, as: resource_name, data: { controller: "bridge--form", action: "turbo:submit-start->bridge--form#submitStart turbo:submit-end->bridge--form#submitEnd"}, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
   <%= render "users/shared/error_messages", resource: resource %>
 
   <div class="field">
@@ -9,7 +9,7 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "Resend unlock instructions" %>
+    <%= f.submit "Resend unlock instructions", class: "hidden-element", data: { "bridge--form-target" => "submit", "bridge-title" => "Resend" } %>
   </div>
 <% end %>
 

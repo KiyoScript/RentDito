@@ -18,7 +18,7 @@
         <h4 class="mb-1">Change Your Password 🔒</h4>
         <p class="mb-6">Enter your new password below</p>
 
-        <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "mb-6" }) do |f| %>
+        <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "mb-6", data: { controller: "bridge--form", action: "turbo:submit-start->bridge--form#submitStart turbo:submit-end->bridge--form#submitEnd" }}) do |f| %>
           <%= render "users/shared/error_messages", resource: resource %>
           <%= f.hidden_field :reset_password_token %>
 
@@ -36,7 +36,7 @@
           </div>
 
           <div class="actions">
-            <%= f.submit "Change my password", class: "btn btn-primary d-grid w-100" %>
+            <%= f.submit "Change my password", class: "btn btn-primary d-grid w-100 hidden-element", data: { "bridge--form-target" => "submit", "bridge-title" => "Change" } %>
           </div>
         <% end %>
       </div>
