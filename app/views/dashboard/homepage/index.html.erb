@@ -64,9 +64,9 @@
         <div class="content-left">
           <span class="text-heading">Verified Users</span>
           <div class="d-flex align-items-center my-1">
-            <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').verified.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
+            <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').where.not(role: 'agent').verified.count  %>/<%= User.where.not(role: 'landlord').where.not(role: 'agent').count %></h4>
           </div>
-          <small class="mb-0 text-success"><%= User.get_percentage(User.where.not(role: 'landlord').verified.count, User.where.not(role: 'landlord').count) %></small>
+          <small class="mb-0 text-success"><%= User.get_percentage(User.where.not(role: 'landlord').where.not(role: 'agent').verified.count, User.where.not(role: 'landlord').where.not(role: 'agent').count) %></small>
         </div>
         <div class="avatar d-flex align-items-start flex-column">
           <span class="avatar-initial rounded bg-label-success">
@@ -82,9 +82,9 @@
         <div class="content-left">
           <span class="text-heading">Unverified Users</span>
           <div class="d-flex align-items-center my-1">
-            <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').unverified.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
+            <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').where.not(role: 'agent').unverified.count  %>/<%= User.where.not(role: 'landlord').where.not(role: 'agent').count %></h4>
           </div>
-          <small class="mb-0 text-warning"><%= User.get_percentage(User.where.not(role: 'landlord').unverified.count, User.where.not(role: 'landlord').count) %></small>
+          <small class="mb-0 text-warning"><%= User.get_percentage(User.where.not(role: 'landlord').where.not(role: 'agent').unverified.count, User.where.not(role: 'landlord').where.not(role: 'agent').count) %></small>
         </div>
         <div class="avatar">
           <span class="avatar-initial rounded bg-label-warning">
@@ -100,9 +100,9 @@
         <div class="content-left">
           <span class="text-heading">Rejected Users</span>
           <div class="d-flex align-items-center my-1">
-            <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').rejected.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
+            <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').where.not(role: 'agent').rejected.count  %>/<%= User.where.not(role: 'landlord').where.not(role: 'agent').count %></h4>
           </div>
-          <small class="mb-0 text-danger"><%= User.get_percentage(User.where.not(role: 'landlord').rejected.count, User.where.not(role: 'landlord').count) %></small>
+          <small class="mb-0 text-danger"><%= User.get_percentage(User.where.not(role: 'landlord').where.not(role: 'agent').rejected.count, User.where.not(role: 'landlord').where.not(role: 'agent').count) %></small>
         </div>
         <div class="avatar">
           <span class="avatar-initial rounded bg-label-danger">
@@ -118,9 +118,9 @@
         <div class="content-left">
           <span class="text-heading">Incomplete Users</span>
           <div class="d-flex align-items-center my-1">
-            <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').incomplete.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
+            <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').where.not(role: 'agent').incomplete.count  %>/<%= User.where.not(role: 'landlord').where.not(role: 'agent').count %></h4>
           </div>
-          <small class="mb-0 text-info"><%= User.get_percentage(User.where.not(role: 'landlord').incomplete.count, User.where.not(role: 'landlord').count) %></small>
+          <small class="mb-0 text-info"><%= User.get_percentage(User.where.not(role: 'landlord').where.not(role: 'agent').incomplete.count, User.where.not(role: 'landlord').where.not(role: 'agent').count) %></small>
         </div>
         <div class="avatar">
           <span class="avatar-initial rounded bg-label-primary">
@@ -136,9 +136,9 @@
         <div class="content-left">
           <span class="text-heading">Deactivated Users</span>
           <div class="d-flex align-items-center my-1">
-            <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').deactivated.count  %>/<%= User.where.not(role: 'landlord').count %></h4>
+            <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').where.not(role: 'agent').deactivated.count  %>/<%= User.where.not(role: 'landlord').where.not(role: 'agent').count %></h4>
           </div>
-          <small class="mb-0 text-danger"><%= User.get_percentage(User.where.not(role: 'landlord').deactivated.count, User.where.not(role: 'landlord').count) %></small>
+          <small class="mb-0 text-danger"><%= User.get_percentage(User.where.not(role: 'landlord').where.not(role: 'agent').deactivated.count, User.where.not(role: 'landlord').where.not(role: 'agent').count) %></small>
         </div>
         <div class="avatar">
           <span class="avatar-initial rounded bg-label-danger">
@@ -150,7 +150,7 @@
   </div>
 </div>
 
-<% if current_user.maintenance_staff? || current_user.utility_staff? || current_user.tenant? %>
+<% if current_user.maintenance_staff? || current_user.utility_staff? || current_user.tenant? || current_user.agent? %>
 <div class="row g-6">
 <% else %>
 <div class="row g-6 mt-3 mb-3">
@@ -190,7 +190,7 @@
     </div>
   </div>
 
-  <div class="col-md-8 mt-4">
+  <div class="col-md-8 mt-4 <%= 'd-none' if current_user.agent? %>">
     <div class="card h-100">
       <div class="card-header d-flex justify-content-between">
         <div class="card-title mb-0">

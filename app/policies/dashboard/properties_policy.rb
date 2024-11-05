@@ -1,6 +1,6 @@
 class Dashboard::PropertiesPolicy < ApplicationPolicy
   def index?
-    user.verified? && (user.landlord? || user.admin? || user.maintenance_staff? || user.utility_staff? || user.tenant? )
+    user.verified? && (user.landlord? || user.admin? || user.maintenance_staff? || user.utility_staff? || user.tenant? || user.agent? )
   end
 
   def new?
@@ -20,7 +20,7 @@ class Dashboard::PropertiesPolicy < ApplicationPolicy
   end
 
   def show?
-    user.verified? && (user.landlord? || user.admin? || user.maintenance_staff? || user.utility_staff? || user.tenant? )
+    user.verified? && (user.landlord? || user.admin? || user.maintenance_staff? || user.utility_staff? || user.tenant?|| user.agent? )
   end
 
   def destroy?
