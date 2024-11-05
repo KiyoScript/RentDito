@@ -17,7 +17,7 @@
       <div class="w-px-400 mx-auto mt-12" bis_skin_checked="1">
         <h4 class="mb-1">Welcome to RentDito! 👋</h4>
         <p class="mb-6">Please sign-in to your account</p>
-        <%= form_for(resource, as: resource_name, data: { controller: "bridge--form", action: "turbo:submit-start->bridge--form#submitStart turbo:submit-end->bridge--form#submitEnd"}, url: session_path(resource_name), html: { class: "mb-6" }) do |f| %>
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "mb-6" }) do |f| %>
           <div class="mb-6 fv-plugins-icon-container" bis_skin_checked="1">
             <%= f.label :email, class: "form-label" %>
             <%= f.email_field :email,
@@ -55,7 +55,7 @@
           </div>
 
           <div class="actions">
-            <%= f.submit "Sign in", class: "btn btn-primary d-grid w-100 hidden-element", data: { "bridge--form-target" => "submit", "bridge-title" => "Sign In" } %>
+            <%= f.submit "Sign in", class: "btn btn-primary d-grid w-100" %>
           </div>
         <% end %>
         <!--
@@ -81,3 +81,7 @@
     </div>
   </div>
 </div>
+<script>
+
+
+</script>
