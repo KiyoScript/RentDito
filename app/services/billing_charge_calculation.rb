@@ -61,10 +61,10 @@ class BillingChargeCalculation
       charge.monthly_rental_amount || 0.0
     ].sum
 
-    if total_amount == 0.0
+    charge.update_columns(total_amount: total_amount, amount_to_pay: total_amount)
+    if charge.total_amount == 0.0
       charge.update_columns(status: 'paid')
     end
-    charge.update_columns(total_amount: total_amount, amount_to_pay: total_amount, status: 'paid')
   end
 
   def update_extra_charges_total_amount(total_amount)

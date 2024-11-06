@@ -4,15 +4,15 @@ class Dashboard::BillingsPolicy < ApplicationPolicy
   end
 
   def new?
-    user.landlord? || (user.admin? && user.verified?) || (user.tenant? && user.verified?)
+    user.landlord? || (user.admin? && user.verified?)
   end
 
   def create?
-    user.landlord? || (user.admin? && user.verified?) || (user.tenant? && user.verified?)
+    user.landlord? || (user.admin? && user.verified?)
   end
 
   def destroy?
-    user.landlord? || (user.admin? && user.verified?) || (user.tenant? && user.verified?)
+    user.landlord? || (user.admin? && user.verified?)
   end
 
   def show?
