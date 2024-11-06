@@ -138,70 +138,67 @@
   <!--/ Header -->
   <div class="row">
     <div class="col-12 col-md-4">
-      <div class="card mb-6">
-        <div class="card-body">
-          <small class="card-text text-uppercase text-muted small">About</small>
-          <ul class="list-unstyled my-3 py-1">
-            <li class="d-flex align-items-center mb-4">
-              <i class="bx bx-user"></i><span class="fw-medium mx-2">Full Name:</span> <span><%= @user.fullname %></span>
+      <div class="card mb-6 p-6 overflow-auto" style="max-width: 100%;">
+        <small class="card-text text-uppercase text-muted small">About</small>
+        <ul class="list-unstyled my-3 py-1">
+          <li class="d-flex align-items-center mb-4">
+            <i class="bx bx-user"></i><span class="fw-medium mx-2">Full Name:</span> <span><%= @user.fullname %></span>
+          </li>
+          <li class="d-flex align-items-center mb-4">
+            <i class="bx bx-check"></i><span class="fw-medium mx-2">Status:</span> <%= status_badge(@user.status) %>
+          </li>
+          <li class="d-flex align-items-center mb-4">
+            <i class="bx bx-hard-hat"></i><span class="fw-medium mx-2">Role:</span> <span><%= @user.role.titleize %></span>
+          </li>
+        </ul>
+        <small class="card-text text-uppercase text-muted small">Contacts</small>
+        <ul class="list-unstyled my-3 py-1">
+          <li class="d-flex align-items-center mb-4">
+            <i class="bx bx-phone"></i><span class="fw-medium mx-2">Contact:</span>
+            <span><%= @user.phone_number %></span>
+          </li>
+          <li class="d-flex align-items-center mb-4">
+            <i class="bx bx-envelope"></i><span class="fw-medium mx-2">Email:</span>
+            <span><%= @user.email %></span>
+          </li>
+        </ul>
+        <small class="card-text text-uppercase text-muted small">Others</small>
+        <ul class="list-unstyled mb-0 mt-3 pt-1">
+          <li class="d-flex flex-wrap mb-4">
+            <span class="fw-medium me-2">Gender: </span><span><%= gender_badge(@user.gender) %></span>
+          </li>
+          <% if @user.maintenance_staff? %>
+            <li class="d-flex flex-wrap">
+              <span class="fw-medium me-2">City: </span><span><%= @user.maintenance_staff.city.titleize %></span>
             </li>
-            <li class="d-flex align-items-center mb-4">
-              <i class="bx bx-check"></i><span class="fw-medium mx-2">Status:</span> <%= status_badge(@user.status)%>
+          <% end %>
+          <% if @user.utility_staff || @user.tenant %>
+            <% user_presenter = UserPresenter.new(@user) %>
+            <li class="d-flex flex-wrap">
+              <span class="fw-medium me-2">Property: </span><span><%= user_presenter.property %></span>
             </li>
-            <li class="d-flex align-items-center mb-4">
-              <i class="bx bx-hard-hat"></i><span class="fw-medium mx-2">Role:</span> <span><%= @user.role.titleize %></span>
+            <li class="d-flex flex-wrap">
+              <span class="fw-medium me-2">Accommodation: </span><span><%= user_presenter.accomodation.titleize %></span>
             </li>
-          </ul>
-          <small class="card-text text-uppercase text-muted small">Contacts</small>
-          <ul class="list-unstyled my-3 py-1">
-            <li class="d-flex align-items-center mb-4">
-              <i class="bx bx-phone"></i><span class="fw-medium mx-2">Contact:</span>
-              <span><%= @user.phone_number %></span>
+            <li class="d-flex flex-wrap">
+              <span class="fw-medium me-2">Property Code: </span><span><%= user_presenter.property_unit %></span>
             </li>
-            <li class="d-flex align-items-center mb-4">
-              <i class="bx bx-envelope"></i><span class="fw-medium mx-2">Email:</span>
-              <span><%= @user.email %></span>
+            <li class="d-flex flex-wrap">
+              <span class="fw-medium me-2">Room: </span><span><%= user_presenter.room %></span>
             </li>
-          </ul>
-          <small class="card-text text-uppercase text-muted small">Others</small>
-          <ul class="list-unstyled mb-0 mt-3 pt-1">
-            <li class="d-flex flex-wrap mb-4">
-              <span class="fw-medium me-2">Gender: </span><span><%= gender_badge(@user.gender )%></span>
+            <li class="d-flex flex-wrap">
+              <span class="fw-medium me-2">Deck: </span><span><%= user_presenter.deck %></span>
             </li>
-            <% if @user.maintenance_staff? %>
+            <li class="d-flex flex-wrap">
+              <span class="fw-medium me-2">Check In: </span><span><%= user_presenter.check_in %></span>
+            </li>
+            <% if user_presenter.was_transferred? %>
               <li class="d-flex flex-wrap">
-                <span class="fw-medium me-2">City: </span><span><%= @user.maintenance_staff.city.titleize %></span>
+                <span class="fw-medium me-2">Transferred: </span><span><%= user_presenter.transfer_in %></span>
               </li>
             <% end %>
-
-            <% if @user.utility_staff || @user.tenant %>
-              <% user_presenter = UserPresenter.new(@user) %>
-              <li class="d-flex flex-wrap">
-                <span class="fw-medium me-2">Property: </span><span><%= user_presenter.property %></span>
-              </li>
-              <li class="d-flex flex-wrap">
-                <span class="fw-medium me-2">Accomodation: </span><span><%= user_presenter.accomodation.titleize %></span>
-              </li>
-              <li class="d-flex flex-wrap">
-                <span class="fw-medium me-2">Property Code: </span><span><%= user_presenter.property_unit %></span>
-              </li>
-              <li class="d-flex flex-wrap">
-                <span class="fw-medium me-2">Room: </span><span><%= user_presenter.room %></span>
-              </li>
-              <li class="d-flex flex-wrap">
-                <span class="fw-medium me-2">Deck: </span><span><%= user_presenter.deck %></span>
-              </li>
-              <li class="d-flex flex-wrap">
-                <span class="fw-medium me-2">Check In: </span><span><%= user_presenter.check_in %></span>
-              </li>
-              <% if user_presenter.was_transferred? %>
-                <li class="d-flex flex-wrap">
-                  <span class="fw-medium me-2">Transferred: </span><span><%= user_presenter.transfer_in %></span>
-                </li>
-              <% end %>
-            <% end %>
-          </ul>
-        </div>
+          <% end %>
+        </ul>
       </div>
     </div>
     <div class="col-12 col-md-8 <%= 'd-none' if (current_user.tenant? || current_user.utility_staff? || current_user.maintenance_staff? || current_user.agent? ) %>">
