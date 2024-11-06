@@ -1,4 +1,4 @@
-<%= form_with model: @room, url: dashboard_rooms_path, method: :post, local: true, html: { class: "card", data: { controller: "room-form bridge--form", action: "turbo:submit-start->bridge--form#submitStart turbo:submit-end->bridge--form#submitEnd" } }, do |form| %>
+<%= form_with model: @room, url: dashboard_rooms_path, method: :post, local: true, html: { class: "card", data: { controller: "room-form bridge--form", action: "turbo:submit-start->bridge--form#submitStart turbo:submit-end->bridge--form#submitEnd" } } do |form| %>
   <h4 class="card-header text-primary">New Room</h4>
   <div class="card-body">
 
