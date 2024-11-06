@@ -113,7 +113,7 @@
     <% end %>
 
 
-    <% unless current_user.utility_staff? || current_user.maintenance_staff? %>
+    <% if current_user.landlord? || current_user.admin? %>
       <li class="menu-item <%= 'd-none' if current_user.agent? %> <%= 'active' if request.path.include?('dashboard/feedbacks') %>">
         <%= link_to dashboard_feedbacks_path, class: 'menu-link' do %>
           <i class='menu-icon tf-icons bx bx-message-dots'></i>
