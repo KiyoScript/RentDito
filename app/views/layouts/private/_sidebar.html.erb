@@ -20,8 +20,10 @@
       <% end %>
     </li>
 
-
     <% if current_user.landlord? || current_user.admin? %>
+      <li class="menu-header small text-uppercase mt-0">
+        <span class="menu-header-text" data-i18n="Apps & Pages">Accounts</span>
+      </li>
       <li class="menu-item open <%= 'active' if request.path.include?('dashboard/admins') || request.path.include?('dashboard/maintenance_staffs') || request.path.include?('dashboard/utility_staff') || request.path.include?('dashboard/tenants') %>">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class='menu-icon tf-icons bx bx-group'></i>
@@ -52,22 +54,34 @@
         </ul>
       </li>
     <% end %>
+
+    <li class="menu-header small text-uppercase mt-0 mb-0">
+      <span class="menu-header-text" data-i18n="Apps & Pages">Real Estate</span>
+    </li>
     <li class="menu-item <%= 'active' if request.path.include?('dashboard/properties') %>">
       <%= link_to dashboard_properties_path, class: 'menu-link' do %>
         <i class='menu-icon tf-icons bx bx-building-house'></i>
         <div class="text-truncate" data-i18n="Properties">Properties</div>
       <% end %>
     </li>
-
-
     <li class="menu-item <%= 'active' if request.path.include?('dashboard/rooms') %>">
       <%= link_to dashboard_rooms_path, class: 'menu-link' do %>
         <i class='menu-icon tf-icons bx bxs-door-open'></i>
         <div class="text-truncate" data-i18n="Rooms">Rooms</div>
       <% end %>
     </li>
+    <% if current_user.landlord? || current_user.admin? %>
+      <li class="menu-item <%= 'd-none' if current_user.agent? %> <%= 'active' if request.path.include?('dashboard/feedbacks') %>">
+        <%= link_to dashboard_feedbacks_path, class: 'menu-link' do %>
+          <i class='menu-icon tf-icons bx bx-message-dots'></i>
+          <div class="text-truncate" data-i18n="Feedbacks">Feedbacks</div>
+        <% end %>
+      </li>
+    <% end %>
 
-
+    <li class="menu-header small text-uppercase mt-0 mb-0">
+      <span class="menu-header-text" data-i18n="Apps & Pages">Ticketing</span>
+    </li>
     <li class="menu-item <%= 'd-none' if current_user.agent? %><%= 'active' if request.path == "/dashboard/tickets" %>">
       <%= link_to dashboard_tickets_path, class: 'menu-link' do %>
         <i class='menu-icon tf-icons bx bx-wrench'></i>
@@ -81,8 +95,25 @@
           <% end %>
         </div>
       <% end %>
+      <li class="menu-item open <%= 'd-none' if current_user.agent? %> <%= 'active' if request.path == "/dashboard/tickets_history" %>">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class='menu-icon tf-icons bx bx-history'></i>
+          <div class="text-truncate" data-i18n="Histories">Histories</div>
+          <span class="badge rounded-pill bg-danger ms-auto">1</span>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item <%= 'active' if request.path.include?('dashboard/ticket_history') %>">
+            <%= link_to dashboard_tickets_history_index_path, class: "menu-link" do %>
+              <div class="text-truncate" data-i18n="Tickets History">Tickets History</div>
+            <% end %>
+          </li>
+        </ul>
+      </li>
     </li>
 
+    <li class="menu-header small text-uppercase mt-0 mb-0">
+      <span class="menu-header-text" data-i18n="Apps & Pages">Billing</span>
+    </li>
     <% unless current_user.utility_staff? || current_user.maintenance_staff? %>
       <li class="menu-item <%= 'd-none' if current_user.agent? %> <%= 'active' if request.path.include?('dashboard/billings') %>">
         <%= link_to dashboard_billings_path, class: 'menu-link' do %>
@@ -91,8 +122,6 @@
         <% end %>
       </li>
     <% end %>
-
-
     <% if current_user.tenant? %>
       <li class="menu-item <%= 'active' if request.path.include?('dashboard/charges') %>">
         <%= link_to dashboard_charges_path, class: 'menu-link' do %>
@@ -111,33 +140,6 @@
         <% end %>
       </li>
     <% end %>
-
-
-    <% if current_user.landlord? || current_user.admin? %>
-      <li class="menu-item <%= 'd-none' if current_user.agent? %> <%= 'active' if request.path.include?('dashboard/feedbacks') %>">
-        <%= link_to dashboard_feedbacks_path, class: 'menu-link' do %>
-          <i class='menu-icon tf-icons bx bx-message-dots'></i>
-          <div class="text-truncate" data-i18n="Feedbacks">Feedbacks</div>
-        <% end %>
-      </li>
-    <% end %>
-
-
-    <li class="menu-item open <%= 'd-none' if current_user.agent? %> <%= 'active' if request.path == "/dashboard/tickets_history" %>">
-      <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class='menu-icon tf-icons bx bx-history'></i>
-        <div class="text-truncate" data-i18n="Histories">Histories</div>
-        <span class="badge rounded-pill bg-danger ms-auto">1</span>
-      </a>
-
-      <ul class="menu-sub">
-        <li class="menu-item <%= 'active' if request.path.include?('dashboard/ticket_history') %>">
-          <%= link_to dashboard_tickets_history_index_path, class: "menu-link" do %>
-            <div class="text-truncate" data-i18n="Tickets History">Tickets History</div>
-          <% end %>
-        </li>
-      </ul>
-    </li>
 
   </ul>
 </aside>
