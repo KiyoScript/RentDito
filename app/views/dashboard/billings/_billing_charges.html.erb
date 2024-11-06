@@ -19,7 +19,7 @@
   <td> <%= charge.days_count %></td>
   <% if current_user.landlord? || current_user.admin? %>
     <td>
-      <a href="javascript:void(0)" class="menu-link text-center" data-bs-toggle="modal" data-bs-target="#updateChargesModal-<%= dom_id(charge) %>">
+      <a href="javascript:void(0)" class="menu-link text-center <%= 'd-none' if charge.paid? %>" data-bs-toggle="modal" data-bs-target="#updateChargesModal-<%= dom_id(charge) %>">
         <i class='bx bx-edit bx-sm'></i>
         Edit
       </a>
