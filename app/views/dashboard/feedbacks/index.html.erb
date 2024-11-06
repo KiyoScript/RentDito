@@ -14,9 +14,11 @@
   </div>
 
   <div class="table-responsive text-nowrap">
-    <ul class="list-unstyled m-0">
-      <%= render partial: "dashboard/feedbacks/feedback", collection: @feedbacks, as: :feedback %>
-    <ul>
+    <table class="table">
+      <tbody class="table-border-bottom-0">
+        <%= render partial: "dashboard/feedbacks/feedback", collection: @feedbacks, as: :feedback %>
+      </tbody>
+    </table>
   </div>
 
   <% if @feedbacks.blank? %>

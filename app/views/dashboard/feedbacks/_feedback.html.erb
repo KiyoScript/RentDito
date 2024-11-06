@@ -1,12 +1,13 @@
-<li class="email-list-item d-flex align-items-center p-2 m-2" data-starred="true" data-bs-toggle="sidebar" data-target="#app-email-view">
-  <div class="d-flex align-items-center w-100">
+ <tr>
+  <td class="d-flex align-items-center w-100">
     <img src="<%= avatar(feedback.user) %>" alt="user-avatar" class="d-block flex-shrink-0 rounded-circle me-sm-2 me-0" height="32" width="32">
     <div class="email-list-item-content ms-2 ms-sm-0 me-2">
       <span class="email-list-item-username me-2 h6 <%'d-none' if current_user.landlord? || current_user.admin? %>"><%= feedback.user.fullname %></span>
       <small class="email-list-item-subject d-xl-inline-block d-block"><%= feedback.suggestion %></small>
     </div>
-    <div class="email-list-item-meta ms-auto d-flex align-items-center">
-      <small class="email-list-item-time text-muted"><%= distance_of_time_in_words(feedback.created_at, feedback.updated_at).titleize %></small>
-    </div>
-  </div>
-</li>
+  </td>
+  <td>
+    <small class="email-list-item-time text-muted"><%= distance_of_time_in_words(feedback.created_at, feedback.updated_at).titleize %></small>
+  </td>
+</tr>
+
