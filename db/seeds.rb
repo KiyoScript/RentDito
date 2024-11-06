@@ -32,19 +32,6 @@
 # )
 
 # User.create(
-#   email: "developers@rentdito.com",
-#   password: "maxtor18151",
-#   password_confirmation: "maxtor18151",
-#   firstname: 'RentDito',
-#   lastname: 'Devs',
-#   gender: 'male',
-#   role: 'landlord',
-#   phone_number: '0910 159 0304',
-#   status: 'verified'
-# )
-
-
-# User.create(
 #   email: "agent@rentdito.com",
 #   password: "r3nd1t0@ag3Nt18",
 #   password_confirmation: "r3nd1t0@ag3Nt18",
