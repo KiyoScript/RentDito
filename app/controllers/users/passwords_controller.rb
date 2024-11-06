@@ -13,8 +13,9 @@ class Users::PasswordsController < Devise::PasswordsController
   #
   def create
     resource = User.find_by(email: resource_params.dig(:email))
+    token = resource.send(:set_reset_password_token)
     if successfully_sent?(resource)
-      ResetPasswordInstructionsMailer.send_email(resource, resource.reset_password_token).deliver_now
+      ResetPasswordInstructionsMailer.send_email(resource, token).deliver_now
       respond_with({}, location: after_sending_reset_password_instructions_path_for(resource_name))
     else
       respond_with resource
