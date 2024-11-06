@@ -14,18 +14,9 @@
   </div>
 
   <div class="table-responsive text-nowrap">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Feedback</th>
-          <th class="<%'d-none' if current_user.landlord? || current_user.admin? %>">Sender</th>
-          <th>Time</th>
-        </tr>
-      </thead>
-      <tbody class="table-border-bottom-0">
-        <%= render partial: "dashboard/feedbacks/feedback", collection: @feedbacks, as: :feedback %>
-      </tbody>
-    </table>
+    <ul class="list-unstyled m-0">
+      <%= render partial: "dashboard/feedbacks/feedback", collection: @feedbacks, as: :feedback %>
+    <ul>
   </div>
 
   <% if @feedbacks.blank? %>
