@@ -53,7 +53,7 @@
       We received a request to reset your password on RentDito. To continue with this request, please click the button below to securely update your password:
     </p>
     <p>
-      <%= link_to 'Reset My Password', edit_password_url(@user, reset_password_token: @token), class: 'button' %>
+      <%= link_to 'Reset My Password', edit_password_url(:user, reset_password_token: @token), class: 'button' %>
     </p>
     <p>
       If you didn't request this password change, please disregard this email. Your account will remain secure, and no changes will be made.
