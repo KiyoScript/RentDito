@@ -2,7 +2,7 @@
   <div class="d-flex align-items-center">
     <i class="bi bi-bed mr-3"></i>
     <div>
-      <h6 class="font-weight-bold mb-1 text-muted ">Room: <span class="ms-2 text-muted"><%= room.name %></span></h6>
+      <h6 class="font-weight-bold mb-1 text-muted ">Room:<span class="ms-2 text-muted"><%= link_to "#{room.name}", dashboard_room_path(room), class: "" %></span></h6>
       <h6 class="font-weight-bold mb-1 text-muted">Accomodation: <span class="ms-2 badge badge bg-label-info"><%= room.accomodation.titleize %></span> </h6>
     </div>
   </div>
