@@ -21,7 +21,7 @@ module Rentdito
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
-    config.time_zone = 'Australia/Perth'
+    config.time_zone = 'Singapore'
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end
