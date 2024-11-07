@@ -36,3 +36,7 @@ console_command = '/rails/bin/rails console'
   memory = '4gb'
   cpu_kind = 'shared'
   cpus = 4
+
+
+[env]
+TZ = "Asia/Singapore"
