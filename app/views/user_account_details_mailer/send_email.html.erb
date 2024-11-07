@@ -74,7 +74,7 @@
         <p>Thank you.</p>
         <p>Best regards,</p>
         <p>RentDito Company<br>
-          <%= link_to "https://rentdito.com/sign_in", class: 'button' do %>
+          <%= link_to "https://rentdito.com/sign_in?email=#{@user.email}", class: 'button' do %>
             Complete Your Registration
           <% end %>
         </p>
