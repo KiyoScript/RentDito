@@ -70,8 +70,13 @@
       </div>
       <p>Here's a description of a tenant who created this ticket:</p>
       <div class="details">
-        <p><strong>Name:</strong> <%= @user.fullname %></p>
-        <p><strong>Phone Number:</strong> <%= @user.phone_number %></p>
+        <p><strong>Name:</strong> <%= @ticket.tenant.user.fullname %></p>
+        <p><strong>Phone Number:</strong> <%= @ticket.tenant.user.phone_number %></p>
+        <p><strong>Property:</strong><%= @ticket.tenant.property.address %></p>
+        <p><strong>Accommodation:</strong><%= @ticket.tenant.room.accomodation %></p>
+        <p><strong>Property Unit:</strong><%= @ticket.tenant.property_unit.name %></p>
+        <p><strong>Room:</strong><%= @ticket.tenant.room.name %></p>
+        <p><strong>Deck:</strong><%= @ticket.tenant.deck %></p>
       </div>
       <div class="footer">
         <p>© 2024 RentDito. All rights reserved.</p>
