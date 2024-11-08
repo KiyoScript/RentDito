@@ -55,13 +55,17 @@
         <img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/rentdito.png" alt="RentDito Logo" width="100">
       </div>
       <p>
-        <% if @user.male? %>
-          <p>Greetings Mr. <%= @user.lastname %>,</p>
+        <% if @user.landlord? %>
+          <p>Greetings Landlord,</p>
         <% else %>
-          <p>Greetings Ms./Mrs. <%= @user.lastname %>,</p>
+          <% if @user.male? %>
+            <p>Greetings Mr. <%= @user.lastname %>,</p>
+          <% else %>
+            <p>Greetings Ms./Mrs. <%= @user.lastname %>,</p>
+          <% end %>
         <% end %>
       </p>
-      <p><%= @user.landlord? ? 'A' : 'Your' %>ticket with ID #<%= @ticket.id %> has been closed/solved this <%= @ticket.updated_at.strftime("%B %d, %Y %I:%M %p") %>. Don't hesitate to create another ticket when necessary.</p>
+      <p><%= @user.landlord? ? 'A' : 'Your' %> ticket with ID #<%= @ticket.id %> has been closed/solved this <%= @ticket.updated_at.strftime("%B %d, %Y %I:%M %p") %>.<%= @user.tenant? ? ' Don't hesitate to create another ticket when necessary.' : '' %></p>
       <div class="details">
         <p><strong>Title:</strong> <%= @ticket.title %></p>
         <p><strong>Category:</strong> <%= @ticket.category.titleize %></p>
