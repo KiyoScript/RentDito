@@ -1,8 +1,8 @@
 <tr>
+  <td><%= billing.due_date.strftime("%B %Y") %></td>
   <td><%= billing.number %></td>
   <td><%= billing.property.address %></td>
   <td><%= peso(billing.total_charges_amount) %></td>
-  <td><%= billing.due_date.strftime("%B %d, %Y") %></td>
    <td>
     <div class="d-inline-block d-flex align-items-center">
       <%= link_to dashboard_billing_path(billing.number), class: "btn btn-icon view-record border" do %>

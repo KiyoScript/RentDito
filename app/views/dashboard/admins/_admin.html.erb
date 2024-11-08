@@ -9,7 +9,7 @@
       </div>
       <div class="d-flex flex-column" >
         <span class="emp_name text-truncate"><%= admin.fullname %></span>
-        <small class="emp_post text-truncate text-muted"><%= admin.role %></small>
+        <small class="emp_post text-truncate text-muted"><%= admin.role.titleize %></small>
       </div>
     </div>
   </td>
@@ -31,7 +31,7 @@
           <i class='bx bx-user-x bx-md' data-user-status-status="deactivated"></i>
         <% end %>
       <% end %>
-      
+
     </div>
   </td>
 </tr>

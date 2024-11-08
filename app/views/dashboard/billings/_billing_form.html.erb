@@ -50,12 +50,7 @@
       <%= form.number_field :water_bill_total_amount, class: "form-control", min: 0.00, step: "any", required: true %>
     </div>
 
-    <div class="divider border-bottom"></div>
-
-    <div class="col-12 field mb-6">
-      <%= form.label :due_date, class: "form-label fs-6" %>
-      <%= form.datetime_field :due_date, class: "form-control", data: { billing_target: 'dueDateField' }, required: true %>
-    </div>
+    <%= form.hidden_field :due_date, value: Date.today.end_of_month, required: true %>
     <%= form.hidden_field :wifi_and_rental_start_date, value: Date.today.beginning_of_month %>
     <%= form.hidden_field :wifi_and_rental_end_date, value: Date.today.next_month.beginning_of_month %>
   </div>

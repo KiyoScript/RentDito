@@ -11,9 +11,9 @@
         <div class="d-flex align-items-start mb-4 flex-column">
           <div class="form-label d-flex align-items-ceter justify-content-center mb-0">
             <i class='bx bxs-calendar text-primary'></i>
-            <p class="fw-bold fs-6 ms-1" style="margin-top: 1px;">Due Date</p>
+            <p class="fw-bold fs-6 ms-1" style="margin-top: 1px;">Month of Billing</p>
           </div>
-          <p class="fw-normal fs-6 mb-0"><%= @billing.due_date.strftime("%B %d, %Y %I:%M %p") %></p>
+          <p class="fw-normal fs-6 mb-0"><%= @billing.due_date.strftime("%B %Y") %></p>
         </div>
         <div class="d-flex align-items-start flex-column">
           <div class="form-label d-flex align-items-ceter justify-content-center mb-0">
@@ -54,22 +54,22 @@
             <td colspan="2"><%= @billing.electricity_bill_partial_amount.format %></td>
             <td><%= @billing.charges_total_amount.format %></td>
             <td><%= @billing.electricity_bill_total.format %></td>
-            <td class="fw-bold border">Date Covered</td>
-            <td colspan="5"><%= @billing.electricity_bill_date_covered %></td>
+            <td class="fw-bold border">Due Date</td>
+            <td colspan="5"><%= @billing.electricity_bill_end_date.strftime("%B %d, %Y") %></td>
           </tr>
           <tr>
             <td class="fw-bold">Wifi Bill Total Amount Due</td>
             <td colspan="2"><%= peso(@billing.wifi_bill_total_amount) %></td>
             <td class="fw-bold">Monthly Rental Total Amount Due</td>
             <td><%= peso(@billing.monthly_rental_total_amount) %></td>
-            <td class="fw-bold">Date Covered</td>
-            <td colspan="5"><%= @billing.wifi_and_rental_date_covered %></td>
+            <td class="fw-bold">Due Date</td>
+            <td colspan="5"><%= @billing.wifi_and_rental_end_date.strftime("%B %d, %Y") %></td>
           </tr>
           <tr>
             <td class="fw-bold">Water Bill Total Amount Due</td>
             <td colspan="4"><%= @billing.water_bill_total_amount.format %></td>
-            <td class="fw-bold">Date Covered</td>
-            <td><%= @billing.water_bill_date_covered %></td>
+            <td class="fw-bold">Due Date</td>
+            <td><%= @billing.water_bill_end_date.strftime("%B %d, %Y") %></td>
             <td class="fw-bold" colspan="2">No. of Occupants</td>
             <td colspan="2"><%= @billing.charges.count  %></td>
           </tr>
