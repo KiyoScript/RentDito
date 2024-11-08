@@ -90,7 +90,9 @@
       <% end %>
 
       <% unless (current_user.landlord? && @ticket.assigned_to.present?)  || current_user.tenant? %>
-        <%= button_to 'Close Ticket', close_ticket_dashboard_ticket_path(@ticket), method: :patch, class: "btn btn-primary#{@ticket.closed? ? 'd-none' : ' ' }" %>
+      <%= unless @ticket.closed? %>
+        <%= button_to 'Close Ticket', close_ticket_dashboard_ticket_path(@ticket), method: :patch, class: "btn btn-primary" %>
+        <% end %>
       <% end %>
     </div>
   </div>
