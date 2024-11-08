@@ -23,7 +23,7 @@ class Billing < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    ["property_id", "number"]
+    ["property_id", "number", "due_date"]
   end
 
   def self.ransackable_associations(auth_object = nil)
