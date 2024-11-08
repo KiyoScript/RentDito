@@ -4,7 +4,7 @@ class Billing < ApplicationRecord
 
 
   has_many :charges, dependent: :destroy
-  has_many :notifications, as: :notifiable
+  has_many :notifications, as: :notifiable, dependent: :destroy
 
   before_create :generate_billing_number
   after_create :generate_charges
