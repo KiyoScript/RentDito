@@ -8,7 +8,7 @@ class Ticket < ApplicationRecord
 
   scope :assigned_to_user, ->(user) { where(assigned_to: user) }
 
-  has_many :notifications, as: :notifiable
+  has_many :notifications, as: :notifiable, dependent: :destroy
   has_many_attached :images
 
   validate :check_out_datetime_valid, if: -> { category == 'check_out' }
