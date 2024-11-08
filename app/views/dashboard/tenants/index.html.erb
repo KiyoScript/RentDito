@@ -12,7 +12,7 @@
             <i class='bx bx-filter-alt'></i>
             <span class="text-normal text-nowrap">Filter</span>
           </button>
-          <% if current_user.landlord? %>
+          <% if current_user.landlord? || current_user.admin? %>
             <%= link_to new_dashboard_tenant_path, class: "btn btn-primary d-none d-md-inline-block ms-2 pb-2" do %>
               <i class='bx bx-user-plus'></i>
               <span class="mt-1">New Tenant</span>
