@@ -61,7 +61,7 @@
           <p>Greetings Ms./Mrs. <%= @user.lastname %>,</p>
         <% end %>
       </p>
-      <p>Your ticket with ID #<%= @ticket.id %> has been closed/solved this <%= @ticket.updated_at.strftime("%B %d, %Y %I:%M %p") %>. Don't hesitate to create another ticket when necessary.</p>
+      <p><%= @user.landlord? ? 'A' : 'Your' %>ticket with ID #<%= @ticket.id %> has been closed/solved this <%= @ticket.updated_at.strftime("%B %d, %Y %I:%M %p") %>. Don't hesitate to create another ticket when necessary.</p>
       <div class="details">
         <p><strong>Title:</strong> <%= @ticket.title %></p>
         <p><strong>Category:</strong> <%= @ticket.category.titleize %></p>

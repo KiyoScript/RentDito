@@ -72,11 +72,24 @@ class Ticket < ApplicationRecord
 
 
   def notify_closed_ticket!
+
+    User.landlord.each do |landlord|
+      Notification.create!(
+        user: landlord,
+        message: "A ticket ##{id} is already closed.",
+        notifiable: self
+      )
+
+      NotificationChannel.broadcast_to(landlord, { type: 'TicketClosed', message: "A ticket ##{id} is already closed." })
+      NotificationClosedTicketMailer.send_email(landlord, self).deliver_now
+    end
+
     Notification.create!(
       user: tenant.user,
       message: "Your ticket ##{id} is already closed.",
       notifiable: self
     )
+
     NotificationChannel.broadcast_to(tenant.user, { type: 'TicketClosed', message: "Your ticket ##{id} is already closed." })
     NotificationClosedTicketMailer.send_email(tenant.user, self).deliver_now
   end
