@@ -3,7 +3,7 @@ class Transaction < ApplicationRecord
   belongs_to :payment, optional: true
   belongs_to :deposit, optional: true
 
-  enum transaction_type: [:deposit, :payment]
+  enum transaction_type: [:deposit, :payment, :transfer]
   enum status: [:under_review, :done, :rejected]
 
   monetize :amount_cents

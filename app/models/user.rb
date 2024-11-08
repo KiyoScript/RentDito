@@ -69,6 +69,48 @@ class User < ApplicationRecord
     return "(#{total_percentage.round(2)}%)"
   end
 
+  def transfer_balance_to(recipient, amount)
+    ActiveRecord::Base.transaction do
+      # Update sender's balance
+      self.balance.update!(amount: self.balance.amount - amount)
+
+      # Update recipient's balance
+      recipient.balance.update!(amount: recipient.balance.amount + amount)
+
+      # Create a notification for the recipient
+      Notification.create!(
+        user: recipient,
+        message: "#{self.fullname} transferred #{amount.format} to your balance.",
+        notifiable: recipient
+      )
+
+      NotificationChannel.broadcast_to(recipient, { type: 'TransferBalance', message: "#{self.fullname} transferred #{amount.format} to your balance." })
+
+      # Create transaction records for both sender and recipient
+      Transaction.create!(
+        user: self,
+        amount: amount,
+        status: 'done',
+        transaction_type: 'transfer',
+        transfer_from: "#{self.fullname}",
+        transfer_to: "#{recipient.fullname}"
+      )
+
+      Transaction.create!(
+        user: recipient,
+        amount: amount,
+        status: 'done',
+        transaction_type: 'transfer',
+        transfer_from: "#{self.fullname}",
+        transfer_to: "#{recipient.fullname}"
+      )
+    end
+  rescue ActiveRecord::RecordInvalid => e
+    errors.add(:base, "Transfer failed: #{e.message}")
+    false
+  end
+
+
   private
 
   def user_account_details

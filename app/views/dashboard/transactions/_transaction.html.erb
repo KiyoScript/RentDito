@@ -8,7 +8,7 @@
     <%= transaction_status_badge(transaction.status) %>
   </td>
   <td><%= transaction.amount.present? ? transaction.amount.format : "N/A" %></td>
-  <td><%= transaction.user.fullname %></td>
+  <td><%= transaction.transfer? ? transaction.transfer_from : transaction.user.fullname %></td>
   <td>
     <div class="d-inline-block">
       <button type="button" class="btn btn-icon view-record border" data-bs-toggle="modal" data-bs-target="#transactionModal-<%= transaction.id %>">
@@ -37,7 +37,10 @@
           <p><strong>Date:</strong> <%= transaction.created_at.strftime("%B %d, %Y %I:%M %p") %></p>
           <p><strong>Status:</strong> <%= transaction.status.titleize %></p>
           <p><strong>Amount:</strong> <%= transaction.amount.present? ? transaction.amount.format : "N/A" %></p>
-          <p><strong>Sender:</strong> <%= transaction.user.fullname %></p>
+          <p><strong>Sender:</strong> <%= transaction.transfer? ? transaction.transfer_from : transaction.user.fullname %></p>
+          <% if transaction.transfer? %>
+            <p><strong>Transferred to: </strong><%= transaction.transfer_to %></p>
+          <% end %>
           <% if transaction.deposit? %>
             <p><strong>Reference Number:</strong> <%= transaction.deposit.reference_number %></p>
           <% end %>

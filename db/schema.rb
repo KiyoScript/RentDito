@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_04_103653) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_08_091606) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -357,6 +357,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_04_103653) do
     t.string "amount_currency", default: "PHP", null: false
     t.bigint "payment_id"
     t.text "reason"
+    t.string "transfer_from"
+    t.string "transfer_to"
     t.index ["deposit_id"], name: "index_transactions_on_deposit_id"
     t.index ["payment_id"], name: "index_transactions_on_payment_id"
     t.index ["user_id"], name: "index_transactions_on_user_id"
