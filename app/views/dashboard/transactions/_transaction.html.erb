@@ -38,7 +38,9 @@
           <p><strong>Status:</strong> <%= transaction.status.titleize %></p>
           <p><strong>Amount:</strong> <%= transaction.amount.present? ? transaction.amount.format : "N/A" %></p>
           <p><strong>Sender:</strong> <%= transaction.user.fullname %></p>
-          <p><strong>Reference Number:</strong> <%= transaction.deposit.reference_number %></p>
+          <% if transaction.deposit? %>
+            <p><strong>Reference Number:</strong> <%= transaction.deposit.reference_number %></p>
+          <% end %>
           <% if transaction.rejected? %>
             <p><strong>Reason:</strong> <%= transaction.reason %></p>
           <% end %>

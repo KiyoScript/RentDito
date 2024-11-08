@@ -11,7 +11,7 @@ class Transaction < ApplicationRecord
   after_update :update_transaction_and_deposit_status
 
   def self.ransackable_attributes(auth_object = nil)
-    ["transaction_type", "status"]
+    ["transaction_type", "status", "created_at"]
   end
 
   def self.ransackable_associations(auth_object = nil)
