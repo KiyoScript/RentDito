@@ -82,15 +82,15 @@
       </div>
     </div>
 
-    <div class="card-footer text-muted text-end">
+    <div class="card-footer text-muted text-end d-flex flex-column flex-md-row gap-2 gap-md-0 align-items-center justify-content-between">
       <% if current_user.landlord?%>
         <button type="button" class="btn btn-outline-primary <%= @ticket.closed? ? 'd-none' : '' %>" data-bs-toggle="modal" data-bs-target="#assignStaffModal">
           Assign Staff
         </button>
       <% end %>
 
-      <% unless current_user.landlord? || current_user.tenant? %>
-        <%= button_to 'Close Ticket', close_ticket_dashboard_ticket_path(@ticket), method: :patch, class: "btn btn-primary #{@ticket.closed? ? 'd-none' : ' ' }" %>
+      <% unless (current_user.landlord? && @ticket.assigned_to.present?)  || current_user.tenant? %>
+        <%= button_to 'Close Ticket', close_ticket_dashboard_ticket_path(@ticket), method: :patch, class: "btn btn-primary#{@ticket.closed? ? 'd-none' : ' ' }" %>
       <% end %>
     </div>
   </div>
