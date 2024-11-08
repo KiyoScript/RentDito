@@ -73,4 +73,15 @@ module Dashboard::BillingsHelper
            .limit(limit)
            .map { |billing| billing.billing_month }
   end
+
+  def bill_month_year_options(model)
+    model
+      .select(Arel.sql("DATE_TRUNC('month', due_date) AS month_year"))
+      .order(Arel.sql("month_year DESC"))
+      .map do |billing|
+        date = billing.month_year
+        [date.strftime("%B %Y"), date.strftime("%Y-%m")]
+      end
+  end
+
 end

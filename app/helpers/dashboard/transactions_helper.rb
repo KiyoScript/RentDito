@@ -26,6 +26,14 @@ module Dashboard::TransactionsHelper
     content_tag(:span, status.titleize, class: badge_class)
   end
 
-
+  def month_year_options(model)
+    model
+      .select(Arel.sql("DATE_TRUNC('month', created_at) AS month_year"))
+      .order(Arel.sql("month_year DESC"))
+      .map do |transaction|
+        date = transaction.month_year
+        [date.strftime("%B %Y"), date.strftime("%Y-%m")]
+      end
+  end
 
 end

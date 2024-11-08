@@ -1,6 +1,7 @@
 <%= turbo_frame_tag :new_deposit_frame do %>
-  <button type="button" class="btn btn-primary d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#depositModal">
-    <i class='bx bx-wallet me-2'></i> Add Balance
+  <button type="button" class="btn btn-primary d-flex align-items-center btn-sm" data-bs-toggle="modal" data-bs-target="#depositModal">
+    <i class='bx bx-wallet me-2'></i>
+    <span class="d-none d-md-block">Add Balance</span>
   </button>
   <div class="modal fade" id="depositModal" tabindex="-1" aria-labelledby="depositModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">

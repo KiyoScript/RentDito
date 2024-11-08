@@ -82,15 +82,17 @@
       </div>
     </div>
 
-    <div class="card-footer text-muted text-end">
+    <div class="card-footer text-muted text-end d-flex flex-column flex-md-row gap-2 gap-md-0 align-items-center justify-content-between">
       <% if current_user.landlord?%>
         <button type="button" class="btn btn-outline-primary <%= @ticket.closed? ? 'd-none' : '' %>" data-bs-toggle="modal" data-bs-target="#assignStaffModal">
           Assign Staff
         </button>
       <% end %>
 
-      <% unless current_user.landlord? || current_user.tenant? %>
-        <%= button_to 'Close Ticket', close_ticket_dashboard_ticket_path(@ticket), method: :patch, class: "btn btn-primary #{@ticket.closed? ? 'd-none' : ' ' }" %>
+      <% unless (current_user.landlord? && @ticket.assigned_to.present?)  || current_user.tenant? %>
+      <% unless @ticket.closed? %>
+        <%= button_to 'Close Ticket', close_ticket_dashboard_ticket_path(@ticket), method: :patch, class: "btn btn-primary" %>
+        <% end %>
       <% end %>
     </div>
   </div>
@@ -106,12 +108,12 @@
       </div>
 
       <div class="modal-body">
-        <%= form_with model: @ticket, data: { controller: "bridge--form", action: "turbo:submit-start->bridge--form#submitStart turbo:submit-end->bridge--form#submitEnd" }, url: assign_staff_dashboard_ticket_path(@ticket), method: :patch do |f| %>
+        <%= form_with model: @ticket, url: assign_staff_dashboard_ticket_path(@ticket), method: :patch do |f| %>
           <div class="form-group">
             <%= f.label :assigned_to_id, "Assign Staff" %>
             <%= f.select :assigned_to_id, options_from_collection_for_select(@staff_members, :id, :fullname), {}, class: 'form-control' %>
           </div>
-        <%= f.submit 'Assign', class: 'btn btn-primary w-100 mt-4 hidden-element', data: { "bridge--form-target" => "submit", "bridge-title" => "Assign" }  %>
+        <%= f.submit 'Assign', class: 'btn btn-primary w-100 mt-4'  %>
       <% end %>
       </div>
     </div>

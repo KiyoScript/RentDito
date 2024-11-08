@@ -5,6 +5,11 @@ class Dashboard::BillingsController < ApplicationController
   before_action :set_policy!, except: [:billing_data, :new_monthly_bill_notification]
 
   def index
+    if params[:q] && params[:q][:due_date_gteq].present?
+      year, month = params[:q][:due_date_gteq].split('-').map(&:to_i)
+      params[:q][:due_date_gteq] = Date.new(year, month, 1)
+      params[:q][:due_date_lteq] = Date.new(year, month, -1)
+    end
     if current_user.landlord? || current_user.admin?
       @q = Billing.ransack(params[:q])
       @pagy, @billings = pagy(@q.result.order(created_at: :desc), distinct: :true)

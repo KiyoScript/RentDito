@@ -428,13 +428,50 @@
             </div>
           <% end %>
 
-          <div class="d-flex flex-row flex-md-column flex-xxl-row align-items-center justify-content-start gap-2 mt-4">
+          <div class="d-flex flex-row  align-items-center justify-content-start gap-2 mt-4">
             <%= turbo_frame_tag :new_deposit_frame, src: new_dashboard_deposit_path %>
 
-            <%= link_to dashboard_charges_path, class: 'btn btn-warning d-flex align-items-center' do %>
-              <i class='bx bx-receipt me-2'></i> Pay Charges
+            <%= link_to dashboard_charges_path, class: 'btn btn-warning d-flex align-items-center btn-sm' do %>
+              <i class='bx bx-receipt me-2'></i>
+              <span class="d-none d-md-block">Pay Charges</span>
             <% end %>
+
+            <button type="button" class="btn btn-primary d-flex align-items-center btn-sm" data-bs-toggle="modal" data-bs-target="#transferModal">
+              <i class="bx bx-transfer me-2"></i>
+              <span class=" d-none d-md-block">Transfer Balance</span>
+            </button>
+
           </div>
+
+          <div class="modal fade" id="transferModal" tabindex="-1" aria-labelledby="transferModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="transferModalLabel">Transfer Balance</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <%= form_with url: transfer_balances_path, method: :post, local: true do |f| %>
+                    <div class="mb-3">
+                      <%= f.label :recipient_email, "Recipient's Email" %>
+                      <%= f.text_field :recipient_email, class: "form-control", required: true %>
+                    </div>
+
+                    <div class="mb-3">
+                      <%= f.label :amount, "Amount to Transfer" %>
+                      <%= f.number_field :amount, step: 0.01, class: "form-control", required: true %>
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <%= f.submit "Transfer", class: "btn btn-primary", data: { bs_dismiss: 'modal' } %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

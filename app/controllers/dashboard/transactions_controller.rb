@@ -3,7 +3,13 @@ class Dashboard::TransactionsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_policy!, only: :index
 
+
   def index
+    if params[:q] && params[:q][:created_at_gteq].present?
+      year, month = params[:q][:created_at_gteq].split('-').map(&:to_i)
+      params[:q][:created_at_gteq] = Date.new(year, month, 1)
+      params[:q][:created_at_lteq] = Date.new(year, month, -1)
+    end
     if current_user.landlord? || current_user.admin?
       @q = Transaction.ransack(params[:q])
       @pagy, @transactions = pagy(@q.result.order(created_at: :desc), distinct: true)
@@ -13,6 +19,7 @@ class Dashboard::TransactionsController < ApplicationController
     end
   end
 
+  
   def mark_as_paid
     @transaction = Transaction.find(params[:id])
     if @transaction.update(status: :done)
