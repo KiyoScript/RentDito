@@ -72,7 +72,7 @@ export default class extends Controller {
 
   updatePropertyUnits(propertyUnits) {
     if (this.propertyUnitSelect) {
-      this.propertyUnitSelect.innerHTML = "<option value=''>Choose Property Code</option>"
+      this.propertyUnitSelect.innerHTML = "<option value='' selected disabled>--</option>"
 
       propertyUnits.forEach((unit) => {
         const option = document.createElement("option")
@@ -87,7 +87,7 @@ export default class extends Controller {
 
   updateRooms(rooms) {
     if (this.roomSelect) {
-      this.roomSelect.innerHTML = "<option value=''>Choose Room</option>"
+      this.roomSelect.innerHTML = "<option value='' selected disabled>--</option>"
 
       rooms.forEach((room) => {
         const option = document.createElement("option")
@@ -127,19 +127,19 @@ export default class extends Controller {
 
   clearPropertyUnits() {
     if (this.propertyUnitSelect) {
-      this.propertyUnitSelect.innerHTML = "<option value=''>Choose Property Unit</option>"
+      this.propertyUnitSelect.innerHTML = "<option value=''>--</option>"
     }
   }
 
   clearRooms() {
     if (this.roomSelect) {
-      this.roomSelect.innerHTML = "<option value=''>Choose Room</option>"
+      this.roomSelect.innerHTML = "<option value=''>--</option>"
     }
   }
 
   clearDecks() {
     if (this.deckTarget) {
-      this.deckTarget.innerHTML = "<option value=''>Choose Deck</option>"
+      this.deckTarget.innerHTML = "<option value=''>--</option>"
     }
   }
 }

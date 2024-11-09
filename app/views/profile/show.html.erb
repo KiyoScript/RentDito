@@ -63,7 +63,7 @@
                           <%= form.fields_for :utility_staff do |u| %>
                             <div class="form-group mb-6">
                               <%= u.label :property_id, "Property", class: "form-label" %>
-                              <%= u.select :property_id, options_for_select(Property.all.map { |p| [p.address, p.id] }), { prompt: "Property" }, class: "form-select", data: { action: "change->load-properties#loadPropertyUnits"} %>
+                              <%= u.select :property_id, options_for_select([[ "", nil, { selected: true, disabled: true } ]] + Property.all.map { |p| [p.address, p.id] }), {}, class: "form-select", data: { action: "change->load-properties#loadPropertyUnits" } %>
                             </div>
                             <div class="form-group mb-6">
                               <%= u.label :property_unit_id, "Property Code", class: "form-label fs-6" %>
@@ -95,13 +95,12 @@
                           <%= form.fields_for :tenant do |u| %>
                             <div class="form-group mb-6">
                               <%= u.label :property_id, "Property", class: "form-label" %>
-                              <%= u.select :property_id, options_for_select(Property.all.map { |p| [p.address, p.id] }), { prompt: "Property" }, class: "form-select", data: { action: "change->load-properties#loadPropertyUnits"} %>
+                              <%= u.select :property_id, options_for_select([[ "", nil, { selected: true, disabled: true } ]] + Property.all.map { |p| [p.address, p.id] }), {}, class: "form-select", data: { action: "change->load-properties#loadPropertyUnits" } %>
                             </div>
                             <div class="form-group mb-6">
                               <%= u.label :property_unit_id, "Property Code", class: "form-label fs-6" %>
                               <%= u.select :property_unit_id, [], { prompt: "Choose Property Code" }, class: "form-select", id: "user_property_unit", required: true %>
                             </div>
-
                             <div class="form-group mb-6">
                               <%= u.label :room_id, "Room #", class: "form-label fs-6" %>
                               <%= u.select :room_id, [], { prompt: "Choose Room" }, class: "form-select", id: "user_room", required:true, data: { action: "change->load-properties#loadDecks" } %>
