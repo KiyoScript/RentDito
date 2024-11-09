@@ -10,18 +10,27 @@ class Tenant < ApplicationRecord
   enum deck: { lower: 0, upper: 1 }
 
   after_create :decrement_room_deck_availability
-  after_destroy :increment_room_deck_availability
   after_update :handle_room_transfer, if: :saved_change_to_room_id?
 
-  private
 
-  def decrement_room_deck_availability
+  def increment_room_deck_when_user_deactivate_account!
+    if lower?
+      room.increment!(:lower_deck)
+    elsif upper?
+      room.increment!(:upper_deck)
+    end
+  end
+
+
+  def decrement_room_deck_when_user_not_deactivated!
     if lower?
       room.decrement!(:lower_deck)
     elsif upper?
       room.decrement!(:upper_deck)
     end
   end
+
+  private
 
   def increment_room_deck_availability
     if lower?
@@ -39,5 +48,14 @@ class Tenant < ApplicationRecord
     end
 
     decrement_room_deck_availability
+  end
+
+
+  def decrement_room_deck_availability
+    if lower?
+      room.decrement!(:lower_deck)
+    elsif upper?
+      room.decrement!(:upper_deck)
+    end
   end
 end

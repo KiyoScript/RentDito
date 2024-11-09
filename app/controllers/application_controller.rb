@@ -1,10 +1,12 @@
 class ApplicationController < ActionController::Base
+
   include Pagy::Backend
   include Pundit::Authorization
 
   protect_from_forgery with: :exception
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
 
   private
@@ -32,5 +34,9 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     return onboarding_path(resource) unless resource.verified?
     root_path
+  end
+
+  def record_not_found
+    redirect_to root_path, alert: 'Record not found'
   end
 end

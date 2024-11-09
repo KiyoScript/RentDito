@@ -43,11 +43,13 @@
               <% end %>
             </div>
             <% if current_user.landlord? && @user.email != current_user.email %>
-              <div class="container p-4 d-flex flex-row align-items-center justify-content-center justify-content-md-end">
-                <%= link_to 'javascript:void(0)', class: "btn btn-warning", data: { bs_toggle: "modal", bs_target: "#transferModal" } do %>
-                  Transfer to another room
-                <% end %>
-              </div>
+               <% unless @user.deactivated? %>
+                <div class="container p-4 d-flex flex-row align-items-center justify-content-center justify-content-md-end">
+                  <%= link_to 'javascript:void(0)', class: "btn btn-warning", data: { bs_toggle: "modal", bs_target: "#transferModal" } do %>
+                    Transfer to another room
+                  <% end %>
+                </div>
+              <% end %>
               <div class="modal fade" id="transferModal" tabindex="-1" aria-labelledby="transferModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
@@ -88,6 +90,7 @@
                               <%= u.datetime_field :check_in, class: "form-select" %>
                             </div>
                           <% end %>
+
                         <% else %>
                           <%= form.fields_for :tenant do |u| %>
                             <div class="form-group mb-6">

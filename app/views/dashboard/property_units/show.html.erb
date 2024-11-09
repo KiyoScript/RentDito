@@ -83,8 +83,8 @@
           </div>
           <div class="card-body">
             <div class="list-group">
-              <% if @property_unit.tenants.present? %>
-                <%= render partial: 'dashboard/property_units/tenant', collection: @property_unit.tenants.where(type: nil), as: :tenant %>
+              <% if @property_unit.tenants.where(type: nil).joins(:user).where.not(users: { status: 'deactivated' }).present? %>
+                <%= render partial: 'dashboard/property_units/tenant', collection: @property_unit.tenants.where(type: nil).joins(:user).where.not(users: { status: 'deactivated' }), as: :tenant %>
               <% else %>
                 N/A
               <% end %>
