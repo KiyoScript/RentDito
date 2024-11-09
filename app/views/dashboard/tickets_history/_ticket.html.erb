@@ -8,7 +8,7 @@
   <td> <span class="badge bg-label-info"><%= distance_of_time_in_words(ticket.created_at, ticket.updated_at).titleize %></span></td>
    <td>
     <div class="d-inline-block">
-      <%= link_to dashboard_ticket_path(ticket), class: "btn btn-icon view-record border" do %>
+      <%= link_to dashboard_tickets_history_path(ticket), class: "btn btn-icon view-record border" do %>
         <i class="bx bx-show bx-md"></i>
       <% end %>
     </div>
