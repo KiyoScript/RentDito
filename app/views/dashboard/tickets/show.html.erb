@@ -35,6 +35,16 @@
               </div>
             </div>
 
+            <% if @ticket.check_out? %>
+              <div class="col-12 col-md-6">
+                <div class="form-label">
+                  <p class="fw-bold fs-6 mb-2">Check Out </p>
+                  <%= @ticket.datetime.strftime("%B %d, %Y %I:%M %p") %>
+                </div>
+              </div>
+            <% end %>
+
+
             <% if @ticket.images.attached? %>
               <div class="col-12">
                 <div class="form-label">

@@ -30,7 +30,7 @@
 
     <div class="mb-3">
       <%= form.label :datetime, class: "form-label fs-6" %>
-      <%= form.datetime_field :datetime, class: "form-select", value: DateTime.now.strftime('%Y-%m-%dT%H:%M'), required: true %>
+      <%= form.datetime_field :datetime, class: "form-select", value: (DateTime.now + 15.days).strftime('%Y-%m-%dT%H:%M'), required: true %>
     </div>
 
     <!-- Dropzone Wrapper -->
