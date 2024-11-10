@@ -16,7 +16,7 @@ class MonthlyBillingDuedateReminderJob < ApplicationJob
           subject = "WiFi and Rental Due Date is Today"
         end
         charge = tenant.user.charges.find_by(billing_id: billing.id)
-        if (subject && charge)
+        if (subject && charge && !charge.water_share_amount.zero? || !charge.electricity_share_amount.zero? || !charge.wifi_share_amount.zero? || !charge.monthly_rental_amount.zero?)
           NotificationDueDateTodayMailer.send_email(tenant.user, billing, charge, subject).deliver_now
           Notification.create!(
             user: tenant.user,
