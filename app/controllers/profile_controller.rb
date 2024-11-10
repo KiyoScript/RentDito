@@ -41,6 +41,6 @@ class ProfileController < ApplicationController
   def utility_staff_params
     params.require(:user).permit(
       utility_staff_attributes: [:property_id, :property_unit_id, :room_id, :deck, :transfer_date, :check_in, :id]
-    ).merge.(status: 'verified')
+    ).merge(status: 'verified')
   end
 end
