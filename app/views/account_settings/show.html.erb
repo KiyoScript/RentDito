@@ -146,7 +146,7 @@
 
                 <div class="col-md-6">
                   <%= form.label :check_in, class: "form-label fs-6" %>
-                  <%= form.datetime_field :check_in, value: DateTime.parse(user_presenter.check_in).strftime('%Y-%m-%dT%H:%M'), class: "form-select", disabled: true %>
+                  <%= form.text_field :check_in, value: user_presenter.check_in, class: "form-control", disabled: true %>
                 </div>
               <% end %>
 
