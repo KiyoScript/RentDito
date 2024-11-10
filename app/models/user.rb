@@ -134,12 +134,6 @@ class User < ApplicationRecord
       else
         utility_staff.increment_room_deck_when_user_deactivate_account!
       end
-    else
-      if tenant.present?
-        tenant.decrement_room_deck_when_user_not_deactivated!
-      else
-        utility_staff.decrement_room_deck_when_user_not_deactivated!
-      end
     end
   end
 
