@@ -44,7 +44,7 @@ class User < ApplicationRecord
   after_create :generate_user_balance
 
   after_update :notify_users_status_with_email_notification!, if: -> { saved_change_to_status? }
-  after_update :update_occupants_room_bedspace, if: :saved_change_to_status?
+  after_update :update_occupants_room_bedspace, if: -> { status == 'deactivated'}
 
   accepts_nested_attributes_for :maintenance_staff, allow_destroy: true
   accepts_nested_attributes_for :utility_staff, allow_destroy: true
@@ -128,12 +128,10 @@ class User < ApplicationRecord
   end
 
   def update_occupants_room_bedspace
-    if deactivated?
-      if tenant.present?
-        tenant.increment_room_deck_when_user_deactivate_account!
-      else
-        utility_staff.increment_room_deck_when_user_deactivate_account!
-      end
+    if tenant.present?
+      tenant.increment_room_deck_when_user_deactivate_account!
+    else
+      utility_staff.increment_room_deck_when_user_deactivate_account!
     end
   end
 

@@ -41,12 +41,6 @@ class Tenant < ApplicationRecord
   end
 
   def handle_room_transfer
-    if lower?
-      room_id_before_last_save && Room.find(room_id_before_last_save).increment!(:lower_deck)
-    elsif upper?
-      room_id_before_last_save && Room.find(room_id_before_last_save).increment!(:upper_deck)
-    end
-
     decrement_room_deck_availability
   end
 
