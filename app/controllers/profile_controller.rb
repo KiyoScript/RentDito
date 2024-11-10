@@ -8,6 +8,7 @@ class ProfileController < ApplicationController
   def transfer
     room_name = @user.utility_staff? ? @user.utility_staff.room.name : @user.tenant.room.name
     user_params = @user.utility_staff? ? utility_staff_params : tenant_params
+
     if @user.update(user_params)
       redirect_to profile_path(@user), notice: "Transferred successfully from room #{room_name}."
     else
@@ -33,13 +34,13 @@ class ProfileController < ApplicationController
 
   def tenant_params
     params.require(:user).permit(
-      tenant_attributes: [:property_id, :property_unit_id, :room_id, :deck, :transfer_date, :check_in]
-    )
+      tenant_attributes: [:property_id, :property_unit_id, :room_id, :deck, :transfer_date, :check_in, :id]
+    ).merge(status: 'verified')
   end
 
   def utility_staff_params
     params.require(:user).permit(
-      utility_staff_attributes: [:property_id, :property_unit_id, :room_id, :deck, :transfer_date, :check_in]
-    )
+      utility_staff_attributes: [:property_id, :property_unit_id, :room_id, :deck, :transfer_date, :check_in, :id]
+    ).merge.(status: 'verified')
   end
 end

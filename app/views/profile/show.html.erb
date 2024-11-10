@@ -26,7 +26,7 @@
               </div>
 
               <% if current_user.landlord? %>
-                <div class="btn-group my-4" data-controller="user-status" data-user-status-user-id="<%= @user.id %>">
+                <div class="btn-group my-4 <%= 'd-none' if @user.deactivated? %>" data-controller="user-status" data-user-status-user-id="<%= @user.id %>">
                   <button class="<%= status_button_class(@user.status) %>" data-bs-toggle="dropdown">
                     <span data-user-status-target="statusLabel"><%= @user.status.titleize %></span>
                   </button>
@@ -37,19 +37,18 @@
                   </ul>
                 </div>
               <% else %>
-              <button class="<%= status_button_class(@user.status) %>my-4">
-                <span data-user-status-target="statusLabel"><%= @user.status.titleize %></span>
-              </button>
+                <button class="<%= status_button_class(@user.status) %>my-4 <%= 'd-none' if @user.deactivated? %>">
+                  <span data-user-status-target="statusLabel"><%= @user.status.titleize %></span>
+                </button>
               <% end %>
             </div>
-            <% if current_user.landlord? && @user.email != current_user.email %>
-               <% unless @user.deactivated? %>
-                <div class="container p-4 d-flex flex-row align-items-center justify-content-center justify-content-md-end">
-                  <%= link_to 'javascript:void(0)', class: "btn btn-warning", data: { bs_toggle: "modal", bs_target: "#transferModal" } do %>
-                    Transfer to another room
-                  <% end %>
-                </div>
-              <% end %>
+
+            <% unless @user.email == current_user.email %>
+              <div class="container p-4 d-flex flex-row align-items-center justify-content-center justify-content-md-end <%= @user.deactivated? ? '' : 'd-none' %>">
+                <%= link_to 'javascript:void(0)', class: "btn btn-warning", data: { bs_toggle: "modal", bs_target: "#transferModal" } do %>
+                  Transfer to another room
+                <% end %>
+              </div>
               <div class="modal fade" id="transferModal" tabindex="-1" aria-labelledby="transferModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
@@ -132,6 +131,8 @@
                 </div>
               </div>
             <% end %>
+
+
           </div>
         </div>
       </div>

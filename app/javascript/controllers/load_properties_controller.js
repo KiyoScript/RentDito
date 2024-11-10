@@ -5,16 +5,36 @@ export default class extends Controller {
   static targets = ["room", "deck"];
 
   connect() {
-    this.propertySelect = this.element.querySelector("[name='tenant[property_id]']")
+    this.propertySelect = this.element.querySelector("[name='tenant[property_id]']") || this.element.querySelector("[name='utility_staff[property_id]']") || this.element.querySelector("[name='user[tenant_attributes][property_id]']") || this.element.querySelector("[name='user[utility_staff_attributes][property_id]']")
     this.propertyUnitSelect = this.element.querySelector("#user_property_unit")
     this.roomSelect = this.element.querySelector("#user_room")
 
+
     if (this.propertySelect) {
+      this.initialize_property(this.propertySelect.value)
       this.propertySelect.addEventListener("change", this.loadPropertyUnits.bind(this))
     }
 
     if (this.propertyUnitSelect) {
       this.propertyUnitSelect.addEventListener("change", this.loadRooms.bind(this))
+    }
+  }
+
+  initialize_property(value){
+    const propertyId = value
+    if (propertyId) {
+      fetch(`/dashboard/properties/${propertyId}/render_property_units`)
+        .then(response => response.json())
+        .then(data => {
+          this.updatePropertyUnits(data)
+        })
+        .catch(error => {
+          console.error("Error fetching property units:", error)
+        })
+    } else {
+      this.clearPropertyUnits()
+      this.clearRooms()
+      this.clearDecks()
     }
   }
 
