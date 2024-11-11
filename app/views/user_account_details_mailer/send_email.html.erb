@@ -40,6 +40,16 @@
           text-decoration: none;
           border-radius: 5px;
       }
+      .secondary_button {
+          display: inline-block;
+          margin-top: 10px;
+          padding: 10px 15px;
+          color: #fff !important;
+          background-color: #03c3ec;
+          text-decoration: none;
+          border-radius: 5px;
+          margin-block-start: 0px;
+      }
       .info_container {
         display: flex;
         align-items: center;
@@ -76,6 +86,12 @@
         <p>RentDito Company<br>
           <%= link_to "https://rentdito.com/sign_in?email=#{@user.email}", class: 'button' do %>
             Complete Your Registration
+          <% end %>
+        </p>
+        <p></p>
+        <p>For Android users, click the button below:
+          <%= link_to "https://github.com/LeeGoTech/RentDito/releases/download/v1.0.0-11112024/RentDito.v1.0.0.apk", class: 'secondary_button' do %>
+            Download
           <% end %>
         </p>
       </div>
