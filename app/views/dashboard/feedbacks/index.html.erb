@@ -1,17 +1,16 @@
 <div class="card">
-  <h5 class="card-header">Feedbacks</h5>
-  <div class="row px-4 pt-0">
-    <div class="col-12">
-      <div class="row">
-        <div class="col-12 col-md-3 text-primary p-3 order-md-2 text-end">
-          <%= search_form_for @q, url: dashboard_feedbacks_path, method: :get, class: "d-flex gap-2 align-items-center" do |form| %>
-            <%= form.text_field :suggestion_cont, placeholder: "Search messages...", class: "form-control", value: params.dig(:q, :message_cont) %>
-            <%= form.submit 'Search', class: 'btn btn-primary' %>
-          <% end %>
-        </div>
-      </div>
-    </div>
+  <div class="d-flex justify-content-between align-items-center">
+    <h5 class="card-header">Feedbacks</h5>
+
+    <%= search_form_for @q, url: dashboard_feedbacks_path, method: :get, class: "d-flex gap-2 align-items-center pe-3 w-100 d-none d-sm-flex" do |form| %>
+      <%= form.text_field :suggestion_cont, placeholder: "Type to search", class: "form-control w-100", value: params.dig(:q, :message_cont) %>
+      <%= button_tag(type: 'submit', class: 'btn btn-outline-secondary') do %><i class="bx bx-search"></i><span class="d-none d-sm-inline">&nbsp;Search</span><% end %>
+    <% end %>
   </div>
+  <%= search_form_for @q, url: dashboard_feedbacks_path, method: :get, class: "d-flex gap-2 align-items-center px-3 pb-3 d-flex d-sm-none" do |form| %>
+      <%= form.text_field :suggestion_cont, placeholder: "Type to search", class: "form-control", value: params.dig(:q, :message_cont) %>
+      <%= button_tag(type: 'submit', class: 'btn btn-outline-secondary') do %><i class="bx bx-search"></i><span class="d-none d-sm-inline">&nbsp;Search</span><% end %>
+    <% end %>
 
   <div class="table-responsive text-nowrap">
     <table class="table">

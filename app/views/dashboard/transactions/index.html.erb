@@ -1,45 +1,41 @@
 <div class="card">
-  <h5 class="card-header">Transactions</h5>
-  <div class="row px-4 pt-0">
-    <div class="col-12">
-      <div class="row">
-        <div class="col-12 text-primary p-3 order-md-2 text-end">
-          <button class="btn btn-outline-primary d-none d-md-inline-block d-flex justify-content-center" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
-            <i class='bx bx-filter-alt'></i>
-            <span class="text-normal text-nowrap">Filter</span>
-          </button>
-          <button class="btn btn-outline-primary w-100 d-flex d-md-none  justify-content-center" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
-            <i class='bx bx-filter-alt'></i>
-            <span class="text-normal text-nowrap">Filter</span>
-          </button>
-        </div>
-
-       <%= search_form_for @q, url: dashboard_transactions_path, method: :get, class: "offcanvas offcanvas-end", id: "offcanvasFilter" do |form| %>
-          <div class="offcanvas-header">
-            <h4 id="offcanvasFilterLabel" class="d-flex align-items-center justify-content-center text-primary gap-2">
-              <i class='bx bx-filter-alt fs-4'></i> SEARCH FILTER
-            </h4>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-          </div>
-          <div class="offcanvas-body mx-0 flex-grow-0 p-6 h-100 d-flex flex-column justify-content-between">
-            <div class="mb-3">
-              <h5 class="text-primary mt-4">Type of Transactions</h5>
-              <%= form.select :transaction_type_eq, [['Deposit', 0], ['Payment', 1], ['Transfer', 2]], { prompt: 'Select Type' }, class: 'form-select' %>
-
-              <h5 class="text-primary mt-4">Status</h5>
-              <%= form.select :status_eq, [['Under Review', 0], ['Done', 1], ['Rejected', 2]], { prompt: 'Select Type' }, class: 'form-select' %>
-
-              <h5 class="text-primary mt-4">Month and Year</h5>
-              <%= form.select :created_at_gteq, month_year_options(current_user.landlord? || current_user.admin? ? Transaction.ransack.result.order(created_at: :desc) : current_user.transactions.ransack.result.order(created_at: :desc)).uniq, { prompt: 'Select Month and Year' }, class: 'form-select' %>
-            </div>
-            <div class="d-flex flex-column justify-content-between align-items-center gap-2">
-              <%= form.submit 'Apply', class: 'btn btn-primary w-100' %>
-              <%= link_to 'Reset', dashboard_transactions_path(q: {}), class: 'btn btn-label-danger w-100' %>
-            </div>
-          </div>
-        <% end %>
-      </div>
+  <div class="d-flex justify-content-between align-items-center">
+    <h5 class="card-header">Transactions</h5>
+    <div class="col-md-3 text-primary p-3 order-md-2 text-end">
+      <button class="btn btn-outline-primary d-none d-md-inline-block d-flex justify-content-center" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
+        <i class='bx bx-filter-alt'></i>
+        <span class="text-normal text-nowrap">Filter</span>
+      </button>
+      <button class="btn btn-outline-primary d-flex d-md-none  justify-content-center" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
+        <i class='bx bx-filter-alt'></i>
+        <span class="text-normal text-nowrap d-none d-sm-inline">Filter</span>
+      </button>
     </div>
+
+      <%= search_form_for @q, url: dashboard_transactions_path, method: :get, class: "offcanvas offcanvas-end", id: "offcanvasFilter" do |form| %>
+        <div class="offcanvas-header">
+          <h4 id="offcanvasFilterLabel" class="d-flex align-items-center justify-content-center text-primary gap-2">
+            <i class='bx bx-filter-alt fs-4'></i> SEARCH FILTER
+          </h4>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body mx-0 flex-grow-0 p-6 h-100 d-flex flex-column justify-content-between">
+          <div class="mb-3">
+            <h5 class="text-primary mt-4">Type of Transactions</h5>
+            <%= form.select :transaction_type_eq, [['Deposit', 0], ['Payment', 1], ['Transfer', 2]], { prompt: 'Select Type' }, class: 'form-select' %>
+
+            <h5 class="text-primary mt-4">Status</h5>
+            <%= form.select :status_eq, [['Under Review', 0], ['Done', 1], ['Rejected', 2]], { prompt: 'Select Type' }, class: 'form-select' %>
+
+            <h5 class="text-primary mt-4">Month and Year</h5>
+            <%= form.select :created_at_gteq, month_year_options(current_user.landlord? || current_user.admin? ? Transaction.ransack.result.order(created_at: :desc) : current_user.transactions.ransack.result.order(created_at: :desc)).uniq, { prompt: 'Select Month and Year' }, class: 'form-select' %>
+          </div>
+          <div class="d-flex flex-column justify-content-between align-items-center gap-2">
+            <%= form.submit 'Apply', class: 'btn btn-primary w-100' %>
+            <%= link_to 'Reset', dashboard_transactions_path(q: {}), class: 'btn btn-label-danger w-100' %>
+          </div>
+        </div>
+      <% end %>
   </div>
 
   <div class="table-responsive text-nowrap">
@@ -63,7 +59,7 @@
   <% unless @transactions.present? %>
     <div class="container d-flex align-items-center justify-content-center flex-column p-4">
       <%= image_tag 'no_search.svg', class: "img-fluid", width: "400", alt: "No Seach Found"%>
-      <p class="text-dark mb-0"> Ups!... no Transactions has been made</p>
+      <p class="text-dark mb-0"> Oops!... no Transactions has been made</p>
     </div>
   <% end %>
 

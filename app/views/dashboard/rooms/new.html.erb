@@ -11,27 +11,27 @@
 
     <div class="mb-3">
       <%= form.label :property_id, "Property", class: "form-label fs-6" %>
-      <%= form.select :property_id, options_for_select(Property.all.map { |p| [p.address, p.id] }), { prompt: "Property" }, class: "form-select", data: { action: "change->room-form#loadPropertyUnits" }, required: true %>
+      <%= form.select :property_id, options_for_select(Property.all.map { |p| [p.address, p.id] }), { prompt: "" }, class: "form-select", data: { action: "change->room-form#loadPropertyUnits" }, required: true %>
     </div>
 
     <div class="mb-3">
       <%= form.label :accomodation, "Type of Accomodation", class: "form-label fs-6" %>
-      <%= form.select :accomodation, options_for_select(Room.accomodations.keys.map { |key| [key.titleize, key] }), { prompt: "Type of accomodation "}, class: "form-select", selected: @room.accomodation || :boarding_house %>
+      <%= form.select :accomodation, options_for_select(Room.accomodations.keys.map { |key| [key.titleize, key] }), { prompt: ""}, class: "form-select", selected: @room.accomodation || :boarding_house %>
     </div>
 
     <div class="mb-3">
       <%= form.label :property_unit_id, "Property Code", class: "form-label fs-6" %>
-      <%= form.select :property_unit_id, options_for_select([]), class: "form-select", prompt: "Property Code", required: true%>
+      <%= form.select :property_unit_id, options_for_select([]), class: "form-select", prompt: "", required: true%>
     </div>
 
     <div class="mb-3">
       <%= form.label :name, "Room Name", class: "form-label fs-6" %>
-      <%= form.text_field :name, class: "form-control", min: "0", placeholder: "3" %>
+      <%= form.text_field :name, class: "form-control", min: "0" %>
     </div>
 
     <div class="mb-3">
       <%= form.label :lower_deck, "Lower Deck", class: "form-label fs-6" %>
-      <%= form.number_field :lower_deck, class: "form-control fs-6", min: "0", placeholder: "1", value: 1 %>
+      <%= form.number_field :lower_deck, class: "form-control fs-6", min: "0", placeholder: "2", value: 2 %>
     </div>
 
     <div class="mb-3">

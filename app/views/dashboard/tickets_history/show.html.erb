@@ -18,21 +18,17 @@
           </div>
         </div>
 
-        <div class="col-12 pb-4 border-bottom">
-          <div class="row">
-            <div class="col-6">
-              <div class="form-label">
-                <p class="fw-bold fs-6 mb-2">Category</p>
-                <p class="fw-normal fs-6 mb-0"><%= @ticket.category.titleize %></p>
-              </div>
-            </div>
+        <div class="col-12 col-md-6">
+          <div class="form-label">
+            <p class="fw-bold fs-6 mb-2">Category</p>
+            <p class="fw-normal fs-6 mb-0"><%= @ticket.category.titleize %></p>
+          </div>
+        </div>
 
-            <div class="col-6">
-              <div class="form-label">
-                <p class="fw-bold fs-6 mb-2">Label</p>
-                <%= label_badge(@ticket.label.titleize) %>
-              </div>
-            </div>
+        <div class="col-12 col-md-6">
+          <div class="form-label">
+            <p class="fw-bold fs-6 mb-2">Label</p>
+            <%= label_badge(@ticket.label) %>
           </div>
         </div>
 

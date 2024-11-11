@@ -4,7 +4,7 @@ class Dashboard::FeedbacksController < ApplicationController
 
   def index
     @q = Payment.ransack(params[:q])
-    @pagy, @feedbacks = pagy(@q.result.where.not(suggestion: nil).order(created_at: :asc), distinct: true)
+    @pagy, @feedbacks = pagy(@q.result.where.not(suggestion: "").order(created_at: :desc), distinct: true)
   end
 
   private

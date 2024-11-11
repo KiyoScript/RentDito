@@ -10,22 +10,22 @@
 
     <div class="mb-3">
       <%= form.label :title, class: "form-label fs-6" %>
-      <%= form.text_field :title, class: "form-control", placeholder: "Network connectivity issue in BH8", required: true %>
+      <%= form.text_field :title, class: "form-control", required: true %>
     </div>
 
     <div class="mb-3">
       <%= form.label :description, class: "form-label fs-6" %>
-      <%= form.text_field :description, class: "form-control", placeholder: "We are experiencing intermittent network connectivity issues", required: true %>
+      <%= form.text_field :description, class: "form-control", required: true %>
     </div>
 
     <div class="mb-3">
       <%= form.label :category, class: "form-label fs-6" %>
-      <%= form.select :category, options_for_select(Ticket.categories.keys.map { |key| [key.titleize, key] }), { prompt: "Select Category"}, class: "form-select", required: true, data: { action: "change->upload-ticket-images#showDropdownField"} %>
+      <%= form.select :category, options_for_select(Ticket.categories.keys.map { |key| [key.titleize, key] }), { prompt: ""}, class: "form-select", required: true, data: { action: "change->upload-ticket-images#showDropdownField"} %>
     </div>
 
     <div class="mb-3">
       <%= form.label :label, class: "form-label fs-6" %>
-      <%= form.select :label, options_for_select(Ticket.labels.keys.map { |key| [key.titleize, key] }), { prompt: "Select Label"}, class: "form-select", required: true %>
+      <%= form.select :label, options_for_select(Ticket.labels.keys.map { |key| [key.titleize, key] }), { prompt: ""}, class: "form-select", required: true %>
     </div>
 
     <div class="mb-3">

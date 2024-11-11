@@ -1,60 +1,58 @@
 <div class="card">
-  <h5 class="card-header">Billings</h5>
-  <div class="row px-4 pt-0">
-    <div class="col-12">
-      <div class="row">
-        <div class="col-12 col-md-9 text-primary p-3 order-md-2 text-end">
-          <button class="btn btn-outline-primary d-none d-md-inline-block d-flex justify-content-center" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
-            <i class='bx bx-filter-alt'></i>
-            <span class="text-normal text-nowrap">Filter</span>
-          </button>
-          <button class="btn btn-outline-primary w-100 d-flex d-md-none  justify-content-center" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
-            <i class='bx bx-filter-alt'></i>
-            <span class="text-normal text-nowrap">Filter</span>
-          </button>
-          <% if current_user.landlord? || current_user.admin? %>
-            <%= link_to new_dashboard_billing_path, class: "btn btn-primary d-none d-md-inline-block ms-2 pb-2" do %>
-              <i class='bx bx-home-circle'></i>
-              <span class="mt-1 text-nowrap">New Billing</span>
-            <% end %>
-            <%= link_to new_dashboard_billing_path, class: "btn btn-primary w-100 d-inline-block d-md-none mt-2 pb-2" do %>
-              <i class='bx bx-home-circle'></i>
-              <span class="mt-1">New Billing</span>
-            <% end %>
+  <div class="row">
+    <div class="d-flex justify-content-between align-items-center">
+    <h5 class="card-header">Billings</h5>
+      <div class="text-primary p-3 order-md-1 text-end d-md-block d-flex flex-row align-items-center gap-2">
+        <button class="btn btn-outline-primary d-none d-md-inline-block justify-content-center flex-grow-0" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
+          <i class='bx bx-filter-alt'></i>
+          <span class="text-normal text-nowrap">Filter</span>
+        </button>
+        <button class="btn btn-outline-primary d-flex d-md-none justify-content-center flex-grow-0" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
+          <i class='bx bx-filter-alt'></i>
+          <span class="text-normal text-nowrap d-none d-sm-inline">Filter</span>
+        </button>
+        <% if current_user.landlord? || current_user.admin? %>
+          <%= link_to new_dashboard_billing_path, class: "btn btn-primary d-none d-md-inline-block ms-2 pb-2 flex-grow-0" do %>
+            <i class='bx bx-home-circle'></i>
+            <span class="mt-1 text-nowrap">New Billing</span>
           <% end %>
+          <%= link_to new_dashboard_billing_path, class: "btn btn-primary d-inline-block d-md-none mt-md-2 pb-2 flex-grow-0" do %>
+            <i class='bx bx-home-circle'></i>
+            <span class="mt-1 d-none d-sm-inline">New Billing</span>
+          <% end %>
+        <% end %>
+      </div>
+
+    </div>
+    <%= search_form_for @q, url: dashboard_billings_path, method: :get, class: "offcanvas offcanvas-end", id: "offcanvasFilter" do |form| %>
+      <div class="offcanvas-header">
+        <h4 id="offcanvasFilterLabel" class="d-flex align-items-center justify-content-center text-primary gap-2">
+        <i class='bx bx-filter-alt fs-4'></i> SEARCH FILTER
+        </h4>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body mx-0 flex-grow-0 p-6 h-100 d-flex flex-column justify-content-between">
+        <div class="mb-3">
+          <h5 class="text-primary">By Property</h5>
+          <%= form.select :property_id_eq, Property.all.map { |p| [p.address, p.id] }, { selected: params.dig(:q, :property_id_eq) }, class: 'form-select' %>
+
+          <h5 class="text-primary mt-4">Month and Year</h5>
+          <%= form.select :due_date_gteq, bill_month_year_options(current_user.landlord? || current_user.admin? ? Billing.ransack.result.order(created_at: :desc) : Billing.includes(:charges).where(charges: { user_id: current_user.id }).ransack.result.order(created_at: :desc)), { prompt: 'Select Month and Year' }, class: 'form-select' %>
         </div>
 
-        <%= search_form_for @q, url: dashboard_billings_path, method: :get, class: "offcanvas offcanvas-end", id: "offcanvasFilter" do |form| %>
-          <div class="offcanvas-header">
-           <h4 id="offcanvasFilterLabel" class="d-flex align-items-center justify-content-center text-primary gap-2">
-            <i class='bx bx-filter-alt fs-4'></i> SEARCH FILTER
-           </h4>
-           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-          </div>
-          <div class="offcanvas-body mx-0 flex-grow-0 p-6 h-100 d-flex flex-column justify-content-between">
-            <div class="mb-3">
-              <h5 class="text-primary">By Property</h5>
-              <%= form.select :property_id_eq, Property.all.map { |p| [p.address, p.id] }, { selected: params.dig(:q, :property_id_eq) }, class: 'form-select' %>
-
-              <h5 class="text-primary mt-4">Month and Year</h5>
-              <%= form.select :due_date_gteq, bill_month_year_options(current_user.landlord? || current_user.admin? ? Billing.ransack.result.order(created_at: :desc) : Billing.includes(:charges).where(charges: { user_id: current_user.id }).ransack.result.order(created_at: :desc)), { prompt: 'Select Month and Year' }, class: 'form-select' %>
-            </div>
-
-            <div class="d-flex flex-column justify-content-between align-items-center gap-2">
-              <%= form.submit 'Apply', class: 'btn btn-primary w-100' %>
-              <%= link_to 'Reset', dashboard_billings_path(q: {}), class: 'btn btn-label-danger w-100' %>
-            </div>
-          </div>
-        <% end %>
-
-        <div class="col-12 col-md-3 py-0 py-lg-3 px-lg-3  order-md-1 mb-2">
-          <%= search_form_for @q, url: dashboard_billings_path, class: "d-flex align-items-center gap-2" do |form| %>
-            <%= form.label :search, class: "d-none" %>
-            <%= form.search_field :number_cont, class: "form-control", placeholder: "Type to search", id: 'q_search' %>
-            <%= form.submit class: 'btn btn-outline-primary' %>
-          <% end %>
+        <div class="d-flex flex-column justify-content-between align-items-center gap-2">
+          <%= form.submit 'Apply', class: 'btn btn-primary w-100' %>
+          <%= link_to 'Reset', dashboard_billings_path(q: {}), class: 'btn btn-label-danger w-100' %>
         </div>
       </div>
+    <% end %>
+
+    <div class="col-12 px-6 order-md-1 mb-2">
+      <%= search_form_for @q, url: dashboard_billings_path, class: "d-flex align-items-center gap-2" do |form| %>
+        <%= form.label :search, class: "d-none" %>
+        <%= form.search_field :number_cont, class: "form-control", placeholder: "Type to search", id: 'q_search' %>
+        <%= button_tag(type: 'submit', class: 'btn btn-outline-secondary') do %><i class="bx bx-search"></i><span class="d-none d-sm-inline">&nbsp;Search</span><% end %>
+      <% end %>
     </div>
   </div>
 
@@ -78,7 +76,7 @@
   <% unless @billings.present? %>
     <div class="container d-flex align-items-center justify-content-center flex-column p-4">
       <%= image_tag 'no_search.svg', class: "img-fluid", width: "400", alt: "No Seach Found"%>
-      <p class="text-dark mb-0"> Ups!... no records found</p>
+      <p class="text-dark mb-0"> Oops! No records found.</p>
     </div>
   <% end %>
 

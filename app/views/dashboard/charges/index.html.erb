@@ -1,50 +1,39 @@
 <div class="card">
-  <h5 class="card-header">Charges</h5>
-  <div class="row px-4 pt-0">
-    <div class="col-12">
-      <div class="row">
-        <div class="col-12 text-primary p-3 order-md-2 text-end">
-          <button class="btn btn-outline-primary d-none d-md-inline-block d-flex justify-content-center" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
-            <i class='bx bx-filter-alt'></i>
-            <span class="text-normal text-nowrap">Filter</span>
-          </button>
-          <button class="btn btn-outline-primary w-100 d-flex d-md-none  justify-content-center" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
-            <i class='bx bx-filter-alt'></i>
-            <span class="text-normal text-nowrap">Filter</span>
-          </button>
+  <div class="d-flex justify-content-between align-items-center">
+    <h5 class="card-header">Charges</h5>
+    <div class="col-md-3 text-primary p-3 order-md-2 text-end">
+      <button class="btn btn-outline-primary d-none d-md-inline-block d-flex justify-content-center" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
+        <i class='bx bx-filter-alt'></i>
+        <span class="text-normal text-nowrap">Filter</span>
+      </button>
+      <button class="btn btn-outline-primary w-100 d-flex d-md-none  justify-content-center" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
+        <i class='bx bx-filter-alt'></i>
+        <span class="text-normal text-nowrap d-none d-sm-inline">Filter</span>
+      </button>
+    </div>
+
+    <%= search_form_for @q, url: dashboard_charges_path, method: :get, class: "offcanvas offcanvas-end", id: "offcanvasFilter" do |form| %>
+      <div class="offcanvas-header">
+      <h4 id="offcanvasFilterLabel" class="d-flex align-items-center justify-content-center text-primary gap-2">
+        <i class='bx bx-filter-alt fs-4'></i> SEARCH FILTER
+      </h4>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body mx-0 flex-grow-0 p-6 h-100 d-flex flex-column justify-content-between">
+        <div class="mb-3">
+          <h5 class="text-primary">By Property</h5>
+          <%= form.select :property_id_eq, Property.all.map { |p| [p.address, p.id] }, { selected: params.dig(:q, :property_id_eq) }, class: 'form-select' %>
+
+          <h5 class="text-primary mt-4">Type of Accomodation</h5>
+          <%= form.select :status_eq, [['Unpaid', 0], ['Paid', 1], ['Pending', 2]], { prompt: 'Select Status' }, class: 'form-select' %>
         </div>
 
-        <%= search_form_for @q, url: dashboard_charges_path, method: :get, class: "offcanvas offcanvas-end", id: "offcanvasFilter" do |form| %>
-          <div class="offcanvas-header">
-           <h4 id="offcanvasFilterLabel" class="d-flex align-items-center justify-content-center text-primary gap-2">
-            <i class='bx bx-filter-alt fs-4'></i> SEARCH FILTER
-           </h4>
-           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-          </div>
-          <div class="offcanvas-body mx-0 flex-grow-0 p-6 h-100 d-flex flex-column justify-content-between">
-            <div class="mb-3">
-              <h5 class="text-primary">By Property</h5>
-              <%= form.select :property_id_eq, Property.all.map { |p| [p.address, p.id] }, { selected: params.dig(:q, :property_id_eq) }, class: 'form-select' %>
-
-              <h5 class="text-primary mt-4">Type of Accomodation</h5>
-              <%= form.select :status_eq, [['Unpaid', 0], ['Paid', 1], ['Pending', 2]], { prompt: 'Select Status' }, class: 'form-select' %>
-
-              <div class="my-6">
-                <div class="alert alert-info" role="alert">
-                  <strong>Note:</strong>
-                  Use the filtering below to check for available upper or lower deck bedspaces.
-                </div>
-              </div>
-            </div>
-
-            <div class="d-flex flex-column justify-content-between align-items-center gap-2">
-              <%= form.submit 'Apply', class: 'btn btn-primary w-100' %>
-              <%= link_to 'Reset', dashboard_charges_path(q: {}), class: 'btn btn-label-danger w-100' %>
-            </div>
-          </div>
-        <% end %>
+        <div class="d-flex flex-column justify-content-between align-items-center gap-2">
+          <%= form.submit 'Apply', class: 'btn btn-primary w-100' %>
+          <%= link_to 'Reset', dashboard_charges_path(q: {}), class: 'btn btn-label-danger w-100' %>
+        </div>
       </div>
-    </div>
+    <% end %>
   </div>
 
   <div class="table-responsive text-nowrap">
@@ -68,7 +57,7 @@
   <% unless @charges.present? %>
     <div class="container d-flex align-items-center justify-content-center flex-column p-4">
       <%= image_tag 'no_search.svg', class: "img-fluid", width: "400", alt: "No Seach Found"%>
-      <p class="text-dark mb-0"> Ups!... no records found</p>
+      <p class="text-dark mb-0"> Oops! No records found.</p>
     </div>
   <% end %>
 
