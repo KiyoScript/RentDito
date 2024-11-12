@@ -25,7 +25,7 @@
                 </ul>
               </div>
 
-              <% if current_user.landlord? %>
+              <% if current_user.landlord? || current_user.admin? %>
                 <div class="btn-group my-4 <%= 'd-none' if @user.deactivated? %>" data-controller="user-status" data-user-status-user-id="<%= @user.id %>">
                   <button class="<%= status_button_class(@user.status) %>" data-bs-toggle="dropdown">
                     <span data-user-status-target="statusLabel"><%= @user.status.titleize %></span>
