@@ -39,7 +39,7 @@ export default class extends Controller {
 
 
         const personalInfo = wizardValidationForm.querySelector('#personal-info-validation')
-        const accountDetails = wizardValidationForm.querySelector('#account-details-validation')
+        // const accountDetails = wizardValidationForm.querySelector('#account-details-validation')
         const emergencyContacts = wizardValidationForm.querySelector('#emergency-contacts-validation')
         const wizardValidationNext = [].slice.call(wizardValidationForm.querySelectorAll('.btn-next'))
         const wizardValidationPrev = [].slice.call(wizardValidationForm.querySelectorAll('.btn-prev'))
@@ -101,52 +101,52 @@ export default class extends Controller {
         })
 
 
-        // Account Details
-        const accountDetailsValidation = FormValidation.formValidation(accountDetails, {
-          fields: {
-            "user[email]": {
-              validators: {
-                notEmpty: {
-                  message: 'The Email is required'
-                },
-                emailAddress: {
-                  message: 'The value is not a valid email address'
-                }
-              }
-            },
-            "user[password]": {
-              validators: {
-                notEmpty: {
-                  message: 'The Password is required'
-                }
-              }
-            },
-            "user[password_confirmation]": {
-              validators: {
-                notEmpty: {
-                  message: "The Confirm Password is required"
-                },
-                identical: {
-                  compare: function() {
-                    return accountDetails.querySelector('[name="user[password]"]').value;
-                  },
-                  message: 'The password and its confirm are not the same'
-                }
-              }
-            }
-          },
-          plugins: {
-            trigger: new FormValidation.plugins.Trigger(),
-            bootstrap5: new FormValidation.plugins.Bootstrap5({
-              eleValidClass: ''
-            }),
-            autoFocus: new FormValidation.plugins.AutoFocus(),
-            submitButton: new FormValidation.plugins.SubmitButton()
-          }
-        }).on('core.form.valid', function() {
-          // Jump to the next step when all fields in the current step are valid
-          validationStepper.next();
-        })
+        // // Account Details
+        // const accountDetailsValidation = FormValidation.formValidation(accountDetails, {
+        //   fields: {
+        //     "user[email]": {
+        //       validators: {
+        //         notEmpty: {
+        //           message: 'The Email is required'
+        //         },
+        //         emailAddress: {
+        //           message: 'The value is not a valid email address'
+        //         }
+        //       }
+        //     },
+        //     "user[password]": {
+        //       validators: {
+        //         notEmpty: {
+        //           message: 'The Password is required'
+        //         }
+        //       }
+        //     },
+        //     "user[password_confirmation]": {
+        //       validators: {
+        //         notEmpty: {
+        //           message: "The Confirm Password is required"
+        //         },
+        //         identical: {
+        //           compare: function() {
+        //             return accountDetails.querySelector('[name="user[password]"]').value;
+        //           },
+        //           message: 'The password and its confirm are not the same'
+        //         }
+        //       }
+        //     }
+        //   },
+        //   plugins: {
+        //     trigger: new FormValidation.plugins.Trigger(),
+        //     bootstrap5: new FormValidation.plugins.Bootstrap5({
+        //       eleValidClass: ''
+        //     }),
+        //     autoFocus: new FormValidation.plugins.AutoFocus(),
+        //     submitButton: new FormValidation.plugins.SubmitButton()
+        //   }
+        // }).on('core.form.valid', function() {
+        //   // Jump to the next step when all fields in the current step are valid
+        //   validationStepper.next();
+        // })
 
 
         const emergencyContactsValidation = FormValidation.formValidation(emergencyContacts, {
@@ -249,7 +249,7 @@ export default class extends Controller {
                 break
 
               case 1:
-                accountDetailsValidation.validate();
+                validationStepper.next();
                 break
 
               case 2:

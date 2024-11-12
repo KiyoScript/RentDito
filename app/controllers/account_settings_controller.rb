@@ -92,10 +92,6 @@ class AccountSettingsController < ApplicationController
   end
 
   def success_message(params)
-    if params.key?(:password)
-      "Your account is awaiting verification. Please wait for the Landlord's approval."
-    else
-      "Your profile has been updated successfully."
-    end
+    "Your account has been updated successfully."
   end
 end
