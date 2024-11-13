@@ -6,6 +6,7 @@ class Room < ApplicationRecord
   has_many :utility_staffs, dependent: :destroy
 
   validates :name, :upper_deck, :lower_deck, presence: true
+  validates :name, uniqueness: true 
 
   enum :accomodation, [:boarding_house, :apartment, :dormitory, :studio, :condo ]
 
