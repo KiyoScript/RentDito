@@ -17,6 +17,8 @@ class User < ApplicationRecord
   has_one_attached :second_valid_id
 
   # validates :avatar, content_type: ['image/png', 'image/jpg', 'image/jpeg'], size: { less_than: 5.megabytes }
+  #
+
 
   has_many :properties, dependent: :destroy
   has_many :assigned_tickets, as: :assigned_to, class_name: 'Ticket'
@@ -42,6 +44,7 @@ class User < ApplicationRecord
 
   after_create :user_account_details
   after_create :generate_user_balance
+  before_create :check_unique_full_name
 
   after_update :notify_users_status_with_email_notification!, if: -> { saved_change_to_status? }
   after_update :update_occupants_room_bedspace, if: -> { status == 'deactivated'}
@@ -114,6 +117,13 @@ class User < ApplicationRecord
 
   private
 
+
+  def check_unique_full_name
+    if User.exists?(firstname: firstname, lastname: lastname)
+      errors.add(:base, "An account with this first name and last name already exists")
+      throw :abort
+    end
+  end
   def user_account_details
     UserAccountDetailsMailer.send_email(self, generated_password).deliver_now if generated_password.present?
   end

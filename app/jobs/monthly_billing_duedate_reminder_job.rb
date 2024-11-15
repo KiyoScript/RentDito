@@ -6,14 +6,19 @@ class MonthlyBillingDuedateReminderJob < ApplicationJob
     Parallel.each(Billing.all.includes(:property), in_threads: 4) do |billing|
       billing.property.occupants.each do |tenant|
         subject = nil
-        if (today == (billing.water_bill_end_date && billing.electricity_bill_end_date))
-          subject = "Water and Electricity Bill Due Date is Today"
-        elsif (today == billing.water_bill_end_date)
-          subject = "Water Bill Due Date is Today"
-        elsif (today == billing.electricity_bill_end_date)
-          subject = "Electricity Bill Due Date is Today"
-        elsif (today == billing.wifi_and_rental_end_date)
-          subject = "WiFi and Rental Due Date is Today"
+        case billing.billing_type
+        when 'water'
+          if (today == billing.water_bill_end_date)
+            subject = "Water Bill Due Date is Today"
+          end
+        when 'electricity'
+          if (today == billing.electricity_bill_end_date)
+            subject = "Electricity Bill Due Date is Today"
+          end
+        when 'wifi'
+          if (today == billing.wifi_and_rental_end_date)
+            subject = "WiFi and Rental Due Date is Today"
+          end
         end
         charge = tenant.user.charges.find_by(billing_id: billing.id)
         if (subject && charge && ((!charge.water_share_amount.zero? || !charge.electricity_share_amount.zero?) || !charge.wifi_share_amount.zero? || !charge.monthly_rental_amount.zero?))

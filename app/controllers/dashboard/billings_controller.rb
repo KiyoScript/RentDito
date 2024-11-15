@@ -104,6 +104,7 @@ class Dashboard::BillingsController < ApplicationController
       :wifi_and_rental_start_date,
       :wifi_and_rental_end_date,
       :due_date,
+      :billing_type,
       :property_id
     )
   end

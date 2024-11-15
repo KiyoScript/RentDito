@@ -18,12 +18,15 @@ module Dashboard::BillingsHelper
 
   def total_amount_penalty(charge)
     return charge.total_amount if charge.paid?
-    return [
-        charge_penalty(charge, 'electricity_share_amount'),
-        charge_penalty(charge, 'water_share_amount'),
-        charge_penalty(charge, 'monthly_rental_amount'),
-        charge.total_amount
-    ].sum
+
+    case charge.billing.billing_type
+    when 'electricity'
+      return [charge_penalty(charge, 'electricity'), charge.total_amount].sum
+    when 'water'
+      return [charge_penalty(charge, 'water'), charge.total_amount].sum
+    when 'wifi'
+      return [charge_penalty(charge, 'wifi'), charge.total_amount].sum
+    end
   end
 
 
@@ -31,38 +34,44 @@ module Dashboard::BillingsHelper
     wifi_rental_total_amount = [charge.extra_charge_amount, charge.monthly_rental_amount].sum
     extra_charge_with_electricity = [charge.extra_charge_amount + charge.electricity_share_amount].sum
     case charge_type
-    when 'extra_charge_amount'
+    when 'electricity'
       ChargePenaltyCalculation.new(charge.billing.electricity_bill_end_date, extra_charge_with_electricity).total_with_penalty
-    when 'electricity_share_amount'
-      ChargePenaltyCalculation.new(charge.billing.electricity_bill_end_date, extra_charge_with_electricity).total_with_penalty
-    when 'water_share_amount'
+    when 'water'
       ChargePenaltyCalculation.new(charge.billing.water_bill_end_date, charge.water_share_amount).total_with_penalty
-    when 'monthly_rental_amount'
+    when 'wifi'
       ChargePenaltyCalculation.new(charge.billing.wifi_and_rental_end_date, wifi_rental_total_amount).total_with_penalty
-    when 'wifi_share_amount'
-      ChargePenaltyCalculation.new(charge.billing.wifi_and_rental_end_date, wifi_rental_total_amount).total_with_penalty
-
     end
   end
 
   def any_penalty?(charge)
-    %w[extra_charge_amount electricity_share_amount water_share_amount wifi_share_amount monthly_rental_amount].any? do |charge_type|
-      has_penalty?(charge, charge_type)
+    case charge.billing.billing_type
+    when 'electricity'
+      %w[extra_charge_amount electricity_share_amount].any? do |charge_type|
+        has_penalty?(charge, charge_type)
+      end
+    when 'water'
+      %w[water_share_amount].any? do |charge_type|
+        has_penalty?(charge, charge_type)
+      end
+    when 'wifi'
+      %w[wifi_share_amount monthly_rental_amount].any? do |charge_type|
+        has_penalty?(charge, charge_type)
+      end
     end
   end
 
   def has_penalty?(charge, charge_type)
     case charge_type
     when 'extra_charge_amount'
-      charge.unpaid? || charge.pending? && charge.billing.electricity_bill_end_date < Date.today
+      (charge.unpaid? || charge.pending?) && charge.billing.electricity_bill_end_date < Date.today
     when 'electricity_share_amount'
-      charge.unpaid? || charge.pending? && charge.billing.electricity_bill_end_date < Date.today
+      (charge.unpaid? || charge.pending?) && charge.billing.electricity_bill_end_date < Date.today
     when 'water_share_amount'
-      charge.unpaid? || charge.pending? && charge.billing.water_bill_end_date < Date.today
+      (charge.unpaid? || charge.pending?) && charge.billing.water_bill_end_date < Date.today
     when 'wifi_share_amount'
-      charge.unpaid? || charge.pending? && charge.billing.wifi_and_rental_end_date < Date.today
+      (charge.unpaid? || charge.pending?) && charge.billing.wifi_and_rental_end_date < Date.today
     when 'monthly_rental_amount'
-      charge.unpaid? || charge.pending? && charge.billing.wifi_and_rental_end_date < Date.today
+      (charge.unpaid? || charge.pending?) && charge.billing.wifi_and_rental_end_date < Date.today
     end
   end
 
@@ -82,6 +91,29 @@ module Dashboard::BillingsHelper
         date = billing.month_year
         [date.strftime("%B %Y"), date.strftime("%Y-%m")]
       end
+  end
+
+  def charge_duedate(charge)
+    case charge.billing.billing_type
+    when 'electricity'
+      charge.billing.electricity_bill_end_date.strftime("%B %d, %Y")
+    when 'water'
+      charge.billing.water_bill_end_date.strftime("%B %d, %Y")
+    when 'wifi'
+      charge.billing.wifi_and_rental_end_date.strftime("%B %d, %Y")
+    end
+  end
+
+
+  def got_penalty?(charge)
+    case charge.billing.billing_type
+    when 'electricity'
+      (charge.unpaid? || charge.pending?) && charge.billing.electricity_bill_end_date < Date.today
+    when 'water'
+      (charge.unpaid? || charge.pending?) && charge.billing.water_bill_end_date < Date.today
+    when 'wifi'
+      (charge.unpaid? || charge.pending?) && charge.billing.wifi_and_rental_end_date < Date.today
+    end
   end
 
 end

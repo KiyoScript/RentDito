@@ -37,7 +37,7 @@
           <%= form.select :property_id_eq, Property.all.map { |p| [p.address, p.id] }, { selected: params.dig(:q, :property_id_eq) }, class: 'form-select' %>
 
           <h5 class="text-primary mt-4">Month and Year</h5>
-          <%= form.select :due_date_gteq, bill_month_year_options(current_user.landlord? || current_user.admin? ? Billing.ransack.result.order(created_at: :desc) : Billing.includes(:charges).where(charges: { user_id: current_user.id }).ransack.result.order(created_at: :desc)), { prompt: 'Select Month and Year' }, class: 'form-select' %>
+          <%= form.select :due_date_gteq, bill_month_year_options(current_user.landlord? || current_user.admin? ? Billing.ransack.result.order(created_at: :desc) : Billing.includes(:charges).where(charges: { user_id: current_user.id }).ransack.result.order(created_at: :desc)).uniq, { prompt: 'Select Month and Year' }, class: 'form-select' %>
         </div>
 
         <div class="d-flex flex-column justify-content-between align-items-center gap-2">
@@ -61,6 +61,7 @@
       <thead>
         <tr>
           <th>Month of Billing</th>
+          <th>Type of Billing</th>
           <th>Billing No.</th>
           <th>Property</th>
           <th>Total Amount</th>

@@ -6,7 +6,7 @@ class Room < ApplicationRecord
   has_many :utility_staffs, dependent: :destroy
 
   validates :name, :upper_deck, :lower_deck, presence: true
-  validates :name, uniqueness: true 
+  validates :name, uniqueness: { scope: :property_id, message: "must be unique within the same property" }
 
   enum :accomodation, [:boarding_house, :apartment, :dormitory, :studio, :condo ]
 

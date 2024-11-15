@@ -37,6 +37,7 @@ class Billing < ApplicationRecord
   end
 
   def date_covered
+    return wifi_and_rental_date_covered if electricity_bill_start_date.nil? ||  water_bill_start_date.nil?
     start_date = [electricity_bill_start_date, water_bill_start_date].compact.min
     end_date = [electricity_bill_end_date, water_bill_end_date].compact.max
 
@@ -131,8 +132,8 @@ class Billing < ApplicationRecord
   def generate_charges
     total_user_days = property.tenants.count + property.utility_staffs.count * 30
     number_of_days = 0.00
-    user_wifi_share = 60.00
-    user_monthly_rental = 1500.00
+    user_wifi_share = billing_type == "wifi" ? 60.00 : 0.00
+    user_monthly_rental = billing_type == "wifi" ? 1500.00 : 0.00
     extra_charge_amount = 0.00
     electricity_total_amount = electricity_bill_total_amount? ? electricity_bill_total_amount : electricity_bill_partial_amount
 

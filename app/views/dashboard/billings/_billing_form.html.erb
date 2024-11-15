@@ -9,51 +9,80 @@
     </div>
   </div>
 
-
-  <h5 class="text-secondary">Electricity Bill <i class='bx bxs-bolt' style='color: yellow; font-size: 1.5rem;'></i></h5>
-  <div class="row">
-    <div class="col-12 field mb-6">
-      <%= form.label :property_id, "Property", class: "form-label fs-6" %>
-      <%= form.select :property_id, options_for_select(Property.all.map { |p| [p.address, p.id] }), { prompt: "Property", selected: true, disabled: true }, class: "form-select", required: true %>
+  <div class="col-12 mb-4">
+    <label class="form-label fs-5">Select Billing Type:</label>
+    <div class="form-check form-check-inline">
+      <input type="radio" name="billing_type" value="electricity" class="form-check-input ms-1" data-action="billing-form#displayFrame" checked>
+      <label class="form-check-label ms-1 fs-5">Electricity</label>
     </div>
+    <div class="form-check form-check-inline">
+      <input type="radio" name="billing_type" value="water" class="form-check-input" data-action="billing-form#displayFrame">
+      <label class="form-check-label fs-5">Water</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input type="radio" name="billing_type" value="wifi" class="form-check-input" data-action="billing-form#displayFrame">
+      <label class="form-check-label fs-5">WiFi and Rental</label>
+    </div>
+  </div>
 
+  <div class="divider border-bottom"></div>
+
+  <div class="col-12 field mb-6">
+    <%= form.label :property_id, "Property", class: "form-label fs-6" %>
+    <%= form.select :property_id, options_for_select(Property.all.map { |p| [p.address, p.id] }), { prompt: "Property", selected: true, disabled: true }, class: "form-select" %>
+  </div>
+
+  <div class="row" data-billing-form-target="electricity">
+    <h5 class="text-secondary">Electricity Bill <i class='bx bxs-bolt' style='color: yellow; font-size: 1.5rem;'></i></h5>
     <div class="col-12 col-md-6 field mb-6">
       <%= form.label :electricity_bill_start_date, "Start date", class: "form-label fs-6" %>
-      <%= form.date_field :electricity_bill_start_date, class: "form-control", data: { action: 'change->billing#generateEndDateValue', billing_target: 'startDateField'}, required: true %>
+      <%= form.date_field :electricity_bill_start_date, class: "form-control", data: { action: 'change->billing#generateEndDateValue', billing_target: 'startDateField'} %>
     </div>
 
     <div class="col-12 col-md-6 field mb-6">
       <%= form.label :electricity_bill_end_date, "End date", class: "form-label fs-6" %>
-      <%= form.date_field :electricity_bill_end_date, class: "form-control", data: { billing_target: 'endDateField'}, required: true %>
+      <%= form.date_field :electricity_bill_end_date, class: "form-control", data: { billing_target: 'endDateField'} %>
     </div>
 
     <div class="col-12 col-md-6 field mb-6">
       <%= form.label :electricity_bill_partial_amount, "Total amount", class: "form-label fs-6" %>
-      <%= form.number_field :electricity_bill_partial_amount, class: "form-control", min: 0.00, step: "any", required: true %>
+      <%= form.number_field :electricity_bill_partial_amount, class: "form-control", min: 0.00, step: "any", value: 0.0 %>
     </div>
   </div>
-  <div class="divider border-bottom"></div>
-  <h5 class="text-secondary">Water Bill <i class='bx bxs-droplet text-info' style='font-size: 1.5rem;'></i></h5>
-  <div class="row">
+
+  <div class="row d-none" data-billing-form-target="water">
+    <h5 class="text-secondary">Water Bill <i class='bx bxs-droplet text-info' style='font-size: 1.5rem;'></i></h5>
     <div class="col-12 col-md-6 field mb-6">
       <%= form.label :water_bill_start_date, "Start date", class: "form-label fs-6" %>
-      <%= form.date_field :water_bill_start_date, class: "form-control", data: { action: 'change->billing#generateEndDateValue', billing_target: 'waterStartDateField'}, required: true %>
+      <%= form.date_field :water_bill_start_date, class: "form-control", data: { action: 'change->billing#generateEndDateValue', billing_target: 'waterStartDateField'} %>
     </div>
 
     <div class="col-12 col-md-6 field mb-6">
       <%= form.label :water_bill_end_date, "End date", class: "form-label fs-6" %>
-      <%= form.date_field :water_bill_end_date, class: "form-control", data: { billing_target: 'waterEndDateField'}, required: true %>
+      <%= form.date_field :water_bill_end_date, class: "form-control", data: { billing_target: 'waterEndDateField'} %>
     </div>
 
     <div class="col-12 col-md-6 field mb-6">
       <%= form.label :water_bill_total_amount, "Total amount", class: "form-label fs-6" %>
-      <%= form.number_field :water_bill_total_amount, class: "form-control", min: 0.00, step: "any", required: true %>
+      <%= form.number_field :water_bill_total_amount, class: "form-control", min: 0.00, step: "any", value: 0.0 %>
+    </div>
+  </div>
+
+  <div class="row d-none" data-billing-form-target="wifi">
+    <h5 class="text-secondary">WiFi & Monthly Rental Bill <i class='bx bx-wifi text-info' style='font-size: 1.5rem;'></i></h5>
+    <div class="col-12 col-md-6 field mb-6">
+      <%= form.label :wifi_and_rental_start_date, "Start date", class: "form-label fs-6" %>
+      <%= form.date_field :wifi_and_rental_start_date, readonly: true, value: Date.today.beginning_of_month, class: "form-control" %>
     </div>
 
-    <%= form.hidden_field :due_date, value: Date.today.end_of_month, required: true %>
-    <%= form.hidden_field :wifi_and_rental_start_date, value: Date.today.beginning_of_month %>
-    <%= form.hidden_field :wifi_and_rental_end_date, value: Date.today.next_month.beginning_of_month %>
+    <div class="col-12 col-md-6 field mb-6">
+      <%= form.label :wifi_and_rental_end_date, "End date", class: "form-label fs-6" %>
+      <%= form.date_field :wifi_and_rental_end_date, readonly: true, value: Date.today.next_month.beginning_of_month, class: "form-control" %>
+    </div>
   </div>
+
+  <%= form.hidden_field :due_date, value: Date.today.end_of_month %>
+  <%= form.hidden_field :billing_type, value: "electricity", data: { billing_form_target: "billingType"} %>
 </div>
 
 <div class="card-footer d-flex align-items-center justify-content-between">

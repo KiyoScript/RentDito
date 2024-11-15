@@ -86,9 +86,7 @@
           <p>Greetings Ms./Mrs. <%= @user.lastname %>,</p>
         <% end %>
       </p>
-      <% if @subject.include?('Water and Electricity') %>
-        <p>Today is due date of your water and electricity bills for <%= @billing.due_date.strftime("%B %Y") %>. Please pay today to avoid penalties.</p>
-      <% elsif @subject.include?('Water') %>
+      <% if @subject.include?('Water') %>
         <p>Today is due date of your water bill for <%= @billing.due_date.strftime("%B %Y") %>. Please pay today to avoid penalties.</p>
       <% elsif @subject.include?('Electricity') %>
         <p>Today is due date of your electricity bill for <%= @billing.due_date.strftime("%B %Y") %>. Please pay today to avoid penalties.</p>
@@ -98,10 +96,7 @@
 
       <p><strong>NOTE:</strong> There's a 5% penalty increase in every 5 days.</p>
       <div class="details">
-        <% if @subject.include?('Water and Electricity') %>
-          <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/water.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @charge.water_share_amount %></p>
-          <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/electricity.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @charge.electricity_share_amount %></p>
-        <% elsif @subject.include?('Water') %>
+        <% if @subject.include?('Water') %>
           <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/water.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @charge.water_share_amount %></p>
         <% elsif @subject.include?('Electricity') %>
           <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/electricity.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @charge.electricity_share_amount %></p>
