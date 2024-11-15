@@ -2,21 +2,35 @@
   <td><%= charge.user.tenant.room.name %></td>
   <td><%= charge.user.fullname %></td>
   <td><%= charge.user.phone_number %></td>
-  <td> <%= peso(charge.extra_charge_amount) %></td>
-  <td> <%= peso(charge.electricity_share_amount) %></td>
-  <td class="<%= (has_penalty?(charge, 'extra_charge_amount') || charge.has_penalty?) ? 'text-danger' : 'text-primary' %>"> <%= charge.extra_charge_electricity_penalty? ? peso(charge.extra_charge_electricity_penalty) :  has_penalty?(charge, 'extra_charge_amount') ? peso(charge_penalty(charge, 'extra_charge_amount')) : peso(0.00) %></td>
-  <td> <%= peso(charge.water_share_amount) %> </td>
-  <td class="<%= (has_penalty?(charge, 'water_share_amount') ||  charge.has_penalty?) ? 'text-danger' : 'text-primary' %>"> <%= charge.water_sharing_penalty? ? peso(charge.water_sharing_penalty) : has_penalty?(charge, 'water_share_amount') ? peso(charge_penalty(charge, 'water_share_amount')) : peso(0.00) %></td>
-  <td> <%= peso(charge.wifi_share_amount) %></td>
-  <td> <%= peso(charge.monthly_rental_amount) %></td>
-  <td class="<%= (has_penalty?(charge, 'monthly_rental_amount') || charge.has_penalty?) ? 'text-danger' : 'text-primary' %>"> <%= charge.wifi_and_monthly_rental_penalty? ? peso(charge.wifi_and_monthly_rental_penalty) : has_penalty?(charge, 'monthly_rental_amount') ? peso(charge_penalty(charge, 'monthly_rental_amount')) : peso(0.00) %></td>
-  <td class="<%= (any_penalty?(charge) || charge.has_penalty? ) ? 'text-danger' : 'text-primary' %>""> <%= charge.total_amount_penalty? ? peso(charge.total_amount_penalty) : peso(total_amount_penalty(charge)) %></td>
+  <% if charge.billing.billing_type == "electricity" %>
+    <td> <%= peso(charge.extra_charge_amount) %></td>
+    <td> <%= peso(charge.electricity_share_amount) %></td>
+    <td class="<%= (has_penalty?(charge, 'extra_charge_amount') || charge.has_penalty?) ? 'text-danger' : 'text-primary' %>"><%= charge.extra_charge_electricity_penalty? ? peso(charge.extra_charge_electricity_penalty) :  has_penalty?(charge, 'extra_charge_amount') ? peso(charge_penalty(charge, 'electricity')) : peso(0.00) %></td>
+  <% end %>
+
+  <% if charge.billing.billing_type == "water" %>
+    <td> <%= peso(charge.water_share_amount) %> </td>
+    <td class="<%= (has_penalty?(charge, 'water_share_amount') ||  charge.has_penalty?) ? 'text-danger' : 'text-primary' %>"> <%= charge.water_sharing_penalty? ? peso(charge.water_sharing_penalty) : has_penalty?(charge, 'water_share_amount') ? peso(charge_penalty(charge, 'water')) : peso(0.00) %></td>
+  <% end %>
+
+  <% if charge.billing.billing_type == "wifi" %>
+    <td> <%= peso(charge.wifi_share_amount) %></td>
+    <td> <%= peso(charge.monthly_rental_amount) %></td>
+    <td class="<%= (has_penalty?(charge, 'monthly_rental_amount') || charge.has_penalty?) ? 'text-danger' : 'text-primary' %>"> <%= charge.wifi_and_monthly_rental_penalty? ? peso(charge.wifi_and_monthly_rental_penalty) : has_penalty?(charge, 'monthly_rental_amount') ? peso(charge_penalty(charge, 'wifi')) : peso(0.00) %></td>
+  <% end %>
+
+
+  <!--  TOTAL AMOUNT -->
+
+  <td class="<%= (any_penalty?(charge)) || (charge.has_penalty? ) ? 'text-danger' : 'text-primary' %>""> <%= charge.total_amount_penalty? ? peso(charge.total_amount_penalty) : peso(total_amount_penalty(charge)) %></td>
+
+  <!--  TOTAL AMOUNT -->
 
   <% if current_user.landlord? || current_user.admin? %>
     <td> <%= charge_status_badge(charge.status) %></td>
   <% end %>
 
-  <td> <%= charge.days_count %></td>
+  <td><%= charge.days_count %></td>
   <% if current_user.landlord? || current_user.admin? %>
     <td>
       <a href="javascript:void(0)" class="menu-link text-center <%= 'd-none' if charge.paid? && charge.user.role == 'tenant' %>" data-bs-toggle="modal" data-bs-target="#updateChargesModal-<%= dom_id(charge) %>">

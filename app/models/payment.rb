@@ -39,9 +39,9 @@ class Payment < ApplicationRecord
     charge.update_columns(
       paid_amount: updated_paid_amount,
       status: 'paid',
-      extra_charge_electricity_penalty: charge_penalty(charge, 'extra_charge_amount'),
-      water_sharing_penalty: charge_penalty(charge, 'water_share_amount'),
-      wifi_and_monthly_rental_penalty: charge_penalty(charge, 'monthly_rental_amount'),
+      extra_charge_electricity_penalty: (charge.billing.billing_type == "electricity") ? charge_penalty(charge, 'electricity') : nil,
+      water_sharing_penalty: (charge.billing.billing_type == "water") ? charge_penalty(charge, 'water') : nil,
+      wifi_and_monthly_rental_penalty: (charge.billing.billing_type == "wifi") ? charge_penalty(charge, 'wifi') : nil,
       total_amount_penalty: any_penalty?(charge) ? amount : 0.00,
       has_penalty: any_penalty?(charge) ? true : false
     )

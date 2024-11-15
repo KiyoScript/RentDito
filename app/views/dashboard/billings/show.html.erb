@@ -17,10 +17,10 @@
         </div>
         <div class="d-flex align-items-start flex-column">
           <div class="form-label d-flex align-items-ceter justify-content-center mb-0">
-            <i class='bx bxs-calendar-check text-success'></i>
-            <p class="fw-bold fs-6 ms-1" style="margin-top: 1px;">Date Covered</p>
+            <i class="bx bx-purchase-tag text-success"></i>
+            <p class="fw-bold fs-6 ms-1" style="margin-top: 1px;">Type of Billing</p>
           </div>
-          <p class="fw-normal fs-6 mb-0"><%= @billing.date_covered%></p>
+          <p class="fw-normal fs-6 mb-0"><%= @billing.billing_type.titleize %> </p>
         </div>
       </div>
       <div class="col-12 col-md-6">
@@ -49,31 +49,34 @@
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
-          <tr>
-            <td class="fw-bold">Electricity Bill Total Amount Due</td>
-            <td colspan="2"><%= @billing.electricity_bill_partial_amount.format %></td>
-            <td><%= @billing.charges_total_amount.format %></td>
-            <td><%= @billing.electricity_bill_total.format %></td>
-            <td class="fw-bold border">Due Date</td>
-            <td colspan="5"><%= @billing.electricity_bill_end_date.strftime("%B %d, %Y") %></td>
-          </tr>
-          <tr>
-            <td class="fw-bold">Wifi Bill Total Amount Due</td>
-            <td colspan="2"><%= peso(@billing.wifi_bill_total_amount) %></td>
-            <td class="fw-bold">Monthly Rental Total Amount Due</td>
-            <td><%= peso(@billing.monthly_rental_total_amount) %></td>
-            <td class="fw-bold">Due Date</td>
-            <td colspan="5"><%= @billing.wifi_and_rental_end_date.strftime("%B %d, %Y") %></td>
-          </tr>
-          <tr>
-            <td class="fw-bold">Water Bill Total Amount Due</td>
-            <td colspan="4"><%= @billing.water_bill_total_amount.format %></td>
-            <td class="fw-bold">Due Date</td>
-            <td><%= @billing.water_bill_end_date.strftime("%B %d, %Y") %></td>
-            <td class="fw-bold" colspan="2">No. of Occupants</td>
-            <td colspan="2"><%= @billing.charges.count  %></td>
-          </tr>
-
+          <% if @billing.billing_type == "electricity" %>
+            <tr>
+              <td class="fw-bold">Electricity Bill Total Amount Due</td>
+              <td colspan="2"><%= @billing.electricity_bill_partial_amount.format %></td>
+              <td><%= @billing.charges_total_amount.format %></td>
+              <td><%= @billing.electricity_bill_total.format %></td>
+              <td class="fw-bold border">Due Date</td>
+              <td colspan="5"><%= @billing.electricity_bill_end_date.strftime("%B %d, %Y") %></td>
+            </tr>
+          <% elsif @billing.billing_type == "wifi" %>
+            <tr>
+              <td class="fw-bold">Wifi Bill Total Amount Due</td>
+              <td colspan="2"><%= peso(@billing.wifi_bill_total_amount) %></td>
+              <td class="fw-bold">Monthly Rental Total Amount Due</td>
+              <td><%= peso(@billing.monthly_rental_total_amount) %></td>
+              <td class="fw-bold">Due Date</td>
+              <td colspan="5"><%= @billing.wifi_and_rental_end_date.strftime("%B %d, %Y") %></td>
+            </tr>
+          <% else %>
+            <tr>
+              <td class="fw-bold">Water Bill Total Amount Due</td>
+              <td colspan="4"><%= @billing.water_bill_total_amount.format %></td>
+              <td class="fw-bold">Due Date</td>
+              <td><%= @billing.water_bill_end_date.strftime("%B %d, %Y") %></td>
+              <td class="fw-bold" colspan="2">No. of Occupants</td>
+              <td colspan="2"><%= @billing.charges.count  %></td>
+            </tr>
+          <% end %>
           <% @property_units.each do |property_unit|%>
             <tr>
               <th colspan="11" class="text-center fw-bold" scope="row"><%= property_unit.name %> </th>
@@ -82,14 +85,19 @@
               <td class="fw-bold">Room</td>
               <td class="fw-bold">Name</td>
               <td class="fw-bold">Contact No.</td>
+            <% if @billing.billing_type == "electricity"%>
               <td class="fw-bold">Extra Charges (Appliances)</td>
               <td class="fw-bold">Electricity Sharing</td>
               <td class="fw-bold text-danger"> Extra Charges & Electricity Sharing Penalty</td>
+
+            <% elsif @billing.billing_type == "water" %>
               <td class="fw-bold">Water Sharing</td>
               <td class="fw-bold text-danger"> Water Sharing Penalty</td>
-              <td class="fw-bold">Wifi Sharing</td>
+            <% else %>
               <td class="fw-bold">Monthly Rental</td>
+              <td class="fw-bold">Wifi Sharing</td>
               <td class="fw-bold text-danger"> Wifi Sharing & Monthly Rental Penalty</td>
+            <% end  %>
               <td class="fw-bold">Total Amount</td>
 
               <% if current_user.landlord? || current_user.admin? %>
