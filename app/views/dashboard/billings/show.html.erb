@@ -20,7 +20,7 @@
             <i class="bx bx-purchase-tag text-success"></i>
             <p class="fw-bold fs-6 ms-1" style="margin-top: 1px;">Type of Billing</p>
           </div>
-          <p class="fw-normal fs-6 mb-0"><%= @billing.billing_type.titleize %> </p>
+          <p class="fw-normal fs-6 mb-0"><%= (@billing.billing_type == 'wifi') ? "WiFi & Rental" : @billing.billing_type.titleize %> <span class="ms-1"> <%= billing_type_icon(@billing.billing_type) %></span></p>
         </div>
       </div>
       <div class="col-12 col-md-6">

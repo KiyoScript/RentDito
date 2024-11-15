@@ -1,6 +1,6 @@
 <tr>
   <td><%= charge.days_count %></td>
-  <td><%= charge.billing.billing_type.titleize %><span class="ms-1"><%= billing_type_icon(charge.billing.billing_type) %></span></td>
+  <td><%= (charge.billing.billing_type == 'wifi') ? 'WiFi & Rental' : charge.billing.billing_type.titleize %><span class="ms-1"><%= billing_type_icon(charge.billing.billing_type) %></span></td>
   <td><%= charge_status_badge(charge.status) %></td>
   <td class="text-primary"><%= peso(charge.total_amount) %> </td>
   <td class="<%= (got_penalty?(charge) || charge.has_penalty?) ? 'text-danger' : 'text-primary' %>"> <%= charge.total_amount_penalty? ? peso(charge.total_amount_penalty) : peso(total_amount_penalty(charge)) %></td>
