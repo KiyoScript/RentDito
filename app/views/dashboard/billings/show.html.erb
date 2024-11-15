@@ -52,25 +52,29 @@
           <% if @billing.billing_type == "electricity" %>
             <tr>
               <td class="fw-bold">Electricity Bill Total Amount Due</td>
-              <td colspan="2"><%= @billing.electricity_bill_partial_amount.format %></td>
+              <td><%= @billing.electricity_bill_partial_amount.format %></td>
               <td><%= @billing.charges_total_amount.format %></td>
               <td><%= @billing.electricity_bill_total.format %></td>
               <td class="fw-bold border">Due Date</td>
-              <td colspan="5"><%= @billing.electricity_bill_end_date.strftime("%B %d, %Y") %></td>
+              <td colspan="2"><%= @billing.electricity_bill_end_date.strftime("%B %d, %Y") %></td>
+              <td class="fw-bold" colspan="2">No. of Occupants</td>
+              <td colspan="2"><%= @billing.charges.count  %></td>
             </tr>
           <% elsif @billing.billing_type == "wifi" %>
             <tr>
               <td class="fw-bold">Wifi Bill Total Amount Due</td>
-              <td colspan="2"><%= peso(@billing.wifi_bill_total_amount) %></td>
+              <td><%= peso(@billing.wifi_bill_total_amount) %></td>
               <td class="fw-bold">Monthly Rental Total Amount Due</td>
               <td><%= peso(@billing.monthly_rental_total_amount) %></td>
               <td class="fw-bold">Due Date</td>
-              <td colspan="5"><%= @billing.wifi_and_rental_end_date.strftime("%B %d, %Y") %></td>
+              <td><%= @billing.wifi_and_rental_end_date.strftime("%B %d, %Y") %></td>
+              <td class="fw-bold" colspan="2">No. of Occupants</td>
+              <td colspan="2"><%= @billing.charges.count  %></td>
             </tr>
           <% else %>
             <tr>
               <td class="fw-bold">Water Bill Total Amount Due</td>
-              <td colspan="4"><%= @billing.water_bill_total_amount.format %></td>
+              <td colspan="3"><%= @billing.water_bill_total_amount.format %></td>
               <td class="fw-bold">Due Date</td>
               <td><%= @billing.water_bill_end_date.strftime("%B %d, %Y") %></td>
               <td class="fw-bold" colspan="2">No. of Occupants</td>
@@ -104,7 +108,10 @@
                 <td class="fw-bold">Status</td>
               <% end %>
 
-              <td class="fw-bold">Days No.</td>
+              <% if @billing.billing_type == "water" || @billing.billing_type == "electricity" %>
+                <td class="fw-bold">Days No.</td>
+              <% end %>
+
               <% if current_user.landlord? || current_user.admin? %>
                 <td class="fw-bold">Action</td>
               <% end %>

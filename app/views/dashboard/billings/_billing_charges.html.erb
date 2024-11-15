@@ -30,7 +30,9 @@
     <td> <%= charge_status_badge(charge.status) %></td>
   <% end %>
 
-  <td><%= charge.days_count %></td>
+  <% if charge.billing.billing_type == "water" || charge.billing.billing_type == "electricity" %>
+    <td><%= charge.days_count %></td>
+  <% end %>
   <% if current_user.landlord? || current_user.admin? %>
     <td>
       <a href="javascript:void(0)" class="menu-link text-center <%= 'd-none' if charge.paid? && charge.user.role == 'tenant' %>" data-bs-toggle="modal" data-bs-target="#updateChargesModal-<%= dom_id(charge) %>">
