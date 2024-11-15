@@ -17,8 +17,8 @@ class User < ApplicationRecord
   has_one_attached :second_valid_id
 
   # validates :avatar, content_type: ['image/png', 'image/jpg', 'image/jpeg'], size: { less_than: 5.megabytes }
-  validates :first_valid_id, content_type: ['image/png', 'image/jpg', 'image/jpeg'], size: { less_than: 10.megabytes }
-  validates :second_valid_id, content_type: ['image/png', 'image/jpg', 'image/jpeg'], size: { less_than: 10.megabytes }
+  # validates :first_valid_id, content_type: ['image/png', 'image/jpg', 'image/jpeg']
+  # validates :second_valid_id, content_type: ['image/png', 'image/jpg', 'image/jpeg']
 
 
 
