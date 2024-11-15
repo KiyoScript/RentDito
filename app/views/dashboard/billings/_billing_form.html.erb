@@ -72,12 +72,12 @@
     <h5 class="text-secondary">WiFi & Monthly Rental Bill <i class='bx bx-wifi text-info' style='font-size: 1.5rem;'></i></h5>
     <div class="col-12 col-md-6 field mb-6">
       <%= form.label :wifi_and_rental_start_date, "Start date", class: "form-label fs-6" %>
-      <%= form.date_field :wifi_and_rental_start_date, value: Date.today.beginning_of_month, class: "form-control" %>
+      <%= form.date_field :wifi_and_rental_start_date, readonly: true, value: Date.today.beginning_of_month, class: "form-control" %>
     </div>
 
     <div class="col-12 col-md-6 field mb-6">
       <%= form.label :wifi_and_rental_end_date, "End date", class: "form-label fs-6" %>
-      <%= form.date_field :wifi_and_rental_end_date, value: Date.today.next_month.beginning_of_month, class: "form-control" %>
+      <%= form.date_field :wifi_and_rental_end_date, readonly: true, value: Date.today.next_month.beginning_of_month, class: "form-control" %>
     </div>
   </div>
 
