@@ -18,7 +18,6 @@ class User < ApplicationRecord
 
   # validates :avatar, content_type: ['image/png', 'image/jpg', 'image/jpeg'], size: { less_than: 5.megabytes }
   #
-  validate :unique_full_name
 
 
   has_many :properties, dependent: :destroy
@@ -45,6 +44,7 @@ class User < ApplicationRecord
 
   after_create :user_account_details
   after_create :generate_user_balance
+  before_create :check_unique_full_name
 
   after_update :notify_users_status_with_email_notification!, if: -> { saved_change_to_status? }
   after_update :update_occupants_room_bedspace, if: -> { status == 'deactivated'}
@@ -118,12 +118,12 @@ class User < ApplicationRecord
   private
 
 
-  def unique_full_name
+  def check_unique_full_name
     if User.exists?(firstname: firstname, lastname: lastname)
       errors.add(:base, "An account with this first name and last name already exists")
+      throw :abort
     end
   end
-
   def user_account_details
     UserAccountDetailsMailer.send_email(self, generated_password).deliver_now if generated_password.present?
   end
