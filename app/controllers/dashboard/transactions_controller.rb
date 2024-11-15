@@ -19,7 +19,7 @@ class Dashboard::TransactionsController < ApplicationController
     end
   end
 
-  
+
   def mark_as_paid
     @transaction = Transaction.find(params[:id])
     if @transaction.update(status: :done)
@@ -33,6 +33,15 @@ class Dashboard::TransactionsController < ApplicationController
     @transaction = Transaction.find(params[:id])
     if @transaction.update(status: :rejected, reason: transaction_params[:reason])
       redirect_to dashboard_transactions_path, notice: 'Transaction marked as rejected with a reason.'
+    else
+      redirect_to dashboard_transactions_path, alert: 'Failed to update transaction status.'
+    end
+  end
+
+  def mark_as_done
+    @transaction = Transaction.find(params[:id])
+    if @transaction.update(status: :done)
+      redirect_to dashboard_transactions_path, notice: 'Transaction marked as done.'
     else
       redirect_to dashboard_transactions_path, alert: 'Failed to update transaction status.'
     end

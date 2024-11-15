@@ -3,7 +3,7 @@
     <p class="text-primary"><%= formmated_date(transaction.created_at) %></p>
     <%= transaction.created_at.strftime("%B %d, %Y %I:%M %p") %>
   </td>
-  <td><%= transaction.transaction_type.capitalize %></td>
+  <td><%= transaction.transaction_type.humanize.titleize %></td>
   <td>
     <%= transaction_status_badge(transaction.status) %>
   </td>
@@ -37,7 +37,10 @@
           <p><strong>Date:</strong> <%= transaction.created_at.strftime("%B %d, %Y %I:%M %p") %></p>
           <p><strong>Status:</strong> <%= transaction.status.titleize %></p>
           <p><strong>Amount:</strong> <%= transaction.amount.present? ? transaction.amount.format : "N/A" %></p>
-          <p><strong>Sender:</strong> <%= transaction.transfer? ? transaction.transfer_from : transaction.user.fullname %></p>
+          <p>
+            <strong><%= transaction.refund_request? ? 'Tenant :' : 'Sender :' %></strong>
+            <%= transaction.transfer? ? transaction.transfer_from : link_to(transaction.user.fullname, profile_path(transaction.user)) %>
+          </p>
           <% if transaction.transfer? %>
             <p><strong>Transferred to: </strong><%= transaction.transfer_to %></p>
           <% end %>
@@ -52,10 +55,14 @@
       <div class="modal-footer d-flex flex-row align-items-center justify-content-center gap-2">
         <% if current_user.landlord? || current_user.admin? %>
           <% if transaction.under_review? %>
-            <%= button_to 'Mark as Paid', mark_as_paid_dashboard_transaction_path(transaction), method: :patch, class: 'btn btn-primary w-100' %>
-            <button type="button" class="btn btn-danger w-100" data-bs-toggle="collapse" data-bs-target="#rejectReasonForm-<%= transaction.id %>" aria-expanded="false" aria-controls="rejectReasonForm-<%= transaction.id %>">
-              Mark as Rejected
-            </button>
+            <% if transaction.refund_request? %>
+              <%= button_to 'Mark as Paid', mark_as_paid_dashboard_transaction_path(transaction), method: :patch, class: 'btn btn-primary w-100' %>
+            <% else %>
+              <%= button_to 'Mark as Paid', mark_as_paid_dashboard_transaction_path(transaction), method: :patch, class: 'btn btn-primary w-100' %>
+              <button type="button" class="btn btn-danger w-100" data-bs-toggle="collapse" data-bs-target="#rejectReasonForm-<%= transaction.id %>" aria-expanded="false" aria-controls="rejectReasonForm-<%= transaction.id %>">
+                Mark as Rejected
+              </button>
+            <% end %>
           <% end %>
           <div class="collapse mt-3 w-100" id="rejectReasonForm-<%= transaction.id %>">
             <%= form_with model: transaction, url: mark_as_rejected_dashboard_transaction_path(transaction), method: :patch, class: "w-100" do |f| %>

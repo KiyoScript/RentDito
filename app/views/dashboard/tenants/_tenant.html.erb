@@ -1,14 +1,12 @@
-<tr data-controller="user-status" data-user-status-user-id="<%= tenant.id %>
-">
+<tr data-controller="user-status" data-user-status-user-id="<%= tenant.id %>">
   <td>
-    <div class="d-flex justify-content-start align-items-center user-name" >
+    <div class="d-flex justify-content-start align-items-center user-name">
       <div class="avatar-wrapper">
         <div class="avatar me-2">
           <img src="<%= avatar(tenant) %>" alt="Avatar" class="w-px-40 h-auto rounded-circle">
-          <%# <span class="avatar-initial rounded-circle bg-label-dark">KS</span> %>
         </div>
       </div>
-      <div class="d-flex flex-column" >
+      <div class="d-flex flex-column">
         <span class="emp_name text-truncate"><%= tenant.fullname %></span>
         <small class="emp_post text-truncate text-muted"><%= tenant.role.titleize %></small>
       </div>
@@ -19,7 +17,7 @@
     <%= gender_badge(tenant.gender) %>
   </td>
   <td>
-    <%= tenant.tenant.present? ? tenant.tenant.property.address : 'N/A'%>
+    <%= tenant.tenant.present? ? tenant.tenant.property.address : 'N/A' %>
   </td>
   <td data-user-status-target="statusLabel">
     <%= status_badge(tenant.status) %>
@@ -30,10 +28,30 @@
         <i class="bx bx-show bx-md"></i>
       <% end %>
       <% if current_user.landlord? && tenant.status != "deactivated" %>
-        <%= link_to "javascript:void(0);", class: "btn btn-icon text-danger border", data: { action: "click->user-status#updateStatus", user_status_status: "deactivated" } do %>
-          <i class='bx bx-user-x bx-md' data-user-status-status="deactivated"></i>
-        <% end %>
+        <button class="btn btn-icon text-danger border" data-bs-toggle="modal" data-bs-target="#deactivateModal-<%= tenant.id %>">
+          <i class='bx bx-user-x bx-md'></i>
+        </button>
       <% end %>
     </div>
   </td>
 </tr>
+
+<!-- Modal -->
+<div class="modal fade" id="deactivateModal-<%= tenant.id %>" tabindex="-1" aria-labelledby="deactivateModalLabel-<%= tenant.id %>" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deactivateModalLabel-<%= tenant.id %>">Deactivate Account</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Please check if the balance is refunded before deactivating the account.</p>
+        <p><strong>Balance:</strong> P<%= tenant.balance.amount || '0.00' %></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <%= button_to "Deactivate", deactivate_profile_path(tenant),  method: :patch, class: "btn btn-danger", data: { bs_dismiss: "modal" } %>
+      </div>
+    </div>
+  </div>
+</div>

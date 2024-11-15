@@ -48,6 +48,7 @@ class User < ApplicationRecord
 
   after_update :notify_users_status_with_email_notification!, if: -> { saved_change_to_status? }
   after_update :update_occupants_room_bedspace, if: -> { status == 'deactivated'}
+  after_update :get_refund!, if: -> { status == 'deactivated'}
 
   accepts_nested_attributes_for :maintenance_staff, allow_destroy: true
   accepts_nested_attributes_for :utility_staff, allow_destroy: true
@@ -150,5 +151,16 @@ class User < ApplicationRecord
       user: self,
       amount: 0.00
     )
+  end
+
+  def get_refund!
+    Transaction.create!(
+      user: self,
+      amount: self.balance.amount,
+      status: 'under_review',
+      transaction_type: 'refund_request',
+      reason: 'Checking out.'
+    )
+    self.balance.update!(amount: 0)
   end
 end

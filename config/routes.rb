@@ -70,6 +70,7 @@ Rails.application.routes.draw do
       member do
         patch :mark_as_paid
         patch :mark_as_rejected
+        patch :mark_as_done
       end
     end
 
@@ -93,6 +94,7 @@ Rails.application.routes.draw do
     member do
       patch :update_status
       patch :transfer
+      patch :deactivate
     end
   end
 

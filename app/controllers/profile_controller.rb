@@ -26,6 +26,14 @@ class ProfileController < ApplicationController
     end
   end
 
+  def deactivate
+    if @user.update(status: 'deactivated')
+      redirect_to dashboard_tenants_path, notice: "Successfuly Deactivated"
+    else
+      redirect_to dashboard_tenants_path, alert: @user.errors.full_messages.first
+    end
+  end
+
   private
 
   def set_user
