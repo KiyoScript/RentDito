@@ -17,6 +17,9 @@ class User < ApplicationRecord
   has_one_attached :second_valid_id
 
   # validates :avatar, content_type: ['image/png', 'image/jpg', 'image/jpeg'], size: { less_than: 5.megabytes }
+  #
+  validate :unique_full_name
+
 
   has_many :properties, dependent: :destroy
   has_many :assigned_tickets, as: :assigned_to, class_name: 'Ticket'
@@ -113,6 +116,13 @@ class User < ApplicationRecord
 
 
   private
+
+
+  def unique_full_name
+    if User.exists?(firstname: firstname, lastname: lastname)
+      errors.add(:base, "An account with this first name and last name already exists")
+    end
+  end
 
   def user_account_details
     UserAccountDetailsMailer.send_email(self, generated_password).deliver_now if generated_password.present?
