@@ -34,13 +34,13 @@ Rails.application.routes.draw do
       resources :property_units
       member do
         get :render_property_units
-        get :occupancy_data
       end
     end
 
     resources :property_units, only: :index do
       member do
         get :rooms
+        get :occupancy_data
       end
     end
 

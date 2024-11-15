@@ -1,7 +1,7 @@
 class Dashboard::PropertyUnitsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_property, only: [:index, :create, :update]
-  before_action :set_property_unit, only: [:show, :destroy, :update]
+  before_action :set_property_unit, only: [:show, :destroy, :update, :occupancy_data]
 
   def index
     @q = @property.property_units.ransack(params[:q])
@@ -55,6 +55,25 @@ class Dashboard::PropertyUnitsController < ApplicationController
     render json: rooms.as_json(only: [:id, :name])
   rescue ActiveRecord::RecordNotFound
     render json: { error: 'Property unit not found' }, status: :not_found
+  end
+
+  def occupancy_data
+    rooms = @property_unit.rooms
+    total_upper_deck = rooms.sum(:upper_deck)
+    total_lower_deck = rooms.sum(:lower_deck)
+    total_occupants = @property_unit.tenants.count
+    total_bedspaces = total_upper_deck + total_lower_deck
+    property_address = @property_unit.property.address
+
+    render json: {
+      property_unit_name: @property_unit.name,
+      property_address: property_address,
+      property_unit_id: @property_unit.id,
+      total_occupants: total_occupants,
+      total_bedspaces: total_bedspaces,
+      total_upper_deck: total_upper_deck,
+      total_lower_deck: total_lower_deck
+    }
   end
 
 

@@ -163,10 +163,12 @@
           <button class="btn p-0" type="button" id="cardOpt1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="bx bx-dots-vertical-rounded text-muted"></i>
           </button>
-          <div id="propertyDropdownMenu" class="dropdown-menu" aria-labelledby="list_properties">
-            <% Property.all.each do |property| %>
-              <button class="dropdown-item" type="button" data-property-id="<%= property.id %>" data-action="click->fetch-occupied-bedspaces#updateCard">
-                <%= property.address %>
+          <div id="propertyDropdownMenu" class="dropdown-menu" aria-labelledby="list_property_units">
+            <% @property_units.each do |property_unit| %>
+              <button class="dropdown-item" type="button"
+                data-property-unit-id="<%= property_unit.id %>"
+                data-action="click->fetch-occupied-bedspaces#updateCard">
+                <%= property_unit.property.address %> - <%= property_unit.name %>
               </button>
             <% end %>
           </div>
@@ -178,8 +180,8 @@
             <span class="avatar-initial avatar-shadow-success rounded-circle"><i class="bx bx-buildings bx-26px"></i></span>
           </div>
         </div>
-        <a href=""data-fetch-occupied-bedspaces-target="propertyId">
-          <p data-fetch-occupied-bedspaces-target="propertyName" class="mb-1">Select a property</p>
+        <a href=""data-fetch-occupied-bedspaces-target="propertyUnitId">
+          <p data-fetch-occupied-bedspaces-target="propertyUnitName" class="mb-1">--------</p>
         </a>
         <div class="my-4">
           <h4 data-fetch-occupied-bedspaces-target="occupancy" class="card-title mb-1">--:--</h4>

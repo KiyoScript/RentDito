@@ -1,7 +1,9 @@
 class Dashboard::HomepageController < ApplicationController
   before_action :authenticate_user!
   before_action :redirect_to_onbarding
-  def index;end
+  def index
+    @property_units = PropertyUnit.all
+  end
 
 
   private
