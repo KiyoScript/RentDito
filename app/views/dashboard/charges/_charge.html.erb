@@ -1,10 +1,9 @@
 <tr>
-  <td><%= charge.days_count %></td>
   <td><%= (charge.billing.billing_type == 'wifi') ? 'WiFi & Rental' : charge.billing.billing_type.titleize %><span class="ms-1"><%= billing_type_icon(charge.billing.billing_type) %></span></td>
   <td><%= charge_status_badge(charge.status) %></td>
   <td class="text-primary"><%= peso(charge.total_amount) %> </td>
   <td class="<%= (got_penalty?(charge) || charge.has_penalty?) ? 'text-danger' : 'text-primary' %>"> <%= charge.total_amount_penalty? ? peso(charge.total_amount_penalty) : peso(total_amount_penalty(charge)) %></td>
-  <td><%= charge_duedate(charge) %></td>
+  <td><%= charge.billing.due_date.strftime("%B %Y") %></td>
   <td>
     <div class="d-inline-block">
       <%= link_to 'javascript:void(0)', class: "btn btn-outline-primary btn-icon border", data: { bs_toggle: "modal", bs_target: "#chargeModal-#{charge.id}" } do %>
@@ -66,7 +65,7 @@
         <% end %>
         <div class="mb-3">
           <strong>Due Date:</strong>
-          <p class="text-muted"><%= charge.billing.due_date.strftime("%B %d, %Y") %></p>
+          <p class="text-muted"><%= charge_duedate(charge) %></p>
         </div>
       </div>
       <div class="modal-footer d-flex align-items-center justify-content-between">
