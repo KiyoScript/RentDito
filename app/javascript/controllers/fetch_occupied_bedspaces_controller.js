@@ -18,7 +18,7 @@ export default class extends Controller {
       const data = await response.json;
       this.propertyIdTarget.href = `/dashboard/rooms?q%5Bproperty_id_eq%5D=${data.property_id}&amp;commit=Apply`
       this.propertyNameTarget.textContent = data.property_name;
-      this.occupancyTarget.textContent = `${data.total_occupants}/${data.total_bedspaces}`;
+      this.occupancyTarget.textContent = `${data.total_occupants} : ${data.total_bedspaces}`;
       this.upperDeckTarget.textContent = `${data.total_upper_deck}`;
       this.lowerDeckTarget.textContent = `${data.total_lower_deck}`;
     }
