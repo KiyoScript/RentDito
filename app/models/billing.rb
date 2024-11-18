@@ -111,16 +111,7 @@ class Billing < ApplicationRecord
   end
 
   def notify_all_tenants!
-    property.occupants.each do |tenant|
-      Notification.create!(
-        user: tenant.user,
-        message: "#{self.due_date.strftime("%B %Y")} billing report is generated.",
-        notifiable: self
-      )
-
-      NotificationChannel.broadcast_to(tenant.user, { type: 'NewBilling', message: "#{self.due_date.strftime("%B %Y")} billing report is generated." })
-      NotificationNewMonthlyBillMailer.send_email(tenant.user, self, tenant.user.charges.find_by(billing_id: self)).deliver_now
-    end
+    NotifyTenantsForNewBillingJob.perform_later(self.id)
   end
 
   private

@@ -1,5 +1,4 @@
 class MonthlyBillingDuedateReminderJob < ApplicationJob
-  self.queue_adapter = :solid_queue
 
   def perform
     today = Date.today

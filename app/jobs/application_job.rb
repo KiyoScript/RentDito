@@ -1,5 +1,7 @@
 class ApplicationJob < ActiveJob::Base
   require 'parallel'
+
+  self.queue_adapter = :solid_queue
   # Automatically retry jobs that encountered a deadlock
   # retry_on ActiveRecord::Deadlocked
 
