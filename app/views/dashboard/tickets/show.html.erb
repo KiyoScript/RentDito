@@ -2,16 +2,29 @@
   <!-- Ticket Info Card -->
   <div class="card mb-4 shadow">
     <div class="card-header d-flex justify-content-between align-items-start">
-      <div class="my-2">
-        <h3 class="card-title"><%= @ticket.title %></h3>
-        <p class="text-secondary">Ticket # <%= @ticket.id %></p>
+      <!-- Creator Info -->
+      <div class="d-flex align-items-center">
+        <img src="<%= avatar(@ticket.tenant.user) %>" alt="Avatar" class="rounded-circle" style="width: 40px; height: auto;">
+        <div class="ms-2">
+          <p class="mb-0 fw-bold"><%= @ticket.tenant.user.fullname %></p>
+          <p class="mb-0 text-muted fs-6">
+            <%= @ticket.created_at.strftime("%B %d, %Y %I:%M %p") %>
+          </p>
+        </div>
       </div>
-        <%= status_badge(@ticket.status) %>
+
+      <!-- Status Badge -->
+      <%= status_badge(@ticket.status) %>
     </div>
 
-
     <div class="card-body">
+      <div class="my-2">
+        <h3 class="card-title mb-2"><%= @ticket.title %></h3>
+        <p class="text-secondary">Ticket # <%= @ticket.id %></p>
+      </div>
+
       <div class="row gap-4">
+        <!-- Description -->
         <div class="col-12">
           <div class="form-label">
             <p class="fw-bold fs-6 mb-2">Description</p>
@@ -19,6 +32,7 @@
           </div>
         </div>
 
+        <!-- Additional Details -->
         <div class="col-12 pb-4 border-bottom">
           <div class="row gy-4">
             <div class="col-12 col-md-6">
@@ -38,55 +52,40 @@
             <% if @ticket.check_out? %>
               <div class="col-12 col-md-6">
                 <div class="form-label">
-                  <p class="fw-bold fs-6 mb-2">Check Out </p>
+                  <p class="fw-bold fs-6 mb-2">Check Out</p>
                   <%= @ticket.datetime.strftime("%B %d, %Y %I:%M %p") %>
                 </div>
               </div>
             <% end %>
-
 
             <% if @ticket.images.attached? %>
               <div class="col-12">
                 <div class="form-label">
                   <p class="fw-bold fs-6 mb-2">Images</p>
                 </div>
-                <div class="swiper h-auto" id="swiper-with-arrows">
-                  <div class="swiper-wrapper">
-                    <% @ticket.images.each do |image| %>
-                      <div class="swiper-slide">
-                        <%= image_tag url_for(image), alt: image.filename.to_s, class: "img-fluid"%>
-                        <p class="mb-0 text-primary fs-6"><%= image.filename.to_s %></p>
-                      </div>
-                    <% end %>
-                  </div>
-                  <div class="swiper-button-next swiper-button-white custom-icon"></div>
-                  <div class="swiper-button-prev swiper-button-white custom-icon"></div>
+               <div class="swiper h-auto" id="swiper-with-arrows">
+                <div class="swiper-wrapper">
+                  <% @ticket.images.each do |image| %>
+                    <div class="swiper-slide bg-transparent">
+                      <%= image_tag url_for(image), alt: image.filename.to_s, class: "img-fluid small-swiper-image" %>
+                      <p class="mb-0 text-primary fs-6 text-center"><%= image.filename.to_s %></p>
+                    </div>
+                  <% end %>
                 </div>
+                <div class="swiper-button-next swiper-button-white custom-icon"></div>
+                <div class="swiper-button-prev swiper-button-white custom-icon"></div>
+              </div>
               </div>
             <% end %>
           </div>
         </div>
 
-        <div class="col-12">
-          <p class="fw-normal fs-6 d-flex align-items-center justify-content-start">
-            <i class='menu-icon tf-icons bx bxs-calendar'></i>
-            <span class="fw-normal fs-6"><%= @ticket.created_at.strftime("%B %d, %Y %I:%M %p") %></span>
-          </p>
-        </div>
-
+        <!-- Assigned To -->
         <div class="col-12">
           <p class="fw-normal fs-6 d-flex align-items-center justify-content-start">
             <i class='menu-icon tf-icons bx bxs-user'></i>
             Assigned to:
             <span class="fw-normal fs-6 ms-2"><%= @ticket.assigned_to.present? ? @ticket.assigned_to.fullname.titleize : "N/A"%></span>
-          </p>
-        </div>
-
-        <div class="col-12">
-          <p class="fw-normal fs-6 d-flex align-items-center justify-content-start">
-            <i class='menu-icon tf-icons bx bxs-user-pin'></i>
-            Created by:
-            <span class="fw-normal fs-6 ms-2"><%= @ticket.tenant.user.fullname %></span>
           </p>
         </div>
       </div>
@@ -102,7 +101,6 @@
       <% unless current_user.tenant? || @ticket.closed? %>
         <%= button_to 'Close Ticket', close_ticket_dashboard_ticket_path(@ticket), method: :patch, class: "btn btn-primary" %>
       <% end %>
-
     </div>
   </div>
 </div>
