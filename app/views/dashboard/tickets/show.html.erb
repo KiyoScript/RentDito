@@ -6,7 +6,9 @@
       <div class="d-flex align-items-center">
         <img src="<%= avatar(@ticket.tenant.user) %>" alt="Avatar" class="rounded-circle" style="width: 40px; height: auto;">
         <div class="ms-2">
-          <p class="mb-0 fw-bold"><%= @ticket.tenant.user.fullname %></p>
+          <p class="mb-0 fw-bold">
+            <%= link_to @ticket.tenant.user.fullname, profile_path(@ticket.tenant.user), class: "text-dark text-decoration-none" %>
+          </p>
           <p class="mb-0 text-muted fs-6">
             <%= @ticket.created_at.strftime("%B %d, %Y %I:%M %p") %>
           </p>
