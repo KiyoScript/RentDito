@@ -1,7 +1,7 @@
  <tr data-controller="notifications">
   <td><%= notification.message %></td>
   <td><%= notification.notifiable_type %></td>
-  <td><%= distance_of_time_in_words(notification.created_at, notification.updated_at).titleize %></td>
+  <td><%= distance_of_time_in_words(notification.created_at, Date.today).titleize %> Ago</td>
   <td>
     <%= link_to notification.notifiable_type == "Ticket" ? dashboard_ticket_path(notification.notifiable) : dashboard_billing_path(notification.notifiable.number), class: "btn btn-icon view-record border",
       data: { action: "click->notifications#markAsRead", notifications_target: 'getNotificationId', id: notification.id, url: mark_as_read_dashboard_notification_path(notification)} do %>
