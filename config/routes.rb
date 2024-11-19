@@ -29,7 +29,13 @@ Rails.application.routes.draw do
         patch :close_ticket
       end
     end
-    resources :tickets_history
+    
+    resources :tickets_history do
+      member do
+        post :review
+      end
+    end
+
     resources :properties do
       resources :property_units
       member do

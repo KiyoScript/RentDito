@@ -33,7 +33,7 @@
                 </li>
               <% else %>
                 <% current_user.notifications.order(created_at: :desc).limit(5).each do |notification| %>
-                  <%= link_to notification.notifiable_type == "Ticket" ? dashboard_ticket_path(notification.notifiable) : notification.notifiable_type == "User" ? "#" : dashboard_billing_path(notification.notifiable.number),
+                  <%= link_to notification.notifiable_type == "Ticket" ? notification.notifiable.review.present? ? dashboard_tickets_history_path(notification.notifiable) : dashboard_ticket_path(notification.notifiable) : notification.notifiable_type == "User" ? "#" : dashboard_billing_path(notification.notifiable.number),
                               data: { action: "click->notifications#markAsRead", notifications_target: 'getNotificationId', id: notification.id, url: mark_as_read_dashboard_notification_path(notification) } do %>
                     <li class="list-group-item list-group-item-action dropdown-notifications-item <%= 'marked-as-read' if notification.read %>">
                       <div class="d-flex">

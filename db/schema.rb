@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_14_111253) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_19_122405) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -342,6 +342,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_14_111253) do
     t.bigint "assigned_to_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "rating"
+    t.text "review"
     t.index ["assigned_to_type", "assigned_to_id"], name: "index_tickets_on_assigned_to"
     t.index ["tenant_id"], name: "index_tickets_on_tenant_id"
   end
