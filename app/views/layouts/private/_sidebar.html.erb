@@ -83,7 +83,7 @@
     </li>
     <li class="menu-item <%= 'd-none' if current_user.agent? %><%= 'active' if request.path == "/dashboard/tickets" %>">
       <%= link_to dashboard_tickets_path, class: 'menu-link' do %>
-        <i class='menu-icon tf-icons bx bx-wrench'></i>
+        <i class='menu-icon tf-icons bx bx-note'></i>
         <div class="text-truncate" data-i18n="Tickets">
           <% if current_user.tenant? %>
             My Tickets
@@ -139,5 +139,14 @@
       </li>
     <% end %>
 
+    <li class="menu-header small text-uppercase mt-0 mb-0">
+      <span class="menu-header-text" data-i18n="Apps & Pages">Others</span>
+    </li>
+    <li class="menu-item <%= 'active' if request.path.include?('dashboard/faq') %>">
+      <%= link_to dashboard_faq_path, class: 'menu-link' do %>
+        <i class='menu-icon tf-icons bx bx-help-circle'></i>
+        <div class="text-truncate" data-i18n="FAQ">FAQ</div>
+      <% end %>
+    </li>
   </ul>
 </aside>

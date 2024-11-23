@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   root "dashboard/homepage#index"
 
   namespace :dashboard do
+    get 'faq', to: 'faq#index', as: :faq
     resources :homepage, only: :index
     resources :admins, except: [:edit, :update, :destroy]
     resources :maintenance_staffs, except: [:edit, :update, :destroy]

@@ -5,3 +5,10 @@
   object-fit: cover; /* Ensures the image fits within the defined size */
   margin: auto; /* Centers the image inside the slide */
 }
+.content-wrapper {
+  display: flex;
+  align-items: stretch;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: space-between;
+}

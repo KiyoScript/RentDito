@@ -94,7 +94,7 @@
         <p>Today is due date of your Wi-Fi and rental billsf or <%= @billing.due_date.strftime("%B %Y") %>. Please pay today to avoid penalties.</p>
       <% end %>
 
-      <p><strong>NOTE:</strong> There's a 5% penalty increase in every 5 days.</p>
+      <p><strong>NOTE:</strong> There's a 5% penalty increase in the 1st day after due date, and a 10% increase in every 5 days.</p>
       <div class="details">
         <% if @subject.include?('Water') %>
           <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/water.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @charge.water_share_amount %></p>
@@ -109,7 +109,7 @@
       <div class="details">
         <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/gmail.png" alt="GMail Logo" width="20">&ensp;&nbsp;<a href="mailto:ederlindocojuangco@gmail.com" target="_blank">ederlindocojuangco@gmail.com</a></p>
         <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/facebook.png" alt="FB Logo" width="20">&ensp;&nbsp;<a href="https://www.facebook.com/profile.php?id=100089232990563">Mark Mercado</a></p>
-        <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/call.png" alt="Call Logo" width="20">&ensp;&nbsp;+63 936 648 6958</p>
+        <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/call.png" alt="Call Logo" width="20">&ensp;&nbsp;<a href="tel:+(63)9366486958">+(63) 936 648 6958</a></p>
       </div>
       <div class="footer">
         <p>© 2024 RentDito. All rights reserved.</p>
