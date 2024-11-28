@@ -3,10 +3,20 @@
         <div class="faq-header d-flex flex-column justify-content-center align-items-center h-px-300 position-relative">
         <%= image_tag "header.png", class: "scaleX-n1-rtl faq-banner-img z-n1 rounded", alt: "background image" %>
         <h4 class="text-center mb-2">Hello, how can we help?</h4>
+        <% unless current_user.agent? %>
         <p class="text-center mb-4 px-4">or download the user manual below.</p>
-        <a href="https://google.com" class="btn btn-primary">
-            <span class="tf-icons bx bx-download bx-18px me-2"></span>Download
+        <a href="<% if current_user.landlord? %>
+              https://drive.google.com/file/d/1o7T4fqllQNPK0UwEV3FQ9vx-X7DKpLW6/view?usp=drive_link
+            <% elsif current_user.admin? %>
+              https://drive.google.com/file/d/1EwFaPaf-bZp8nKMPs7cDcIvasLEJB1AC/view?usp=drive_link
+            <% elsif current_user.maintenance_staff? || current_user.utility_staff? %>
+              https://drive.google.com/file/d/10fiOEhSoB0HMOeDcsO2VvhPi5ajfJz1n/view?usp=drive_link
+            <% else %>
+              https://drive.google.com/file/d/1LUT8GoK3fxBCul4UnwRYm3R4bHjxRatC/view?usp=drive_link
+            <% end %>"
+          class="btn btn-primary" target="_blank"><span class="tf-icons bx bx-download bx-18px me-2"></span>Download
         </a>
+        <% end %>
         </div>
 
         <div class="row mt-6">
@@ -20,30 +30,40 @@
                     <span class="align-middle">Dashboard</span>
                 </button>
                 </li>
+
+              <% unless current_user.agent? %>
                 <li class="nav-item">
                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#accounts">
                     <i class="bx bx-group faq-nav-icon me-1_5"></i>
                     <span class="align-middle">Accounts</span>
                 </button>
                 </li>
+                <% if current_user.landlord? %>
                 <li class="nav-item">
                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#properties">
                     <i class="bx bx-building-house faq-nav-icon me-1_5"></i>
                     <span class="align-middle">Properties</span>
                 </button>
                 </li>
-                <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ticketing">
-                    <i class="bx bx-note faq-nav-icon me-1_5"></i>
-                    <span class="align-middle">Ticketing</span>
-                </button>
-                </li>
+                <% end %>
+
+                <% unless current_user.maintenance_staff? || current_user.utility_staff? %>
+                  <% unless current_user.admin? %>
+                    <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ticketing">
+                        <i class="bx bx-note faq-nav-icon me-1_5"></i>
+                        <span class="align-middle">Ticketing</span>
+                    </button>
+                    </li>
+                  <% end %>
                 <li class="nav-item">
                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#billing">
                     <i class="bx bx-money faq-nav-icon me-1_5"></i>
                     <span class="align-middle">Billing</span>
                 </button>
                 </li>
+                <% end %>
+              <% end %>
             </ul>
             <div class="d-none d-md-block">
                 <div class="my-4 d-flex justify-content-center">
@@ -92,6 +112,7 @@
                     </div>
                 </div>
 
+                <% if current_user.landlord? || current_user.admin? %>
                 <div class="card accordion-item">
                     <h2 class="accordion-header">
                     <button
@@ -127,6 +148,7 @@
                     </div>
                     </div>
                 </div>
+                <% end %>
                 </div>
             </div>
             <div class="tab-pane fade" id="accounts" role="tabpanel">
@@ -144,6 +166,8 @@
                 </div>
                 </div>
                 <div id="accordionAccounts" class="accordion">
+
+                <% if current_user.landlord? || current_user.admin? %>
                 <div class="card accordion-item">
                     <h2 class="accordion-header">
                     <button
@@ -211,15 +235,16 @@
                         data-bs-toggle="collapse"
                         data-bs-target="#accordionAccounts-4"
                         aria-controls="accordionAccounts-4">
-                        Can I still update my account even though I am already verified?
+                        How do I transfer a tenant to another room?
                     </button>
                     </h2>
                     <div id="accordionAccounts-4" class="accordion-collapse collapse">
                     <div class="accordion-body">
-                        Yes. You can still update your account. However, you cannot update your profile picture, first name, last name, date of birth, signature, and valid IDs.
+                        Deactivate the account first, and you can proceed to transfer tenant to another room. However, make sure that the tenant has already paid all the remaining bills before transferring.
                     </div>
                     </div>
                 </div>
+                <% end %>
 
                 <div class="card accordion-item">
                     <h2 class="accordion-header">
@@ -229,17 +254,19 @@
                         data-bs-toggle="collapse"
                         data-bs-target="#accordionAccounts-5"
                         aria-controls="accordionAccounts-5">
-                        How do I transfer a tenant to another room?
+                        Can I still update my account even though I am already verified?
                     </button>
                     </h2>
                     <div id="accordionAccounts-5" class="accordion-collapse collapse">
                     <div class="accordion-body">
-                        Deactivate the account first, and you can proceed to transfer tenant to another room. However, make sure that the tenant has already paid all the remaining bills before transferring.
+                        Yes. You can still update your account. However, you cannot update your profile picture, first name, last name, date of birth, signature, and valid IDs.
                     </div>
                     </div>
                 </div>
                 </div>
             </div>
+
+            <% if current_user.landlord? %>
             <div class="tab-pane fade" id="properties" role="tabpanel">
                 <div class="d-flex mb-4 gap-4">
                 <div>
@@ -292,6 +319,8 @@
                 </div>
                 </div>
             </div>
+            <% end %>
+
             <div class="tab-pane fade" id="ticketing" role="tabpanel">
                 <div class="d-flex mb-4 gap-4">
                 <div>
@@ -307,6 +336,28 @@
                 </div>
                 </div>
                 <div id="accordionTicketing" class="accordion">
+
+                <% if current_user.landlord? %>
+                <div class="card accordion-item">
+                    <h2 class="accordion-header">
+                    <button
+                        class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#accordionTicketing-1"
+                        aria-controls="accordionTicketing-1">
+                        Can a landlord close the ticket?
+                    </button>
+                    </h2>
+                    <div id="accordionTicketing-1" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        Yes. Only if the ticket isn't assigned to the staff yet.
+                    </div>
+                    </div>
+                </div>
+                <% end %>
+
+                <% if current_user.tenant? %>
                 <div class="card accordion-item">
                     <h2 class="accordion-header">
                     <button
@@ -314,33 +365,15 @@
                         type="button"
                         data-bs-toggle="collapse"
                         aria-expanded="true"
-                        data-bs-target="#accordionTicketing-1"
-                        aria-controls="accordionTicketing-1">
+                        data-bs-target="#accordionTicketing-2"
+                        aria-controls="accordionTicketing-2">
                         I want to submit a ticket regarding "Check Out". Why it needs to be after 15 days from the current date?
                     </button>
                     </h2>
 
-                    <div id="accordionTicketing-1" class="accordion-collapse collapse">
-                    <div class="accordion-body">
-                        The reason tenant should check out after 15 days is for the caretakers to give time to clean the room or bedspaces.
-                    </div>
-                    </div>
-                </div>
-
-                <div class="card accordion-item">
-                    <h2 class="accordion-header">
-                    <button
-                        class="accordion-button collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#accordionTicketing-2"
-                        aria-controls="accordionTicketing-2">
-                        Can a landlord close the ticket?
-                    </button>
-                    </h2>
                     <div id="accordionTicketing-2" class="accordion-collapse collapse">
                     <div class="accordion-body">
-                        Yes. Only if the ticket isn't assigned to the staff yet.
+                        The reason tenant should check out after 15 days is for the caretakers to give time to clean the room or bedspaces.
                     </div>
                     </div>
                 </div>
@@ -362,6 +395,8 @@
                     </div>
                     </div>
                 </div>
+                <% end %>
+
                 </div>
             </div>
             <div class="tab-pane fade" id="billing" role="tabpanel">
@@ -379,43 +414,20 @@
                 </div>
                 </div>
                 <div id="accordionBilling" class="accordion">
-                <div class="card accordion-item">
-                    <h2 class="accordion-header">
-                    <button
-                        class="accordion-button"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        aria-expanded="true"
-                        data-bs-target="#accordionBilling-1"
-                        aria-controls="accordionBilling-1">
-                        Will I be notified every time the penalty is increasing or the bill is in due date?
-                    </button>
-                    </h2>
 
-                    <div id="accordionBilling-1" class="accordion-collapse collapse">
-                    <div class="accordion-body">
-                        <p>Yes, We will send you an email every time your penalty is increasing or the bill is in due date. For instance, in increasing penalty, you have a water charge of ₱50.00.</p>
-                        <p>• <span class="text-danger">5%</span> penalty increase on 1 day after due date - ₱50.00 * 1.05 = <span class="text-danger">₱52.50</span></p>
-                        <p>• <span class="text-danger">15%</span> penalty increase on 2 to 6 days after due date - ₱50.00 * 1.15 = <span class="text-danger">₱57.50</span></p>
-                        <p>• <span class="text-danger">25%</span> penalty increase on 7 to 11 days after due date - ₱50.00 * 1.25 = <span class="text-danger">₱62.50</span></p>
-                        <p>• <span class="text-danger">35%</span> penalty increase on 12 to 16 days after due date - ₱50.00 * 1.35 = <span class="text-danger">₱67.50</span></p>
-                        The penalty increases 5% every 5 days. Hence, it's better to pay your bills right away to avoid penalties.
-                    </div>
-                    </div>
-                </div>
-
+                <% if current_user.landlord? || current_user.admin? %>
                 <div class="card accordion-item">
                     <h2 class="accordion-header">
                     <button
                         class="accordion-button collapsed"
                         type="button"
                         data-bs-toggle="collapse"
-                        data-bs-target="#accordionBilling-2"
-                        aria-controls="accordionBilling-2">
+                        data-bs-target="#accordionBilling-1"
+                        aria-controls="accordionBilling-1">
                         How to split the sharing to every tenants?
                     </button>
                     </h2>
-                    <div id="accordionBilling-2" class="accordion-collapse collapse">
+                    <div id="accordionBilling-1" class="accordion-collapse collapse">
                     <div class="accordion-body">
                         In water and electricity sharing, you can input the number of days for a specific tenant to trigger sharing. Wi-Fi and rental doesn't rely on number of days, thus, they are needed to be manually inputted.
                     </div>
@@ -428,14 +440,41 @@
                         class="accordion-button collapsed"
                         type="button"
                         data-bs-toggle="collapse"
-                        data-bs-target="#accordionBilling-3"
-                        aria-controls="accordionBilling-3">
+                        data-bs-target="#accordionBilling-2"
+                        aria-controls="accordionBilling-2">
                         How do I notify tenants after creating a billing statement?
                     </button>
                     </h2>
-                    <div id="accordionBilling-3" class="accordion-collapse collapse">
+                    <div id="accordionBilling-2" class="accordion-collapse collapse">
                     <div class="accordion-body">
                         Select the <i class="bx bx-bell bx-md"></i> button after creating a billing statement. All tenants will be notified from a specific billing statement, either water, electricity, or Wi-Fi and rental.
+                    </div>
+                    </div>
+                </div>
+                <% end %>
+
+                <% if current_user.tenant? %>
+                <div class="card accordion-item">
+                    <h2 class="accordion-header">
+                    <button
+                        class="accordion-button"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        aria-expanded="true"
+                        data-bs-target="#accordionBilling-3"
+                        aria-controls="accordionBilling-3">
+                        Will I be notified every time the penalty is increasing or the bill is in due date?
+                    </button>
+                    </h2>
+
+                    <div id="accordionBilling-3" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <p>Yes, We will send you an email every time your penalty is increasing or the bill is in due date. For instance, in increasing penalty, you have a water charge of ₱50.00.</p>
+                        <p>• <span class="text-danger">5%</span> penalty increase on 1 day after due date - ₱50.00 * 1.05 = <span class="text-danger">₱52.50</span></p>
+                        <p>• <span class="text-danger">15%</span> penalty increase on 2 to 6 days after due date - ₱50.00 * 1.15 = <span class="text-danger">₱57.50</span></p>
+                        <p>• <span class="text-danger">25%</span> penalty increase on 7 to 11 days after due date - ₱50.00 * 1.25 = <span class="text-danger">₱62.50</span></p>
+                        <p>• <span class="text-danger">35%</span> penalty increase on 12 to 16 days after due date - ₱50.00 * 1.35 = <span class="text-danger">₱67.50</span></p>
+                        The penalty increases 5% every 5 days. Hence, it's better to pay your bills right away to avoid penalties.
                     </div>
                     </div>
                 </div>
@@ -475,6 +514,8 @@
                     </div>
                     </div>
                 </div>
+                <% end %>
+
                 </div>
             </div>
             </div>

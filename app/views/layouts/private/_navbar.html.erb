@@ -6,6 +6,7 @@
   </div>
   <div id="navbar-container" class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
     <ul id="navbar" class="navbar-nav flex-row align-items-center ms-auto">
+      <% unless current_user.agent? %>
       <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2" data-controller="notifications">
         <a class="nav-link dropdown-toggle hide-arrow show" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="true">
           <span class="position-relative">
@@ -69,6 +70,7 @@
         </ul>
       </li>
       <!--/ Notification -->
+      <% end %>
       <!-- User -->
       <li class="nav-item navbar-dropdown dropdown-user dropdown">
         <a
@@ -108,6 +110,7 @@
               <% end %>
             </li>
           <% end %>
+          <% unless current_user.agent? %>
           <li>
             <div class="dropdown-divider my-1"></div>
           </li>
@@ -121,6 +124,7 @@
               <i class="bx bx-cog bx-md me-3"></i><span>Settings</span>
             <% end %>
           </li>
+          <% end %>
           <li>
             <div class="dropdown-divider my-1"></div>
           </li>

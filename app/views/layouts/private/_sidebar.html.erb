@@ -24,7 +24,7 @@
       <li class="menu-header small text-uppercase mt-0">
         <span class="menu-header-text" data-i18n="Apps & Pages">Accounts</span>
       </li>
-      <li class="menu-item open <%= 'active' if request.path.include?('dashboard/admins') || request.path.include?('dashboard/maintenance_staffs') || request.path.include?('dashboard/utility_staff') || request.path.include?('dashboard/tenants') %>">
+      <li class="menu-item <%= 'active' if request.path.include?('dashboard/admins') || request.path.include?('dashboard/maintenance_staffs') || request.path.include?('dashboard/utility_staff') || request.path.include?('dashboard/tenants') %>">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class='menu-icon tf-icons bx bx-group'></i>
           <div class="text-truncate" data-i18n="Accounts">Accounts</div>
@@ -78,6 +78,7 @@
       </li>
     <% end %>
 
+  <% unless current_user.agent? %>
     <li class="menu-header small text-uppercase mt-0 mb-0">
       <span class="menu-header-text" data-i18n="Apps & Pages">Ticketing</span>
     </li>
@@ -94,7 +95,7 @@
           <% end %>
         </div>
       <% end %>
-      <li class="menu-item open <%= 'd-none' if current_user.agent? %> <%= 'active' if request.path == "/dashboard/tickets_history" %>">
+      <li class="menu-item <%= 'd-none' if current_user.agent? %> <%= 'active' if request.path == "/dashboard/tickets_history" %>">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class='menu-icon tf-icons bx bx-history'></i>
           <div class="text-truncate" data-i18n="Histories">Histories</div>
@@ -109,10 +110,10 @@
       </li>
     </li>
 
+    <% unless current_user.utility_staff? || current_user.maintenance_staff? %>
     <li class="menu-header small text-uppercase mt-0 mb-0">
       <span class="menu-header-text" data-i18n="Apps & Pages">Billing</span>
     </li>
-    <% unless current_user.utility_staff? || current_user.maintenance_staff? %>
       <li class="menu-item <%= 'd-none' if current_user.agent? %> <%= 'active' if request.path.include?('dashboard/billings') %>">
         <%= link_to dashboard_billings_path, class: 'menu-link' do %>
           <i class='menu-icon tf-icons bx bx-money'></i>
@@ -138,6 +139,7 @@
         <% end %>
       </li>
     <% end %>
+  <% end %>
 
     <li class="menu-header small text-uppercase mt-0 mb-0">
       <span class="menu-header-text" data-i18n="Apps & Pages">Others</span>
