@@ -156,4 +156,18 @@ module ApplicationHelper
     end
   end
 
+  def get_penalty_rate(due_date, charge)
+    overdue_days = (Date.current - due_date.to_date).to_i
+    return 0 if overdue_days <= 0 
+
+    case overdue_days
+    when 1
+      0.05
+    when 2..6
+      0.15
+    when 7..Float::INFINITY
+      0.15 + ((overdue_days - 2) / 5) * 0.10
+    end
+  end
+
 end

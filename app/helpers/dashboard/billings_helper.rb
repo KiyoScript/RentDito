@@ -31,8 +31,8 @@ module Dashboard::BillingsHelper
 
 
   def charge_penalty(charge, charge_type)
-    wifi_rental_total_amount = [charge.extra_charge_amount, charge.monthly_rental_amount].sum
-    extra_charge_with_electricity = [charge.extra_charge_amount + charge.electricity_share_amount].sum
+    wifi_rental_total_amount = [charge.wifi_share_amount, charge.monthly_rental_amount].sum
+    extra_charge_with_electricity = [charge.extra_charge_amount, charge.electricity_share_amount].sum
     case charge_type
     when 'electricity'
       ChargePenaltyCalculation.new(charge.billing.electricity_bill_end_date, extra_charge_with_electricity).total_with_penalty
@@ -103,17 +103,4 @@ module Dashboard::BillingsHelper
       charge.billing.wifi_and_rental_end_date.strftime("%B %d, %Y")
     end
   end
-
-
-  def got_penalty?(charge)
-    case charge.billing.billing_type
-    when 'electricity'
-      (charge.unpaid? || charge.pending?) && charge.billing.electricity_bill_end_date < Date.today
-    when 'water'
-      (charge.unpaid? || charge.pending?) && charge.billing.water_bill_end_date < Date.today
-    when 'wifi'
-      (charge.unpaid? || charge.pending?) && charge.billing.wifi_and_rental_end_date < Date.today
-    end
-  end
-
 end
