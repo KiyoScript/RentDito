@@ -8,7 +8,6 @@ class OnboardingController < ApplicationController
 
   def update
     filtered_params = filter_password_params(user_params)
-
     if filtered_params[:signature].present?
       attach_signature(filtered_params[:signature])
       filtered_params.delete(:signature)
@@ -67,9 +66,9 @@ class OnboardingController < ApplicationController
       decoded_image = decode_base64_image(signature_data)
       if decoded_image
         @user.signature.attach(io: StringIO.new(decoded_image), filename: "signature.png", content_type: "image/png")
-      else
-        Rails.logger.debug("Failed to decode image.")
-        flash[:alert] = "Failed to decode the signature image. Please try again."
+      # else
+      #   Rails.logger.debug("Failed to decode image.")
+      #   flash[:alert] = "Failed to decode the signature image. Please try again."
       end
     else
       Rails.logger.debug("Signature data is missing or invalid.")
