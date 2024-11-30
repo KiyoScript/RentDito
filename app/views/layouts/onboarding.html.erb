@@ -27,10 +27,28 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <!-- Core CSS -->
     <%= stylesheet_link_tag "custom", "data-turbo-track": "reload" %>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Select all elements with the `disable-modal-popup` class
+        const inputs = document.querySelectorAll('.disable-modal-popup');
+
+        inputs.forEach(input => {
+          input.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+              // Prevent the default action (e.g., modal popup or form submission)
+              event.preventDefault();
+            }
+          });
+        });
+      });
+    </script>
+
     <%= javascript_importmap_tags %>
     <%= favicon_link_tag asset_path('brand_logo.png'), rel: 'icon', sizes: '180x180' %>
   </head>
   <body>
+  <!-- <body data-core-dark-path="<%= asset_path('core-dark.css') %>" data-theme-dark-path="<%= asset_path('theme-default-dark.css') %>"> -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
         <%= render partial: "layouts/flash_messages/toastr"%>
