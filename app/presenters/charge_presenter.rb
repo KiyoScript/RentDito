@@ -14,17 +14,6 @@ class ChargePresenter
     end
   end
 
-  def total_with_penalty(due_date, billing_type)
-    base_amount = case billing_type
-                  when 'water' then @charge.water_share_amount
-                  when 'electricity' then @charge.electricity_share_amount + @charge.extra_charge_amount
-                  when 'wifi' then @charge.wifi_share_amount
-                  when 'rental' then @charge.monthly_rental_amount
-                  end
-
-    (base_amount * penalty_rate(due_date)).round(2)
-  end
-
   def number_of_day(due_date)
     overdue_days = (Date.current - due_date.to_date).to_i
     return "no days overdue" if overdue_days <= 0

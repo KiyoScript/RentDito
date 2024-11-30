@@ -96,27 +96,27 @@
         <p>You are <%= @charge_presenter.number_of_day(@charge.billing.water_bill_end_date) %> past due for your water charge. <%= @charge_presenter.day_rate(@charge.billing.water_bill_end_date) %> overdue = <span style="color: red;"><%= @charge_presenter.penalty_rate(@charge.billing.water_bill_end_date) * 100 %>% penalty increase</span>.</p>
         <p class="info_container">
           <img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/water.png" alt="Water Logo" width="20">
-          &ensp;₱<%= @charge.water_share_amount %> * <%= @charge_presenter.penalty_rate(@charge.billing.water_bill_end_date) * 100 %>% =
-          <span style="color: red;">&ensp;₱<%= @charge_presenter.total_with_penalty(@charge.billing.water_bill_end_date, 'water') * 100 %></span>
+          &ensp;₱<%= @charge.water_share_amount %> + (₱<%= @charge.water_share_amount %> * <%= @charge_presenter.penalty_rate(@charge.billing.water_bill_end_date) * 100 %>%) =
+          <span style="color: red;">&ensp;₱<%= @charge.water_share_amount + @charge.water_share_amount * @charge_presenter.penalty_rate(@charge.billing.water_bill_end_date) %></span>
         </p>
       <% when 'electricity' %>
         <p>You are <%= @charge_presenter.number_of_day(@charge.billing.electricity_bill_end_date) %> past due for your electricity charge. <%= @charge_presenter.day_rate(@charge.billing.electricity_bill_end_date) %> overdue = <span style="color: red;"><%= @charge_presenter.penalty_rate(@charge.billing.electricity_bill_end_date) * 100 %>% penalty increase</span>.</p>
         <p class="info_container">
           <img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/electricity.png" alt="Electricity Logo" width="20">
-          &ensp;₱<%= @charge.electricity_share_amount + @charge.extra_charge_amount %> * <%= @charge_presenter.penalty_rate(@charge.billing.electricity_bill_end_date) * 100 %>% =
-          <span style="color: red;">&ensp;₱<%= @charge_presenter.total_with_penalty(@charge.billing.electricity_bill_end_date, 'electricity') * 100 %></span>
+          &ensp;₱<%= @charge.electricity_share_amount + @charge.extra_charge_amount %> + (₱<%= @charge.electricity_share_amount + @charge.extra_charge_amount %> * <%= @charge_presenter.penalty_rate(@charge.billing.electricity_bill_end_date) * 100 %>%) =
+          <span style="color: red;">&ensp;₱<%= @charge.electricity_share_amount + @charge.extra_charge_amount + (@charge.electricity_share_amount + @charge.extra_charge_amount) * @charge_presenter.penalty_rate(@charge.billing.electricity_bill_end_date) %></span>
         </p>
       <% when 'wifi' %>
         <p>You are <%= @charge_presenter.number_of_day(@charge.billing.wifi_and_rental_end_date) %> past due for your Wi-Fi and rental charges. <%= @charge_presenter.day_rate(@charge.billing.wifi_and_rental_end_date) %> overdue = <span style="color: red;"><%= @charge_presenter.penalty_rate(@charge.billing.wifi_and_rental_end_date) * 100 %>% penalty increase</span>.</p>
         <p class="info_container">
           <img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/wifi.png" alt="Wi-Fi Logo" width="20">
-          &ensp;₱<%= @charge.wifi_share_amount %> * <%= @charge_presenter.penalty_rate(@charge.billing.wifi_and_rental_end_date) * 100 %>% =
-          <span style="color: red;">&ensp;₱<%= @charge_presenter.total_with_penalty(@charge.billing.wifi_and_rental_end_date, 'wifi') * 100 %></span>
+          &ensp;₱<%= @charge.wifi_share_amount %> + (₱<%= @charge.wifi_share_amount %> * <%= @charge_presenter.penalty_rate(@charge.billing.wifi_and_rental_end_date) * 100 %>%) =
+          <span style="color: red;">&ensp;₱<%= @charge.wifi_share_amount + @charge.wifi_share_amount * @charge_presenter.penalty_rate(@charge.billing.wifi_and_rental_end_date) %></span>
         </p>
         <p class="info_container">
           <img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/rental.png" alt="Rental Logo" width="20">
-          &ensp;₱<%= @charge.monthly_rental_amount %> * <%= @charge_presenter.penalty_rate(@charge.billing.wifi_and_rental_end_date) * 100 %>% =
-          <span style="color: red;">&ensp;₱<%= @charge_presenter.total_with_penalty(@charge.billing.wifi_and_rental_end_date, 'rental') * 100 %></span>
+          &ensp;₱<%= @charge.monthly_rental_amount %> + (₱<%= @charge.monthly_rental_amount %> * <%= @charge_presenter.penalty_rate(@charge.billing.wifi_and_rental_end_date) * 100 %>%) =
+          <span style="color: red;">&ensp;₱<%= @charge.monthly_rental_amount + @charge.monthly_rental_amount * @charge_presenter.penalty_rate(@charge.billing.wifi_and_rental_end_date) %></span>
         </p>
       <% end %>
 
