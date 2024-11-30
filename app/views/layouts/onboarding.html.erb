@@ -29,6 +29,49 @@
     <%= stylesheet_link_tag "custom", "data-turbo-track": "reload" %>
 
     <script>
+      (function () {
+        const currentTime = new Date();
+        const hours = currentTime.getHours();
+
+        const isDarkTheme = hours >= 20 || hours < 5;
+
+        const head = document.head;
+
+        if (isDarkTheme) {
+          const darkCoreLink = document.createElement('link');
+          darkCoreLink.rel = 'stylesheet';
+          darkCoreLink.href = '<%= asset_path("core-dark.css") %>';
+          head.appendChild(darkCoreLink);
+
+          const darkThemeLink = document.createElement('link');
+          darkThemeLink.rel = 'stylesheet';
+          darkThemeLink.href = '<%= asset_path("theme-default-dark.css") %>';
+          head.appendChild(darkThemeLink);
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+          const isDarkThemeActive = !!document.querySelector('link[href*="core-dark.css"]');
+          const dynamicDiv = document.getElementById("dynamic-background");
+
+          const darkLogo = document.getElementById("dark-logo");
+          const lightLogo = document.getElementById("light-logo");
+
+          if (dynamicDiv) {
+            dynamicDiv.style.backgroundColor = isDarkThemeActive ? "#fff" : "#2b2c40";
+          }
+
+          if (isDarkThemeActive) {
+            if (darkLogo) darkLogo.classList.remove("d-none");
+            if (lightLogo) lightLogo.classList.add("d-none");
+          } else {
+            if (darkLogo) darkLogo.classList.add("d-none");
+            if (lightLogo) lightLogo.classList.remove("d-none");
+          }
+        });
+      })();
+    </script>
+
+    <script>
       document.addEventListener('DOMContentLoaded', function () {
         // Select all elements with the `disable-modal-popup` class
         const inputs = document.querySelectorAll('.disable-modal-popup');

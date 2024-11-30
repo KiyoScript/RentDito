@@ -1,149 +1,167 @@
-<div class="row row-bordered rounded g-0 <%= current_user.landlord? || current_user.admin? ? '' : 'd-none'%>">
+<div class="row row-bordered rounded g-0 <%= current_user.landlord? || current_user.admin? ? '' : 'd-none'%>" style="box-shadow: 0 .1875rem .5rem 0 rgba(34, 48, 62, .1);">
   <div class="col-xl-3 col-lg-6 col-md-6">
-    <div class="card-body p-6 bg-white">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h6 class="fw-normal mb-0 text-body">Total <%= User.admin.count %> Users</h6>
-        <%= users_avatars(User.admin) %>
-      </div>
-      <div class="d-flex justify-content-between align-items-end">
-        <div class="role-heading">
-          <h5 class="mb-1">Administrator</h5>
-          <%= link_to 'View Users', dashboard_admins_path %>
+    <div class="card" style="border-radius: 0rem !important; box-shadow: 0px 0px;">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h6 class="fw-normal mb-0 text-body">Total <%= User.admin.count %> Users</h6>
+          <%= users_avatars(User.admin) %>
+        </div>
+        <div class="d-flex justify-content-between align-items-end">
+          <div class="role-heading">
+            <h5 class="mb-1">Administrator</h5>
+            <%= link_to 'View Users', dashboard_admins_path %>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div class="col-xl-3 col-lg-6 col-md-6">
-    <div class="card-body p-6 bg-white">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h6 class="fw-normal mb-0 text-body">Total <%= User.maintenance_staff.count %> Users</h6>
-        <%= users_avatars(User.maintenance_staff) %>
-      </div>
-      <div class="d-flex justify-content-between align-items-end">
-        <div class="role-heading">
-          <h5 class="mb-1">Maintenance Staff</h5>
-          <%= link_to 'View Users', dashboard_maintenance_staffs_path %>
+    <div class="card" style="border-radius: 0rem !important; box-shadow: 0px 0px;">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h6 class="fw-normal mb-0 text-body">Total <%= User.maintenance_staff.count %> Users</h6>
+          <%= users_avatars(User.maintenance_staff) %>
+        </div>
+        <div class="d-flex justify-content-between align-items-end">
+          <div class="role-heading">
+            <h5 class="mb-1">Maintenance Staff</h5>
+            <%= link_to 'View Users', dashboard_maintenance_staffs_path %>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div class="col-xl-3 col-lg-6 col-md-6">
-    <div class="card-body p-6 bg-white">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h6 class="fw-normal mb-0 text-body">Total <%= User.utility_staff.count %> Users</h6>
-        <%= users_avatars(User.utility_staff) %>
-      </div>
-      <div class="d-flex justify-content-between align-items-end">
-        <div class="role-heading">
-          <h5 class="mb-1">Utility Staff</h5>
-          <%= link_to 'View Users', dashboard_utility_staff_index_path %>
+    <div class="card" style="border-radius: 0rem !important; box-shadow: 0px 0px;">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h6 class="fw-normal mb-0 text-body">Total <%= User.utility_staff.count %> Users</h6>
+          <%= users_avatars(User.utility_staff) %>
+        </div>
+        <div class="d-flex justify-content-between align-items-end">
+          <div class="role-heading">
+            <h5 class="mb-1">Utility Staff</h5>
+            <%= link_to 'View Users', dashboard_utility_staff_index_path %>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div class="col-xl-3 col-lg-6 col-md-6">
-    <div class="card-body p-6 bg-white">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h6 class="fw-normal mb-0 text-body">Total <%= User.tenant.count %> Users</h6>
-        <%= users_avatars(User.tenant) %>
-      </div>
-      <div class="d-flex justify-content-between align-items-end">
-        <div class="role-heading">
-          <h5 class="mb-1">Tenant</h5>
-          <%= link_to 'View Users', dashboard_tenants_path %>
+    <div class="card" style="border-radius: 0rem !important; box-shadow: 0px 0px;">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h6 class="fw-normal mb-0 text-body">Total <%= User.tenant.count %> Users</h6>
+          <%= users_avatars(User.tenant) %>
+        </div>
+        <div class="d-flex justify-content-between align-items-end">
+          <div class="role-heading">
+            <h5 class="mb-1">Tenant</h5>
+            <%= link_to 'View Users', dashboard_tenants_path %>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="row row-bordered rounded mt-6 g-0 <%= current_user.landlord? || current_user.admin? ? '' : 'd-none'%>">
+<div class="row row-bordered rounded mt-6 g-0 <%= current_user.landlord? || current_user.admin? ? '' : 'd-none'%>" style="box-shadow: 0 .1875rem .5rem 0 rgba(34, 48, 62, .1);">
   <div class="col-sm-6 col-xl-20">
-    <div class="card-body p-6 bg-white">
-      <div class="d-flex align-items-start justify-content-between">
-        <div class="content-left">
-          <span class="text-heading">Verified Users</span>
-          <div class="d-flex align-items-center my-1">
-            <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').where.not(role: 'agent').verified.count  %>/<%= User.where.not(role: 'landlord').where.not(role: 'agent').count %></h4>
+    <div class="card" style="border-radius: 0rem !important; box-shadow: 0px 0px;">
+      <div class="card-body">
+        <div class="d-flex align-items-start justify-content-between">
+          <div class="content-left">
+            <span class="text-heading">Verified Users</span>
+            <div class="d-flex align-items-center my-1">
+              <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').where.not(role: 'agent').verified.count  %>/<%= User.where.not(role: 'landlord').where.not(role: 'agent').count %></h4>
+            </div>
+            <small class="mb-0 text-success"><%= User.get_percentage(User.where.not(role: 'landlord').where.not(role: 'agent').verified.count, User.where.not(role: 'landlord').where.not(role: 'agent').count) %></small>
           </div>
-          <small class="mb-0 text-success"><%= User.get_percentage(User.where.not(role: 'landlord').where.not(role: 'agent').verified.count, User.where.not(role: 'landlord').where.not(role: 'agent').count) %></small>
-        </div>
-        <div class="avatar d-flex align-items-start flex-column">
-          <span class="avatar-initial rounded bg-label-success">
-            <i class="bx bx-user-check bx-lg"></i>
-          </span>
+          <div class="avatar d-flex align-items-start flex-column">
+            <span class="avatar-initial rounded bg-label-success">
+              <i class="bx bx-user-check bx-lg"></i>
+            </span>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div class="col-sm-6 col-xl-20">
-    <div class="card-body p-6 bg-white">
-      <div class="d-flex align-items-start justify-content-between">
-        <div class="content-left">
-          <span class="text-heading">Unverified Users</span>
-          <div class="d-flex align-items-center my-1">
-            <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').where.not(role: 'agent').unverified.count  %>/<%= User.where.not(role: 'landlord').where.not(role: 'agent').count %></h4>
+    <div class="card" style="border-radius: 0rem !important; box-shadow: 0px 0px;">
+      <div class="card-body">
+        <div class="d-flex align-items-start justify-content-between">
+          <div class="content-left">
+            <span class="text-heading">Unverified Users</span>
+            <div class="d-flex align-items-center my-1">
+              <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').where.not(role: 'agent').unverified.count  %>/<%= User.where.not(role: 'landlord').where.not(role: 'agent').count %></h4>
+            </div>
+            <small class="mb-0 text-warning"><%= User.get_percentage(User.where.not(role: 'landlord').where.not(role: 'agent').unverified.count, User.where.not(role: 'landlord').where.not(role: 'agent').count) %></small>
           </div>
-          <small class="mb-0 text-warning"><%= User.get_percentage(User.where.not(role: 'landlord').where.not(role: 'agent').unverified.count, User.where.not(role: 'landlord').where.not(role: 'agent').count) %></small>
-        </div>
-        <div class="avatar">
-          <span class="avatar-initial rounded bg-label-warning">
-            <i class="bx bx-user-voice bx-lg"></i>
-          </span>
+          <div class="avatar">
+            <span class="avatar-initial rounded bg-label-warning">
+              <i class="bx bx-user-voice bx-lg"></i>
+            </span>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div class="col-sm-6 col-xl-20">
-    <div class="card-body p-6 bg-white">
-      <div class="d-flex align-items-start justify-content-between">
-        <div class="content-left">
-          <span class="text-heading">Rejected Users</span>
-          <div class="d-flex align-items-center my-1">
-            <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').where.not(role: 'agent').rejected.count  %>/<%= User.where.not(role: 'landlord').where.not(role: 'agent').count %></h4>
+    <div class="card" style="border-radius: 0rem !important; box-shadow: 0px 0px;">
+      <div class="card-body">
+        <div class="d-flex align-items-start justify-content-between">
+          <div class="content-left">
+            <span class="text-heading">Rejected Users</span>
+            <div class="d-flex align-items-center my-1">
+              <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').where.not(role: 'agent').rejected.count  %>/<%= User.where.not(role: 'landlord').where.not(role: 'agent').count %></h4>
+            </div>
+            <small class="mb-0 text-danger"><%= User.get_percentage(User.where.not(role: 'landlord').where.not(role: 'agent').rejected.count, User.where.not(role: 'landlord').where.not(role: 'agent').count) %></small>
           </div>
-          <small class="mb-0 text-danger"><%= User.get_percentage(User.where.not(role: 'landlord').where.not(role: 'agent').rejected.count, User.where.not(role: 'landlord').where.not(role: 'agent').count) %></small>
-        </div>
-        <div class="avatar">
-          <span class="avatar-initial rounded bg-label-danger">
-            <i class="bx bx-user-plus bx-lg"></i>
-          </span>
+          <div class="avatar">
+            <span class="avatar-initial rounded bg-label-danger">
+              <i class="bx bx-user-x bx-lg"></i>
+            </span>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div class="col-sm-6 col-xl-20">
-    <div class="card-body p-6 bg-white">
-      <div class="d-flex align-items-start justify-content-between">
-        <div class="content-left">
-          <span class="text-heading">Incomplete Users</span>
-          <div class="d-flex align-items-center my-1">
-            <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').where.not(role: 'agent').incomplete.count  %>/<%= User.where.not(role: 'landlord').where.not(role: 'agent').count %></h4>
+    <div class="card" style="border-radius: 0rem !important; box-shadow: 0px 0px;">
+      <div class="card-body">
+        <div class="d-flex align-items-start justify-content-between">
+          <div class="content-left">
+            <span class="text-heading">Incomplete Users</span>
+            <div class="d-flex align-items-center my-1">
+              <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').where.not(role: 'agent').incomplete.count  %>/<%= User.where.not(role: 'landlord').where.not(role: 'agent').count %></h4>
+            </div>
+            <small class="mb-0 text-info"><%= User.get_percentage(User.where.not(role: 'landlord').where.not(role: 'agent').incomplete.count, User.where.not(role: 'landlord').where.not(role: 'agent').count) %></small>
           </div>
-          <small class="mb-0 text-info"><%= User.get_percentage(User.where.not(role: 'landlord').where.not(role: 'agent').incomplete.count, User.where.not(role: 'landlord').where.not(role: 'agent').count) %></small>
-        </div>
-        <div class="avatar">
-          <span class="avatar-initial rounded bg-label-primary">
-            <i class="bx bx-group bx-lg"></i>
-          </span>
+          <div class="avatar">
+            <span class="avatar-initial rounded bg-label-primary">
+              <i class="bx bx-group bx-lg"></i>
+            </span>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div class="col-sm-12 col-md-12 col-lg-12 col-xl-20">
-    <div class="card-body p-6 bg-white">
-      <div class="d-flex align-items-start justify-content-between">
-        <div class="content-left">
-          <span class="text-heading">Deactivated Users</span>
-          <div class="d-flex align-items-center my-1">
-            <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').where.not(role: 'agent').deactivated.count  %>/<%= User.where.not(role: 'landlord').where.not(role: 'agent').count %></h4>
+    <div class="card" style="border-radius: 0rem !important; box-shadow: 0px 0px;">
+      <div class="card-body">
+        <div class="d-flex align-items-start justify-content-between">
+          <div class="content-left">
+            <span class="text-heading">Deactivated Users</span>
+            <div class="d-flex align-items-center my-1">
+              <h4 class="mb-0 me-2"><%= User.where.not(role: 'landlord').where.not(role: 'agent').deactivated.count  %>/<%= User.where.not(role: 'landlord').where.not(role: 'agent').count %></h4>
+            </div>
+            <small class="mb-0 text-danger"><%= User.get_percentage(User.where.not(role: 'landlord').where.not(role: 'agent').deactivated.count, User.where.not(role: 'landlord').where.not(role: 'agent').count) %></small>
           </div>
-          <small class="mb-0 text-danger"><%= User.get_percentage(User.where.not(role: 'landlord').where.not(role: 'agent').deactivated.count, User.where.not(role: 'landlord').where.not(role: 'agent').count) %></small>
-        </div>
-        <div class="avatar">
-          <span class="avatar-initial rounded bg-label-danger">
-            <i class="bx bx-group bx-lg"></i>
-          </span>
+          <div class="avatar">
+            <span class="avatar-initial rounded bg-label-danger">
+              <i class="bx bx-group bx-lg"></i>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -464,7 +482,7 @@
                       <%= f.number_field :amount, step: 0.01, class: "form-control", required: true %>
                     </div>
 
-                    <div class="modal-footer">
+                    <div class="modal-footer px-0">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                       <%= f.submit "Transfer", class: "btn btn-primary", data: { bs_dismiss: 'modal' } %>
                     </div>

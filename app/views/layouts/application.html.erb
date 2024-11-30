@@ -14,6 +14,24 @@
     <!-- Favicon -->
     <%# <link rel="icon" type="image/x-icon" href="#" /> %>
 
+    <!-- Hide content trigger until theme is applied
+    <style>
+      /* Hide body content initially */
+      body.no-theme {
+        visibility: hidden;
+      }
+
+      /* Make it visible once theme is applied */
+      body.theme-applied {
+        visibility: visible;
+      }
+
+      /* Optional: Smooth visibility transition */
+      body {
+        transition: visibility 0.3s ease; /* Smooth transition for visibility */
+      }
+    </style> -->
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -27,6 +45,45 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <!-- Core CSS -->
     <%= stylesheet_link_tag "custom", "data-turbo-track": "reload" %>
+
+    <script>
+      (function () {
+        const currentTime = new Date();
+        const hours = currentTime.getHours();
+
+        const isDarkTheme = hours >= 20 || hours < 5;
+
+        const head = document.head;
+
+        if (isDarkTheme) {
+          const darkCoreLink = document.createElement('link');
+          darkCoreLink.rel = 'stylesheet';
+          darkCoreLink.href = '<%= asset_path("core-dark.css") %>';
+          head.appendChild(darkCoreLink);
+
+          const darkThemeLink = document.createElement('link');
+          darkThemeLink.rel = 'stylesheet';
+          darkThemeLink.href = '<%= asset_path("theme-default-dark.css") %>';
+          head.appendChild(darkThemeLink);
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+        const isDarkThemeActive = !!document.querySelector('link[href*="core-dark.css"]');
+
+        const darkLogo = document.getElementById("dark-logo");
+        const lightLogo = document.getElementById("light-logo");
+
+        if (isDarkThemeActive) {
+          if (darkLogo) darkLogo.classList.remove("d-none");
+          if (lightLogo) lightLogo.classList.add("d-none");
+        } else {
+          if (darkLogo) darkLogo.classList.add("d-none");
+          if (lightLogo) lightLogo.classList.remove("d-none");
+        }
+      });
+      })();
+    </script>
+
     <!-- Core CSS -->
     <%= stylesheet_link_tag "page-faq", "data-turbo-track": "reload" %>
     <!-- Core CSS -->
@@ -35,6 +92,7 @@
     <%= favicon_link_tag asset_path('brand_logo.png'), rel: 'icon', sizes: '180x180' %>
   </head>
   <body>
+  <!-- <body data-core-dark-path="<%= asset_path('core-dark.css') %>" data-theme-dark-path="<%= asset_path('theme-default-dark.css') %>"> -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
         <%= render partial: "layouts/flash_messages/toastr"%>

@@ -86,7 +86,7 @@
           <p>Greetings Ms./Mrs. <%= @user.lastname %>,</p>
         <% end %>
       </p>
-      <p>A monthly bill for <%= @bill.due_date.strftime("%B %Y") %> has been generated. Please pay your bills as soon as possible.</p>
+      <p><%= @charge.electricity_share_amount != 0 ? "An" : "A" %>  <%= "water" if @charge.water_share_amount != 0 %><%= "electricity" if @charge.electricity_share_amount != 0 %><%= "Wi-Fi and rental" if @charge.monthly_rental_amount != 0 %> bill for the month of <%= @bill.due_date.strftime("%B %Y") %> has been generated. Please pay your bills as soon as possible.</p>
       <div class="details">
       <% if @charge.water_share_amount != 0 %>
         <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/water.png" alt="Call Logo" width="20">&ensp;&nbsp;₱<%= @charge.water_share_amount %></p>

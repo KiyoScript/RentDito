@@ -88,7 +88,7 @@
 
       <p>Hello <%= @user.male? ? 'Mr.' : 'Mrs.' %> <%= @user.lastname.titleize %>,</p>
 
-      <p>You are receiving this email because you are in a penalty zone <%= @billing.billing_type == 'wifi' ? 'Wi-Fi and Rental' :  @billing.billing_type.titleize %> Bill for the month of <%= Date.current.strftime("%B %Y") %>.</p>
+      <p>You are receiving this email because you are in a penalty zone in <%= @billing.billing_type == 'wifi' ? 'Wi-Fi and rental' :  @billing.billing_type %> bill for the month of <%= Date.current.strftime("%B %Y") %>.</p>
       <p><strong>NOTE:</strong> There's a 5% penalty increase on the 1st day after the due date, and a 10% increase for every additional 5 days.</p>
 
       <% case @charge.billing.billing_type %>

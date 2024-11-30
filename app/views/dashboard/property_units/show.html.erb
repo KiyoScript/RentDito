@@ -1,19 +1,20 @@
 <div class="d-flex flex-column">
-  <header class="bg-white shadow-sm">
-    <div class="container py-4 d-flex justify-content-between align-items-center">
-      <h4 class="font-weight-bold text-dark d-flex align-items-center mb-0">
-        <i class='bx bx-buildings me-2'></i>
-        <%= @property_unit.name %>
-      </h4>
-      <% if current_user.landlord? %>
-        <a href="#" class="menu-link text-center" data-bs-toggle="modal" data-bs-target="#updatePropertyUnitModal-<%= @property_unit.id %>">
-          <i class='bx bx-edit bx-sm'></i>
-          Edit
-        </a>
-      <% end %>
+  <div class="row p-0 m-0 gap-5">
+    <div class="col-12 card card-border-shadow-primary">
+      <div class="container py-4 d-flex justify-content-between align-items-center">
+        <h4 class="font-weight-bold text-dark d-flex align-items-center mb-0" style="margin-left: -15px;">
+          <i class='bx bx-buildings me-2'></i>
+          <%= @property_unit.name %>
+        </h4>
+        <% if current_user.landlord? %>
+          <a href="#" class="menu-link text-center ms-6" data-bs-toggle="modal" data-bs-target="#updatePropertyUnitModal-<%= @property_unit.id %>">
+            <i class='bx bx-edit bx-sm'></i>
+            Edit
+          </a>
+        <% end %>
+      </div>
     </div>
-  </header>
-
+  </div>
 
   <div class="modal fade" id="updatePropertyUnitModal-<%= @property_unit.id %>" tabindex="-1" aria-labelledby="updatePropertyUnitModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">

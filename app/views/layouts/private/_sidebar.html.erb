@@ -2,7 +2,8 @@
   <div class="app-brand demo" style="padding-left: 1.75rem !important;">
     <%= link_to root_path, class: "app-brand-link" do %>
       <span class="app-brand-logo demo">
-        <%= image_tag "dark_brand_logo.png", class: "img-fluid p-4", width: "80", alt: "Brand Logo", style: 'margin-left: -16px;' %>
+        <%= image_tag "dark_brand_logo.png", class: "img-fluid p-4 d-none", width: "80", alt: "Brand Logo", style: 'margin-left: -16px;', id: "dark-logo" %>
+        <%= image_tag "brand_logo.png", class: "img-fluid p-4", width: "80", alt: "Brand Logo", style: 'margin-left: -16px;', id: "light-logo" %>
       </span>
       <span class="app-brand-text demo menu-text fw-bold" style="margin-left: -22px;">RentDito</span>
     <% end %>
@@ -95,19 +96,6 @@
           <% end %>
         </div>
       <% end %>
-      <li class="menu-item <%= 'd-none' if current_user.agent? %> <%= 'active' if request.path == "/dashboard/tickets_history" %>">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-          <i class='menu-icon tf-icons bx bx-history'></i>
-          <div class="text-truncate" data-i18n="Histories">Histories</div>
-        </a>
-        <ul class="menu-sub">
-          <li class="menu-item <%= 'active' if request.path.include?('dashboard/ticket_history') %>">
-            <%= link_to dashboard_tickets_history_index_path, class: "menu-link" do %>
-              <div class="text-truncate" data-i18n="Tickets History">Tickets History</div>
-            <% end %>
-          </li>
-        </ul>
-      </li>
     </li>
 
     <% unless current_user.utility_staff? || current_user.maintenance_staff? %>
@@ -143,6 +131,24 @@
 
     <li class="menu-header small text-uppercase mt-0 mb-0">
       <span class="menu-header-text" data-i18n="Apps & Pages">Others</span>
+    </li>
+    <li class="menu-item <%= 'd-none' if current_user.agent? %> <%= 'active' if ['/dashboard/tickets_history', '/dashboard/transaction_history'].include?(request.path) %>">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class='menu-icon tf-icons bx bx-history'></i>
+        <div class="text-truncate" data-i18n="History">History</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item <%= 'active' if request.path.include?('dashboard/tickets_history') %>">
+          <%= link_to dashboard_tickets_history_index_path, class: "menu-link" do %>
+            <div class="text-truncate" data-i18n="Ticket History">Ticket History</div>
+          <% end %>
+        </li>
+        <li class="menu-item <%= 'active' if request.path.include?('dashboard/transaction_history') %>">
+          <%= link_to dashboard_transaction_history_index_path, class: "menu-link" do %>
+            <div class="text-truncate" data-i18n="Transaction History">Transaction History</div>
+          <% end %>
+        </li>
+      </ul>
     </li>
     <li class="menu-item <%= 'active' if request.path.include?('dashboard/faq') %>">
       <%= link_to dashboard_faq_path, class: 'menu-link' do %>
