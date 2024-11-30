@@ -16,22 +16,31 @@
               <%= form.label :receipt, "Upload Receipt", class: 'form-label fs-6' %>
               <%= form.file_field :receipt, class: 'form-control', data: { action: "change->receipt-uploader#upload", receipt_uploader_target:  "receiptField" } %>
             </div>
+            <div class="mb-3 d-flex align-items-center d-none" data-receipt-uploader-target="loadingContainer">
+              <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div><span class="text text-info">Extracting screenshot data.</span>
+            </div>
+            <div class="mb-3 d-flex align-items-center d-none" data-receipt-uploader-target="successContainer" style="animation: fadeOut 6s;">
+              <i class='bx bx-check text-success me-1'></i><span class="text text-success">Data successfully extracted.</span>
+            </div>
+            <div class="mb-3 d-flex align-items-center d-none" data-receipt-uploader-target="errorContainer" style="animation: fadeOut 6s;">
+              <i class='bx bx-x text-danger me-1'></i><span class="text text-danger">Invalid receipt. Please upload a valid GCash receipt.</span>
+            </div>
             <div class="mb-3">
               <%= form.label :amount, class: 'form-label fs-6' %>
               <%= form.number_field :amount, class: 'form-control', min: 200, readonly: true, data: { receipt_uploader_target: "amount"} %>
             </div>
             <div class="mb-3">
-              <%= form.label :reference_number, class: 'form-label fs-6' %>
+              <%= form.label :reference_number, "Reference Number", class: 'form-label fs-6' %>
               <%= form.text_field :reference_number, class: 'form-control', readonly: true, data: { receipt_uploader_target: "referenceNumber" } %>
             </div>
             <div class="mb-3">
-              <%= form.label :date_time, class: 'form-label fs-6' %>
+              <%= form.label :date_time, "Date & Time", class: 'form-label fs-6' %>
               <%= form.datetime_field :date_time, class: 'form-control', readonly: true, data: { receipt_uploader_target: "dateTime" } %>
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <%= form.submit 'Submit', class: 'btn btn-primary', data: { bs_dismiss:"modal", receipt_uploader_target: "submitButton" } %>
+            <%= form.submit 'Submit', class: 'btn btn-primary', data: { bs_dismiss:"modal", receipt_uploader_target: "submitButton" }, onclick: "setTimeout(function(){ location.reload(); }, 1000);" %>
           </div>
         <% end %>
       </div>

@@ -121,9 +121,16 @@
 
     <% unless current_user.utility_staff? || current_user.maintenance_staff? %>
       <li class="menu-item <%= 'd-none' if current_user.agent? %> <%= 'active' if request.path.include?('dashboard/transactions') %>">
-        <%= link_to dashboard_transactions_path, class: 'menu-link' do %>
-          <i class='menu-icon tf-icons bx bx-money'></i>
-          <div class="text-truncate" data-i18n="Transactions">Transactions</div>
+        <% if current_user.landlord? || current_user.admin? %>
+          <%= link_to dashboard_transactions_path, class: 'menu-link', onclick: "setTimeout(function(){ window.location.href = '/dashboard/transactions'; }, 1000);" do %>
+            <i class='menu-icon tf-icons bx bx-money'></i>
+            <div class="text-truncate" data-i18n="Transactions">Transactions</div>
+          <% end %>
+        <% else %>
+          <%= link_to dashboard_transactions_path, class: 'menu-link' do %>
+            <i class='menu-icon tf-icons bx bx-money'></i>
+            <div class="text-truncate" data-i18n="Transactions">Transactions</div>
+          <% end %>
         <% end %>
       </li>
     <% end %>

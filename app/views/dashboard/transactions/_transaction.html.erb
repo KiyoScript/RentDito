@@ -1,6 +1,6 @@
 <tr>
   <td>
-    <p class="text-primary"><%= formmated_date(transaction.created_at) %></p>
+    <p class="text-primary"><%= time_ago_in_words(transaction.created_at) %> ago</p>
     <%= transaction.created_at.strftime("%B %d, %Y %I:%M %p") %>
   </td>
   <td><%= transaction.transaction_type.humanize.titleize %></td>
@@ -8,7 +8,9 @@
     <%= transaction_status_badge(transaction.status) %>
   </td>
   <td><%= transaction.amount.present? ? transaction.amount.format : "N/A" %></td>
+  <% unless current_user.tenant? %>
   <td><%= transaction.transfer? ? transaction.transfer_from : transaction.user.fullname %></td>
+  <% end %>
   <td>
     <div class="d-inline-block">
       <button type="button" class="btn btn-icon view-record border" data-bs-toggle="modal" data-bs-target="#transactionModal-<%= transaction.id %>">
@@ -45,7 +47,7 @@
             <p><strong>Transferred to: </strong><%= transaction.transfer_to %></p>
           <% end %>
           <% if transaction.deposit? %>
-            <p><strong>Reference Number:</strong> <%= transaction.deposit.reference_number %></p>
+            <p class="text-wrap"><strong>Reference Number:</strong> <%= transaction.deposit.reference_number %></p>
           <% end %>
           <% if transaction.rejected? %>
             <p><strong>Reason:</strong> <%= transaction.reason %></p>
@@ -56,9 +58,9 @@
         <% if current_user.landlord? || current_user.admin? %>
           <% if transaction.under_review? %>
             <% if transaction.refund_request? %>
-              <%= button_to 'Mark as Paid', mark_as_paid_dashboard_transaction_path(transaction), method: :patch, class: 'btn btn-primary w-100' %>
+              <%= button_to 'Mark as Paid', mark_as_paid_dashboard_transaction_path(transaction), method: :patch, class: 'btn btn-primary w-100', onclick: "setTimeout(function(){ window.location.href = '/dashboard/transactions'; }, 1000);" %>
             <% else %>
-              <%= button_to 'Mark as Paid', mark_as_paid_dashboard_transaction_path(transaction), method: :patch, class: 'btn btn-primary w-100' %>
+              <%= button_to 'Mark as Paid', mark_as_paid_dashboard_transaction_path(transaction), method: :patch, class: 'btn btn-primary w-100', onclick: "setTimeout(function(){ window.location.href = '/dashboard/transactions'; }, 1000);" %>
               <button type="button" class="btn btn-danger w-100" data-bs-toggle="collapse" data-bs-target="#rejectReasonForm-<%= transaction.id %>" aria-expanded="false" aria-controls="rejectReasonForm-<%= transaction.id %>">
                 Mark as Rejected
               </button>
@@ -70,7 +72,7 @@
                 <%= f.label :reason, "Reason for rejection" %>
                 <%= f.text_area :reason, class: "form-control", rows: 3, placeholder: "Enter the reason for rejecting the transaction", required: true %>
               </div>
-              <%= f.submit "Submit Rejection", class: "btn btn-danger mt-2 w-100" %>
+              <%= f.submit "Submit Rejection", class: "btn btn-danger mt-2 w-100", onclick: "setTimeout(function(){ window.location.href = '/dashboard/transactions'; }, 1000);" %>
             <% end %>
           </div>
         <% end %>

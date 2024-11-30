@@ -3,7 +3,7 @@ import 'tesseract'
 
 // Connects to data-controller="receipt-uploader"
 export default class extends Controller {
-  static targets = ["submitButton", "amount", "referenceNumber", "dateTime", "receiptField"]
+  static targets = ["submitButton", "amount", "referenceNumber", "dateTime", "receiptField", "loadingContainer", "successContainer", "errorContainer"]
 
   connect() {
     this.submitButtonTarget.disabled = true;
@@ -16,6 +16,8 @@ export default class extends Controller {
 
     this.resetFormFields();
     this.submitButtonTarget.disabled = true;
+
+    this.loadingContainerTarget.classList.remove("d-none");
 
     const fileURL = URL.createObjectURL(file);
     const worker = await Tesseract.createWorker();
@@ -36,13 +38,23 @@ export default class extends Controller {
       if (this.isValidReceipt(referenceNumber, amount, dateTime)) {
         this.submitButtonTarget.disabled = false;
 
+        this.successContainerTarget.classList.remove('d-none');
+
+        setTimeout(() => {
+          this.successContainerTarget.classList.add('d-none');
+        }, 3000);
       } else {
-        alert("Invalid receipt. Please upload a valid receipt containing the total amount, reference number, and date/time.");
+        this.errorContainerTarget.classList.remove('d-none');
+
+        setTimeout(() => {
+          this.errorContainerTarget.classList.add('d-none');
+        }, 3000);
       }
 
     } catch (error) {
       console.error("Error processing image: ", error);
     } finally {
+      this.loadingContainerTarget.classList.add("d-none");
       await worker.terminate();
     }
   }
