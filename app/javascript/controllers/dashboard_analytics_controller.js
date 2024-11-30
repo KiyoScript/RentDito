@@ -65,8 +65,8 @@ export default class extends Controller {
   }
 
   _percentage(divisor, dividend) {
-    if (dividend == 0 || divisor == 0) {
-      return 0.00
+    if (dividend == 0) {
+      return 100.00
     }
     const result = (divisor / dividend) * 100;
     return Math.round(result);
