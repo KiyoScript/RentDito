@@ -47,6 +47,44 @@
           darkThemeLink.rel = 'stylesheet';
           darkThemeLink.href = '<%= asset_path("theme-default-dark.css") %>';
           head.appendChild(darkThemeLink);
+
+          document.addEventListener("DOMContentLoaded", function () {
+            const darkStyle = document.createElement('style');
+            darkStyle.id = 'dark-toast-style';
+            darkStyle.innerHTML = `
+              .toast-success {
+                background-color: #2b2c40 !important;
+              }
+              .toast-error {
+                background-color: #2b2c40 !important;
+              }
+            `;
+            document.head.appendChild(darkStyle);
+
+            const existingLightStyle = document.getElementById('light-toast-style');
+            if (existingLightStyle) {
+              existingLightStyle.remove(); // Removes the <style> element from the DOM
+            }
+          });
+        } else {
+          document.addEventListener("DOMContentLoaded", function () {
+            const lightStyle = document.createElement('style');
+            lightStyle.id = 'light-toast-style';
+            lightStyle.innerHTML = `
+              .toast-success {
+                background-color: #ffffff !important;
+              }
+              .toast-error {
+                background-color: #ffffff !important;
+              }
+            `;
+            document.head.appendChild(lightStyle);
+
+            const existingDarkStyle = document.getElementById('dark-toast-style');
+            if (existingDarkStyle) {
+              existingDarkStyle.remove(); // Removes the <style> element from the DOM
+            }
+          });
         }
 
         document.addEventListener("DOMContentLoaded", function () {

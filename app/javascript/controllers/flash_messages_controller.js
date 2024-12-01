@@ -3,35 +3,6 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="flash-messages"
 export default class extends Controller {
   connect() {
-    const currentTime = new Date();
-    const hours = currentTime.getHours();
-
-    const isDarkTheme = hours >= 20 || hours < 5;
-
-    const style = document.createElement('style');
-
-    if(isDarkTheme){
-      style.innerHTML = `
-        .toast-success {
-          background-color: #2b2c40 !important;
-        }
-        .toast-error {
-          background-color: #2b2c40 !important;
-        }
-      `;
-      document.head.appendChild(style);
-    } else {
-      style.innerHTML = `
-        .toast-success {
-          background-color: #ffffff !important;
-        }
-        .toast-error {
-          background-color: #ffffff !important;
-        }
-      `;
-      document.head.appendChild(style);
-    }
-
     const noticeMessage = this.element.dataset.notice;
     const alertMessage = this.element.dataset.alert;
 
