@@ -37,23 +37,19 @@
 
         const head = document.head;
 
+        if (isDarkTheme) {
+          const darkCoreLink = document.createElement('link');
+          darkCoreLink.rel = 'stylesheet';
+          darkCoreLink.href = '<%= asset_path("core-dark.css") %>';
+          head.appendChild(darkCoreLink);
+
+          const darkThemeLink = document.createElement('link');
+          darkThemeLink.rel = 'stylesheet';
+          darkThemeLink.href = '<%= asset_path("theme-default-dark.css") %>';
+          head.appendChild(darkThemeLink);
+        }
+
         document.addEventListener("DOMContentLoaded", function () {
-          if (isDarkTheme) {
-            document.body.classList.add('dark-theme');
-
-            const darkCoreLink = document.createElement('link');
-            darkCoreLink.rel = 'stylesheet';
-            darkCoreLink.href = '<%= asset_path("core-dark.css") %>';
-            head.appendChild(darkCoreLink);
-
-            const darkThemeLink = document.createElement('link');
-            darkThemeLink.rel = 'stylesheet';
-            darkThemeLink.href = '<%= asset_path("theme-default-dark.css") %>';
-            head.appendChild(darkThemeLink);
-          } else {
-            document.body.classList.remove('dark-theme');
-          }
-
           const dynamicDiv = document.getElementById("dynamic-background");
           const invertSignature = document.getElementById("invert-signature");
           const invertCreatedSignature = document.getElementById("invert-created-signature");

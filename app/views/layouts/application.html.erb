@@ -55,23 +55,18 @@
 
         const head = document.head;
 
+        if (isDarkTheme) {
+          const darkCoreLink = document.createElement('link');
+          darkCoreLink.rel = 'stylesheet';
+          darkCoreLink.href = '<%= asset_path("core-dark.css") %>';
+          head.appendChild(darkCoreLink);
+
+          const darkThemeLink = document.createElement('link');
+          darkThemeLink.rel = 'stylesheet';
+          darkThemeLink.href = '<%= asset_path("theme-default-dark.css") %>';
+          head.appendChild(darkThemeLink);
+        }
         document.addEventListener("DOMContentLoaded", function () {
-          if (isDarkTheme) {
-            document.body.classList.add('dark-theme');
-
-            const darkCoreLink = document.createElement('link');
-            darkCoreLink.rel = 'stylesheet';
-            darkCoreLink.href = '<%= asset_path("core-dark.css") %>';
-            head.appendChild(darkCoreLink);
-
-            const darkThemeLink = document.createElement('link');
-            darkThemeLink.rel = 'stylesheet';
-            darkThemeLink.href = '<%= asset_path("theme-default-dark.css") %>';
-            head.appendChild(darkThemeLink);
-          } else {
-            document.body.classList.remove('dark-theme');
-          }
-
           const profileSignature = document.getElementById("profile-signature");
           const invertSignatureSettings = document.getElementById("invert-signature-settings");
           const invertCreatedSignatureSettings = document.getElementById("invert-created-signature-settings");
