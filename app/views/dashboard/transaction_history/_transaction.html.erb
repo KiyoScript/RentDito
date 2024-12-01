@@ -44,7 +44,7 @@
           <p><strong class="text-wrap">Receipt Date:</strong> <%= transaction.deposit.date_time.strftime("%B %d, %Y %I:%M %p") %></p>
           <% end %>
           <p><strong class="text-wrap">Date:</strong> <%= transaction.created_at.strftime("%B %d, %Y %I:%M %p") %></p>
-          <p><stron class="text-wrap"g>Status:</strong> <%= transaction.status.titleize %></p>
+          <p><strong class="text-wrap">Status:</strong> <%= transaction.status.titleize %></p>
           <% if transaction.reason.present? %>
           <p><strong class="text-wrap">Reason:</strong> <%= transaction.reason %></p>
           <% end %>
