@@ -15,8 +15,9 @@ class Ticket < ApplicationRecord
 
 
   after_create :notify_landlord!
+
   after_update :notify_assignment!, if: -> { saved_change_to_assigned_to_id? }
-  after_update :notify_closed_ticket!, if: -> { saved_change_to_status? }
+  after_update :notify_closed_ticket!, if: -> { status == 'closed' }
   after_update :feedback_notification!, if: -> { saved_change_to_review? }
 
 
@@ -73,8 +74,6 @@ class Ticket < ApplicationRecord
 
   def notify_closed_ticket!
 
-    return unless status == "closed"
-
     User.landlord.each do |landlord|
       Notification.create!(
         user: landlord,
@@ -85,6 +84,8 @@ class Ticket < ApplicationRecord
       NotificationChannel.broadcast_to(landlord, { type: 'TicketClosed', message: "A ticket ##{id} is already closed." })
       NotificationClosedTicketMailer.send_email(landlord, self).deliver_now
     end
+
+    return if self.assigned_to.nil?
 
     Notification.create!(
       user: self.assigned_to,
