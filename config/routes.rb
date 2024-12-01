@@ -30,7 +30,7 @@ Rails.application.routes.draw do
         patch :close_ticket
       end
     end
-    
+
     resources :tickets_history do
       member do
         post :review
@@ -83,9 +83,12 @@ Rails.application.routes.draw do
 
     resources :transaction_history
 
-    resources :notifications do
+    resources :notifications, only: [:index] do
       member do
         patch :mark_as_read
+      end
+      collection do
+        patch :mark_all_as_read
       end
     end
   end
