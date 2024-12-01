@@ -39,17 +39,17 @@
           <p class="text-danger">No receipt available.</p>
         <% end %>
         <div class="mt-2">
-          <p><strong>Transaction Type:</strong> <%= transaction.transaction_type.titleize %></p>
+          <p><strong class="text-wrap">Transaction Type:</strong> <%= transaction.transaction_type.titleize %></p>
           <% if transaction.deposit.present? %>
-          <p><strong>Receipt Date:</strong> <%= transaction.deposit.date_time.strftime("%B %d, %Y %I:%M %p") %></p>
+          <p><strong class="text-wrap">Receipt Date:</strong> <%= transaction.deposit.date_time.strftime("%B %d, %Y %I:%M %p") %></p>
           <% end %>
-          <p><strong>Date:</strong> <%= transaction.created_at.strftime("%B %d, %Y %I:%M %p") %></p>
-          <p><strong>Status:</strong> <%= transaction.status.titleize %></p>
+          <p><strong class="text-wrap">Date:</strong> <%= transaction.created_at.strftime("%B %d, %Y %I:%M %p") %></p>
+          <p><stron class="text-wrap"g>Status:</strong> <%= transaction.status.titleize %></p>
           <% if transaction.reason.present? %>
-          <p><strong>Reason:</strong> <%= transaction.reason %></p>
+          <p><strong class="text-wrap">Reason:</strong> <%= transaction.reason %></p>
           <% end %>
-          <p><strong>Amount:</strong> <%= transaction.amount.present? ? transaction.amount.format : "N/A" %></p>
-          <p><strong>Sender:</strong> <%= transaction.user.fullname %></p>
+          <p><strong class="text-wrap">Amount:</strong> <%= transaction.amount.present? ? transaction.amount.format : "N/A" %></p>
+          <p><strong class="text-wrap">Sender:</strong> <%= transaction.user.fullname %></p>
         </div>
       </div>
       <div class="modal-footer">

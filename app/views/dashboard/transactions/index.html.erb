@@ -21,11 +21,11 @@
         </div>
         <div class="offcanvas-body mx-0 flex-grow-0 p-6 h-100 d-flex flex-column justify-content-between">
           <div class="mb-3">
-            <h5 class="text-primary mt-4">Type of Transactions</h5>
+            <!-- <h5 class="text-primary mt-4">Type of Transactions</h5>
             <%= form.select :transaction_type_eq, [['Deposit', 0], ['Payment', 1], ['Transfer', 2]], { prompt: 'Select Type' }, class: 'form-select' %>
 
             <h5 class="text-primary mt-4">Status</h5>
-            <%= form.select :status_eq, [['Under Review', 0], ['Done', 1], ['Rejected', 2]], { prompt: 'Select Type' }, class: 'form-select' %>
+            <%= form.select :status_eq, [['Under Review', 0], ['Done', 1], ['Rejected', 2]], { prompt: 'Select Type' }, class: 'form-select' %> -->
 
             <h5 class="text-primary mt-4">Month and Year</h5>
             <%= form.select :created_at_gteq, month_year_options(current_user.landlord? || current_user.admin? ? Transaction.ransack.result.order(created_at: :desc) : current_user.transactions.ransack.result.order(created_at: :desc)).uniq, { prompt: 'Select Month and Year' }, class: 'form-select' %>
