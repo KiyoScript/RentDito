@@ -66,21 +66,6 @@
           darkThemeLink.href = '<%= asset_path("theme-default-dark.css") %>';
           head.appendChild(darkThemeLink);
         }
-
-        document.addEventListener("DOMContentLoaded", function () {
-        const isDarkThemeActive = !!document.querySelector('link[href*="core-dark.css"]');
-
-        const darkLogo = document.getElementById("dark-logo");
-        const lightLogo = document.getElementById("light-logo");
-
-        if (isDarkThemeActive) {
-          if (darkLogo) darkLogo.classList.remove("d-none");
-          if (lightLogo) lightLogo.classList.add("d-none");
-        } else {
-          if (darkLogo) darkLogo.classList.add("d-none");
-          if (lightLogo) lightLogo.classList.remove("d-none");
-        }
-      });
       })();
     </script>
 
