@@ -7,7 +7,7 @@
     </div>
   </td>
   <td>
-    <small class="email-list-item-time text-muted"><%= distance_of_time_in_words(feedback.created_at, feedback.updated_at).titleize %></small>
+    <small class="email-list-item-time text-muted"><%= time_ago_in_words(feedback.created_at) %> ago</small>
   </td>
 </tr>
 

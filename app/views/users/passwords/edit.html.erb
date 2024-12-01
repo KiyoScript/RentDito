@@ -22,17 +22,21 @@
           <%= render "users/shared/error_messages", resource: resource %>
           <%= f.hidden_field :reset_password_token %>
 
-          <div class="mb-6 fv-plugins-icon-container">
+          <div class="mb-6 form-password-toggle fv-plugins-icon-container" bis_skin_checked="1">
             <%= f.label :password, "New Password", class: "form-label" %>
-            <% if @minimum_password_length %>
-              <small class="form-text text-muted">(<%= @minimum_password_length %> characters minimum)</small>
-            <% end %>
-            <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "form-control" %>
+            <small class="form-text text-muted">(<%= @minimum_password_length %> characters minimum)</small>
+            <div class="input-group input-group-merge has-validation" bis_skin_checked="1">
+              <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "form-control" %>
+              <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+            </div>
           </div>
 
-          <div class="mb-6 fv-plugins-icon-container">
+          <div class="mb-6 form-password-toggle fv-plugins-icon-container" bis_skin_checked="1">
             <%= f.label :password_confirmation, "Confirm New Password", class: "form-label" %>
-            <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+            <div class="input-group input-group-merge has-validation" bis_skin_checked="1">
+              <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+              <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+            </div>
           </div>
 
           <div class="actions">

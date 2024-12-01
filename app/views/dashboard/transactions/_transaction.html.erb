@@ -69,8 +69,8 @@
           <div class="collapse mt-3 w-100" id="rejectReasonForm-<%= transaction.id %>">
             <%= form_with model: transaction, url: mark_as_rejected_dashboard_transaction_path(transaction), method: :patch, class: "w-100" do |f| %>
               <div class="form-group">
-                <%= f.label :reason, "Reason for rejection" %>
-                <%= f.text_area :reason, class: "form-control", rows: 3, placeholder: "Enter the reason for rejecting the transaction", required: true %>
+                <%= f.label :reason, "Reason for Rejection" %>
+                <%= f.text_area :reason, class: "form-control", rows: 3, placeholder: "Enter the reason for rejecting the transaction.", required: true %>
               </div>
               <%= f.submit "Submit Rejection", class: "btn btn-danger mt-2 w-100", onclick: "setTimeout(function(){ window.location.href = '/dashboard/transactions'; }, 1000);" %>
             <% end %>

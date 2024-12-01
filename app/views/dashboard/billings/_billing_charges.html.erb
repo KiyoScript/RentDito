@@ -1,6 +1,6 @@
 <tr>
   <td><%= charge.user.tenant.room.name %></td>
-  <td><%= link_to charge.user.fullname, profile_path(charge.user), class: 'nav nav-link text-primary'%></td>
+  <td><%= link_to charge.user.fullname, profile_path(charge.user), class: 'text-primary'%></td>
   <td><%= charge.user.phone_number %></td>
   <% if charge.billing.billing_type == "electricity" %>
     <td> <%= peso(charge.extra_charge_amount) %></td>

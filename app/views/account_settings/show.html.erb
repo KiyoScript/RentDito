@@ -89,10 +89,10 @@
                 <%= form.number_field :age, class: "form-control", value: @user.age.present? ? @user.age : 18,  min: 18, placeholder: 18, data: { automate_age_target: "age" }, readonly: true %>
               </div>
 
-              <div class="col-md-6 d-none">
+              <div class="col-md-6">
                 <%= form.label :signature, "Add Signature", class: "form-label fs-6 mb-6" %>
                 <div class="d-flex flex-column align-items-center justify-content-center gap-2" style="height: 200px; width: 320px;">
-                  <canvas data-signature-pad-target="canvas" class="signature-pad border rounded" style="width: 100%; height: 100%;"></canvas>
+                  <canvas data-signature-pad-target="canvas" id="invert-signature-settings" class="signature-pad border rounded" style="width: 100%; height: 100%;"></canvas>
                   <%= form.hidden_field :signature, id: "user_signature", data: { signature_pad_target: "input" } %>
                   <button type="button" class="btn btn-primary btn-sm" data-action="click->signature-pad#clearSignature">Clear</button>
                 </div>
@@ -101,7 +101,7 @@
               <div class="col-md-6 d-flex flex-column align-items-start justify-content-center">
                 <p class="form-label fs-6 mb-6">Signature</p>
                 <% if @user.signature.attached? %>
-                  <%= image_tag @user.signature, alt: "Current Signature", class: "img-thumbnail" %>
+                  <%= image_tag @user.signature, alt: "Current Signature", class: "img-thumbnail", id: "invert-created-signature-settings" %>
                 <% else %>
                   <p class="text-danger">No signature</p>
                 <% end %>
@@ -168,7 +168,7 @@
             <div class="row g-6 mt-5">
               <div class="col-md-6">
                 <%= form.label "Email", class: "form-label fs-6"%>
-                <%= form.email_field :email, class: "form-control", id: "user_Email"%>
+                <%= form.email_field :email, class: "form-control", id: "user_Email", disabled: true %>
               </div>
               <div class="col-md-6 d-none">
                 <%= form.hidden_field :status, class: "form-control", id: "user_Status", value: @user.status %>
@@ -253,13 +253,13 @@
               </div>
 
               <div class="col-12 d-flex flex-column justify-content-between d-md-none gap-2">
-                <button class="btn btn-text-primary btn-next btn-submit" data-action="click->signature-pad#saveSignature"> <span class="align-middle d-sm-inline-block me-sm-1 me-0">Submit</span>
+                <button class="btn btn-primary btn-next btn-submit" data-action="click->signature-pad#saveSignature"> <span class="align-middle d-sm-inline-block me-sm-1 me-0">Submit</span>
               </div>
               <div class="col-12 d-none d-md-flex justify-content-between">
                 <button class="btn btn-text-primary btn-prev" type="button"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
                   <span class="align-middle d-sm-inline-block d-none">Previous</span>
                 </button>
-                <button class="btn btn-primary btn-next btn-submit" data-action="click->signature-pad#saveSignature"> <span class="align-middle d-sm-inline-block d-none me-sm-1 me-0">Submit</span></button>
+                <button class="btn btn-primary btn-next btn-submit" data-action="click->signature-pad#saveSignature"> <span class="align-middle me-sm-1 me-0">Submit</span></button>
               </div>
             </div>
           </div>
@@ -283,7 +283,7 @@
 
 
         <% unless current_user.landlord? %>
-          <div class="card">
+          <div class="card mt-3">
             <h5 class="card-header">Deactivate Account</h5>
             <div class="card-body">
               <div class="mb-6 col-12 mb-0">

@@ -1,6 +1,6 @@
 <tr>
   <td><%= billing.due_date.strftime("%B %Y") %></td>
-  <td><%= (billing.billing_type == 'wifi') ? 'WiFi & Rental' : billing.billing_type.titleize %> <%= billing_type_icon(billing.billing_type) %></td>
+  <td><%= (billing.billing_type == 'wifi') ? 'Wi-Fi & Rental' : billing.billing_type.titleize %> <%= billing_type_icon(billing.billing_type) %></td>
   <td><%= billing.number %></td>
   <td><%= billing.property.address %></td>
   <td><%= billing.total_charges_amount.zero? ? peso(billing.total_amount) : peso(billing.total_charges_amount) %></td>

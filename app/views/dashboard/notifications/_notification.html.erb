@@ -1,11 +1,24 @@
- <tr data-controller="notifications">
-  <td><%= notification.message %></td>
-  <td><%= notification.notifiable_type %></td>
-  <td><%= distance_of_time_in_words(notification.created_at, Date.today).titleize %> Ago</td>
-  <td>
-    <%= link_to notification.notifiable_type == "Ticket" ? dashboard_ticket_path(notification.notifiable) : dashboard_billing_path(notification.notifiable.number), class: "btn btn-icon view-record border",
-      data: { action: "click->notifications#markAsRead", notifications_target: 'getNotificationId', id: notification.id, url: mark_as_read_dashboard_notification_path(notification)} do %>
-      <i class="bx bx-show bx-md"></i>
-    <% end %>
-  </td>
-</tr>
+<%= link_to notification.notifiable_type == "Ticket" ? notification.notifiable.review.present? ? dashboard_tickets_history_path(notification.notifiable) : dashboard_ticket_path(notification.notifiable) : notification.notifiable_type == "User" ? "#" : dashboard_billing_path(notification.notifiable.number),
+            data: { action: "click->notifications#markAsRead", notifications_target: 'getNotificationId', id: notification.id, url: mark_as_read_dashboard_notification_path(notification) } do %>
+  <li class="list-group-item list-group-item-action dropdown-notifications-item p-3 <%= 'marked-as-read' if notification.read %>">
+    <div class="d-flex">
+      <% icon_and_color = notification_icon_and_color(notification.notifiable_type, notification.message) %>
+      <div class="flex-shrink-0 me-3">
+        <div class="avatar">
+          <span class="avatar-initial rounded-circle <%= icon_and_color[:color] %>">
+            <i class="<%= icon_and_color[:icon] %>"></i>
+          </span>
+        </div>
+      </div>
+      <div class="flex-grow-1">
+        <h6 class="small mb-0 <%= notification.read? ? '' : 'fw-bold'%>"><%= notification.message %></h6>
+        <small class="text-muted"><%= time_ago_in_words(notification.created_at) %> ago</small>
+      </div>
+      <div class="flex-shrink-0 dropdown-notifications-actions">
+        <p class="mb-0">
+          <span class="badge badge-dot bg-primary <%= notification.read? ? 'd-none' : '' %>"></span>
+        </p>
+      </div>
+    </div>
+  </li>
+<% end %>

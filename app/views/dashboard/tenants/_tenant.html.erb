@@ -27,7 +27,7 @@
       <%= link_to profile_path(tenant), class: "btn btn-icon view-record border" do %>
         <i class="bx bx-show bx-md"></i>
       <% end %>
-      <% if current_user.landlord? && tenant.status != "deactivated" %>
+      <% if (current_user.landlord? || current_user.admin?) && tenant.status != "deactivated" %>
         <button class="btn btn-icon text-danger border" data-bs-toggle="modal" data-bs-target="#deactivateModal-<%= tenant.id %>">
           <i class='bx bx-user-x bx-md'></i>
         </button>

@@ -1,6 +1,6 @@
 <div class="container mt-5">
   <!-- Ticket Info Card -->
-  <div class="card mb-4 shadow">
+  <div class="card mb-4 shadow" data-controller="bridge--form" data-action="turbo:submit-start->bridge--form#submitStart turbo:submit-end->bridge--form#submitEnd">
     <div class="card-header d-flex justify-content-between align-items-start">
       <!-- Creator Info -->
       <div class="d-flex align-items-center">
@@ -21,7 +21,7 @@
 
     <div class="card-body">
       <div class="my-2">
-        <h3 class="card-title mb-2"><%= @ticket.title %></h3>
+        <h3 class="card-title mb-2"><%= @ticket.title.chomp('.') %></h3>
         <p class="text-secondary">Ticket # <%= @ticket.id %></p>
       </div>
 
@@ -63,7 +63,7 @@
             <div class="col-12">
               <div class="form-label">
                 <p class="fw-bold fs-6 mb-2">Located</p>
-                <p class="fw-normal fs-6 mb-0 text-wrap mt-2">
+                <p class="mb-0 text-muted fs-6 text-wrap">
                   <%= @ticket.tenant.property.address %>, <%= @ticket.tenant.property_unit.name %> (Room <%= @ticket.tenant.room.name %>)
                 </p>
               </div>
@@ -79,7 +79,6 @@
                   <% @ticket.images.each do |image| %>
                     <div class="swiper-slide bg-transparent">
                       <%= image_tag url_for(image), alt: image.filename.to_s, class: "img-fluid small-swiper-image" %>
-                      <p class="mb-0 text-primary fs-6 text-center"><%= image.filename.to_s %></p>
                     </div>
                   <% end %>
                 </div>
@@ -91,26 +90,29 @@
           </div>
         </div>
 
+        <% unless @ticket.check_out? || !@ticket.assigned_to.present? %>
         <!-- Assigned To -->
         <div class="col-12">
           <p class="fw-normal fs-6 d-flex align-items-center justify-content-start">
             <i class='menu-icon tf-icons bx bxs-user'></i>
             Assigned to:
-            <span class="fw-normal fs-6 ms-2"><%= @ticket.assigned_to.present? ? @ticket.assigned_to.fullname.titleize : "N/A"%></span>
+            <span class="fw-normal fs-6 ms-2"><%= @ticket.assigned_to.fullname.titleize %></span>
           </p>
         </div>
+        <% end %>
+
       </div>
     </div>
 
     <div class="card-footer text-muted d-flex flex-column flex-md-row gap-2 gap-md-0 align-items-center justify-content-between">
-      <% if current_user.landlord? && (@ticket.open? || @ticket.pending? ) %>
+      <% if !@ticket.check_out? && (current_user.landlord? && @ticket.open?) %>
         <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#assignStaffModal">
           Assign Staff
         </button>
       <% end %>
 
       <% if (current_user.landlord? && @ticket.assigned_to.nil?) || ((current_user.tenant? && @ticket.assigned_to.present?) && (@ticket.open? || @ticket.pending?)) %>
-        <%= button_to 'Close Ticket', close_ticket_dashboard_ticket_path(@ticket), method: :patch, class: "btn btn-primary" %>
+        <%= button_to 'Close Ticket', close_ticket_dashboard_ticket_path(@ticket), method: :patch, class: "btn btn-primary hidden-element", data: { "bridge--form-target" => "submit", "bridge-title" => "Close" } %>
       <% end %>
     </div>
   </div>

@@ -1,9 +1,9 @@
 <tr>
-  <td><%= (charge.billing.billing_type == 'wifi') ? 'WiFi & Rental' : charge.billing.billing_type.titleize %><span class="ms-1"><%= billing_type_icon(charge.billing.billing_type) %></span></td>
+  <td><%= (charge.billing.billing_type == 'wifi') ? 'Wi-Fi & Rental' : charge.billing.billing_type.titleize %><span class="ms-1"><%= billing_type_icon(charge.billing.billing_type) %></span></td>
+  <td><%= charge.billing.due_date.strftime("%B %Y") %></td>
   <td><%= charge_status_badge(charge.status) %></td>
   <td class="text-primary"><%= peso(charge.total_amount) %> </td>
   <td class="<%= (got_penalty?(charge) || charge.has_penalty?) ? 'text-danger' : 'text-primary' %>"> <%= charge.total_amount_penalty? ? peso(charge.total_amount_penalty) : peso(total_amount_penalty(charge)) %></td>
-  <td><%= charge.billing.due_date.strftime("%B %Y") %></td>
   <td>
     <div class="d-inline-block">
       <%= link_to 'javascript:void(0)', class: "btn btn-outline-primary btn-icon border", data: { bs_toggle: "modal", bs_target: "#chargeModal-#{charge.id}" } do %>
@@ -28,7 +28,7 @@
       </div>
 
       <div class="modal-body">
-        <div class="mb-3 <%= (got_penalty?(charge)) || (charge.has_penalty?) ? '' : 'd-none' %>">
+        <div class="mb-3 <%= (got_penalty?(charge)) || (charge.has_penalty?) ? '' : 'd-none' %> text-wrap">
           <strong>Total Amount (Due to Penalty)</strong>
           <p class="text-danger"><%= charge.total_amount_penalty? ? peso(charge.total_amount_penalty) : peso(total_amount_penalty(charge)) %> </p>
         </div>
@@ -69,7 +69,8 @@
         </div>
       </div>
       <div class="modal-footer d-flex align-items-center justify-content-between">
-        <%= link_to 'View Billing', dashboard_billing_path(charge.billing.number), class: 'btn btn-primary ' %>
+        <%= link_to 'View Billing', dashboard_billing_path(charge.billing.number), class: 'btn btn-primary d-none d-sm-inline' %>
+        <%= link_to 'View', dashboard_billing_path(charge.billing.number), class: 'btn btn-primary d-inline d-sm-none' %>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>

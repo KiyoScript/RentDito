@@ -28,8 +28,8 @@
       <%= form.select :label, options_for_select(Ticket.labels.keys.map { |key| [key.titleize, key] }), { prompt: ""}, class: "form-select", required: true %>
     </div>
 
-    <div class="mb-3">
-      <%= form.label :datetime, class: "form-label fs-6" %>
+    <div class="mb-3" data-upload-ticket-images-target="datetimeWrapper" style="display: none;">
+      <%= form.label :datetime, "Date & Time", class: "form-label fs-6" %>
       <%= form.datetime_field :datetime, class: "form-select", value: (DateTime.now + 15.days).strftime('%Y-%m-%dT%H:%M'), required: true %>
     </div>
 

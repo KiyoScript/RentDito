@@ -6,7 +6,15 @@ module ApplicationHelper
     "unverified" => "btn btn-warning btn-sm dropdown-toggle hide-arrow",
     "rejected" => "btn btn-danger btn-sm dropdown-toggle hide-arrow",
     "deactivated" => "btn btn-danger btn-sm dropdown-toggle hide-arrow",
-    "incomplete" => "btn btn-warning btn-sm dropdown-toggle hide-arrow"
+    "incomplete" => "btn btn-dark btn-sm dropdown-toggle hide-arrow"
+  }.freeze
+
+  STATUS_LABEL_BUTTON_CLASS = {
+    "verified" => "btn btn-label-success btn-sm hide-arrow",
+    "unverified" => "btn btn-label-warning btn-sm hide-arrow",
+    "rejected" => "btn btn-label-danger btn-sm hide-arrow",
+    "deactivated" => "btn btn-label-danger btn-sm hide-arrow",
+    "incomplete" => "btn btn-label-dark btn-sm hide-arrow"
   }.freeze
 
   STATUS_BADGE_CLASS = {
@@ -14,7 +22,7 @@ module ApplicationHelper
     "unverified" => "badge bg-label-warning",
     "rejected" => "badge bg-label-danger",
     "deactivated" => "badge bg-label-danger",
-    "incomplete" => "badge bg-label-warning",
+    "incomplete" => "badge bg-label-dark",
     "open" => "badge bg-label-primary",
     "pending" => "badge bg-label-info",
     "closed" => "badge bg-label-secondary"
@@ -61,6 +69,10 @@ module ApplicationHelper
 
   def status_button_class(status)
     STATUS_BUTTON_CLASS[status] || STATUS_BUTTON_CLASS["unverified"]
+  end
+
+  def status_label_button_class(status)
+    STATUS_LABEL_BUTTON_CLASS[status] || STATUS_LABEL_BUTTON_CLASS["unverified"]
   end
 
   def property_unit_badges(property)
@@ -158,7 +170,7 @@ module ApplicationHelper
 
   def get_penalty_rate(due_date, charge)
     overdue_days = (Date.current - due_date.to_date).to_i
-    return 0 if overdue_days <= 0 
+    return 0 if overdue_days <= 0
 
     case overdue_days
     when 1

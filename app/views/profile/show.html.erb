@@ -153,7 +153,7 @@
     </div>
   <!--/ Header -->
   <div class="row">
-    <div class="col-12 col-lg-4">
+    <div class="col-12 <%= 'col-lg-4' if (current_user.landlord? || current_user.admin? ) %>">
       <div class="card mb-6 p-6 overflow-auto" style="max-width: 100%;">
         <small class="card-text text-uppercase text-muted small">About</small>
         <ul class="list-unstyled my-3 py-1">
@@ -240,7 +240,7 @@
                     <h6 class="card-title">Signature</h6>
                   </div>
                   <div class="card-body d-flex justify-content-center align-items-center">
-                    <%= image_tag @user.signature, alt: "Signature", class: "img-thumbnail", style: "height: 15rem;" %>
+                    <%= image_tag @user.signature, alt: "Signature", class: "img-thumbnail", id: "profile-signature" %>
                   </div>
                 </div>
               <% else %>

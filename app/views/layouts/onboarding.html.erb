@@ -48,6 +48,21 @@
           darkThemeLink.href = '<%= asset_path("theme-default-dark.css") %>';
           head.appendChild(darkThemeLink);
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+          const dynamicDiv = document.getElementById("dynamic-background");
+          const invertSignature = document.getElementById("invert-signature");
+          const invertCreatedSignature = document.getElementById("invert-created-signature");
+
+          if (dynamicDiv && invertSignature) {
+            dynamicDiv.style.backgroundColor = isDarkTheme ? "#2b2c40" : "#fff";
+            invertSignature.style.filter = isDarkTheme ? "invert(1) brightness(2)" : "";
+          }
+
+          if(invertCreatedSignature) {
+            invertCreatedSignature.style.filter = isDarkTheme ? "invert(1) brightness(2)" : "";
+          }
+        });
       })();
     </script>
 

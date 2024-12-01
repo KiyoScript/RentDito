@@ -103,4 +103,16 @@ module Dashboard::BillingsHelper
       charge.billing.wifi_and_rental_end_date.strftime("%B %d, %Y")
     end
   end
+
+  def got_penalty?(charge)
+    case charge.billing.billing_type
+    when 'electricity'
+      (charge.unpaid? || charge.pending?) && charge.billing.electricity_bill_end_date < Date.today
+    when 'water'
+      (charge.unpaid? || charge.pending?) && charge.billing.water_bill_end_date < Date.today
+    when 'wifi'
+      (charge.unpaid? || charge.pending?) && charge.billing.wifi_and_rental_end_date < Date.today
+    end
+  end
+
 end

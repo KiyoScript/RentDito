@@ -147,7 +147,7 @@
                     <div class="col-md-6" style="height: 275px">
                       <%= form.label :signature, "Add Signature", class: "form-label fs-6 mb-6" %>
                       <div class="w-100 d-flex flex-column align-items-center justify-content-start  gap-2" style="height: 200px">
-                        <canvas data-signature-pad-target="canvas" class="signature-pad border rounded" style="height: 200px; width: 320px;"></canvas>
+                        <canvas data-signature-pad-target="canvas" id="invert-signature" class="signature-pad border rounded" style="height: 200px; width: 320px;"></canvas>
                         <%= form.hidden_field :signature, id: "user_signature", data: { signature_pad_target: "input" } %>
                         <button type="button" class="btn btn-primary btn-sm" data-action="click->signature-pad#clearSignature">Clear</button>
                       </div>
@@ -156,7 +156,7 @@
                     <div class="col-md-6">
                       <p class="form-label fs-6 mb-6">Signature</p>
                       <% if @user.signature.attached? %>
-                        <%= image_tag @user.signature, alt: "Current Signature", class: "img-thumbnail" %>
+                        <%= image_tag @user.signature, alt: "Current Signature", class: "img-thumbnail", id: "invert-created-signature" %>
                       <% else %>
                         <p class="text-danger">No signature</p>
                       <% end %>

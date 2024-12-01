@@ -66,6 +66,23 @@
           darkThemeLink.href = '<%= asset_path("theme-default-dark.css") %>';
           head.appendChild(darkThemeLink);
         }
+        document.addEventListener("DOMContentLoaded", function () {
+          const profileSignature = document.getElementById("profile-signature");
+          const invertSignatureSettings = document.getElementById("invert-signature-settings");
+          const invertCreatedSignatureSettings = document.getElementById("invert-created-signature-settings");
+
+          if (profileSignature) {
+            profileSignature.style.filter = isDarkTheme ? "invert(1) brightness(2)" : "";
+          }
+
+          if (invertSignatureSettings) {
+            invertSignatureSettings.style.filter = isDarkTheme ? "invert(1) brightness(2)" : "";
+          }
+
+          if(invertCreatedSignatureSettings) {
+            invertCreatedSignatureSettings.style.filter = isDarkTheme ? "invert(1) brightness(2)" : "";
+          }
+        });
       })();
     </script>
 

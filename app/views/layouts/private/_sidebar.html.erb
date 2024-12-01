@@ -111,7 +111,7 @@
     <% if current_user.tenant? %>
       <li class="menu-item <%= 'active' if request.path.include?('dashboard/charges') %>">
         <%= link_to dashboard_charges_path, class: 'menu-link' do %>
-          <i class='menu-icon tf-icons bx bx-money'></i>
+          <i class='menu-icon tf-icons bx bx-coin-stack'></i>
           <div class="text-truncate" data-i18n="Charges">Charges</div>
         <% end %>
       </li>
@@ -122,12 +122,12 @@
       <li class="menu-item <%= 'd-none' if current_user.agent? %> <%= 'active' if request.path.include?('dashboard/transactions') %>">
         <% if current_user.landlord? || current_user.admin? %>
           <%= link_to dashboard_transactions_path, class: 'menu-link', onclick: "setTimeout(function(){ window.location.href = '/dashboard/transactions'; }, 1000);" do %>
-            <i class='menu-icon tf-icons bx bx-money'></i>
+            <i class='menu-icon tf-icons bx bx-receipt'></i>
             <div class="text-truncate" data-i18n="Transactions">Transactions</div>
           <% end %>
         <% else %>
           <%= link_to dashboard_transactions_path, class: 'menu-link' do %>
-            <i class='menu-icon tf-icons bx bx-money'></i>
+            <i class='menu-icon tf-icons bx bx-receipt'></i>
             <div class="text-truncate" data-i18n="Transactions">Transactions</div>
           <% end %>
         <% end %>

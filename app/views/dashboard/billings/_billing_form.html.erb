@@ -21,7 +21,7 @@
     </div>
     <div class="form-check form-check-inline">
       <input type="radio" name="billing_type" value="wifi" class="form-check-input" data-action="billing-form#displayFrame">
-      <label class="form-check-label fs-5">WiFi and Rental</label>
+      <label class="form-check-label fs-5">Wi-Fi and Rental</label>
     </div>
   </div>
 
@@ -69,7 +69,7 @@
   </div>
 
   <div class="row d-none" data-billing-form-target="wifi">
-    <h5 class="text-secondary">WiFi & Monthly Rental Bill <i class='bx bx-wifi text-info' style='font-size: 1.5rem;'></i></h5>
+    <h5 class="text-secondary">Wi-Fi & Monthly Rental Bill <i class='bx bx-wifi text-info' style='font-size: 1.5rem;'></i></h5>
     <div class="col-12 col-md-6 field mb-6">
       <%= form.label :wifi_and_rental_start_date, "Start date", class: "form-label fs-6" %>
       <%= form.date_field :wifi_and_rental_start_date, readonly: true, value: Date.today.beginning_of_month, class: "form-control" %>
