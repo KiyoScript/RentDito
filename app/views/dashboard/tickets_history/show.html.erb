@@ -113,14 +113,17 @@
           </div>
         </div>
 
+        <% unless @ticket.check_out? || !@ticket.assigned_to.present? %>
         <!-- Assigned To -->
         <div class="col-12">
           <p class="fw-normal fs-6 d-flex align-items-center justify-content-start">
             <i class='menu-icon tf-icons bx bxs-user'></i>
             Assigned to:
-            <span class="fw-normal fs-6 ms-2"><%= @ticket.assigned_to.present? ? @ticket.assigned_to.fullname.titleize : "N/A"%></span>
+            <span class="fw-normal fs-6 ms-2"><%= @ticket.assigned_to.fullname.titleize %></span>
           </p>
         </div>
+        <% end %>
+
         <% if @ticket.closed? && @ticket.assigned_to.present? && current_user.tenant? && !@ticket.review.present? %>
           <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#reviewStaffModal">
             Leave a review
