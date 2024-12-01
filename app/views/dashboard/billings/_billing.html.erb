@@ -3,7 +3,7 @@
   <td><%= (billing.billing_type == 'wifi') ? 'WiFi & Rental' : billing.billing_type.titleize %> <%= billing_type_icon(billing.billing_type) %></td>
   <td><%= billing.number %></td>
   <td><%= billing.property.address %></td>
-  <td><%= peso(billing.total_charges_amount) %></td>
+  <td><%= billing.total_charges_amount.zero? ? peso(billing.total_amount) : peso(billing.total_charges_amount) %></td>
    <td>
     <div class="d-inline-block d-flex align-items-center">
       <%= link_to dashboard_billing_path(billing.number), class: "btn btn-icon view-record border" do %>

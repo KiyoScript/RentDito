@@ -34,22 +34,30 @@ class BillingChargeCalculation
   def update_billing_charges!
     extra_charges = []
 
-    billing.charges.where.not(water_share_amount: 0.0, electricity_share_amount: 0.0).each do |charge|
-      days_count_ratio = charge.days_count.to_f / total_days_of_all_occupants
-      update_charge_share_amounts(charge, days_count_ratio)
-      update_charges_total_amount!(charge)
+    if billing.billing_type == 'electricity'
+      billing.charges.where.not(electricity_share_amount: 0.0).each do |charge|
+        days_count_ratio = charge.days_count.to_f / total_days_of_all_occupants
+        update_charge_share_amounts(charge, days_count_ratio)
+        update_charges_total_amount!(charge)
 
-      extra_charges << charge.extra_charge_amount
+        extra_charges << charge.extra_charge_amount
+      end
+
+      update_extra_charges_total_amount(extra_charges.sum)
+    elsif billing.billing_type == 'water'
+      billing.charges.where.not(water_share_amount: 0.0).each do |charge|
+        days_count_ratio = charge.days_count.to_f / total_days_of_all_occupants
+        update_charge_share_amounts(charge, days_count_ratio)
+        update_charges_total_amount!(charge)
+      end
     end
-
-    update_extra_charges_total_amount(extra_charges.sum)
   end
 
   def update_charge_share_amounts(charge, days_count_ratio)
-    charge.update_columns(
-      water_share_amount: billing.water_bill_total_amount * days_count_ratio,
-      electricity_share_amount: billing.electricity_bill_total * days_count_ratio,
-    )
+    case charge.billing.billing_type
+      when 'electricity' then charge.update_columns( electricity_share_amount: billing.electricity_bill_total * days_count_ratio)
+      when 'water' then charge.update_columns( water_share_amount: billing.water_bill_total_amount * days_count_ratio)
+    end
   end
 
   def update_charges_total_amount!(charge)
