@@ -3,10 +3,6 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="flash-messages"
 export default class extends Controller {
   connect() {
-    const currentTime = new Date();
-    const hours = currentTime.getHours();
-
-    const isDarkTheme = hours >= 20 || hours < 5;
 
     const noticeMessage = this.element.dataset.notice;
     const alertMessage = this.element.dataset.alert;
@@ -51,34 +47,12 @@ export default class extends Controller {
 
     if (noticeMessage) {
       const formattedNotice = processMessage(noticeMessage);
-      if (isDarkTheme){
-        const style = document.createElement('style');
-        style.innerHTML = `
-          .toast-success {
-            background-color: #2b2c40 !important;
-          }
-        `;
-        document.head.appendChild(style);
-        toastr.success(formattedNotice);
-      } else {
-        toastr.success(formattedNotice);
-      }
+      toastr.success(formattedNotice);
     }
 
     if (alertMessage) {
       const formattedAlert = processMessage(alertMessage);
-      if (isDarkTheme){
-        const style = document.createElement('style');
-        style.innerHTML = `
-          .toast-error {
-            background-color: #2b2c40 !important;
-          }
-        `;
-        document.head.appendChild(style);
-        toastr.error(formattedAlert);
-      } else {
-        toastr.error(formattedAlert);
-      }
+      toastr.error(formattedAlert);
     }
   }
 }

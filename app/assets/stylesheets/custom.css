@@ -12,3 +12,7 @@
   flex-direction: column;
   justify-content: space-between;
 }
+body.dark-theme .toast-success,
+body.dark-theme .toast-error {
+    background-color: #2b2c40 !important;
+}
