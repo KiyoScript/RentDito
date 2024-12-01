@@ -4,7 +4,7 @@ import "dropzone"
 
 // Connects to data-controller="upload-ticket-images"
 export default class extends Controller {
-  static targets = ['input', 'dropzoneWrapper']
+  static targets = ['input', 'dropzoneWrapper', 'datetimeWrapper']
 
   connect() {
     this.dropZone = this.createDropZone(this);
@@ -127,6 +127,7 @@ export default class extends Controller {
   showDropdownField(event) {
     const category = event.target.value;
     this.dropzoneWrapperTarget.style.display = (category !== "check_out") ? "block" : "none";
+    this.datetimeWrapperTarget.style.display = (category === "check_out") ? "block" : "none";
   }
 }
 

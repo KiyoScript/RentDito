@@ -9,14 +9,14 @@ class BalancesController < ApplicationController
     amount = Money.new(params[:amount].to_f * 100, 'PHP')
 
     if @recipient.nil?
-      redirect_to root_path, alert: "Recipient not found."
+      redirect_to root_path, alert: "Recipient not found"
     elsif @recipient == current_user
-      redirect_to root_path, alert: "You cannot transfer funds to your own account."
+      redirect_to root_path, alert: "You cannot transfer funds to your own account"
     elsif current_user.balance.amount < amount
-      redirect_to root_path, alert: "Insufficient balance for this transfer."
+      redirect_to root_path, alert: "Insufficient balance for this transfer"
     else
       current_user.transfer_balance_to(@recipient, amount)
-      redirect_to root_path, notice: "Transfer successful!"
+      redirect_to root_path, notice: "Transfer successful"
     end
   end
 

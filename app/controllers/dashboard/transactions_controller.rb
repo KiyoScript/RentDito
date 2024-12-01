@@ -12,10 +12,10 @@ class Dashboard::TransactionsController < ApplicationController
     end
     if current_user.landlord? || current_user.admin?
       @q = Transaction.ransack(params[:q])
-      @pagy, @transactions = pagy(@q.result.order(created_at: :desc), distinct: true)
+      @pagy, @transactions = pagy(@q.result.order(created_at: :desc).where(status: :under_review), distinct: true)
     else
       @q = current_user.transactions.ransack(params[:q])
-      @pagy, @transactions = pagy(@q.result.order(created_at: :desc), distinct: true)
+      @pagy, @transactions = pagy(@q.result.order(created_at: :desc).where(status: :under_review), distinct: true)
     end
   end
 

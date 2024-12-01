@@ -18,9 +18,9 @@ class Dashboard::TicketsHistoryController < ApplicationController
 
   def review
     if @ticket.update(review_params)
-      redirect_to dashboard_tickets_history_path(@ticket), notice: "Your review has been submitted successfully."
+      redirect_to dashboard_tickets_history_path(@ticket), notice: "Your review has been submitted successfully"
     else
-      redirect_to dashboard_tickets_history_path(@ticket), alert: "There was an issue submitting your review."
+      redirect_to dashboard_tickets_history_path(@ticket), alert: "There was an issue submitting your review"
     end
   end
 

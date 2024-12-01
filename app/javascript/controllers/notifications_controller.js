@@ -22,4 +22,23 @@ export default class extends Controller {
       console.error("Error marking notification as read:", error);
     }
   }
+
+  async markAllAsRead(event) {
+    const url = "/dashboard/notifications/mark_all_as_read";
+
+    const request = new FetchRequest("PATCH", url, { responseKind: "json" });
+
+    try {
+      const response = await request.perform();
+
+      if (response.ok) {
+        console.info("All notifications marked as read.");
+        location.reload();
+      } else {
+        console.error("Failed to mark all notifications as read:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error marking all notifications as read:", error);
+    }
+  }
 }

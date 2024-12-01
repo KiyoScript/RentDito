@@ -10,7 +10,7 @@ class Dashboard::DepositsController < ApplicationController
     @deposit = current_user.deposits.new(deposit_params)
     @deposit.date_time = DateTime.now if @deposit.date_time.blank?
     if @deposit.save
-      redirect_to root_path, notice: "Deposit successful! Please wait for verification from the landlord."
+      redirect_to root_path, notice: "Deposit successful! Please wait for verification from the landlord"
     else
       redirect_to root_path, alert: @deposit.errors.full_messages.first
     end

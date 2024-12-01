@@ -6,14 +6,14 @@ class Dashboard::ChargesController < ApplicationController
   before_action :set_policy!
   def index
     @q = current_user.charges.ransack(params[:q])
-    @pagy, @charges = pagy(@q.result.order(created_at: :desc), distinct: :true)
+    @pagy, @charges = pagy(@q.result.order(created_at: :desc).where(status: :unpaid), distinct: :true)
   end
   def edit;end
 
   def update
     @charge.number_of_days = billing_charge_params[:days_count]
     if @charge.update(billing_charge_params)
-      redirect_to dashboard_billing_path(@billing.number), notice: "Billing for #{@charge.user.fullname} successfully update"
+      redirect_to dashboard_billing_path(@billing.number), notice: "#{@charge.user.firstname}'s biiling successfully updated"
     else
       redirect_to dashboard_billing_path(@billing.number), alert: @charges.errors.full_messages.first
     end
