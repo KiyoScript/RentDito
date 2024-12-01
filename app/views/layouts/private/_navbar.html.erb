@@ -29,7 +29,11 @@
                 <span class="badge bg-label-primary me-2" id="new-notification-count">
                   <%= current_user.notifications.unread.count %> New
                 </span>
-                <a href="javascript:void(0)" class="dropdown-notifications-all p-2" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Mark all as read" data-bs-original-title="Mark all as read" data-action="click->notifications#markAllAsRead"><i class="bx bx-envelope-open text-heading"></i></a>
+                <% if current_user.notifications.unread.count != 0 %>
+                  <a href="javascript:void(0)" class="dropdown-notifications-all p-2" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Mark all as read" data-bs-original-title="Mark all as read" data-action="click->notifications#markAllAsRead"><i class="bx bx-envelope-open text-heading"></i></a>
+                <% else %>
+                  <i class="bx bx-envelope text-heading"></i>
+                <% end %>
               </div>
             </div>
           </li>
