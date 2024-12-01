@@ -8,14 +8,15 @@ class BillingChargeCalculation
   end
 
   def update_charges_share_amount
-    charge.update_columns(
-      water_share_amount: share_calculation(billing.water_bill_total_amount),
-      electricity_share_amount: share_calculation(billing.electricity_bill_total)
-    )
+    case charge.billing.billing_type
+    when 'electricity'
+      charge.update_columns( electricity_share_amount: share_calculation(billing.electricity_bill_partial_amount) )
+    when 'water'
+      charge.update_columns( water_share_amount: share_calculation(billing.water_bill_total_amount))
+    end
 
     update_billing_charges!
     update_charges_total_amount!(charge)
-    update_electricity_billing_total_amount!
   end
 
   private
@@ -23,7 +24,6 @@ class BillingChargeCalculation
   def share_calculation(bill_total)
     bill_total ||= 0.00
     return 0.00 if total_days_of_all_occupants.zero?
-
     bill_total * (number_of_days.to_f / total_days_of_all_occupants)
   end
 
@@ -77,14 +77,5 @@ class BillingChargeCalculation
 
   def update_extra_charges_total_amount(total_amount)
     @billing.update(charges_total_amount: total_amount)
-  end
-
-  def update_electricity_billing_total_amount!
-    electricity_billing_total_amount = [
-      @billing.electricity_bill_partial_amount || 0.0,
-      @billing.charges_total_amount || 0.0
-    ].sum
-
-    @billing.update(electricity_bill_total_amount:  electricity_billing_total_amount)
   end
 end
