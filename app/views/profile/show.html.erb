@@ -181,7 +181,7 @@
             <span><%= @user.email %></span>
           </li>
         </ul>
-        <% unless @user.admin? %>
+        <% unless @user.landlord? || @user.admin? %>
         <small class="card-text text-uppercase text-muted small">Others</small>
         <ul class="list-unstyled mb-0 mt-3 pt-1">
           <% end %>
