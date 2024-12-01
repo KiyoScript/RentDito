@@ -1,8 +1,6 @@
-<div class="container-xxl flex-grow-1 container-p-y">
-  <!-- Header -->
+<!-- Header -->
   <div class="row">
     <div class="col-12">
-
       <div class="card mb-6">
         <div class="user-profile-header-banner">
           <%= image_tag 'profile-banner.png', alt: 'Banner Image', class: 'rounded-top' %>
@@ -23,10 +21,20 @@
                   </li>
                 </ul>
               </div>
-                <% if current_user.landlord? || current_user.admin? %>
+                <% if current_user.landlord? || (current_user.admin? && @user.role != 'admin') %>
                   <div class="btn-group my-4 <%= 'd-none' if @user.deactivated? %>" data-controller="user-status" data-user-status-user-id="<%= @user.id %>">
                     <button class="<%= status_button_class(@user.status) %>" data-bs-toggle="dropdown">
-                      <span data-user-status-target="statusLabel"><%= @user.status.titleize %></span>
+                      <% if @user.status == 'verified' %>
+                        <i class="bx bx-user-check"></i>
+                      <% elsif @user.status == 'rejected' %>
+                        <i class="bx bx-user-x"></i>
+                      <% elsif @user.status == 'incomplete' %>
+                        <i class="bx bx-group"></i>
+                      <% elsif @user.status == 'unverified' %>
+                        <i class="bx bx-user-voice"></i>
+                      <% end %>
+                      &ensp;<span data-user-status-target="statusLabel"><%= @user.status.titleize %></span>
+                      &ensp;<i class='bx bx-chevron-down'></i>
                     </button>
                     <ul class="dropdown-menu">
                       <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="verified">Verified</a></li>
@@ -35,8 +43,17 @@
                     </ul>
                   </div>
                 <% else %>
-                  <button class="<%= status_button_class(@user.status) %>my-4 <%= 'd-none' if @user.deactivated? %>">
-                    <span data-user-status-target="statusLabel"><%= @user.status.titleize %></span>
+                  <button class="<%= status_label_button_class(@user.status) %> my-4 <%= 'd-none' if @user.deactivated? %>">
+                    <% if @user.status == 'verified' %>
+                      <i class="bx bx-user-check"></i>
+                    <% elsif @user.status == 'rejected' %>
+                      <i class="bx bx-user-x"></i>
+                    <% elsif @user.status == 'incomplete' %>
+                      <i class="bx bx-group"></i>
+                    <% elsif @user.status == 'unverified' %>
+                      <i class="bx bx-user-voice"></i>
+                    <% end %>
+                    &ensp;<span data-user-status-target="statusLabel"><%= @user.status.titleize %></span>
                   </button>
                 <% end %>
               </div>
@@ -134,10 +151,9 @@
         </div>
       </div>
     </div>
-  </div>
   <!--/ Header -->
   <div class="row">
-    <div class="col-12 col-md-4">
+    <div class="col-12 col-lg-4">
       <div class="card mb-6 p-6 overflow-auto" style="max-width: 100%;">
         <small class="card-text text-uppercase text-muted small">About</small>
         <ul class="list-unstyled my-3 py-1">
@@ -145,10 +161,13 @@
             <i class="bx bx-user"></i><span class="fw-medium mx-2">Full Name:</span> <span><%= @user.fullname %></span>
           </li>
           <li class="d-flex align-items-center mb-4">
-            <i class="bx bx-check"></i><span class="fw-medium mx-2">Status:</span> <%= status_badge(@user.status) %>
+            <i class='bx bx-male-female'></i><span class="fw-medium mx-2">Gender: </span><span><%= gender_badge(@user.gender) %></span>
           </li>
           <li class="d-flex align-items-center mb-4">
             <i class="bx bx-hard-hat"></i><span class="fw-medium mx-2">Role:</span> <span><%= @user.role.titleize %></span>
+          </li>
+          <li class="d-flex align-items-center mb-4">
+            <i class="bx bx-check"></i><span class="fw-medium mx-2">Status:</span> <%= status_badge(@user.status) %>
           </li>
         </ul>
         <small class="card-text text-uppercase text-muted small">Contacts</small>
@@ -162,11 +181,10 @@
             <span><%= @user.email %></span>
           </li>
         </ul>
+        <% unless @user.admin? %>
         <small class="card-text text-uppercase text-muted small">Others</small>
         <ul class="list-unstyled mb-0 mt-3 pt-1">
-          <li class="d-flex flex-wrap mb-4">
-            <span class="fw-medium me-2">Gender: </span><span><%= gender_badge(@user.gender) %></span>
-          </li>
+          <% end %>
           <% if @user.maintenance_staff? %>
             <li class="d-flex flex-wrap">
               <span class="fw-medium me-2">City: </span><span><%= @user.maintenance_staff.city.titleize %></span>
@@ -201,7 +219,7 @@
         </ul>
       </div>
     </div>
-    <div class="col-12 col-md-8 <%= 'd-none' if (current_user.tenant? || current_user.utility_staff? || current_user.maintenance_staff? || current_user.agent? ) %>">
+    <div class="col-12 col-lg-8 <%= 'd-none' if (current_user.tenant? || current_user.utility_staff? || current_user.maintenance_staff? || current_user.agent? ) %>">
       <div class="nav-align-top">
         <ul class="nav nav-pills mb-4" role="tablist">
           <li class="nav-item">
@@ -212,10 +230,10 @@
           </li>
         </ul>
       </div>
-      <div class="tab-content">
+      <div class="tab-content p-0 mt-3">
         <div class="tab-pane fade show active" id="account-documents" role="tabpanel">
-          <div class="row gap-2 gap-md-0">
-            <div class="col-12 col-md-4">
+          <div class="row gap-2 gap-lg-0">
+            <div class="col-12 col-lg-4">
               <% if @user.signature.attached? %>
                 <div class="card">
                   <div class="card-header">
@@ -236,7 +254,7 @@
                 </div>
               <% end %>
             </div>
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-lg-4">
               <% if @user.first_valid_id.attached? %>
                 <div class="card">
                   <div class="card-header">
@@ -257,7 +275,7 @@
                 </div>
               <% end %>
             </div>
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-lg-4">
               <% if @user.second_valid_id.attached? %>
                 <div class="card">
                   <div class="card-header">
@@ -281,7 +299,7 @@
           </div>
         </div>
         <div class="tab-pane fade" id="emergency-contacts" role="tabpanel">
-          <div class="row g-6 mt-5">
+          <div class="row g-6 mt-1">
             <div class="col-md-12">
               <h5 class="bg-secondary text-center text-white border rounded">1st Contact</h5>
             </div>
