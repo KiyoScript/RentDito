@@ -7,7 +7,7 @@ class ChargePenaltyNotificationJob < ApplicationJob
     Parallel.each(Billing.all.includes(:property), in_threads: 4) do |billing|
       billing.property.occupants.each do |tenant|
 
-        subject = "Penalty Zone for #{billing.billing_type == 'wifi' ? 'Wi-Fi and Rental' : billing.billing_type.titleize } Bill this #{today.strftime("%B %d, %Y")}"
+        subject = "You are in a penalty zone for #{billing.billing_type == 'wifi' ? 'Wi-Fi and Rental' : billing.billing_type } bill this #{today.strftime("%B %d, %Y")}."
         charge = tenant.user.charges.find_by(billing_id: billing.id)
 
         case billing.billing_type

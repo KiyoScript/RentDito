@@ -8,15 +8,15 @@ class MonthlyBillingDuedateReminderJob < ApplicationJob
         case billing.billing_type
         when 'water'
           if (today == billing.water_bill_end_date)
-            subject = "Water Bill Due Date is Today"
+            subject = "Water bill due date is today."
           end
         when 'electricity'
           if (today == billing.electricity_bill_end_date)
-            subject = "Electricity Bill Due Date is Today"
+            subject = "Electricity bill due date is today."
           end
         when 'wifi'
           if (today == billing.wifi_and_rental_end_date)
-            subject = "WiFi and Rental Due Date is Today"
+            subject = "Wi-Fi and rental due date is today."
           end
         end
         charge = tenant.user.charges.find_by(billing_id: billing.id)

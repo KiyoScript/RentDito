@@ -138,33 +138,32 @@ module ApplicationHelper
     end
   end
 
-
   def peso(amount)
     number_to_currency(amount, unit: "₱", precision: 2)
   end
 
-  def notification_icon_and_color(notifiable_type, message=nil)
-    case notifiable_type
-    when "Ticket"
-      if message.include?("closed")
-        { icon: "bx bx-check-circle", color: "bg-label-success" }
-      elsif message.include?("created")
-        { icon: "bx bx-wrench", color: "bg-label-primary" }
-      else
-        { icon: "bx bx-wrench", color: "bg-label-info" }
-      end
-    when "Billing"
-      if message.include?('Water')
-        { icon: "bx bx-info-circle", color: "bg-label-warning" }
-      elsif message.include?('Electricity')
-        { icon: "bx bx-info-circle", color: "bg-label-warning" }
-      elsif message.include?('WiFi')
-        { icon: "bx bx-info-circle", color: "bg-label-warning" }
-      else
-        { icon: "bx bx-money", color: "bg-label-info" }
-      end
+  def notification_icon_and_color(notifiable_type, message = nil)
+    if message&.include?('penalty')
+      { icon: "bx bx-calendar-exclamation", color: "bg-label-danger" }
     else
-      { icon: "bx bx-info-circle", color: "bg-label-warning" }
+      case notifiable_type
+      when "Ticket"
+        if message.include?("closed")
+          { icon: "bx bx-check-circle", color: "bg-label-success" }
+        elsif message.include?("created")
+          { icon: "bx bxs-file-plus", color: "bg-label-primary" }
+        else
+          { icon: "bx bx-wrench", color: "bg-label-info" }
+        end
+      when "Billing"
+        if message.include?('generated')
+          { icon: "bx bx-money", color: "bg-label-info" }
+        else
+          { icon: "bx bx-info-circle", color: "bg-label-warning" }
+        end
+      else
+        { icon: "bx bx-question-mark", color: "bg-label-secondary" }
+      end
     end
   end
 

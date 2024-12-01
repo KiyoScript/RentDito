@@ -43,7 +43,7 @@ class Ticket < ApplicationRecord
     User.landlord.each do|landlord|
       Notification.create!(
         user: landlord,
-        message: "New ticket has been created by #{tenant.user.fullname} with ID##{id}.",
+        message: "New ticket has been created by #{tenant.user.fullname} with ID ##{id}.",
         notifiable: self
       )
 
@@ -57,7 +57,7 @@ class Ticket < ApplicationRecord
 
     Notification.create!(
       user: assigned_to,
-      message: "You have been assigned ticket with ID##{id}.",
+      message: "You have been assigned ticket with ID ##{id}.",
       notifiable: self
     )
     NotificationChannel.broadcast_to(assigned_to, { type: 'Ticket', message: "You have been assigned ticket with ID##{id}." })
@@ -101,13 +101,13 @@ class Ticket < ApplicationRecord
     User.landlord.each do |landlord|
       Notification.create!(
         user: landlord,
-        message: "#{self.tenant.user.fullname} added a review for Ticket ##{id}",
+        message: "#{self.tenant.user.fullname} added a review for ticket ##{id}.",
         notifiable: self
       )
 
       NotificationChannel.broadcast_to(landlord, {
         type: "TicketReview",
-        message: "#{self.tenant.user.fullname} added a review for Ticket ##{id}"
+        message: "#{self.tenant.user.fullname} added a review for ticket ##{id}."
       })
     end
 
