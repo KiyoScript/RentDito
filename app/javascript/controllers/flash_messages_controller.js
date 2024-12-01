@@ -8,6 +8,30 @@ export default class extends Controller {
 
     const isDarkTheme = hours >= 20 || hours < 5;
 
+    const style = document.createElement('style');
+
+    if(isDarkTheme){
+      style.innerHTML = `
+        .toast-success {
+          background-color: #2b2c40 !important;
+        }
+        .toast-error {
+          background-color: #2b2c40 !important;
+        }
+      `;
+      document.head.appendChild(style);
+    } else {
+      style.innerHTML = `
+        .toast-success {
+          background-color: #ffffff !important;
+        }
+        .toast-error {
+          background-color: #ffffff !important;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
     const noticeMessage = this.element.dataset.notice;
     const alertMessage = this.element.dataset.alert;
 
@@ -51,34 +75,12 @@ export default class extends Controller {
 
     if (noticeMessage) {
       const formattedNotice = processMessage(noticeMessage);
-      if (isDarkTheme){
-        const style = document.createElement('style');
-        style.innerHTML = `
-          .toast-success {
-            background-color: #2b2c40 !important;
-          }
-        `;
-        document.head.appendChild(style);
-        toastr.success(formattedNotice);
-      } else {
-        toastr.success(formattedNotice);
-      }
+      toastr.success(formattedNotice);
     }
 
     if (alertMessage) {
       const formattedAlert = processMessage(alertMessage);
-      if (isDarkTheme){
-        const style = document.createElement('style');
-        style.innerHTML = `
-          .toast-error {
-            background-color: #2b2c40 !important;
-          }
-        `;
-        document.head.appendChild(style);
-        toastr.error(formattedAlert);
-      } else {
-        toastr.error(formattedAlert);
-      }
+      toastr.error(formattedAlert);
     }
   }
 }
