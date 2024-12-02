@@ -23,7 +23,7 @@
               </div>
                 <% if current_user.landlord? || (current_user.admin? && @user.role != 'admin') %>
                   <div class="btn-group my-4 <%= 'd-none' if @user.deactivated? %>" data-controller="user-status" data-user-status-user-id="<%= @user.id %>">
-                    <button class="<%= status_button_class(@user.status) %>" data-bs-toggle="dropdown">
+                    <button class="<%= status_button_class(@user.status) %>" data-bs-toggle="dropdown" data-user-status-target="statusLabel">
                       <% if @user.status == 'verified' %>
                         <i class="bx bx-user-check"></i>
                       <% elsif @user.status == 'rejected' %>
@@ -33,8 +33,8 @@
                       <% elsif @user.status == 'unverified' %>
                         <i class="bx bx-user-voice"></i>
                       <% end %>
-                      &ensp;<span data-user-status-target="statusLabel"><%= @user.status.titleize %></span>
-                      &ensp;<i class='bx bx-chevron-down'></i>
+                      &ensp;<span><%= @user.status.titleize %></span>
+                      &ensp;<i class="bx bx-chevron-down"></i>
                     </button>
                     <ul class="dropdown-menu">
                       <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="verified">Verified</a></li>
