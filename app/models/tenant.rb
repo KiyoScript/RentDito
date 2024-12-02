@@ -10,8 +10,7 @@ class Tenant < ApplicationRecord
   enum deck: { lower: 0, upper: 1 }
 
   after_create :decrement_room_deck_availability
-  after_update :handle_room_transfer, if: :saved_change_to_room_id?
-
+  after_update :handle_room_transfer, if: -> { room_id.present? }
 
   def increment_room_deck_when_user_deactivate_account!
     if lower?
