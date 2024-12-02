@@ -3,9 +3,9 @@
     <p class="text-primary"><%= time_ago_in_words(transaction.created_at) %> ago</p>
     <%= transaction.created_at.strftime("%B %d, %Y %I:%M %p") %>
   </td>
-  <td><%= transaction.transaction_type.humanize %></td>
+  <td><%= transaction.transaction_type.humanize.titleize %></td>
   <td>
-    <%= transaction_status_badge(transaction.status) %>
+    <%= transaction.transaction_type.humanize.titleize == 'Refund Request' ? transaction_status_badge("Done") : transaction_status_badge(transaction.status) %>
   </td>
   <td><%= transaction.amount.present? ? transaction.amount.format : "N/A" %></td>
   <% unless current_user.tenant? %>
@@ -54,7 +54,7 @@
       </div>
       <div class="modal-footer">
         <% if current_user.landlord? || current_user.admin? %>
-          <% if transaction.under_review? %>
+          <% if transaction.under_review? && transaction.transaction_type.humanize.titleize != 'Refund Request' %>
             <%= button_to 'Mark as Paid', mark_as_paid_dashboard_transaction_path(transaction), method: :patch, class: 'btn btn-primary', data: { confirm: 'Are you sure you want to mark this transaction as paid?' } %>
           <% end %>
         <% end %>
