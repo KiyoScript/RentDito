@@ -2,8 +2,8 @@ class Room < ApplicationRecord
   belongs_to :property_unit
   belongs_to :property
 
-  has_many :tenants, dependent: :destroy
-  has_many :utility_staffs, dependent: :destroy
+  has_many :tenants
+  has_many :utility_staffs
 
   validates :name, :upper_deck, :lower_deck, presence: true
   validates :name, uniqueness: { scope: :property_unit_id, message: "must be unique within the same property unit" }
