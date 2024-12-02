@@ -17,7 +17,7 @@ class Dashboard::UtilityStaffController < ApplicationController
     @utility_staff = User.new(utility_staff_params)
     @utility_staff.generated_password = utility_staff_params[:password]
     if @utility_staff.save
-      redirect_to dashboard_utility_staff_index_path, notice: "New Utility Staff successfully created"
+      redirect_to dashboard_utility_staff_index_path, notice: "New Caretaker successfully created"
     else
       redirect_to dashboard_utility_staff_index_path, alert: @utility_staff.errors.full_messages.first
     end

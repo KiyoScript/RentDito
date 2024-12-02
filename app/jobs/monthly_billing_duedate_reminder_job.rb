@@ -3,20 +3,20 @@ class MonthlyBillingDuedateReminderJob < ApplicationJob
   def perform
     today = Date.today
     Parallel.each(Billing.all.includes(:property), in_threads: 4) do |billing|
-      billing.property.occupants.each do |tenant|
+      billing.property.active_tenants.each do |tenant|
         subject = nil
         case billing.billing_type
         when 'water'
           if (today == billing.water_bill_end_date)
-            subject = "Water bill due date is today."
+            subject = "Water bill due date is today for the month of #{billing.due_date.strftime("%B %Y")}."
           end
         when 'electricity'
           if (today == billing.electricity_bill_end_date)
-            subject = "Electricity bill due date is today."
+            subject = "Electricity bill due date is today for the month of #{billing.due_date.strftime("%B %Y")}."
           end
         when 'wifi'
           if (today == billing.wifi_and_rental_end_date)
-            subject = "Wi-Fi and rental due date is today."
+            subject = "Wi-Fi and rental due date is today for the month of #{billing.due_date.strftime("%B %Y")}."
           end
         end
         charge = tenant.user.charges.find_by(billing_id: billing.id)

@@ -31,23 +31,23 @@
         </h4>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
-      <div class="offcanvas-body mx-0 flex-grow-0 p-6 h-100 d-flex flex-column justify-content-between">
+      <div class="offcanvas-body mx-0 flex-grow-0 p-6 h-100 d-flex flex-column">
         <div class="mb-3">
-          <div class="mb-5">
-            <h5 class="text-primary">By Category</h5>
-            <%= form.select :category_eq, [['Internet Connection', 0], ['Maintenance Request', 1], ['Check Out', 2], ['Others', 3]], { prompt: 'Select Category' }, class: 'form-select' %>
-          </div>
+          <h5 class="text-primary">By Category</h5>
+          <%= form.select :category_eq, [['Internet Connection', 0], ['Maintenance Request', 1], ['Check Out', 2], ['Others', 3]], { prompt: 'Select Category' }, class: 'form-select' %>
+        </div>
 
-          <div class="mb-5">
-            <h5 class="text-primary">By Status</h5>
-            <%= form.select :status_eq, [['Open', 0], ['Pending', 1]], { prompt: 'Select Status' }, class: 'form-select' %>
-          </div>
+        <div class="mb-3">
+          <h5 class="text-primary">By Status</h5>
+          <%= form.select :status_eq, [['Open', 0], ['Pending', 1]], { prompt: 'Select Status' }, class: 'form-select' %>
+        </div>
 
+        <div class="mb-3">
           <h5 class="text-primary">By Label</h5>
           <%= form.select :label_eq, [['Urgent', 0], ['Normal', 1], ['Minor', 2]], { prompt: 'Select Label' }, class: 'form-select' %>
         </div>
 
-        <div class="d-flex flex-column justify-content-between align-items-center gap-2">
+        <div class="mt-3 d-flex flex-column justify-content-between align-items-center gap-2">
           <%= form.submit 'Apply', class: 'btn btn-primary w-100' %>
           <%= link_to 'Reset', dashboard_tickets_path(q: {}), class: 'btn btn-label-danger w-100' %>
         </div>
