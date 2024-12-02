@@ -3,7 +3,7 @@ class MonthlyBillingDuedateReminderJob < ApplicationJob
   def perform
     today = Date.today
     Parallel.each(Billing.all.includes(:property), in_threads: 4) do |billing|
-      billing.property.tenants.each do |tenant|
+      billing.property.active_tenants.each do |tenant|
         subject = nil
         case billing.billing_type
         when 'water'
