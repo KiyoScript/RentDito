@@ -9,7 +9,7 @@
       </div>
       <div class="d-flex flex-column" >
         <span class="emp_name text-truncate"><%= utility_staff.fullname %></span>
-        <small class="emp_post text-truncate text-muted"><%= utility_staff.role.titleize %></small>
+        <small class="emp_post text-truncate text-muted"><%= 'Caretaker' if utility_staff.role == 'utility_staff' %></small>
       </div>
     </div>
   </td>

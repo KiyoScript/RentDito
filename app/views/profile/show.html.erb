@@ -164,7 +164,7 @@
             <i class='bx bx-male-female'></i><span class="fw-medium mx-2">Gender: </span><span><%= gender_badge(@user.gender) %></span>
           </li>
           <li class="d-flex align-items-center mb-4">
-            <i class="bx bx-hard-hat"></i><span class="fw-medium mx-2">Role:</span> <span><%= @user.role.titleize %></span>
+            <i class="bx bx-hard-hat"></i><span class="fw-medium mx-2">Role:</span> <span><%= @user.role == 'utility_staff' ? 'Caretaker' : @user.role.titleize %></span>
           </li>
           <li class="d-flex align-items-center mb-4">
             <i class="bx bx-check"></i><span class="fw-medium mx-2">Status:</span> <%= status_badge(@user.status) %>
