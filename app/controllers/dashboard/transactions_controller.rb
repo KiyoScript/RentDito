@@ -15,7 +15,7 @@ class Dashboard::TransactionsController < ApplicationController
       @pagy, @transactions = pagy(@q.result.where(status: :under_review).where.not(transaction_type: 'refund_request').order(created_at: :desc),distinct: true)
     else
       @q = current_user.transactions.ransack(params[:q])
-      @pagy, @transactions = pagy(@q.result.order(created_at: :desc).where(status: :under_review), distinct: true)
+      @pagy, @transactions = pagy(@q.result.order(created_at: :desc).where(status: :under_review).where.not(transaction_type: 'refund_request'), distinct: true)
     end
   end
 

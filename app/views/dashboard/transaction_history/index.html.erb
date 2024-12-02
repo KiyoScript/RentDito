@@ -23,12 +23,12 @@
         <% if current_user.landlord? || current_user.admin? %>
         <div class="mb-3">
           <h5 class="text-primary mt-4">Type of Transactions</h5>
-          <%= form.select :transaction_type_eq, [['Deposit', 0], ['Payment', 1]], { prompt: 'Select Type' }, class: 'form-select' %>
+          <%= form.select :transaction_type_eq, [['Deposit', 0], ['Payment', 1], ['Refund Request', 3]], { prompt: 'Select Type' }, class: 'form-select' %>
         </div>
         <% elsif current_user.tenant? %>
         <div class="mb-3">
           <h5 class="text-primary mt-4">Type of Transactions</h5>
-          <%= form.select :transaction_type_eq, [['Deposit', 0], ['Payment', 1], ['Transfer', 2]], { prompt: 'Select Type' }, class: 'form-select' %>
+          <%= form.select :transaction_type_eq, [['Deposit', 0], ['Payment', 1], ['Transfer', 2], ['Refund Request', 3]], { prompt: 'Select Type' }, class: 'form-select' %>
         </div>
         <% end %>
 
