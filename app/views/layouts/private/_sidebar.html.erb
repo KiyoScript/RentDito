@@ -149,11 +149,13 @@
             <div class="text-truncate" data-i18n="Ticket History">Ticket History</div>
           <% end %>
         </li>
-        <li class="menu-item <%= 'active' if request.path.include?('dashboard/transaction_history') %>">
-          <%= link_to dashboard_transaction_history_index_path, class: "menu-link" do %>
-            <div class="text-truncate" data-i18n="Transaction History">Transaction History</div>
-          <% end %>
-        </li>
+        <% unless current_user.utility_staff? || current_user.maintenance_staff? %>
+          <li class="menu-item <%= 'active' if request.path.include?('dashboard/transaction_history') %>">
+            <%= link_to dashboard_transaction_history_index_path, class: "menu-link" do %>
+              <div class="text-truncate" data-i18n="Transaction History">Transaction History</div>
+            <% end %>
+          </li>
+        <% end %>
       </ul>
     </li>
     <li class="menu-item <%= 'active' if request.path.include?('dashboard/faq') %>">
