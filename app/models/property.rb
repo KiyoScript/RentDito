@@ -30,7 +30,7 @@ class Property < ApplicationRecord
   end
 
   def active_tenants
-    active_tenants = tenants.includes(:user).where(users: { status: ["verified", "unverified", "incomplete"] })
+    active_tenants = tenants.includes(:user).where(users: { status: ["verified", "unverified", "incomplete"], role: "tenant" })
     (active_tenants).uniq
   end
 end
