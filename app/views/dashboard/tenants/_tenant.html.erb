@@ -17,7 +17,7 @@
     <%= gender_badge(tenant.gender) %>
   </td>
   <td>
-    <%= tenant.tenant.present? ? tenant.tenant.property.address : 'N/A' %>
+    <%= tenant.tenant.property.present? ? tenant.tenant.property&.address : 'N/A' %>
   </td>
   <td data-user-status-target="statusLabel">
     <%= status_badge(tenant.status) %>

@@ -189,13 +189,13 @@
               <span class="fw-medium me-2">City: </span><span><%= @user.maintenance_staff.city.titleize %></span>
             </li>
           <% end %>
-          <% if @user.utility_staff || @user.tenant %>
+          <% if (@user.utility_staff || @user.tenant) && (@user.tenant&.property.present? || @user.utility_staff&.property.present?) %>
             <% user_presenter = UserPresenter.new(@user) %>
             <li class="d-flex flex-wrap">
               <span class="fw-medium me-2">Property: </span><span><%= user_presenter.property %></span>
             </li>
             <li class="d-flex flex-wrap">
-              <span class="fw-medium me-2">Accommodation: </span><span><%= user_presenter.accomodation.titleize %></span>
+              <span class="fw-medium me-2">Accommodation: </span><span><%= user_presenter.accomodation&.titleize %></span>
             </li>
             <li class="d-flex flex-wrap">
               <span class="fw-medium me-2">Property Code: </span><span><%= user_presenter.property_unit %></span>
@@ -214,6 +214,8 @@
                 <span class="fw-medium me-2">Transferred: </span><span><%= user_presenter.transfer_in %></span>
               </li>
             <% end %>
+          <% else %>
+            N/A
           <% end %>
         </ul>
       </div>

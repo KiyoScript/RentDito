@@ -4,15 +4,15 @@ class UserPresenter
   end
 
   def property
-    @user.utility_staff? ?  @user.utility_staff.property.address : @user.tenant.property.address
+    @user.utility_staff? ?  @user.utility_staff.property&.address : @user.tenant.property&.address
   end
 
   def property_unit
-    @user.utility_staff? ? @user.utility_staff.property_unit.name : @user.tenant.property_unit.name
+    @user.utility_staff? ? @user.utility_staff.property_unit&.name : @user.tenant.property_unit&.name
   end
 
   def room
-    @user.utility_staff? ? @user.utility_staff.room.name : @user.tenant.room.name
+    @user.utility_staff? ? @user.utility_staff.room&.name : @user.tenant.room&.name
   end
 
   def deck
@@ -24,7 +24,7 @@ class UserPresenter
   end
 
   def accomodation
-    @user.utility_staff ? @user.utility_staff.room.accomodation : @user.tenant.room.accomodation
+    @user.utility_staff ? @user.utility_staff.room&.accomodation : @user.tenant.room&.accomodation
   end
 
   def was_transferred?
