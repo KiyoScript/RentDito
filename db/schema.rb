@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_19_122405) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_02_102917) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -436,7 +436,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_19_122405) do
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "tenants", "properties"
   add_foreign_key "tenants", "property_units"
-  add_foreign_key "tenants", "rooms"
+  add_foreign_key "tenants", "rooms", on_delete: :nullify
   add_foreign_key "tenants", "users"
   add_foreign_key "tickets", "tenants"
   add_foreign_key "transactions", "deposits"
