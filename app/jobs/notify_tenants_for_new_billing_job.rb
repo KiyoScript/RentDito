@@ -2,7 +2,7 @@ class NotifyTenantsForNewBillingJob < ApplicationJob
 
   def perform(billing_id)
     billing = Billing.find(billing_id)
-    billing.property.occupants.each do |tenant|
+    billing.property.tenants.each do |tenant|
       Notification.create!(
         user: tenant.user,
         message: "#{billing.due_date.strftime("%B %Y")} #{billing.billing_type == "wifi" ? ' Wi-Fi & rental' : billing.billing_type } billing report is generated.",
