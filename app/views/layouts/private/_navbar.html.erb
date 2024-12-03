@@ -6,11 +6,16 @@
   </div>
   <div id="navbar-container" class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
     <ul id="navbar" class="navbar-nav flex-row align-items-center ms-auto">
-      <!-- <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0" data-controller="theme-toggler" data-action="click->theme-toggler#toggleTheme" data-theme="light">
-        <a class="nav-link dropdown-toggle hide-arrow show" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
+      <li class="nav-item me-2 me-xl-0" onclick="location.reload(); toggleTheme(false);">
+        <a class="nav-link" href="javascript:void(0);">
           <i class="bx bx-md bx-sun"></i>
         </a>
-      </li> -->
+      </li>
+      <li class="nav-item me-2 me-xl-0" onclick="location.reload(); toggleTheme(true);">
+        <a class="nav-link" href="javascript:void(0);">
+          <i class="bx bx-md bx-moon"></i>
+        </a>
+      </li>
       <% unless current_user.agent? %>
       <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2" data-controller="notifications">
         <a class="nav-link dropdown-toggle hide-arrow show" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="true">

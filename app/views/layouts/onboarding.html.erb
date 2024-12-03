@@ -30,25 +30,24 @@
 
     <script>
       (function () {
-        const currentTime = new Date();
-        const hours = currentTime.getHours();
+        // Retrieve theme preference from localStorage or default to light mode
+        let isDarkTheme = localStorage.getItem('isDarkTheme') === 'true';
 
-        const isDarkTheme = hours >= 20 || hours < 5;
+        const applyTheme = () => {
+          if (isDarkTheme) {
+            // Apply dark mode styles
+            const darkCoreLink = document.createElement('link');
+            darkCoreLink.id = 'dark-core-link';
+            darkCoreLink.rel = 'stylesheet';
+            darkCoreLink.href = '<%= asset_path("core-dark.css") %>';
+            document.head.appendChild(darkCoreLink);
 
-        const head = document.head;
+            const darkThemeLink = document.createElement('link');
+            darkThemeLink.id = 'theme-core-link';
+            darkThemeLink.rel = 'stylesheet';
+            darkThemeLink.href = '<%= asset_path("theme-default-dark.css") %>';
+            document.head.appendChild(darkThemeLink);
 
-        if (isDarkTheme) {
-          const darkCoreLink = document.createElement('link');
-          darkCoreLink.rel = 'stylesheet';
-          darkCoreLink.href = '<%= asset_path("core-dark.css") %>';
-          head.appendChild(darkCoreLink);
-
-          const darkThemeLink = document.createElement('link');
-          darkThemeLink.rel = 'stylesheet';
-          darkThemeLink.href = '<%= asset_path("theme-default-dark.css") %>';
-          head.appendChild(darkThemeLink);
-
-          document.addEventListener("DOMContentLoaded", function () {
             const darkStyle = document.createElement('style');
             darkStyle.id = 'dark-toast-style';
             darkStyle.innerHTML = `
@@ -63,11 +62,10 @@
 
             const existingLightStyle = document.getElementById('light-toast-style');
             if (existingLightStyle) {
-              existingLightStyle.remove(); // Removes the <style> element from the DOM
+              existingLightStyle.remove();
             }
-          });
-        } else {
-          document.addEventListener("DOMContentLoaded", function () {
+          } else {
+            // Apply light mode styles
             const lightStyle = document.createElement('style');
             lightStyle.id = 'light-toast-style';
             lightStyle.innerHTML = `
@@ -82,42 +80,56 @@
 
             const existingDarkStyle = document.getElementById('dark-toast-style');
             if (existingDarkStyle) {
-              existingDarkStyle.remove(); // Removes the <style> element from the DOM
+              existingDarkStyle.remove();
             }
-          });
-        }
 
+            const existingDarkCoreLink = document.getElementById('dark-core-link');
+            if (existingDarkCoreLink) {
+              existingDarkCoreLink.remove();
+            }
+
+            const existingDarkThemeLink = document.getElementById('theme-core-link');
+            if (existingDarkThemeLink) {
+              existingDarkThemeLink.remove();
+            }
+          }
+        };
+
+        // Apply theme on pre-loaded page
+        applyTheme();
+
+        // Apply the theme on page load
         document.addEventListener("DOMContentLoaded", function () {
+          applyTheme();
+
+          // Update invert image settings
           const dynamicDiv = document.getElementById("dynamic-background");
           const invertSignature = document.getElementById("invert-signature");
           const invertCreatedSignature = document.getElementById("invert-created-signature");
 
-          if (dynamicDiv && invertSignature) {
+          if (dynamicDiv) {
             dynamicDiv.style.backgroundColor = isDarkTheme ? "#2b2c40" : "#fff";
+          }
+
+          if (invertSignature) {
             invertSignature.style.filter = isDarkTheme ? "invert(1) brightness(2)" : "";
           }
 
           if(invertCreatedSignature) {
             invertCreatedSignature.style.filter = isDarkTheme ? "invert(1) brightness(2)" : "";
           }
-        });
-      })();
-    </script>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        // Select all elements with the `disable-modal-popup` class
-        const inputs = document.querySelectorAll('.disable-modal-popup');
-
-        inputs.forEach(input => {
-          input.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter') {
-              // Prevent the default action (e.g., modal popup or form submission)
-              event.preventDefault();
-            }
+          // Prevent enter key default in input fields
+          const inputs = document.querySelectorAll('.disable-modal-popup');
+          inputs.forEach(input => {
+            input.addEventListener('keydown', function (event) {
+              if (event.key === 'Enter') {
+                event.preventDefault();
+              }
+            });
           });
         });
-      });
+      })();
     </script>
 
     <%= javascript_importmap_tags %>

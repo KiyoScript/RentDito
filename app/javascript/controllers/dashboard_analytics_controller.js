@@ -74,10 +74,7 @@ export default class extends Controller {
 
 
   _render_billing_statistics_chart(water, electricity, wifi, monthly_rental) {
-    const currentTime = new Date();
-    const hours = currentTime.getHours();
-
-    const isDarkTheme = hours >= 20 || hours < 5;
+    let isDarkTheme = localStorage.getItem('isDarkTheme') === 'true';
 
     let cardColor, headingColor, legendColor, labelColor;
 
