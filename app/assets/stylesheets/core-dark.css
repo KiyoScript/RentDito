@@ -30498,3 +30498,12 @@ a.bg-vimeo:hover, a.bg-vimeo:focus {
   flex-direction: column;
   justify-content: space-between;
 }
+.signature {
+  filter: invert(1) brightness(2);
+}
+.bground-color {
+  background-color: #2b2c40;
+}
+.toast-success, .toast-error {
+  background-color: #2b2c40 !important;
+}

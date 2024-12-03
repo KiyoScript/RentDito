@@ -12,3 +12,6 @@
   flex-direction: column;
   justify-content: space-between;
 }
+.bground-color {
+  background-color: #ffffff;
+}

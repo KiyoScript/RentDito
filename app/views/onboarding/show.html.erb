@@ -12,10 +12,9 @@
       </div>
     </div>
 
-    <div class="d-flex col-lg-8 align-items-center authentication-bg p-5 mt-4" id="dynamic-background" style="background-color: #fff;">
+    <div class="d-flex col-lg-8 align-items-center authentication-bg p-5 mt-4 bground-color">
       <div class="w-100">
         <div class="d-flex flex-column align-items-start justify-content-center mt-5">
-
           <div class="w-100 d-flex justify-content-center">
             <div class="d-flex align-items-center justify-content-center flex-column px-md-0 mx-md-0">
                 <h4 class="my-4 text-center">Hello <%= @user.role.titleize %> 👋</h4>
@@ -147,7 +146,7 @@
                     <div class="col-md-6" style="height: 275px">
                       <%= form.label :signature, "Add Signature", class: "form-label fs-6 mb-6" %>
                       <div class="w-100 d-flex flex-column align-items-center justify-content-start  gap-2" style="height: 200px">
-                        <canvas data-signature-pad-target="canvas" id="invert-signature" class="signature-pad border rounded" style="height: 200px; width: 320px;"></canvas>
+                        <canvas data-signature-pad-target="canvas" class="signature-pad border rounded signature" style="height: 200px; width: 320px;"></canvas>
                         <%= form.hidden_field :signature, id: "user_signature", data: { signature_pad_target: "input" } %>
                         <button type="button" class="btn btn-primary btn-sm" data-action="click->signature-pad#clearSignature">Clear</button>
                       </div>
@@ -156,7 +155,7 @@
                     <div class="col-md-6">
                       <p class="form-label fs-6 mb-6">Signature</p>
                       <% if @user.signature.attached? %>
-                        <%= image_tag @user.signature, alt: "Current Signature", class: "img-thumbnail", id: "invert-created-signature" %>
+                        <%= image_tag @user.signature, alt: "Current Signature", class: "img-thumbnail signature" %>
                       <% else %>
                         <p class="text-danger">No signature</p>
                       <% end %>

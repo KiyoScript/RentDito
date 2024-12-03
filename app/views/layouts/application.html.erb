@@ -65,42 +65,7 @@
             darkThemeLink.rel = 'stylesheet';
             darkThemeLink.href = '<%= asset_path("theme-default-dark.css") %>';
             document.head.appendChild(darkThemeLink);
-
-            const darkStyle = document.createElement('style');
-            darkStyle.id = 'dark-toast-style';
-            darkStyle.innerHTML = `
-              .toast-success {
-                background-color: #2b2c40 !important;
-              }
-              .toast-error {
-                background-color: #2b2c40 !important;
-              }
-            `;
-            document.head.appendChild(darkStyle);
-
-            const existingLightStyle = document.getElementById('light-toast-style');
-            if (existingLightStyle) {
-              existingLightStyle.remove();
-            }
           } else {
-            // Apply light mode styles
-            const lightStyle = document.createElement('style');
-            lightStyle.id = 'light-toast-style';
-            lightStyle.innerHTML = `
-              .toast-success {
-                background-color: #ffffff !important;
-              }
-              .toast-error {
-                background-color: #ffffff !important;
-              }
-            `;
-            document.head.appendChild(lightStyle);
-
-            const existingDarkStyle = document.getElementById('dark-toast-style');
-            if (existingDarkStyle) {
-              existingDarkStyle.remove();
-            }
-
             const existingDarkCoreLink = document.getElementById('dark-core-link');
             if (existingDarkCoreLink) {
               existingDarkCoreLink.remove();
@@ -110,23 +75,6 @@
             if (existingDarkThemeLink) {
               existingDarkThemeLink.remove();
             }
-          }
-
-          // Update invert image settings
-          const profileSignature = document.getElementById("profile-signature");
-          const invertSignatureSettings = document.getElementById("invert-signature-settings");
-          const invertCreatedSignatureSettings = document.getElementById("invert-created-signature-settings");
-
-          if (profileSignature) {
-            profileSignature.style.filter = isDarkTheme ? "invert(1) brightness(2)" : "";
-          }
-
-          if (invertSignatureSettings) {
-            invertSignatureSettings.style.filter = isDarkTheme ? "invert(1) brightness(2)" : "";
-          }
-
-          if (invertCreatedSignatureSettings) {
-            invertCreatedSignatureSettings.style.filter = isDarkTheme ? "invert(1) brightness(2)" : "";
           }
         };
 
