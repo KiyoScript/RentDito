@@ -49,7 +49,7 @@
           <p><strong class="text-wrap">Reason:</strong> <%= transaction.reason %></p>
           <% end %>
           <p><strong class="text-wrap">Amount:</strong> <%= transaction.amount.present? ? transaction.amount.format : "N/A" %></p>
-          <p><strong class="text-wrap">Sender:</strong> <%= transaction.user.fullname %></p>
+          <p><strong class="text-wrap"><%= transaction.transaction_type.humanize.titleize == 'Refund Request' ? 'Name:' : 'Sender:' %> </strong> <%= transaction.user.fullname %></p>
         </div>
       </div>
       <div class="modal-footer">
