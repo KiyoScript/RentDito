@@ -14,6 +14,24 @@
     <!-- Favicon -->
     <%# <link rel="icon" type="image/x-icon" href="#" /> %>
 
+    <!-- Hide content trigger until theme is applied
+    <style>
+      /* Hide body content initially */
+      body.no-theme {
+        visibility: hidden;
+      }
+
+      /* Make it visible once theme is applied */
+      body.theme-applied {
+        visibility: visible;
+      }
+
+      /* Optional: Smooth visibility transition */
+      body {
+        transition: visibility 0.3s ease; /* Smooth transition for visibility */
+      }
+    </style> -->
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -27,10 +45,126 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <!-- Core CSS -->
     <%= stylesheet_link_tag "custom", "data-turbo-track": "reload" %>
+
+    <script>
+      (function () {
+        // Retrieve theme preference from localStorage or default to light mode
+        let isDarkTheme = localStorage.getItem('isDarkTheme') === 'true';
+
+        const applyTheme = () => {
+          if (isDarkTheme) {
+            // Apply dark mode styles
+            const darkCoreLink = document.createElement('link');
+            darkCoreLink.id = 'dark-core-link';
+            darkCoreLink.rel = 'stylesheet';
+            darkCoreLink.href = '<%= asset_path("core-dark.css") %>';
+            document.head.appendChild(darkCoreLink);
+
+            const darkThemeLink = document.createElement('link');
+            darkThemeLink.id = 'theme-core-link';
+            darkThemeLink.rel = 'stylesheet';
+            darkThemeLink.href = '<%= asset_path("theme-default-dark.css") %>';
+            document.head.appendChild(darkThemeLink);
+
+            const darkStyle = document.createElement('style');
+            darkStyle.id = 'dark-toast-style';
+            darkStyle.innerHTML = `
+              .toast-success {
+                background-color: #2b2c40 !important;
+              }
+              .toast-error {
+                background-color: #2b2c40 !important;
+              }
+            `;
+            document.head.appendChild(darkStyle);
+
+            const existingLightStyle = document.getElementById('light-toast-style');
+            if (existingLightStyle) {
+              existingLightStyle.remove();
+            }
+          } else {
+            // Apply light mode styles
+            const lightStyle = document.createElement('style');
+            lightStyle.id = 'light-toast-style';
+            lightStyle.innerHTML = `
+              .toast-success {
+                background-color: #ffffff !important;
+              }
+              .toast-error {
+                background-color: #ffffff !important;
+              }
+            `;
+            document.head.appendChild(lightStyle);
+
+            const existingDarkStyle = document.getElementById('dark-toast-style');
+            if (existingDarkStyle) {
+              existingDarkStyle.remove();
+            }
+
+            const existingDarkCoreLink = document.getElementById('dark-core-link');
+            if (existingDarkCoreLink) {
+              existingDarkCoreLink.remove();
+            }
+
+            const existingDarkThemeLink = document.getElementById('theme-core-link');
+            if (existingDarkThemeLink) {
+              existingDarkThemeLink.remove();
+            }
+          }
+
+          // Update invert image settings
+          const profileSignature = document.getElementById("profile-signature");
+          const invertSignatureSettings = document.getElementById("invert-signature-settings");
+          const invertCreatedSignatureSettings = document.getElementById("invert-created-signature-settings");
+
+          if (profileSignature) {
+            profileSignature.style.filter = isDarkTheme ? "invert(1) brightness(2)" : "";
+          }
+
+          if (invertSignatureSettings) {
+            invertSignatureSettings.style.filter = isDarkTheme ? "invert(1) brightness(2)" : "";
+          }
+
+          if (invertCreatedSignatureSettings) {
+            invertCreatedSignatureSettings.style.filter = isDarkTheme ? "invert(1) brightness(2)" : "";
+          }
+        };
+
+        // Toggle between themes
+        window.toggleTheme = (toDarkTheme) => {
+          isDarkTheme = toDarkTheme;
+          localStorage.setItem('isDarkTheme', isDarkTheme);
+        };
+
+        // Apply theme on pre-loaded page
+        applyTheme();
+
+        // Apply the theme on page load
+        document.addEventListener("DOMContentLoaded", function () {
+          applyTheme();
+
+          // Prevent enter key default in input fields
+          const inputs = document.querySelectorAll('.disable-modal-popup');
+          inputs.forEach(input => {
+            input.addEventListener('keydown', function (event) {
+              if (event.key === 'Enter') {
+                event.preventDefault();
+              }
+            });
+          });
+        });
+      })();
+    </script>
+
+    <!-- Core CSS -->
+    <%= stylesheet_link_tag "page-faq", "data-turbo-track": "reload" %>
+    <!-- Core CSS -->
+    <%= stylesheet_link_tag "page-profile", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <%= favicon_link_tag asset_path('brand_logo.png'), rel: 'icon', sizes: '180x180' %>
   </head>
   <body>
+  <!-- <body data-core-dark-path="<%= asset_path('core-dark.css') %>" data-theme-dark-path="<%= asset_path('theme-default-dark.css') %>"> -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
         <%= render partial: "layouts/flash_messages/toastr"%>

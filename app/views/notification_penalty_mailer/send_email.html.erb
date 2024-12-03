@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          line-height: 1.6;
+          background-color: #f9f9f9;
+          color: #333;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      .link {
+        color: blue;
+      }
+      .container {
+          width: 80%;
+          margin: auto;
+          padding: 20px;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          background-color: #fff;
+      }
+      .header {
+          text-align: center;
+          padding-bottom: 10px;
+          color: #696cff;
+      }
+      .footer {
+          margin-top: 20px;
+          font-size: 0.9em;
+          color: #777;
+          display: flex;
+          justify-content: center;
+      }
+      .button {
+          display: inline-block;
+          margin-top: 20px;
+          padding: 10px 15px;
+          color: #fff !important;
+          background-color: #696cff;
+          text-decoration: none;
+          border-radius: 5px;
+      }
+      .info_container {
+        display: flex;
+        align-items: center;
+        text-align: center;
+      }
+      .bg-label-success {
+        background-color: #e8fadf !important;
+        color: #71dd37 !important;
+      }
+      .badge {
+        --bs-badge-padding-x: .77em;
+        --bs-badge-padding-y: .4235em;
+        --bs-badge-font-size: .8667em;
+        --bs-badge-font-weight: 500;
+        --bs-badge-color: #fff;
+        --bs-badge-border-radius: .25rem;
+        display: inline-block;
+        padding: var(--bs-badge-padding-y) var(--bs-badge-padding-x);
+        font-size: var(--bs-badge-font-size);
+        font-weight: var(--bs-badge-font-weight);
+        line-height: 1;
+        color: var(--bs-badge-color);
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: var(--bs-badge-border-radius);
+      }
+  </style>
+</head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/rentdito.png" alt="RentDito Logo" width="100">
+      </div>
+
+      <!--
+             The subject for this email is "Penalty Zone this November 23, 2024". The date depends on the current date.
+             This will only show if a tenant encountered a penalty in either 3 types of billing (water, electricity, Wi-Fi and rental).
+      -->
+      <% @charge_presenter = ChargePresenter.new(@charge) %>
+
+      <p>Hello <%= @user.male? ? 'Mr.' : 'Mrs.' %> <%= @user.lastname.titleize %>,</p>
+
+      <p>You are receiving this email because you are in a penalty zone in <%= @billing.billing_type == 'wifi' ? 'Wi-Fi and rental' :  @billing.billing_type %> bill for the month of <%= Date.current.strftime("%B %Y") %>.</p>
+      <p><strong>NOTE:</strong> There's a 5% penalty increase on the 1st day after the due date, and a 10% increase for every additional 5 days.</p>
+
+      <% case @charge.billing.billing_type %>
+      <% when 'water' %>
+        <p>You are <%= @charge_presenter.number_of_day(@charge.billing.water_bill_end_date) %> past due for your water charge. <%= @charge_presenter.day_rate(@charge.billing.water_bill_end_date) %> overdue = <span style="color: red;"><%= @charge_presenter.penalty_rate(@charge.billing.water_bill_end_date) * 100 %>% penalty increase</span>.</p>
+        <p class="info_container">
+          <img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/water.png" alt="Water Logo" width="20">
+          &ensp;₱<%= @charge.water_share_amount %> + (₱<%= @charge.water_share_amount %> * <%= @charge_presenter.penalty_rate(@charge.billing.water_bill_end_date) * 100 %>%) =
+          <span style="color: red;">&ensp;₱<%= @charge.water_share_amount + @charge.water_share_amount * @charge_presenter.penalty_rate(@charge.billing.water_bill_end_date) %></span>
+        </p>
+      <% when 'electricity' %>
+        <p>You are <%= @charge_presenter.number_of_day(@charge.billing.electricity_bill_end_date) %> past due for your electricity charge. <%= @charge_presenter.day_rate(@charge.billing.electricity_bill_end_date) %> overdue = <span style="color: red;"><%= @charge_presenter.penalty_rate(@charge.billing.electricity_bill_end_date) * 100 %>% penalty increase</span>.</p>
+        <p class="info_container">
+          <img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/electricity.png" alt="Electricity Logo" width="20">
+          &ensp;₱<%= @charge.electricity_share_amount + @charge.extra_charge_amount %> + (₱<%= @charge.electricity_share_amount + @charge.extra_charge_amount %> * <%= @charge_presenter.penalty_rate(@charge.billing.electricity_bill_end_date) * 100 %>%) =
+          <span style="color: red;">&ensp;₱<%= @charge.electricity_share_amount + @charge.extra_charge_amount + (@charge.electricity_share_amount + @charge.extra_charge_amount) * @charge_presenter.penalty_rate(@charge.billing.electricity_bill_end_date) %></span>
+        </p>
+      <% when 'wifi' %>
+        <p>You are <%= @charge_presenter.number_of_day(@charge.billing.wifi_and_rental_end_date) %> past due for your Wi-Fi and rental charges. <%= @charge_presenter.day_rate(@charge.billing.wifi_and_rental_end_date) %> overdue = <span style="color: red;"><%= @charge_presenter.penalty_rate(@charge.billing.wifi_and_rental_end_date) * 100 %>% penalty increase</span>.</p>
+        <p class="info_container">
+          <img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/wifi.png" alt="Wi-Fi Logo" width="20">
+          &ensp;₱<%= @charge.wifi_share_amount %> + (₱<%= @charge.wifi_share_amount %> * <%= @charge_presenter.penalty_rate(@charge.billing.wifi_and_rental_end_date) * 100 %>%) =
+          <span style="color: red;">&ensp;₱<%= @charge.wifi_share_amount + @charge.wifi_share_amount * @charge_presenter.penalty_rate(@charge.billing.wifi_and_rental_end_date) %></span>
+        </p>
+        <p class="info_container">
+          <img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/rental.png" alt="Rental Logo" width="20">
+          &ensp;₱<%= @charge.monthly_rental_amount %> + (₱<%= @charge.monthly_rental_amount %> * <%= @charge_presenter.penalty_rate(@charge.billing.wifi_and_rental_end_date) * 100 %>%) =
+          <span style="color: red;">&ensp;₱<%= @charge.monthly_rental_amount + @charge.monthly_rental_amount * @charge_presenter.penalty_rate(@charge.billing.wifi_and_rental_end_date) %></span>
+        </p>
+      <% end %>
+
+      <p>If there are any questions about your sharing in <%= @billing.due_date.strftime("%B %Y") %>, contact any of the following:</p>
+      <div class="details">
+        <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/gmail.png" alt="GMail Logo" width="20">&ensp;&nbsp;<a href="mailto:ederlindocojuangco@gmail.com" target="_blank">ederlindocojuangco@gmail.com</a></p>
+        <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/facebook.png" alt="FB Logo" width="20">&ensp;&nbsp;<a href="https://www.facebook.com/profile.php?id=100089232990563">Mark Mercado</a></p>
+        <p class="info_container"><img src="https://rentdito-images.s3.ap-southeast-2.amazonaws.com/call.png" alt="Call Logo" width="20">&ensp;&nbsp;<a href="tel:+(63)9366486958">+(63) 936 648 6958</a></p>
+      </div>
+      <div class="footer">
+        <p>© 2024 RentDito. All rights reserved.</p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   root "dashboard/homepage#index"
 
   namespace :dashboard do
+    get 'faq', to: 'faq#index', as: :faq
     resources :homepage, only: :index
     resources :admins, except: [:edit, :update, :destroy]
     resources :maintenance_staffs, except: [:edit, :update, :destroy]
@@ -29,7 +30,13 @@ Rails.application.routes.draw do
         patch :close_ticket
       end
     end
-    resources :tickets_history
+
+    resources :tickets_history do
+      member do
+        post :review
+      end
+    end
+
     resources :properties do
       resources :property_units
       member do
@@ -76,9 +83,12 @@ Rails.application.routes.draw do
 
     resources :transaction_history
 
-    resources :notifications do
+    resources :notifications, only: [:index] do
       member do
         patch :mark_as_read
+      end
+      collection do
+        patch :mark_all_as_read
       end
     end
   end

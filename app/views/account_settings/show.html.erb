@@ -1,6 +1,6 @@
 <div class="container">
-  <div class="d-flex flex-column align-items-center justify-content-center mt-10">
-    <div id="wizard-validation" class="bs-stepper bg-transparent shadow-none mt-2 shado" data-controller="wizard-form">
+  <div class="d-flex flex-column align-items-center justify-content-center">
+    <div id="wizard-validation" class="bs-stepper bg-transparent shadow-none mt-2 shadow" data-controller="wizard-form">
       <div class="d-none d-md-flex bs-stepper-header">
         <div class="step" data-target="#personal-info-validation">
           <button type="button" class="step-trigger">
@@ -47,9 +47,9 @@
             <div class="row g-6">
               <div class="col-12 d-flex flex-column align-items-center justify-content-center gap-2 mb-6">
                 <img src="<%= avatar(@user) %>" alt="Avatar" class="rounded-circle" style="width: 150px; height: auto;">
-                <a role="button" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" data-bs-target="#uploadAvatarModal">
+                <!-- <a role="button" class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" data-bs-target="#uploadAvatarModal">
                   Update Avatar
-                </a>
+                </a> -->
               </div>
               <%= render partial: "account_settings/avatar_modal", locals: { form: form } %>
             </div>
@@ -57,42 +57,42 @@
             <div class="row g-6">
               <div class="col-md-6">
                 <%= form.label :firstname, class: "form-label fs-6" %>
-                <%= form.text_field :firstname, class: "form-control", id: "user_firstname"%>
+                <%= form.text_field :firstname, class: "form-control", id: "user_firstname", readonly: "readonly" %>
               </div>
               <div class="col-md-6">
                 <%= form.label :lastname, class: "form-label fs-6" %>
-                <%= form.text_field :lastname, class: "form-control", id: "user_lastname"%>
+                <%= form.text_field :lastname, class: "form-control", id: "user_lastname", readonly: "readonly" %>
               </div>
               <div class="col-md-6">
-                <%= form.label :phone_number,  "Phone Number", class: "form-label fs-6" %>
-                <%= form.text_field :phone_number, class: "form-control", id: "user_phone_number"%>
+                <%= form.label :phone_number, "Phone Number", class: "form-label fs-6" %>
+                <%= form.text_field :phone_number, class: "form-control", id: "user_phone_number" %>
               </div>
               <div class="col-md-6">
                 <p class="form-label fs-6">Gender</p>
                 <div class="form-check">
-                  <%= form.radio_button :gender, :male, class: "form-check-input", id: "user_gender_male" %>
+                  <%= form.radio_button :gender, :male, class: "form-check-input", id: "user_gender_male", disabled: true %>
                   <%= form.label :gender_male, "Male", class: "form-check-label fs-6"%>
                 </div>
                 <div class="form-check">
-                  <%= form.radio_button :gender, :female, class: "form-check-input", id: "user_gender_female" %>
+                  <%= form.radio_button :gender, :female, class: "form-check-input", id: "user_gender_female", disabled: true %>
                   <%= form.label :gender_female, "Female", class: "form-check-label fs-6"%>
                 </div>
               </div>
 
               <div class="col-md-6">
                 <%= form.label :date_of_birth, class: "form-label fs-6" %>
-                <%= form.date_field :date_of_birth, class: "form-control", data: { automate_age_target: "birthdate" } %>
+                <%= form.date_field :date_of_birth, class: "form-control", data: { automate_age_target: "birthdate" }, readonly: !current_user.landlord? %>
               </div>
 
               <div class="col-md-6">
                 <%= form.label :age, class: "form-label fs-6" %>
-                <%= form.number_field :age, class: "form-control",value: @user.age.present? ? @user.age : 18,  min: 18, placeholder: 18, data: { automate_age_target: "age" }, readonly: true %>
+                <%= form.number_field :age, class: "form-control", value: @user.age.present? ? @user.age : 18,  min: 18, placeholder: 18, data: { automate_age_target: "age" }, readonly: true %>
               </div>
 
               <div class="col-md-6">
                 <%= form.label :signature, "Add Signature", class: "form-label fs-6 mb-6" %>
                 <div class="d-flex flex-column align-items-center justify-content-center gap-2" style="height: 200px; width: 320px;">
-                  <canvas data-signature-pad-target="canvas" class="signature-pad border rounded" style="width: 100%; height: 100%;"></canvas>
+                  <canvas data-signature-pad-target="canvas" id="invert-signature-settings" class="signature-pad border rounded" style="width: 100%; height: 100%;"></canvas>
                   <%= form.hidden_field :signature, id: "user_signature", data: { signature_pad_target: "input" } %>
                   <button type="button" class="btn btn-primary btn-sm" data-action="click->signature-pad#clearSignature">Clear</button>
                 </div>
@@ -101,7 +101,7 @@
               <div class="col-md-6 d-flex flex-column align-items-start justify-content-center">
                 <p class="form-label fs-6 mb-6">Signature</p>
                 <% if @user.signature.attached? %>
-                  <%= image_tag @user.signature, alt: "Current Signature", class: "img-thumbnail" %>
+                  <%= image_tag @user.signature, alt: "Current Signature", class: "img-thumbnail", id: "invert-created-signature-settings" %>
                 <% else %>
                   <p class="text-danger">No signature</p>
                 <% end %>
@@ -151,10 +151,10 @@
               <% end %>
 
               <div class="col-12 d-flex justify-content-end d-md-none">
-                <button class="btn btn-primary btn-next w-100" type="button"> <span class="align-middle me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+                <button class="btn btn-text-primary btn-next w-100" type="button"> <span class="align-middle me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
               </div>
               <div class="col-12 d-none d-md-flex justify-content-end ">
-                <button class="btn btn-primary btn-next" type="button"> <span class="align-middle me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+                <button class="btn btn-text-primary btn-next" type="button"> <span class="align-middle me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
               </div>
             </div>
           </div>
@@ -168,7 +168,7 @@
             <div class="row g-6 mt-5">
               <div class="col-md-6">
                 <%= form.label "Email", class: "form-label fs-6"%>
-                <%= form.email_field :email, class: "form-control", id: "user_Email"%>
+                <%= form.email_field :email, class: "form-control", id: "user_Email", disabled: true %>
               </div>
               <div class="col-md-6 d-none">
                 <%= form.hidden_field :status, class: "form-control", id: "user_Status", value: @user.status %>
@@ -195,13 +195,13 @@
 
 
               <div class="col-12 d-flex flex-column justify-content-between d-md-none gap-2">
-                <button class="btn btn-primary btn-next" type="button"> <span class="align-middle d-sm-inline-block me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+                <button class="btn btn-text-primary btn-next" type="button"> <span class="align-middle d-sm-inline-block me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
               </div>
               <div class="col-12 d-none d-md-flex justify-content-between ">
-                <button class="btn btn-primary btn-prev" type="button"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                <button class="btn btn-text-primary btn-prev" type="button"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
                   <span class="align-middle d-sm-inline-block d-none">Previous</span>
                 </button>
-                <button class="btn btn-primary btn-next" type="button"> <span class="align-middle d-sm-inline-block d-none me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+                <button class="btn btn-text-primary btn-next" type="button"> <span class="align-middle d-sm-inline-block d-none me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
               </div>
             </div>
           </div>
@@ -256,17 +256,16 @@
                 <button class="btn btn-primary btn-next btn-submit" data-action="click->signature-pad#saveSignature"> <span class="align-middle d-sm-inline-block me-sm-1 me-0">Submit</span>
               </div>
               <div class="col-12 d-none d-md-flex justify-content-between">
-                <button class="btn btn-primary btn-prev" type="button"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                <button class="btn btn-text-primary btn-prev" type="button"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
                   <span class="align-middle d-sm-inline-block d-none">Previous</span>
                 </button>
-                <button class="btn btn-primary btn-next btn-submit" data-action="click->signature-pad#saveSignature"> <span class="align-middle d-sm-inline-block d-none me-sm-1 me-0">Submit</span></button>
+                <button class="btn btn-primary btn-next btn-submit" data-action="click->signature-pad#saveSignature"> <span class="align-middle me-sm-1 me-0">Submit</span></button>
               </div>
             </div>
           </div>
         <% end %>
 
-
-        <div class="accordion accordion-header-primary mt-5" onsubmit="return false" id="validIdsAccordionStyle">
+        <div class="accordion accordion-header-primary mt-5 d-none" onsubmit="return false" id="validIdsAccordionStyle">
           <div class="accordion-item card">
             <h2 class="accordion-header">
               <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#validIdsAccordion" aria-expanded="false">
@@ -284,7 +283,7 @@
 
 
         <% unless current_user.landlord? %>
-          <div class="card">
+          <div class="card mt-3">
             <h5 class="card-header">Deactivate Account</h5>
             <div class="card-body">
               <div class="mb-6 col-12 mb-0">

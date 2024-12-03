@@ -65,8 +65,8 @@ export default class extends Controller {
   }
 
   _percentage(divisor, dividend) {
-    if (dividend == 0 || divisor == 0) {
-      return 0.00
+    if (dividend == 0) {
+      return 100.00
     }
     const result = (divisor / dividend) * 100;
     return Math.round(result);
@@ -74,15 +74,28 @@ export default class extends Controller {
 
 
   _render_billing_statistics_chart(water, electricity, wifi, monthly_rental) {
+    let isDarkTheme = localStorage.getItem('isDarkTheme') === 'true';
+
+    let cardColor, headingColor, legendColor, labelColor;
+
+    if (isDarkTheme) {
+      cardColor = config.colors_dark.cardColor;
+      labelColor = config.colors_dark.textMuted;
+      legendColor = config.colors_dark.bodyColor;
+      headingColor = config.colors_dark.headingColor;
+    } else {
+      cardColor = config.colors.cardColor;
+      labelColor = config.colors.textMuted;
+      legendColor = config.colors.bodyColor;
+      headingColor = config.colors.headingColor;
+    }
+
     const billingChartStatistics = this.billingDonutChartTarget;
 
     if (this.statisticsChart) {
       this.statisticsChart.destroy();
     }
 
-    const cardColor = "#ffff";
-    const headingColor = "black";
-    const legendColor = "red";
     const orderChartConfig = {
       chart: {
         height: 145,
@@ -139,7 +152,7 @@ export default class extends Controller {
               },
               total: {
                 show: true,
-                fontSize: '13px',
+                fontSize: '11px',
                 color: legendColor,
                 label: 'Average',
                 formatter: function (w) {

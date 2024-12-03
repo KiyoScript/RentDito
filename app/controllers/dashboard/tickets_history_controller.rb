@@ -1,8 +1,7 @@
 class Dashboard::TicketsHistoryController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_ticket, only: :show
-  before_action :set_policy!
-
+  before_action :set_ticket, only: [:show, :review]
+  before_action :set_policy!, except: :review
 
   def index
     @q = Ticket.ransack(params[:q])
@@ -15,7 +14,15 @@ class Dashboard::TicketsHistoryController < ApplicationController
     end
   end
 
-  def show;end
+  def show; end
+
+  def review
+    if @ticket.update(review_params)
+      redirect_to dashboard_tickets_history_path(@ticket), notice: "Your review has been submitted successfully"
+    else
+      redirect_to dashboard_tickets_history_path(@ticket), alert: "There was an issue submitting your review"
+    end
+  end
 
   private
 
@@ -25,5 +32,9 @@ class Dashboard::TicketsHistoryController < ApplicationController
 
   def set_ticket
     @ticket = Ticket.find(params[:id])
+  end
+
+  def review_params
+    params.require(:ticket).permit(:rating, :review)
   end
 end

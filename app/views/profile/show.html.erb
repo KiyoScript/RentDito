@@ -1,146 +1,158 @@
-<div class="container-xxl flex-grow-1 container-p-y">
-  <!-- Header -->
+<!-- Header -->
   <div class="row">
     <div class="col-12">
       <div class="card mb-6">
         <div class="user-profile-header-banner">
-          <%= image_tag 'profile-banner.png', alt: 'Banner Image', class: 'img-fluid'%>
+          <%= image_tag 'profile-banner.png', alt: 'Banner Image', class: 'rounded-top' %>
         </div>
         <div class="user-profile-header d-flex flex-column flex-lg-row text-sm-start text-center mb-8">
-         <div class="user-avatar-section p-4">
-            <div class="d-flex align-items-center flex-column">
-              <img src="<%= avatar(@user) %>" alt="Avatar" class="rounded-circle" style="width: 150px; height: auto;">
-            </div>
+          <div class="flex-shrink-0 mt-1 mx-sm-0 mx-auto">
+            <img src="<%= avatar(@user) %>" alt="Avatar" class="d-block h-auto ms-0 ms-sm-6 rounded-3 user-profile-img" style="width: 150px; height: auto;">
           </div>
           <div class="flex-grow-1 mt-3 mt-lg-5">
-            <div class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-5 flex-md-row flex-column gap-4">
+            <div
+              class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-5 flex-md-row flex-column gap-4">
               <div class="user-profile-info">
                 <h4 class="mb-2 mt-lg-7"><%= @user.fullname %></h4>
                 <ul
                   class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-4 mt-4">
                   <li class="list-inline-item">
-                    <i class="bx bx-calendar me-2 align-top"></i>
-                    <span class="fw-medium">Joined <%= @user.created_at.strftime("%B %d, %Y") %></span>
+                    <i class="bx bx-palette me-2 align-top"></i><span class="fw-medium">Joined <%= @user.created_at.strftime("%B %d, %Y") %></span>
                   </li>
                 </ul>
               </div>
-
-              <% if current_user.landlord? || current_user.admin? %>
-                <div class="btn-group my-4 <%= 'd-none' if @user.deactivated? %>" data-controller="user-status" data-user-status-user-id="<%= @user.id %>">
-                  <button class="<%= status_button_class(@user.status) %>" data-bs-toggle="dropdown">
-                    <span data-user-status-target="statusLabel"><%= @user.status.titleize %></span>
+                <% if current_user.landlord? || (current_user.admin? && @user.role != 'admin') %>
+                  <div class="btn-group my-4 <%= 'd-none' if @user.deactivated? %>" data-controller="user-status" data-user-status-user-id="<%= @user.id %>">
+                    <button class="<%= status_button_class(@user.status) %>" data-bs-toggle="dropdown" data-user-status-target="statusLabel">
+                      <% if @user.status == 'verified' %>
+                        <i class="bx bx-user-check"></i>
+                      <% elsif @user.status == 'rejected' %>
+                        <i class="bx bx-user-x"></i>
+                      <% elsif @user.status == 'incomplete' %>
+                        <i class="bx bx-group"></i>
+                      <% elsif @user.status == 'unverified' %>
+                        <i class="bx bx-user-voice"></i>
+                      <% end %>
+                      &ensp;<span><%= @user.status.titleize %></span>
+                      &ensp;<i class="bx bx-chevron-down"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="verified">Verified</a></li>
+                      <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="rejected">Rejected</a></li>
+                      <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="incomplete">Incomplete</a></li>
+                    </ul>
+                  </div>
+                <% else %>
+                  <button class="<%= status_label_button_class(@user.status) %> my-4 <%= 'd-none' if @user.deactivated? %>">
+                    <% if @user.status == 'verified' %>
+                      <i class="bx bx-user-check"></i>
+                    <% elsif @user.status == 'rejected' %>
+                      <i class="bx bx-user-x"></i>
+                    <% elsif @user.status == 'incomplete' %>
+                      <i class="bx bx-group"></i>
+                    <% elsif @user.status == 'unverified' %>
+                      <i class="bx bx-user-voice"></i>
+                    <% end %>
+                    &ensp;<span data-user-status-target="statusLabel"><%= @user.status.titleize %></span>
                   </button>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="verified">Verified</a></li>
-                    <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="rejected">Rejected</a></li>
-                    <li><a class="dropdown-item" href="javascript:void(0);" data-action="click->user-status#updateStatus" data-user-status-status="incomplete">Incomplete</a></li>
-                  </ul>
-                </div>
-              <% else %>
-                <button class="<%= status_button_class(@user.status) %>my-4 <%= 'd-none' if @user.deactivated? %>">
-                  <span data-user-status-target="statusLabel"><%= @user.status.titleize %></span>
-                </button>
-              <% end %>
-            </div>
+                <% end %>
+                <% unless @user.email == current_user.email %>
+                  <div class="btn-group my-4 <%= @user.deactivated? ? '' : 'd-none' %>" data-controller="transfer-occupant">
+                    <%= link_to 'javascript:void(0)', class: "btn btn-warning", style: "border-radius: 0.375rem !important", data: { bs_toggle: "modal", bs_target: "#transferModal", transfer_occupant_target: "modalTrigger" } do %>
+                      <i class="bx bx-transfer me-2"></i>Transfer
+                    <% end %>
+                    <div class="modal fade" id="transferModal" tabindex="-1" aria-labelledby="transferModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <%= form_with model: @user, url: transfer_profile_path(@user), method: :patch, html: { class: "card", data: { controller: "load-properties" } } do |form| %>
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="transferModalLabel">Transfer this <%= @user.role.humanize %></h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <% if @user.utility_staff? %>
+                                <%= form.fields_for :utility_staff do |u| %>
+                                  <div class="form-group mb-6">
+                                    <%= u.label :property_id, "Property", class: "form-label" %>
+                                    <%= u.select :property_id, options_for_select([[ "", nil, { selected: true, disabled: true } ]] + Property.all.map { |p| [p.address, p.id] }), {}, class: "form-select", data: { action: "change->load-properties#loadPropertyUnits" } %>
+                                  </div>
+                                  <div class="form-group mb-6">
+                                    <%= u.label :property_unit_id, "Property Code", class: "form-label fs-6" %>
+                                    <%= u.select :property_unit_id, [], { prompt: "Choose Property Code" }, class: "form-select", id: "user_property_unit", required: true %>
+                                  </div>
 
-            <% unless @user.email == current_user.email %>
-              <div class="container p-4 d-flex flex-row align-items-center justify-content-center justify-content-md-end <%= @user.deactivated? ? '' : 'd-none' %>">
-                <%= link_to 'javascript:void(0)', class: "btn btn-warning", data: { bs_toggle: "modal", bs_target: "#transferModal" } do %>
-                  Transfer to another room
+                                  <div class="form-group mb-6">
+                                    <%= u.label :room_id, "Room #", class: "form-label fs-6" %>
+                                    <%= u.select :room_id, [], { prompt: "Choose Room" }, class: "form-select", id: "user_room", required:true, data: { action: "change->load-properties#loadDecks" } %>
+                                  </div>
+
+                                  <div class="form-group mb-6">
+                                    <%= u.label :deck, "Deck", class: "form-label fs-6" %>
+                                    <%= u.select :deck, [], { prompt: "Choose Deck" }, class: "form-select", id: "user_deck", required:true, data: { load_properties_target: "deck"} %>
+                                  </div>
+
+                                  <div class="form-group mb-6 d-none">
+                                    <%= u.label :transfer_date, class: "form-label fs-6" %>
+                                    <%= u.datetime_field :transfer_date, value: DateTime.now.strftime('%Y-%m-%dT%H:%M'), class: "form-select" %>
+                                  </div>
+
+                                  <div class="form-group mb-6 d-none">
+                                    <%= u.label :check_in, class: "form-label fs-6" %>
+                                    <%= u.datetime_field :check_in, class: "form-select" %>
+                                  </div>
+                                <% end %>
+
+                              <% else %>
+                                <%= form.fields_for :tenant do |u| %>
+                                  <div class="form-group mb-6">
+                                    <%= u.label :property_id, "Property", class: "form-label" %>
+                                    <%= u.select :property_id, options_for_select([[ "", nil, { selected: true, disabled: true } ]] + Property.all.map { |p| [p.address, p.id] }), {}, class: "form-select", data: { action: "change->load-properties#loadPropertyUnits" } %>
+                                  </div>
+                                  <div class="form-group mb-6">
+                                    <%= u.label :property_unit_id, "Property Code", class: "form-label fs-6" %>
+                                    <%= u.select :property_unit_id, [], { prompt: "Choose Property Code" }, class: "form-select", id: "user_property_unit", required: true %>
+                                  </div>
+                                  <div class="form-group mb-6">
+                                    <%= u.label :room_id, "Room #", class: "form-label fs-6" %>
+                                    <%= u.select :room_id, [], { prompt: "Choose Room" }, class: "form-select", id: "user_room", required:true, data: { action: "change->load-properties#loadDecks" } %>
+                                  </div>
+
+                                  <div class="form-group mb-6">
+                                    <%= u.label :deck, "Deck", class: "form-label fs-6" %>
+                                    <%= u.select :deck, [], { prompt: "Choose Deck" }, class: "form-select", id: "user_deck", required:true, data: { load_properties_target: "deck"} %>
+                                  </div>
+
+                                  <div class="form-group mb-6 d-none">
+                                    <%= u.label :transfer_date, class: "form-label fs-6" %>
+                                    <%= u.datetime_field :transfer_date, value: DateTime.now.strftime('%Y-%m-%dT%H:%M'), class: "form-select" %>
+                                  </div>
+
+                                  <div class="form-group mb-6 d-none">
+                                    <%= u.label :check_in, class: "form-label fs-6" %>
+                                    <%= u.datetime_field :check_in, class: "form-select" %>
+                                  </div>
+                                <% end %>
+                              <% end %>
+                            </div>
+                            <div class="modal-footer d-flex align-items-center justify-content-between">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <%= form.submit 'Transfer', class: 'btn btn-primary', data: { bs_dismiss: "modal", action: "transfer-occupant#handleSubmit", transfer_occupant_target: "transferButton" } %>
+                            </div>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 <% end %>
               </div>
-              <div class="modal fade" id="transferModal" tabindex="-1" aria-labelledby="transferModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                    <%= form_with model: @user, url: transfer_profile_path(@user), method: :patch, html: { class: "card", data: { controller: "load-properties"} } do |form| %>
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="transferModalLabel">Transfer this <%= @user.role.humanize %></h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                        <% if @user.utility_staff? %>
-                          <%= form.fields_for :utility_staff do |u| %>
-                            <div class="form-group mb-6">
-                              <%= u.label :property_id, "Property", class: "form-label" %>
-                              <%= u.select :property_id, options_for_select([[ "", nil, { selected: true, disabled: true } ]] + Property.all.map { |p| [p.address, p.id] }), {}, class: "form-select", data: { action: "change->load-properties#loadPropertyUnits" } %>
-                            </div>
-                            <div class="form-group mb-6">
-                              <%= u.label :property_unit_id, "Property Code", class: "form-label fs-6" %>
-                              <%= u.select :property_unit_id, [], { prompt: "Choose Property Code" }, class: "form-select", id: "user_property_unit", required: true %>
-                            </div>
-
-                            <div class="form-group mb-6">
-                              <%= u.label :room_id, "Room #", class: "form-label fs-6" %>
-                              <%= u.select :room_id, [], { prompt: "Choose Room" }, class: "form-select", id: "user_room", required:true, data: { action: "change->load-properties#loadDecks" } %>
-                            </div>
-
-                            <div class="form-group mb-6">
-                              <%= u.label :deck, "Deck", class: "form-label fs-6" %>
-                              <%= u.select :deck, [], { prompt: "Choose Deck" }, class: "form-select", id: "user_deck", required:true, data: { load_properties_target: "deck"} %>
-                            </div>
-
-                            <div class="form-group mb-6 d-none">
-                              <%= u.label :transfer_date, class: "form-label fs-6" %>
-                              <%= u.datetime_field :transfer_date, value: DateTime.now.strftime('%Y-%m-%dT%H:%M'), class: "form-select" %>
-                            </div>
-
-                            <div class="form-group mb-6 d-none">
-                              <%= u.label :check_in, class: "form-label fs-6" %>
-                              <%= u.datetime_field :check_in, class: "form-select" %>
-                            </div>
-                          <% end %>
-
-                        <% else %>
-                          <%= form.fields_for :tenant do |u| %>
-                            <div class="form-group mb-6">
-                              <%= u.label :property_id, "Property", class: "form-label" %>
-                              <%= u.select :property_id, options_for_select([[ "", nil, { selected: true, disabled: true } ]] + Property.all.map { |p| [p.address, p.id] }), {}, class: "form-select", data: { action: "change->load-properties#loadPropertyUnits" } %>
-                            </div>
-                            <div class="form-group mb-6">
-                              <%= u.label :property_unit_id, "Property Code", class: "form-label fs-6" %>
-                              <%= u.select :property_unit_id, [], { prompt: "Choose Property Code" }, class: "form-select", id: "user_property_unit", required: true %>
-                            </div>
-                            <div class="form-group mb-6">
-                              <%= u.label :room_id, "Room #", class: "form-label fs-6" %>
-                              <%= u.select :room_id, [], { prompt: "Choose Room" }, class: "form-select", id: "user_room", required:true, data: { action: "change->load-properties#loadDecks" } %>
-                            </div>
-
-                            <div class="form-group mb-6">
-                              <%= u.label :deck, "Deck", class: "form-label fs-6" %>
-                              <%= u.select :deck, [], { prompt: "Choose Deck" }, class: "form-select", id: "user_deck", required:true, data: { load_properties_target: "deck"} %>
-                            </div>
-
-                            <div class="form-group mb-6 d-none">
-                              <%= u.label :transfer_date, class: "form-label fs-6" %>
-                              <%= u.datetime_field :transfer_date, value: DateTime.now.strftime('%Y-%m-%dT%H:%M'), class: "form-select" %>
-                            </div>
-
-                            <div class="form-group mb-6 d-none">
-                              <%= u.label :check_in, class: "form-label fs-6" %>
-                              <%= u.datetime_field :check_in, class: "form-select" %>
-                            </div>
-                          <% end %>
-                        <% end %>
-                      </div>
-                      <div class="modal-footer d-flex align-items-center justify-content-between">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <%= form.submit 'Transfer', class: 'btn btn-primary', data: { bs_dismiss: 'modal' }%>
-                      </div>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
-            <% end %>
-
-
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
   <!--/ Header -->
   <div class="row">
-    <div class="col-12 col-md-4">
+    <div class="col-12 <%= 'col-lg-4' if (current_user.landlord? || current_user.admin? ) %>">
       <div class="card mb-6 p-6 overflow-auto" style="max-width: 100%;">
         <small class="card-text text-uppercase text-muted small">About</small>
         <ul class="list-unstyled my-3 py-1">
@@ -148,10 +160,13 @@
             <i class="bx bx-user"></i><span class="fw-medium mx-2">Full Name:</span> <span><%= @user.fullname %></span>
           </li>
           <li class="d-flex align-items-center mb-4">
-            <i class="bx bx-check"></i><span class="fw-medium mx-2">Status:</span> <%= status_badge(@user.status) %>
+            <i class='bx bx-male-female'></i><span class="fw-medium mx-2">Gender: </span><span><%= gender_badge(@user.gender) %></span>
           </li>
           <li class="d-flex align-items-center mb-4">
-            <i class="bx bx-hard-hat"></i><span class="fw-medium mx-2">Role:</span> <span><%= @user.role.titleize %></span>
+            <i class="bx bx-hard-hat"></i><span class="fw-medium mx-2">Role:</span> <span><%= @user.role == 'utility_staff' ? 'Caretaker' : @user.role.titleize %></span>
+          </li>
+          <li class="d-flex align-items-center mb-4">
+            <i class="bx bx-check"></i><span class="fw-medium mx-2">Status:</span> <%= status_badge(@user.status) %>
           </li>
         </ul>
         <small class="card-text text-uppercase text-muted small">Contacts</small>
@@ -165,23 +180,22 @@
             <span><%= @user.email %></span>
           </li>
         </ul>
+        <% unless @user.landlord? || @user.admin? %>
         <small class="card-text text-uppercase text-muted small">Others</small>
         <ul class="list-unstyled mb-0 mt-3 pt-1">
-          <li class="d-flex flex-wrap mb-4">
-            <span class="fw-medium me-2">Gender: </span><span><%= gender_badge(@user.gender) %></span>
-          </li>
+          <% end %>
           <% if @user.maintenance_staff? %>
             <li class="d-flex flex-wrap">
               <span class="fw-medium me-2">City: </span><span><%= @user.maintenance_staff.city.titleize %></span>
             </li>
           <% end %>
-          <% if @user.utility_staff || @user.tenant %>
+          <% if (@user.utility_staff || @user.tenant) && (@user.tenant&.property.present? || @user.utility_staff&.property.present?) %>
             <% user_presenter = UserPresenter.new(@user) %>
             <li class="d-flex flex-wrap">
               <span class="fw-medium me-2">Property: </span><span><%= user_presenter.property %></span>
             </li>
             <li class="d-flex flex-wrap">
-              <span class="fw-medium me-2">Accommodation: </span><span><%= user_presenter.accomodation.titleize %></span>
+              <span class="fw-medium me-2">Accommodation: </span><span><%= user_presenter.accomodation&.titleize %></span>
             </li>
             <li class="d-flex flex-wrap">
               <span class="fw-medium me-2">Property Code: </span><span><%= user_presenter.property_unit %></span>
@@ -200,11 +214,13 @@
                 <span class="fw-medium me-2">Transferred: </span><span><%= user_presenter.transfer_in %></span>
               </li>
             <% end %>
+          <% else %>
+            N/A
           <% end %>
         </ul>
       </div>
     </div>
-    <div class="col-12 col-md-8 <%= 'd-none' if (current_user.tenant? || current_user.utility_staff? || current_user.maintenance_staff? || current_user.agent? ) %>">
+    <div class="col-12 col-lg-8 <%= 'd-none' if (current_user.tenant? || current_user.utility_staff? || current_user.maintenance_staff? || current_user.agent? ) %>">
       <div class="nav-align-top">
         <ul class="nav nav-pills mb-4" role="tablist">
           <li class="nav-item">
@@ -215,17 +231,17 @@
           </li>
         </ul>
       </div>
-      <div class="tab-content">
+      <div class="tab-content p-0 mt-3">
         <div class="tab-pane fade show active" id="account-documents" role="tabpanel">
-          <div class="row gap-2 gap-md-0">
-            <div class="col-12 col-md-4">
+          <div class="row gap-2 gap-lg-0">
+            <div class="col-12 col-lg-4">
               <% if @user.signature.attached? %>
                 <div class="card">
                   <div class="card-header">
                     <h6 class="card-title">Signature</h6>
                   </div>
                   <div class="card-body d-flex justify-content-center align-items-center">
-                    <%= image_tag @user.signature, alt: "Signature", class: "img-thumbnail", style: "height: 15rem;" %>
+                    <%= image_tag @user.signature, alt: "Signature", class: "img-thumbnail", id: "profile-signature" %>
                   </div>
                 </div>
               <% else %>
@@ -239,7 +255,7 @@
                 </div>
               <% end %>
             </div>
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-lg-4">
               <% if @user.first_valid_id.attached? %>
                 <div class="card">
                   <div class="card-header">
@@ -260,7 +276,7 @@
                 </div>
               <% end %>
             </div>
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-lg-4">
               <% if @user.second_valid_id.attached? %>
                 <div class="card">
                   <div class="card-header">
@@ -284,7 +300,7 @@
           </div>
         </div>
         <div class="tab-pane fade" id="emergency-contacts" role="tabpanel">
-          <div class="row g-6 mt-5">
+          <div class="row g-6 mt-1">
             <div class="col-md-12">
               <h5 class="bg-secondary text-center text-white border rounded">1st Contact</h5>
             </div>

@@ -2,8 +2,10 @@ class Room < ApplicationRecord
   belongs_to :property_unit
   belongs_to :property
 
-  has_many :tenants, dependent: :destroy
-  has_many :utility_staffs, dependent: :destroy
+  has_many :tenants
+  has_many :utility_staffs
+
+  before_destroy :check_associations
 
   validates :name, :upper_deck, :lower_deck, presence: true
   validates :name, uniqueness: { scope: :property_unit_id, message: "must be unique within the same property unit" }
@@ -35,5 +37,15 @@ class Room < ApplicationRecord
 
   def self.ransackable_associations(auth_object = nil)
     ["property", "property_unit"]
+  end
+
+
+  private
+
+  def check_associations
+    if tenants.any? || utility_staffs.any?
+      errors.add(:base, "Cannot delete a room with active occupants.")
+      throw(:abort)
+    end
   end
 end

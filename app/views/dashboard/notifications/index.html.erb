@@ -1,29 +1,19 @@
 <div class="card">
-  <h5 class="card-header">Notifications</h5>
-  <div class="row px-4 pt-0">
-    <div class="col-12">
-      <div class="row">
-        <!-- Search bar to search messages -->
-        <div class="col-12 col-md-3 text-primary p-3 order-md-2 text-end">
-          <%= search_form_for @q, url: dashboard_notifications_path, method: :get, class: "d-flex gap-2 align-items-center" do |form| %>
-            <%= form.text_field :message_cont, placeholder: "Type to search", class: "form-control", value: params.dig(:q, :message_cont) %>
-            <%= form.submit 'Search', class: 'btn btn-primary' %>
-          <% end %>
-        </div>
-      </div>
-    </div>
+  <div class="d-flex justify-content-between align-items-center">
+    <h5 class="card-header">Notifications</h5>
+
+    <%= search_form_for @q, url: dashboard_notifications_path, method: :get, class: "d-flex gap-2 align-items-center pe-3 w-100 d-none d-sm-flex" do |form| %>
+      <%= form.text_field :message_cont, placeholder: "Type to search", class: "form-control w-100", value: params.dig(:q, :message_cont) %>
+      <%= button_tag(type: 'submit', class: 'btn btn-outline-secondary') do %><i class="bx bx-search"></i><span class="d-none d-sm-inline">&nbsp;Search</span><% end %>
+    <% end %>
   </div>
+    <%= search_form_for @q, url: dashboard_notifications_path, method: :get, class: "d-flex gap-2 align-items-center px-3 pb-3 d-flex d-sm-none" do |form| %>
+      <%= form.text_field :message_cont, placeholder: "Type to search", class: "form-control", value: params.dig(:q, :message_cont) %>
+      <%= button_tag(type: 'submit', class: 'btn btn-outline-secondary') do %><i class="bx bx-search"></i><span class="d-none d-sm-inline">&nbsp;Search</span><% end %>
+    <% end %>
 
   <div class="table-responsive text-nowrap">
     <table class="table">
-      <thead>
-        <tr>
-          <th>Message</th>
-          <th>Type</th>
-          <th>Time</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
       <tbody class="table-border-bottom-0">
         <%= render partial: "dashboard/notifications/notification", collection: @notifications, as: :notification %>
       </tbody>
@@ -33,7 +23,7 @@
   <% if @notifications.blank? %>
     <div class="container d-flex align-items-center justify-content-center flex-column p-4">
       <%= image_tag 'no_search.svg', class: "img-fluid", width: "400", alt: "No Notifications Found" %>
-      <p class="text-dark mb-0">Oops! No notifications found</p>
+      <p class="text-dark mb-0">Oops! No notifications found.</p>
     </div>
   <% else %>
     <div class="d-flex justify-content-center pt-2">

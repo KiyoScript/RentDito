@@ -20,7 +20,7 @@
             <i class="bx bx-purchase-tag text-success"></i>
             <p class="fw-bold fs-6 ms-1" style="margin-top: 1px;">Type of Billing</p>
           </div>
-          <p class="fw-normal fs-6 mb-0"><%= (@billing.billing_type == 'wifi') ? "WiFi & Rental" : @billing.billing_type.titleize %> <span class="ms-1"> <%= billing_type_icon(@billing.billing_type) %></span></p>
+          <p class="fw-normal fs-6 mb-0"><%= (@billing.billing_type == 'wifi') ? "Wi-Fi & Rental" : @billing.billing_type.titleize %> <span class="ms-1"> <%= billing_type_icon(@billing.billing_type) %></span></p>
         </div>
       </div>
       <div class="col-12 col-md-6">
@@ -98,8 +98,8 @@
               <td class="fw-bold">Water Sharing</td>
               <td class="fw-bold text-danger"> Water Sharing Penalty</td>
             <% else %>
-              <td class="fw-bold">Monthly Rental</td>
               <td class="fw-bold">Wifi Sharing</td>
+              <td class="fw-bold">Monthly Rental</td>
               <td class="fw-bold text-danger"> Wifi Sharing & Monthly Rental Penalty</td>
             <% end  %>
               <td class="fw-bold">Total Amount</td>

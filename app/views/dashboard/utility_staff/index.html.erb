@@ -1,7 +1,7 @@
 <div class="card">
   <div class="row">
     <div class="d-flex justify-content-between align-items-center">
-    <h5 class="card-header">Utility Staff</h5>
+    <h5 class="card-header">Caretakers</h5>
       <div class="text-primary p-3 order-md-1 text-end d-md-block d-flex flex-row align-items-center gap-2">
         <button class="btn btn-outline-primary d-none d-md-inline-block justify-content-center flex-grow-0" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
           <i class='bx bx-filter-alt'></i>
@@ -14,11 +14,11 @@
         <% if current_user.landlord? || current_user.admin? %>
           <%= link_to new_dashboard_utility_staff_path, class: "btn btn-primary d-none d-md-inline-block ms-2 pb-2" do %>
             <i class='bx bx-user-plus'></i>
-            <span class="mt-1">New Utility Staff</span>
+            <span class="mt-1">New Caretaker</span>
           <% end %>
           <%= link_to new_dashboard_utility_staff_path, class: "btn btn-primary w-100 d-inline-block d-md-none pb-2" do %>
             <i class='bx bx-user-plus'></i>
-            <span class="mt-1 d-none d-sm-inline">New Utility Staff</span>
+            <span class="mt-1 d-none d-sm-inline">New Caretaker</span>
           <% end %>
         <% end %>
       </div>

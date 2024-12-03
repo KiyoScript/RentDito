@@ -54,35 +54,35 @@ export default class extends Controller {
             "user[firstname]": {
               validators: {
                 notEmpty: {
-                  message: 'The Firstname is required'
+                  message: 'The first name is required.'
                 }
               }
             },
             "user[lastname]": {
               validators: {
                 notEmpty: {
-                  message: 'The Lastname is required'
+                  message: 'The last name is required.'
                 }
               }
             },
             "user[phone_number]": {
               validators: {
                 notEmpty: {
-                  message: 'The Phone Number is required'
+                  message: 'The phone number is required.'
                 }
               }
             },
             "user[date_of_birth]": {
               validators: {
                 notEmpty: {
-                  message: 'The Birth of Date is required'
+                  message: 'The date of birth is required.'
                 }
               }
             },
             "user[age]": {
               validators: {
                 notEmpty: {
-                  message: 'The Age is required'
+                  message: 'The age is required.'
                 }
               }
             },
@@ -154,76 +154,76 @@ export default class extends Controller {
             "user[first_contact_name]": {
               validators: {
                 notEmpty: {
-                  message: 'The Contact Name is required'
+                  message: 'The contact name is required.'
                 }
               }
             },
             "user[first_contact_number]": {
               validators: {
                 notEmpty: {
-                  message: 'The Contact Number is required'
+                  message: 'The contact number is required'
                 },
                 stringLength: {
                   min: 13,
-                  max: 13, // Maximum length
-                  message: 'The Contact Number must be between 11 digits '
+                  max: 13,
+                  message: 'The contact number must be 11 digits.'
                 }
               }
             },
             "user[third_contact_number]": {
               validators: {
                 notEmpty: {
-                  message: 'The Second Contact Number is required'
+                  message: 'The second contact number is required.'
                 },
                 stringLength: {
                   min: 13,
                   max: 13, // Maximum length
-                  message: 'The Contact Number must be between 11 digits '
+                  message: 'The contact number must be 11 digits.'
                 }
               }
             },
             "user[first_relationship]": {
               validators: {
                 notEmpty: {
-                  message: "The Relationship is required"
+                  message: "The relationship is required."
                 }
               }
             },
             "user[second_contact_name]": {
               validators: {
                 notEmpty: {
-                  message: 'The Contact Name is required'
+                  message: 'The contact name is required.'
                 }
               }
             },
             "user[second_contact_number]": {
               validators: {
                 notEmpty: {
-                  message: 'The Contact Number is required'
+                  message: 'The contact number is required.'
                 },
                 stringLength: {
                   min: 13,
                   max: 13, // Maximum length
-                  message: 'The Contact Number must be between 11 digits'
+                  message: 'The contact number must be between 11 digits.'
                 }
               }
             },
             "user[fourth_contact_number]": {
               validators: {
                 notEmpty: {
-                  message: 'The Second Contact Number is required'
+                  message: 'The second contact number is required.'
                 },
                 stringLength: {
                   min: 13,
                   max: 13, // Maximum length
-                  message: 'The Contact Number must be between 11 digits '
+                  message: 'The contact number must be between 11 digits.'
                 }
               }
             },
             "user[second_relationship]": {
               validators: {
                 notEmpty: {
-                  message: "The Relationship is required"
+                  message: "The relationship is required."
                 }
               }
             }

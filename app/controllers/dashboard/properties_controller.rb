@@ -25,7 +25,7 @@ class Dashboard::PropertiesController < ApplicationController
 
   def update
     if @property.update(property_params)
-      redirect_to dashboard_property_path(@property), notice: "Successfuly update"
+      redirect_to dashboard_property_path(@property), notice: "Successfully updated"
     else
       redirect_to edit_dashboard_property_path(@property), alert: @property.errors.full_messages.first
     end
@@ -38,7 +38,7 @@ class Dashboard::PropertiesController < ApplicationController
 
   def destroy
     if @property.destroy
-      redirect_to dashboard_properties_path, notice: "Property Successfully removed"
+      redirect_to dashboard_properties_path, notice: "Property successfully removed"
     else
       redirect_to dashboard_properties_path, alert: @property.errors.full_messages.first
     end

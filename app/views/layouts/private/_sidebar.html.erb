@@ -2,7 +2,7 @@
   <div class="app-brand demo" style="padding-left: 1.75rem !important;">
     <%= link_to root_path, class: "app-brand-link" do %>
       <span class="app-brand-logo demo">
-        <%= image_tag "dark_brand_logo.png", class: "img-fluid p-4", width: "80", alt: "Brand Logo", style: 'margin-left: -16px;' %>
+        <%= image_tag "neutral_brand_logo.png", class: "img-fluid p-4", width: "80", alt: "Brand Logo", style: 'margin-left: -16px;' %>
       </span>
       <span class="app-brand-text demo menu-text fw-bold" style="margin-left: -22px;">RentDito</span>
     <% end %>
@@ -24,7 +24,7 @@
       <li class="menu-header small text-uppercase mt-0">
         <span class="menu-header-text" data-i18n="Apps & Pages">Accounts</span>
       </li>
-      <li class="menu-item open <%= 'active' if request.path.include?('dashboard/admins') || request.path.include?('dashboard/maintenance_staffs') || request.path.include?('dashboard/utility_staff') || request.path.include?('dashboard/tenants') %>">
+      <li class="menu-item <%= 'active' if request.path.include?('dashboard/admins') || request.path.include?('dashboard/maintenance_staffs') || request.path.include?('dashboard/utility_staff') || request.path.include?('dashboard/tenants') %>">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class='menu-icon tf-icons bx bx-group'></i>
           <div class="text-truncate" data-i18n="Accounts">Accounts</div>
@@ -42,7 +42,7 @@
           </li>
           <li class="menu-item <%= 'active' if request.path.include?('dashboard/utility_staff')%>">
             <%= link_to dashboard_utility_staff_index_path, class: "menu-link" do %>
-              <div class="text-truncate" data-i18n="Utility Staff">Utility Staff</div>
+              <div class="text-truncate" data-i18n="Caretakers">Caretakers</div>
             <% end %>
           </li>
           <li class="menu-item <%= 'active' if request.path.include?('dashboard/tenants')%>">
@@ -78,12 +78,13 @@
       </li>
     <% end %>
 
+  <% unless current_user.agent? %>
     <li class="menu-header small text-uppercase mt-0 mb-0">
       <span class="menu-header-text" data-i18n="Apps & Pages">Ticketing</span>
     </li>
     <li class="menu-item <%= 'd-none' if current_user.agent? %><%= 'active' if request.path == "/dashboard/tickets" %>">
       <%= link_to dashboard_tickets_path, class: 'menu-link' do %>
-        <i class='menu-icon tf-icons bx bx-wrench'></i>
+        <i class='menu-icon tf-icons bx bx-note'></i>
         <div class="text-truncate" data-i18n="Tickets">
           <% if current_user.tenant? %>
             My Tickets
@@ -94,25 +95,12 @@
           <% end %>
         </div>
       <% end %>
-      <li class="menu-item open <%= 'd-none' if current_user.agent? %> <%= 'active' if request.path == "/dashboard/tickets_history" %>">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-          <i class='menu-icon tf-icons bx bx-history'></i>
-          <div class="text-truncate" data-i18n="Histories">Histories</div>
-        </a>
-        <ul class="menu-sub">
-          <li class="menu-item <%= 'active' if request.path.include?('dashboard/ticket_history') %>">
-            <%= link_to dashboard_tickets_history_index_path, class: "menu-link" do %>
-              <div class="text-truncate" data-i18n="Tickets History">Tickets History</div>
-            <% end %>
-          </li>
-        </ul>
-      </li>
     </li>
 
+    <% unless current_user.utility_staff? || current_user.maintenance_staff? %>
     <li class="menu-header small text-uppercase mt-0 mb-0">
       <span class="menu-header-text" data-i18n="Apps & Pages">Billing</span>
     </li>
-    <% unless current_user.utility_staff? || current_user.maintenance_staff? %>
       <li class="menu-item <%= 'd-none' if current_user.agent? %> <%= 'active' if request.path.include?('dashboard/billings') %>">
         <%= link_to dashboard_billings_path, class: 'menu-link' do %>
           <i class='menu-icon tf-icons bx bx-money'></i>
@@ -123,7 +111,7 @@
     <% if current_user.tenant? %>
       <li class="menu-item <%= 'active' if request.path.include?('dashboard/charges') %>">
         <%= link_to dashboard_charges_path, class: 'menu-link' do %>
-          <i class='menu-icon tf-icons bx bx-money'></i>
+          <i class='menu-icon tf-icons bx bx-coin-stack'></i>
           <div class="text-truncate" data-i18n="Charges">Charges</div>
         <% end %>
       </li>
@@ -132,12 +120,49 @@
 
     <% unless current_user.utility_staff? || current_user.maintenance_staff? %>
       <li class="menu-item <%= 'd-none' if current_user.agent? %> <%= 'active' if request.path.include?('dashboard/transactions') %>">
-        <%= link_to dashboard_transactions_path, class: 'menu-link' do %>
-          <i class='menu-icon tf-icons bx bx-money'></i>
-          <div class="text-truncate" data-i18n="Transactions">Transactions</div>
+        <% if current_user.landlord? || current_user.admin? %>
+          <%= link_to dashboard_transactions_path, class: 'menu-link', onclick: "setTimeout(function(){ window.location.href = '/dashboard/transactions'; }, 1000);" do %>
+            <i class='menu-icon tf-icons bx bx-receipt'></i>
+            <div class="text-truncate" data-i18n="Transactions">Transactions</div>
+          <% end %>
+        <% else %>
+          <%= link_to dashboard_transactions_path, class: 'menu-link' do %>
+            <i class='menu-icon tf-icons bx bx-receipt'></i>
+            <div class="text-truncate" data-i18n="Transactions">Transactions</div>
+          <% end %>
         <% end %>
       </li>
     <% end %>
+  <% end %>
 
+    <li class="menu-header small text-uppercase mt-0 mb-0">
+      <span class="menu-header-text" data-i18n="Apps & Pages">Others</span>
+    </li>
+    <li class="menu-item <%= 'd-none' if current_user.agent? %> <%= 'active' if ['/dashboard/tickets_history', '/dashboard/transaction_history'].include?(request.path) %>">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class='menu-icon tf-icons bx bx-history'></i>
+        <div class="text-truncate" data-i18n="History">History</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item <%= 'active' if request.path.include?('dashboard/tickets_history') %>">
+          <%= link_to dashboard_tickets_history_index_path, class: "menu-link" do %>
+            <div class="text-truncate" data-i18n="Ticket History">Ticket History</div>
+          <% end %>
+        </li>
+        <% unless current_user.utility_staff? || current_user.maintenance_staff? %>
+          <li class="menu-item <%= 'active' if request.path.include?('dashboard/transaction_history') %>">
+            <%= link_to dashboard_transaction_history_index_path, class: "menu-link" do %>
+              <div class="text-truncate" data-i18n="Transaction History">Transaction History</div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </li>
+    <li class="menu-item <%= 'active' if request.path.include?('dashboard/faq') %>">
+      <%= link_to dashboard_faq_path, class: 'menu-link' do %>
+        <i class='menu-icon tf-icons bx bx-help-circle'></i>
+        <div class="text-truncate" data-i18n="FAQ">FAQ</div>
+      <% end %>
+    </li>
   </ul>
 </aside>

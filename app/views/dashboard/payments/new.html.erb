@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "add_payment_frame_#{@charge.id}" do %>
   <div class="modal-body">
-    <div class="alert alert-info">
+    <div class="alert alert-info text-wrap">
       <strong>Balance:</strong> <%= @charge.user.balance.amount.format %>
     </div>
 
@@ -8,7 +8,7 @@
       <%= form.hidden_field :charge_id, value: @charge.id %>
 
       <div class="my-3">
-        <%= form.label :amount, "Total Payment Amount", for: "amount_#{@charge.id}", class: "form-label fs-6" %>
+        <%= form.label :amount, "Total Payment Amount", for: "amount_#{@charge.id}", class: "form-label fs-6 text-wrap" %>
         <%= form.number_field :amount, id: "amount_#{@charge.id}", class: "form-control mt-3",
           value: total_amount_penalty(@charge),
             step: 'any',
@@ -17,7 +17,7 @@
 
       <div class="my-3">
         <%= form.label :suggestion, "Customer/Tenant Feedback (E.g. Cleanliness, House Rules, etc..)", for: "suggestion_#{@charge.id}", class: "form-label fs-6 text-wrap" %>
-        <div class="my-6">
+        <div class="mt-3 text-wrap">
           <div class="alert alert-info" role="alert">
             <strong>Note:</strong>
            Leave it blank if none.
@@ -26,9 +26,10 @@
         <%= form.text_area :suggestion, id: "suggestion_#{@charge.id}", class: "form-control mt-3", rows: 5 %>
       </div>
 
-      <div class="modal-footer mt-5">
+      <div class="modal-footer mt-5 pe-0">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <%= form.submit "Submit Payment", class: "btn btn-primary" %>
+        <%= form.submit "Submit Payment", class: "btn btn-primary d-none d-sm-inline" %>
+        <%= form.submit "Submit", class: "btn btn-primary d-inline d-sm-none" %>
       </div>
     <% end %>
   </div>

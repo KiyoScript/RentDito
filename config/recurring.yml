@@ -12,3 +12,8 @@ daily_reminder_monthly_billing_duedate_report:
   class: MonthlyBillingDuedateReminderJob
   queue: default
   schedule: "0 0 * * *" #every 12 AM
+
+daily_reminder_charge_penalty_report:
+  class: ChargePenaltyNotificationJob
+  queue: default
+  schedule: "0 0 * * *" #every 12 AM

@@ -15,11 +15,10 @@ class Ticket < ApplicationRecord
 
 
   after_create :notify_landlord!
+
   after_update :notify_assignment!, if: -> { saved_change_to_assigned_to_id? }
   after_update :notify_closed_ticket!, if: -> { status == 'closed' }
-
-
-
+  after_update :feedback_notification!, if: -> { saved_change_to_review? }
 
 
   def self.ransackable_attributes(auth_object = nil)
@@ -44,7 +43,7 @@ class Ticket < ApplicationRecord
     User.landlord.each do|landlord|
       Notification.create!(
         user: landlord,
-        message: "New ticket has been created by #{tenant.user.fullname} with ID##{id}.",
+        message: "New ticket has been created by #{tenant.user.fullname} with ID ##{id}.",
         notifiable: self
       )
 
@@ -54,9 +53,11 @@ class Ticket < ApplicationRecord
   end
 
   def notify_assignment!
+    return if saved_change_to_review?
+
     Notification.create!(
       user: assigned_to,
-      message: "You have been assigned ticket with ID##{id}.",
+      message: "You have been assigned ticket with ID ##{id}.",
       notifiable: self
     )
     NotificationChannel.broadcast_to(assigned_to, { type: 'Ticket', message: "You have been assigned ticket with ID##{id}." })
@@ -84,14 +85,42 @@ class Ticket < ApplicationRecord
       NotificationClosedTicketMailer.send_email(landlord, self).deliver_now
     end
 
+    return if self.assigned_to.nil?
+
     Notification.create!(
-      user: tenant.user,
-      message: "Your ticket ##{id} is already closed.",
+      user: self.assigned_to,
+      message: "A ticket ##{id} is already closed.",
       notifiable: self
     )
 
-    NotificationChannel.broadcast_to(tenant.user, { type: 'TicketClosed', message: "Your ticket ##{id} is already closed." })
-    NotificationClosedTicketMailer.send_email(tenant.user, self).deliver_now
+    NotificationChannel.broadcast_to(self.assigned_to, { type: 'TicketClosed', message: "A ticket ##{id} is already closed." })
+  end
+
+  def feedback_notification!
+
+    User.landlord.each do |landlord|
+      Notification.create!(
+        user: landlord,
+        message: "#{self.tenant.user.fullname} added a review for ticket ##{id}.",
+        notifiable: self
+      )
+
+      NotificationChannel.broadcast_to(landlord, {
+        type: "TicketReview",
+        message: "#{self.tenant.user.fullname} added a review for ticket ##{id}."
+      })
+    end
+
+    Notification.create!(
+      user: self.assigned_to,
+      message: "Ticket ##{id} assigned to you has a review.",
+      notifiable: self
+    )
+
+    NotificationChannel.broadcast_to(assigned_to, {
+      type: 'TicketReview',
+      message: "Ticket ##{id} assigned to you has a review."
+    })
   end
 
   def check_out_datetime_valid

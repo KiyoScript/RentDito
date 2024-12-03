@@ -1,16 +1,16 @@
 <tr>
   <td>
-    <p class="text-primary"><%= formmated_date(transaction.created_at) %></p>
+    <p class="text-primary"><%= time_ago_in_words(transaction.created_at) %> ago</p>
     <%= transaction.created_at.strftime("%B %d, %Y %I:%M %p") %>
   </td>
-  <td><%= transaction.transaction_type %></td>
+  <td><%= transaction.transaction_type.humanize.titleize %></td>
   <td>
-    <span class="badge bg-label-<%= transaction.under_review? ? 'warning' : 'success' %>">
-      <%= transaction.status.titleize %>
-    </span>
+    <%= transaction.transaction_type.humanize.titleize == 'Refund Request' ? transaction_status_badge("Done") : transaction_status_badge(transaction.status) %>
   </td>
   <td><%= transaction.amount.present? ? transaction.amount.format : "N/A" %></td>
+  <% unless current_user.tenant? %>
   <td><%= transaction.user.fullname %></td>
+  <% end %>
   <td>
     <div class="d-inline-block">
       <button type="button" class="btn btn-icon view-record border" data-bs-toggle="modal" data-bs-target="#transactionModal-<%= transaction.id %>">
@@ -34,21 +34,27 @@
           <div class="text-center d-flex align-items-center justify-content-center">
             <%= image_tag transaction.deposit.receipt, alt: "Signature", class: "img-thumbnail", style: "height: 30rem;" %>
           </div>
+        <% elsif transaction.payment? || transaction.transfer? %>
         <% else %>
           <p class="text-danger">No receipt available.</p>
         <% end %>
         <div class="mt-2">
-          <p><strong>Transaction Type:</strong> <%= transaction.transaction_type.titleize %></p>
-          <p><strong>Receipt Date:</strong> <%= transaction.deposit.date_time.strftime("%B %d, %Y %I:%M %p") %></p>
-          <p><strong>Date:</strong> <%= transaction.created_at.strftime("%B %d, %Y %I:%M %p") %></p>
-          <p><strong>Status:</strong> <%= transaction.status.titleize %></p>
-          <p><strong>Amount:</strong> <%= transaction.amount.present? ? transaction.amount.format : "N/A" %></p>
-          <p><strong>Sender:</strong> <%= transaction.user.fullname %></p>
+          <p><strong class="text-wrap">Transaction Type:</strong> <%= transaction.transaction_type.titleize %></p>
+          <% if transaction.deposit.present? %>
+          <p><strong class="text-wrap">Receipt Date:</strong> <%= transaction.deposit.date_time.strftime("%B %d, %Y %I:%M %p") %></p>
+          <% end %>
+          <p><strong class="text-wrap">Date:</strong> <%= transaction.created_at.strftime("%B %d, %Y %I:%M %p") %></p>
+          <p><strong class="text-wrap">Status:</strong> <%= transaction.status.titleize %></p>
+          <% if transaction.reason.present? %>
+          <p><strong class="text-wrap">Reason:</strong> <%= transaction.reason %></p>
+          <% end %>
+          <p><strong class="text-wrap">Amount:</strong> <%= transaction.amount.present? ? transaction.amount.format : "N/A" %></p>
+          <p><strong class="text-wrap"><%= transaction.transaction_type.humanize.titleize == 'Refund Request' ? 'Name:' : 'Sender:' %> </strong> <%= transaction.user.fullname %></p>
         </div>
       </div>
       <div class="modal-footer">
         <% if current_user.landlord? || current_user.admin? %>
-          <% if transaction.under_review? %>
+          <% if transaction.under_review? && transaction.transaction_type.humanize.titleize != 'Refund Request' %>
             <%= button_to 'Mark as Paid', mark_as_paid_dashboard_transaction_path(transaction), method: :patch, class: 'btn btn-primary', data: { confirm: 'Are you sure you want to mark this transaction as paid?' } %>
           <% end %>
         <% end %>

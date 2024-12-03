@@ -1,7 +1,7 @@
 <div class="authentication-wrapper authentication-cover">
   <a href="#" class="app-brand auth-cover-brand">
     <span class="app-brand-logo demo">
-      <%= image_tag "dark_brand_logo.png", class: "img-fluid p-5", width: "100", alt: "Brand Logo" %>
+      <%= image_tag "neutral_brand_logo.png", class: "img-fluid p-5", width: "100", alt: "Brand Logo" %>
     </span>
     <span class="app-brand-text demo text-heading fw-bold">RentDito</span>
   </a>
@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <div class="d-flex col-lg-8 align-items-center authentication-bg p-5 mt-4" style="background-color: #fff;">
+    <div class="d-flex col-lg-8 align-items-center authentication-bg p-5 mt-4" id="dynamic-background" style="background-color: #fff;">
       <div class="w-100">
         <div class="d-flex flex-column align-items-start justify-content-center mt-5">
 
@@ -28,7 +28,7 @@
                   </div>
                 </div>
               <% elsif @user.incomplete? %>
-                <div class="alert alert-warning d-flex flex-wrap align-items-center" role="alert">
+                <div class="alert alert-dark d-flex flex-wrap align-items-center" role="alert">
                   <span class="alert-icon rounded-circle me-2 mb-2"><i class="bx bx-command"></i></span>
                   <div class="d-flex flex-column ps-1">
                     <h6 class="alert-heading fw-bold mb-1 text-truncate">Incomplete Status</h6>
@@ -92,7 +92,7 @@
               </div>
             </div>
             <div class="bs-stepper-content p-1 p-0 p-sm-1">
-              <%= form_with model: @user, url: onboarding_path(@user), method: :patch, html: { onSubmit: "return false", data: { controller: "upload-avatar signature-pad automate-age", "wizard-form-target": "wizardValidationForm"}} do |form| %>
+              <%= form_with model: @user, url: onboarding_path(@user), method: :patch, html: { onSubmit: "return false", data: { controller: "terms-and-condition upload-avatar signature-pad automate-age", "wizard-form-target": "wizardValidationForm"}} do |form| %>
                 <!-- Personal Info -->
                 <div id="personal-info-validation" class="content">
                   <div class="content-header mb-3">
@@ -112,15 +112,15 @@
                   <div class="row g-6">
                     <div class="col-md-6">
                       <%= form.label :firstname, class: "form-label fs-6" %>
-                      <%= form.text_field :firstname, class: "form-control", id: "user_firstname"%>
+                      <%= form.text_field :firstname, class: "form-control disable-modal-popup", id: "user_firstname"%>
                     </div>
                     <div class="col-md-6">
                       <%= form.label :lastname, class: "form-label fs-6" %>
-                      <%= form.text_field :lastname, class: "form-control", id: "user_lastname"%>
+                      <%= form.text_field :lastname, class: "form-control disable-modal-popup", id: "user_lastname"%>
                     </div>
                     <div class="col-md-6">
                       <%= form.label :phone_number,  "Phone Number", class: "form-label fs-6" %>
-                      <%= form.text_field :phone_number, class: "form-control", id: "user_phone_number"%>
+                      <%= form.text_field :phone_number, class: "form-control disable-modal-popup", id: "user_phone_number"%>
                     </div>
                     <div class="col-md-6">
                       <p class="form-label fs-6">Gender</p>
@@ -136,18 +136,18 @@
 
                     <div class="col-md-6">
                       <%= form.label :date_of_birth, class: "form-label fs-6" %>
-                      <%= form.date_field :date_of_birth, class: "form-control", data: { automate_age_target: "birthdate" } %>
+                      <%= form.date_field :date_of_birth, class: "form-control disable-modal-popup", data: { automate_age_target: "birthdate" } %>
                     </div>
 
                     <div class="col-md-6">
                       <%= form.label :age, class: "form-label fs-6" %>
-                      <%= form.number_field :age, class: "form-control",value: @user.age.present? ? @user.age : 18,  min: 18, placeholder: 18, data: { automate_age_target: "age" }, readonly: true %>
+                      <%= form.number_field :age, class: "form-control disable-modal-popup",value: @user.age.present? ? @user.age : 18,  min: 18, placeholder: 18, data: { automate_age_target: "age" }, readonly: true %>
                     </div>
 
                     <div class="col-md-6" style="height: 275px">
                       <%= form.label :signature, "Add Signature", class: "form-label fs-6 mb-6" %>
                       <div class="w-100 d-flex flex-column align-items-center justify-content-start  gap-2" style="height: 200px">
-                        <canvas data-signature-pad-target="canvas" class="signature-pad border rounded" style="height: 200px; width: 320px;"></canvas>
+                        <canvas data-signature-pad-target="canvas" id="invert-signature" class="signature-pad border rounded" style="height: 200px; width: 320px;"></canvas>
                         <%= form.hidden_field :signature, id: "user_signature", data: { signature_pad_target: "input" } %>
                         <button type="button" class="btn btn-primary btn-sm" data-action="click->signature-pad#clearSignature">Clear</button>
                       </div>
@@ -156,7 +156,7 @@
                     <div class="col-md-6">
                       <p class="form-label fs-6 mb-6">Signature</p>
                       <% if @user.signature.attached? %>
-                        <%= image_tag @user.signature, alt: "Current Signature", class: "img-thumbnail" %>
+                        <%= image_tag @user.signature, alt: "Current Signature", class: "img-thumbnail", id: "invert-created-signature" %>
                       <% else %>
                         <p class="text-danger">No signature</p>
                       <% end %>
@@ -206,10 +206,10 @@
                     <% end %>
 
                     <div class="col-12 d-flex justify-content-end d-md-none">
-                      <button class="btn btn-primary btn-next w-100" type="button"> <span class="align-middle me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+                      <button class="btn btn-text-primary btn-next w-100" type="button"> <span class="align-middle me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
                     </div>
                     <div class="col-12 d-none d-md-flex justify-content-end ">
-                      <button class="btn btn-primary btn-next" type="button"> <span class="align-middle me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+                      <button class="btn btn-text-primary btn-next" type="button"> <span class="align-middle me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
                     </div>
                   </div>
                 </div>
@@ -223,15 +223,18 @@
                   <div class="row g-6 mt-5">
                     <div class="col-md-6">
                       <%= form.label "Email", class: "form-label fs-6"%>
-                      <%= form.email_field :email, class: "form-control", id: "user_Email"%>
+                      <%= form.email_field :email, class: "form-control disable-modal-popup", id: "user_Email", disabled: true %>
                     </div>
                     <div class="col-md-6 d-none">
-                      <%= form.hidden_field :status, class: "form-control", id: "user_Status", value: "unverified"%>
+                      <%= form.hidden_field :status,
+                            class: "form-control",
+                            id: "user_Status",
+                            data: { terms_and_condition_target: "statusField" } %>
                     </div>
                     <div class="col-md-6 form-password-toggle">
                       <%= form.label "New Password", class: "form-label fs-6" %>
                       <div class="input-group input-group-merge">
-                        <%= form.password_field :password, class: "form-control",
+                        <%= form.password_field :password, class: "form-control disable-modal-popup",
                                                                   id: "user_New Password",
                                                                   placeholder: "&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;".html_safe,
                                                                   required: true
@@ -242,7 +245,7 @@
                     <div class="col-md-6 form-password-toggle">
                       <%= form.label "Confirm New Password", class: "form-label fs-6" %>
                       <div class="input-group input-group-merge">
-                        <%= form.password_field :password_confirmation, class: "form-control",
+                        <%= form.password_field :password_confirmation, class: "form-control disable-modal-popup",
                                                                   id: "user_Confirm New Password",
                                                                   placeholder: "&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;".html_safe,
                                                                   required: true
@@ -252,13 +255,13 @@
                     </div>
 
                     <div class="col-12 d-flex flex-column justify-content-between d-md-none gap-2">
-                      <button class="btn btn-primary btn-next" type="button"> <span class="align-middle d-sm-inline-block me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+                      <button class="btn btn-text-primary btn-next" type="button"> <span class="align-middle d-sm-inline-block me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
                     </div>
                     <div class="col-12 d-none d-md-flex justify-content-between ">
-                      <button class="btn btn-primary btn-prev" type="button"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                      <button class="btn btn-text-primary btn-prev" type="button"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
                         <span class="align-middle d-sm-inline-block d-none">Previous</span>
                       </button>
-                      <button class="btn btn-primary btn-next" type="button"> <span class="align-middle d-sm-inline-block d-none me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
+                      <button class="btn btn-text-primary btn-next" type="button"> <span class="align-middle d-sm-inline-block d-none me-sm-1 me-0">Next</span> <i class="bx bx-chevron-right bx-sm me-sm-n2"></i></button>
                     </div>
                   </div>
                 </div>
@@ -275,51 +278,65 @@
                     </div>
                     <div class="col-md-6">
                       <%= form.label :first_contact_name, "Contact Name", class: "form-label fs-6" %>
-                      <%= form.text_field :first_contact_name, class: "form-control", id: "user_first_contact_name", placeholder: "John Doe"%>
+                      <%= form.text_field :first_contact_name, class: "form-control disable-modal-popup", id: "user_first_contact_name", placeholder: "John Doe"%>
                     </div>
                     <div class="col-md-6">
                     <%= form.label :first_contact_number, "Contact Number", class: "form-label fs-6" %>
-                    <%= form.telephone_field :first_contact_number, class: "form-control first-contact-number", id: "user_first_contact_number", placeholder: "xxxx xxx xxxx" %>
+                    <%= form.telephone_field :first_contact_number, class: "form-control first-contact-number disable-modal-popup", id: "user_first_contact_number", placeholder: "xxxx xxx xxxx" %>
                     </div>
                     <div class="col-md-6">
                     <%= form.label :third_contact_number, "Second Contact Number", class: "form-label fs-6" %>
-                    <%= form.telephone_field :third_contact_number, class: "form-control third-contact-number", id: "user_third_contact_number", placeholder: "xxxx xxx xxxx"%>
+                    <%= form.telephone_field :third_contact_number, class: "form-control third-contact-number disable-modal-popup", id: "user_third_contact_number", placeholder: "xxxx xxx xxxx"%>
                     </div>
                     <div class="col-md-6">
                     <%= form.label :first_relationship, "Relationship", class: "form-label fs-6" %>
-                    <%= form.text_field :first_relationship, class: "form-control", id: "user_first_relationship", placeholder: "Father" %>
+                    <%= form.text_field :first_relationship, class: "form-control disable-modal-popup", id: "user_first_relationship", placeholder: "Father" %>
                     </div>
                     <div class="col-md-12">
                     <h5 class="bg-secondary text-center text-white border rounded">2nd Contact</h5>
                     </div>
                     <div class="col-md-6">
                       <%= form.label :second_contact_name, "Contact Name", class: "form-label fs-6" %>
-                      <%= form.text_field :second_contact_name, class: "form-control", id: "user_second_contact_name", placeholder: "Valentina Scarlet"%>
+                      <%= form.text_field :second_contact_name, class: "form-control disable-modal-popup", id: "user_second_contact_name", placeholder: "Valentina Scarlet"%>
                     </div>
                     <div class="col-md-6">
                     <%= form.label :second_contact_number, "Contact Number", class: "form-label fs-6" %>
-                    <%= form.telephone_field :second_contact_number, class: "form-control second-contact-number", id: "user_second_contact_number", placeholder: "xxxx xxx xxxx"%>
+                    <%= form.telephone_field :second_contact_number, class: "form-control second-contact-number disable-modal-popup", id: "user_second_contact_number", placeholder: "xxxx xxx xxxx"%>
                     </div>
                     <div class="col-md-6">
                     <%= form.label :fourth_contact_number, "Second Contact Number", class: "form-label fs-6" %>
-                    <%= form.telephone_field :fourth_contact_number, class: "form-control fourth-contact-number", id: "user_fourth_contact_number", placeholder: "xxxx xxx xxxx"%>
+                    <%= form.telephone_field :fourth_contact_number, class: "form-control fourth-contact-number disable-modal-popup", id: "user_fourth_contact_number", placeholder: "xxxx xxx xxxx"%>
                     </div>
                     <div class="col-md-6">
                     <%= form.label :second_relationship, "Relationship", class: "form-label fs-6" %>
-                    <%= form.text_field :second_relationship, class: "form-control", id: "user_second_relationship", placeholder: "Guardian" %>
+                    <%= form.text_field :second_relationship, class: "form-control", id: "user_second_relationship disable-modal-popup", placeholder: "Guardian" %>
                     </div>
 
                     <div class="col-12 d-flex flex-column justify-content-between d-md-none gap-2">
-                      <button class="btn btn-primary btn-next btn-submit" data-action="click->signature-pad#saveSignature"> <span class="align-middle d-sm-inline-block me-sm-1 me-0">Submit</span>
+                      <button
+                          type="button"
+                          class="btn btn-text-primary"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalToggle">
+                          Next<i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
+                        </button>
                     </div>
                     <div class="col-12 d-none d-md-flex justify-content-between">
-                      <button class="btn btn-primary btn-prev" type="button"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                      <button class="btn btn-text-primary btn-prev" type="button"> <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
                         <span class="align-middle d-sm-inline-block d-none">Previous</span>
                       </button>
-                      <button class="btn btn-primary btn-next btn-submit" data-action="click->signature-pad#saveSignature"> <span class="align-middle d-sm-inline-block d-none me-sm-1 me-0">Submit</span></button>
+                      <button
+                          type="button"
+                          class="btn btn-text-primary"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalToggle">
+                          Next<i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
+                        </button>
                     </div>
                   </div>
                 </div>
+
+                <%= render partial: 'onboarding/terms_and_condition'%>
               <% end %>
 
               <div class="accordion accordion-header-primary mt-5" id="validIdsAccordionStyle">

@@ -71,43 +71,67 @@ class Billing < ApplicationRecord
   end
 
   def total_charges_amount
-    charges.sum(:total_amount)
+    [total_water_billing_amount, total_electricity_billing_amount, total_wifi_billing_amount, total_monthly_rental_billing_amount].sum
   end
 
   def total_paid_amount
-    charges.paid.sum(:total_amount)
+    [total_water_billing_paid_amount, total_electricity_billing_paid_amount, total_wifi_billing_paid_amount, total_monthly_rental_billing_paid_amount].sum
   end
 
   def total_water_billing_amount
-    charges.sum(:water_share_amount)
+    [charges.sum(:water_share_amount), charges.sum(:water_sharing_penalty)].sum
   end
 
   def total_water_billing_paid_amount
-    charges.paid.sum(:water_share_amount)
+    [charges.paid.sum(:water_share_amount), charges.paid.sum(:water_sharing_penalty)].sum
   end
 
   def total_electricity_billing_amount
-    [charges.sum(:electricity_share_amount), charges.sum(:extra_charge_amount)].sum
+    [charges.sum(:electricity_share_amount), charges.sum(:extra_charge_amount), charges.sum(:extra_charge_electricity_penalty)].sum
   end
 
   def total_electricity_billing_paid_amount
-    [charges.paid.sum(:electricity_share_amount), charges.paid.sum(:extra_charge_amount)].sum
+    [charges.paid.sum(:electricity_share_amount), charges.paid.sum(:extra_charge_amount), charges.paid.sum(:extra_charge_electricity_penalty)].sum
   end
 
   def total_wifi_billing_amount
-    charges.sum(:wifi_share_amount)
+    charges.sum do |charge|
+      if charge.total_amount_penalty.present? && charge.total_amount.present? && charge.wifi_share_amount.present?
+        (charge.total_amount_penalty / charge.total_amount) * charge.wifi_share_amount
+      else
+        charge.wifi_share_amount.to_f
+      end
+    end
   end
 
   def total_wifi_billing_paid_amount
-    charges.paid.sum(:wifi_share_amount)
+    charges.paid.sum do |charge|
+      if charge.total_amount_penalty.present? && charge.total_amount.present? && charge.wifi_share_amount.present?
+        (charge.total_amount_penalty / charge.total_amount) * charge.wifi_share_amount
+      else
+        charge.wifi_share_amount.to_f
+      end
+    end
   end
 
   def total_monthly_rental_billing_amount
-    charges.sum(:monthly_rental_amount)
+    charges.sum do |charge|
+      if charge.total_amount_penalty.present? && charge.total_amount.present? && charge.monthly_rental_amount.present?
+        (charge.total_amount_penalty / charge.total_amount) * charge.monthly_rental_amount
+      else
+        charge.monthly_rental_amount.to_f
+      end
+    end
   end
 
   def total_monthly_rental_billing_paid_amount
-    charges.paid.sum(:monthly_rental_amount)
+    charges.paid.sum do |charge|
+      if charge.total_amount_penalty.present? && charge.total_amount.present? && charge.monthly_rental_amount.present?
+        (charge.total_amount_penalty / charge.total_amount) * charge.monthly_rental_amount
+      else
+        charge.monthly_rental_amount.to_f
+      end
+    end
   end
 
   def notify_all_tenants!
