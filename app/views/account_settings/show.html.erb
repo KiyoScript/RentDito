@@ -101,7 +101,7 @@
               <div class="col-md-6 d-flex flex-column align-items-start justify-content-center">
                 <p class="form-label fs-6 mb-6">Signature</p>
                 <% if @user.signature.attached? %>
-                  <%= image_tag @user.signature, alt: "Current Signature", class: "img-thumbnail", id: "invert-created-signature-settings", class: "signature" %>
+                  <%= image_tag @user.signature, alt: "Current Signature", class: "img-thumbnail signature" %>
                 <% else %>
                   <p class="text-danger">No signature</p>
                 <% end %>
