@@ -6,7 +6,7 @@ pin "@hotwired/stimulus", to: "stimulus.min.js"
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin "@hotwired/strada", to: "@hotwired--strada.js" # @1.0.0
 pin_all_from "app/javascript/controllers", under: "controllers"
-pin "helpers-sneat"
+pin "helpers-sneat", preload: true
 pin "config"
 pin "jquery"
 pin "popper"
